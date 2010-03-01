@@ -12,7 +12,11 @@
 
 @interface ListViewController : UITableViewController <UITextFieldDelegate> {
 	ListEntries *listEntries;
+	Boolean keyboardShown;
+	UITableViewCell *activeCell;
 }
+
+- (void)registerForKeyboardNotifications;
 
 @property (nonatomic, retain) ListEntries *listEntries;
 
