@@ -277,8 +277,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>12</integer>
-									<integer>8</integer>
+									<integer>17</integer>
+									<integer>15</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -330,7 +330,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>029EE2DB1139AC45000CE166</string>
+										<string>026AE356113C7715009AE783</string>
 										<key>history</key>
 										<array>
 											<string>0210A5271129EC3D000D8EDB</string>
@@ -342,13 +342,13 @@
 											<string>029CF9681133244B00D6942C</string>
 											<string>029CF9D911332CCA00D6942C</string>
 											<string>029CFA961135B04C00D6942C</string>
-											<string>029CFAEF1136967F00D6942C</string>
 											<string>029CFBF111371AAD00D6942C</string>
 											<string>029CFC3D1137241900D6942C</string>
 											<string>0240E73F11372D1300FEF32A</string>
-											<string>0240E7B91139430100FEF32A</string>
-											<string>0240E7C51139445800FEF32A</string>
-											<string>0240E7D41139748800FEF32A</string>
+											<string>029EE2E7113B22E8000CE166</string>
+											<string>029EE300113B24D6000CE166</string>
+											<string>029EE30C113B24F6000CE166</string>
+											<string>023540A2113C744F00F02924</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -362,18 +362,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1233, 608}}</string>
+								<string>{{0, 0}, {1233, 599}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 59 1440 819 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>608pt</string>
+							<string>599pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>165pt</string>
+							<string>174pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -387,7 +387,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 138}}</string>
+										<string>{{10, 27}, {1233, 147}}</string>
 										<key>RubberWindowFrame</key>
 										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
@@ -471,11 +471,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>029EE2DC1139AC45000CE166</string>
+				<string>026AE345113C7522009AE783</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>029EE2DD1139AC45000CE166</string>
+				<string>026AE346113C7522009AE783</string>
 				<string>02EDDBC21129D1C800E23D03</string>
-				<string>029EE2DE1139AC45000CE166</string>
+				<string>026AE347113C7522009AE783</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -624,14 +624,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>029EE2DF1139AC45000CE166</string>
+				<string>026AE34C113C75F8009AE783</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>029EE2E01139AC45000CE166</string>
-				<string>029EE2E11139AC45000CE166</string>
-				<string>029EE2E21139AC45000CE166</string>
-				<string>029EE2E31139AC45000CE166</string>
-				<string>029EE2E41139AC45000CE166</string>
+				<string>026AE34D113C75F8009AE783</string>
+				<string>026AE34E113C75F8009AE783</string>
+				<string>026AE34F113C75F8009AE783</string>
+				<string>026AE350113C75F8009AE783</string>
+				<string>026AE351113C75F8009AE783</string>
 			</array>
 			<key>ToolbarConfigUserDefaultsMinorVersion</key>
 			<string>2</string>
@@ -665,6 +665,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>026AE357113C7715009AE783</string>
+		<string>026AE358113C7715009AE783</string>
+		<string>026AE353113C75F8009AE783</string>
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

@@ -183,6 +183,7 @@
 	
 	ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
 	listViewController.listEntries = [lists listEntriesAtIndex:indexPath.row];
+	[listViewController registerForKeyboardNotifications];
 	
 	[self.navigationController pushViewController:listViewController animated:YES];
 	[listViewController release];

@@ -249,6 +249,57 @@
 }
 */
 
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardWasShown:)
+												 name:UIKeyboardDidShowNotification object:nil];
+	
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardWasHidden:)
+												 name:UIKeyboardDidHideNotification object:nil];
+}
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    if (keyboardShown)
+        return;
+	
+    NSDictionary* info = [aNotification userInfo];
+	
+    // Get the size of the keyboard.
+    NSValue* aValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
+    CGSize keyboardSize = [aValue CGRectValue].size;
+	
+    // Resize the scroll view (which is the root view of the window)
+    CGRect viewFrame = [self.view frame];
+    viewFrame.size.height -= keyboardSize.height;
+    self.view.frame = viewFrame;/**/
+	
+    // Scroll the active text field into view.
+    CGRect tableCellRect = [activeCell frame];
+	tableCellRect.size.height += 320;
+	
+    [(UITableView*)self.view scrollRectToVisible:tableCellRect animated:YES];
+    viewFrame.size.height += keyboardSize.height;
+    self.view.frame = viewFrame;
+	
+    keyboardShown = YES;
+}
+
+
+// Called when the UIKeyboardDidHideNotification is sent
+- (void)keyboardWasHidden:(NSNotification*)aNotification
+{
+    keyboardShown = NO;
+}
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    activeCell = (UITableViewCell*)textField.superview.superview;
+}
 
 - (void)dealloc {
 	[listEntries release];
