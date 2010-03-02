@@ -1,0 +1,35 @@
+#summary ideas
+
+= Introduction =
+
+any ideas from us
+
+
+= Details =
+== New ones ==
+
+== GitHub ==
+
+  * Multiple Listings
+  * Each Listing and each Item has a GUID (CFUUIDCreate)
+  * Sync to server (Random hash used for authentication)
+  * UDID used for authentication
+  * Web interface needs user management?
+  * Share Listing via Mail and Custom URL scheme (e.g. listings:AAA?TOKEN) Token only work once
+  * Share Listing over Bonjour(Bluetooth)
+  * Shake for reloading (and removing old items)
+  * 4 chars for authentication
+
+  * Listing
+    * Items [Item]
+    * Name
+    * Created
+    * Updated
+
+  * Item
+    * Text
+    * Created
+    * Updated
+
+  * Sync with Todo Services like Google Task or RMTM
+    * Use an easy to enhance connector to save the list
