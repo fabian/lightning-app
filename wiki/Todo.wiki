@@ -7,7 +7,7 @@ what we have to do
 
 = Details =
 
-  * ListsView
+  ** ListsView
     * Bold = new Entry 
   * ListView
     * strike-through
