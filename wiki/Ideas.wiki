@@ -17,6 +17,11 @@ any ideas from us
     * http://stackoverflow.com/questions/1014034/restful-application-on-google-app-engine-java
     * http://www.restlet.org/ (has also a seperate package for AppEngine!)
     * http://broschb.blogspot.com/2009/08/restful-service-on-google-app-engine.html
+  *REST on iPhone
+    * http://stackoverflow.com/questions/630306/iphone-rest-client
+    * http://github.com/akosma/iphonerestwrapper
+    * http://www.dreamfreeze.net/weblog/restful_webservices.html
+    * http://allseeing-i.com/ASIHTTPRequest/
   * WebGUI -> gives users a chances where only one iPhone is avaiable
 
 == GitHub ==
