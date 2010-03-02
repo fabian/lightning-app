@@ -1,0 +1,10 @@
+#summary questions
+
+= Introduction =
+
+questions which are poping up
+
+
+= Details =
+
+   * How does PNS work, when the app is open(getting updates...)
