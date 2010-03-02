@@ -7,6 +7,14 @@ any ideas from us
 
 = Details =
 == New ones ==
+  *How to delete entries which are strike-through
+  * Updating via shake
+  * Bulk sending of pns
+    * Send app is closing
+    * Send when user navigates back to ListView
+    * Waiting an amount of time on the server
+  * RESTful with AppEngine
+  * WebGUI -> gives users a chances where only one iPhone is avaiable
 
 == GitHub ==
 
