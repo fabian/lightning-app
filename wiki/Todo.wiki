@@ -1,0 +1,33 @@
+#Todo's
+
+= Introduction =
+
+what we have to do
+
+
+= Details =
+
+  * ListsView
+    * Bold = new Entry 
+  * ListView
+    * strike-through
+    * mark new entries?
+  * AddList
+    * GUI
+    * Functionality
+  * EditList
+    * GUI
+    * Functionality
+  * AddUser
+    * GUI
+    * Functionality (Mail, Bluetooth)
+  * DeleteList  
+  * DataHandling iPhone
+    * CoreData
+    * SQLLite
+  * DataHandling/services App Engine
+    * adding Screens to serivces to test without a iPhone
+  * Implement PNS
+  * Logo
+  * Marketing
+  * Website
