@@ -14,6 +14,9 @@ any ideas from us
     * Send when user navigates back to ListView
     * Waiting an amount of time on the server
   * RESTful with AppEngine
+    * http://stackoverflow.com/questions/1014034/restful-application-on-google-app-engine-java
+    * http://www.restlet.org/
+    * http://broschb.blogspot.com/2009/08/restful-service-on-google-app-engine.html
   * WebGUI -> gives users a chances where only one iPhone is avaiable
 
 == GitHub ==
