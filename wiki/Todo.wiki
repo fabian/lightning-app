@@ -7,9 +7,9 @@ what we have to do
 
 = Details =
 
-  *ListsView
+  * ListsView
     * Bold = new Entry 
-  *ListView
+  * ListView
     * strike-through
     * mark new entries?
   * AddList
