@@ -12,6 +12,7 @@ what we have to do
   * ListView
     * strike-through
     * mark new entries?
+    * make back button smaller if the view name is too long(itunes u - vid 7)
   * AddList
     * GUI
     * Functionality
