@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ShareListViewController.h";
 
 @interface AddListViewController : UIViewController {
-
+	ShareListViewController *shareListViewController;
 }
 
 @end

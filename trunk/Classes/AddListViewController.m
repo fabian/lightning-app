@@ -11,6 +11,7 @@
 
 @implementation AddListViewController
 
+
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
  - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -25,18 +26,16 @@
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
 	NSLog(@"AddListViewController");
-	ShareListViewController *shareListViewController = [[ShareListViewController alloc] init];
+	shareListViewController = [[ShareListViewController alloc] init];
 	
 	UITableView *shareListView = [[UITableView alloc]initWithFrame:CGRectMake(100, 30, 100, 200) style:UITableViewStylePlain];
-	//dont know yet how to add the delegate and datasource
 	
-	//shareListView.delegate = shareListViewController;
-	//shareListView.dataSource = shareListViewController;
+	shareListView.delegate = shareListViewController;
+	shareListView.dataSource = shareListViewController;
 	
 	
 	[self.navigationController.view addSubview:shareListView];
 	
-	[shareListViewController release];
 }
 
 
@@ -71,6 +70,7 @@
 
 - (void)dealloc {
     [super dealloc];
+	[shareListViewController release];
 }
 
 

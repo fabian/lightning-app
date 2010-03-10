@@ -277,7 +277,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>14</integer>
+									<integer>15</integer>
 									<integer>8</integer>
 									<integer>0</integer>
 								</array>
@@ -318,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>02EDDBC21129D1C800E23D03</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>AddListViewController.m</string>
+								<string>AddListViewController.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,11 +326,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>02EDDBC31129D1C800E23D03</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AddListViewController.m</string>
+										<string>AddListViewController.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>026AE5CF11479EA3009AE783</string>
+										<string>026AE6731147D853009AE783</string>
 										<key>history</key>
 										<array>
 											<string>0210A5271129EC3D000D8EDB</string>
@@ -343,15 +343,15 @@
 											<string>029CFA961135B04C00D6942C</string>
 											<string>029CFBF111371AAD00D6942C</string>
 											<string>026AE35F113D9A05009AE783</string>
-											<string>026AE3B7114588FD009AE783</string>
-											<string>026AE45E11459187009AE783</string>
 											<string>026AE4C011466F73009AE783</string>
 											<string>026AE4F31146D15E009AE783</string>
-											<string>026AE5C411471236009AE783</string>
-											<string>026AE5C511471236009AE783</string>
-											<string>026AE5CC11479EA3009AE783</string>
-											<string>026AE5CD11479EA3009AE783</string>
-											<string>026AE5CE11479EA3009AE783</string>
+											<string>026AE66C1147D853009AE783</string>
+											<string>026AE66D1147D853009AE783</string>
+											<string>026AE66E1147D853009AE783</string>
+											<string>026AE66F1147D853009AE783</string>
+											<string>026AE6701147D853009AE783</string>
+											<string>026AE6711147D853009AE783</string>
+											<string>026AE6721147D853009AE783</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -668,6 +668,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>026AE6741147D853009AE783</string>
 		<string>026AE358113C7715009AE783</string>
 		<string>026AE353113C75F8009AE783</string>
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>
