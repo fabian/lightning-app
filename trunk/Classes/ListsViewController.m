@@ -9,6 +9,7 @@
 #import "ListsViewController.h"
 #import "ListViewController.h"
 #import "AddListViewController.h"
+#import "ShareListViewController.h"
 
 @implementation ListsViewController
 
@@ -50,12 +51,14 @@
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (IBAction)addList {
+- (void)addList {
 	NSLog(@"addList");
-	AddListViewController *addListViewController = [[AddListViewController alloc] initWithStyle:UITableViewStylePlain];
+	
+	AddListViewController *addListViewController = [[AddListViewController alloc] init];
 	
 	[self.navigationController pushViewController:addListViewController animated:YES];
 	[addListViewController release];
+	
 }
 
 
