@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		026AE39E1145870B009AE783 /* AddListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 026AE39D1145870B009AE783 /* AddListViewController.m */; };
 		029CF8A51133166200D6942C /* bottom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A11133166200D6942C /* bottom.jpg */; };
 		029CF8A61133166200D6942C /* line.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A21133166200D6942C /* line.jpg */; };
 		029CF8A71133166200D6942C /* middle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A31133166200D6942C /* middle.jpg */; };
 		029CF8A81133166200D6942C /* top.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A41133166200D6942C /* top.jpg */; };
 		029CFA57113440CA00D6942C /* middleWithLine.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CFA56113440CA00D6942C /* middleWithLine.jpg */; };
-		029CFACD1135B33000D6942C /* AddListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 029CFACC1135B33000D6942C /* AddListViewController.m */; };
+		029CFACD1135B33000D6942C /* ShareListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 029CFACC1135B33000D6942C /* ShareListViewController.m */; };
 		029CFBEE11371A9800D6942C /* accessory.png in Resources */ = {isa = PBXBuildFile; fileRef = 029CFBED11371A9800D6942C /* accessory.png */; };
 		02EDDB6F1129CC1500E23D03 /* Lists.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB6E1129CC1500E23D03 /* Lists.m */; };
 		02EDDB941129CEE700E23D03 /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */; };
@@ -27,13 +28,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		026AE39C1145870B009AE783 /* AddListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddListViewController.h; sourceTree = "<group>"; };
+		026AE39D1145870B009AE783 /* AddListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddListViewController.m; sourceTree = "<group>"; };
 		029CF8A11133166200D6942C /* bottom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bottom.jpg; sourceTree = "<group>"; };
 		029CF8A21133166200D6942C /* line.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = line.jpg; sourceTree = "<group>"; };
 		029CF8A31133166200D6942C /* middle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = middle.jpg; sourceTree = "<group>"; };
 		029CF8A41133166200D6942C /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = top.jpg; sourceTree = "<group>"; };
 		029CFA56113440CA00D6942C /* middleWithLine.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = middleWithLine.jpg; sourceTree = "<group>"; };
-		029CFACB1135B33000D6942C /* AddListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddListViewController.h; sourceTree = "<group>"; };
-		029CFACC1135B33000D6942C /* AddListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddListViewController.m; sourceTree = "<group>"; };
+		029CFACB1135B33000D6942C /* ShareListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareListViewController.h; sourceTree = "<group>"; };
+		029CFACC1135B33000D6942C /* ShareListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareListViewController.m; sourceTree = "<group>"; };
 		029CFBED11371A9800D6942C /* accessory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accessory.png; sourceTree = "<group>"; };
 		02EDDB6D1129CC1500E23D03 /* Lists.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lists.h; sourceTree = "<group>"; };
 		02EDDB6E1129CC1500E23D03 /* Lists.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lists.m; sourceTree = "<group>"; };
@@ -90,8 +93,10 @@
 				02EDDB931129CEE700E23D03 /* ListsViewController.m */,
 				02EDDB951129CEF000E23D03 /* ListViewController.h */,
 				02EDDB961129CEF000E23D03 /* ListViewController.m */,
-				029CFACB1135B33000D6942C /* AddListViewController.h */,
-				029CFACC1135B33000D6942C /* AddListViewController.m */,
+				029CFACB1135B33000D6942C /* ShareListViewController.h */,
+				029CFACC1135B33000D6942C /* ShareListViewController.m */,
+				026AE39C1145870B009AE783 /* AddListViewController.h */,
+				026AE39D1145870B009AE783 /* AddListViewController.m */,
 			);
 			name = View;
 			path = Classes;
@@ -217,7 +222,8 @@
 				02EDDB941129CEE700E23D03 /* ListsViewController.m in Sources */,
 				02EDDB971129CEF000E23D03 /* ListViewController.m in Sources */,
 				02EDDDC41129E3B200E23D03 /* ListEntries.m in Sources */,
-				029CFACD1135B33000D6942C /* AddListViewController.m in Sources */,
+				029CFACD1135B33000D6942C /* ShareListViewController.m in Sources */,
+				026AE39E1145870B009AE783 /* AddListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
