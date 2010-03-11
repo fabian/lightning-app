@@ -130,7 +130,7 @@
 	}
 	
 	UIImageView *accessory = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"accessory.png"]];
-	accessory.frame =CGRectMake(270, 14, accessory.frame.size.width, accessory.frame.size.height);
+	accessory.frame =CGRectMake(270, 16, accessory.frame.size.width, accessory.frame.size.height);
 	
 	[cell addSubview:accessory];
 	
@@ -146,7 +146,7 @@
 	CGRect cellFrame = cell.bounds;
 	cellFrame.origin.x += 40;
 	int i = cellFrame.origin.x;
-	cellFrame.origin.y +=2;	
+	cellFrame.origin.y +=4;	
 	int i2 = cellFrame.origin.y;
 	cellFrame.size.width -= 68;
 	int i3 = cellFrame.size.width;
@@ -160,18 +160,16 @@
 	NSString *listEntry = [lists titleOfListAtIndex:indexPath.row];
 	label.text	= listEntry;
 	label.backgroundColor = [UIColor clearColor];
-	UIFont *font = [UIFont boldSystemFontOfSize:20.0];
+	UIFont *font = [UIFont systemFontOfSize:20.0];
 	label.font = font;
 	[cell addSubview:label];
 	
-	UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 10, 30, 20)];	
+	UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
 	roundedLabel.textColor = [UIColor whiteColor];
 	roundedLabel.text=@"1";
 	roundedLabel.textAlignment = UITextAlignmentCenter;
-	roundedLabel.backgroundColor = [UIColor grayColor];
+	roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
 	CALayer *layer = [roundedLabel layer];
-	layer.borderColor = [[UIColor grayColor] CGColor];
-    layer.borderWidth = 1.0f;
     layer.cornerRadius = 10.0f;
 	
 	[cell addSubview:roundedLabel];
