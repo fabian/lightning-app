@@ -23,6 +23,8 @@ any ideas from us
     * http://github.com/akosma/iphonerestwrapper
     * http://www.dreamfreeze.net/weblog/restful_webservices.html
     * http://allseeing-i.com/ASIHTTPRequest/
+  * Data communication format
+    * http://breakingcode.wordpress.com/2008/12/23/working-with-property-list-files-in-python/
   * WebGUI -> gives users a chances where only one iPhone is avaiable
 
 == GitHub ==
