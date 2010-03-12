@@ -11,14 +11,12 @@ A list always has one owner. The list can be shared with other users which can e
 == Inviting ==
 
   * User creates a new LIST and is therefor the owner of the LIST.
-  * Owner picks in the sharing settings a new person he'd like to share the list with (via ABAddressBook).
-  * A new INVITATION row is created on the server with the persons name and email address.
-  * iPhone sends a mail with a token for the invitation (say lightning:invitation?ABC123) to the person.
+  * Owner creates a new INVITATION with a group name and sends a mail with a token for the invitation (say lightning:invitation?ABC123) to persons he'd like to share with.
   * Invitee opens link in mail on the iPhone.
   * A new SHAREDLIST is created on the server to associate the DEVICE with the INVITATION and finally the LIST.
 
 == Suspending ==
 
-  * Owner removes a person from the sharing settings of a LIST.
+  * Owner removes a group from the sharing settings of a LIST.
   * The INVITATION gets marked as deleted on the server.
-  * Next time the invitee tries to view/update the LIST it gets removed from his lists.
+  * Next time the invitee tries to view/update the SHAREDLIST it gets removed from his lists.
