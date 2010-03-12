@@ -26,7 +26,8 @@ any ideas from us
   * Data communication format
     * http://breakingcode.wordpress.com/2008/12/23/working-with-property-list-files-in-python/
   * WebGUI -> gives users a chances where only one iPhone is avaiable
-
+  * Marketing
+    * http://www.smashingmagazine.com/2010/03/03/how-to-market-your-mobile-app/
 == GitHub ==
 
   * Multiple Listings
