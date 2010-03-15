@@ -1,0 +1,14 @@
+#summary bits about pns
+
+= Introduction =
+
+Help to understand pns better. links etc. from the web
+
+
+= Details =
+
+There are two situations when a push notification arrives. Either your app is already running and it arrives, or it's not running and it arrives. If it's not running, the O/S has sole control of handling the push notification, and you won't be able to do anything from your app unless the user proceeds.
+
+If your app is already running, you can pretty much do whatever the heck you want. Simply provide an implementation for UIApplicationDelegate's application:didReceiveRemoteNotification: method.
+
+If your app isn't running, the O/S is handling and there is very little that you can learn from arrival. If the user simply dismisses the message, none of your code anywhere will be run. If the user accepts the message, then your application is launched. You can get examine the contents of the launchOptions parameter to application:didFinishLaunchingWithOptions: to see what happened.
