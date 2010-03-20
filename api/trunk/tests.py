@@ -2,6 +2,7 @@
 
 import unittest
 import sys
+import os
 import os.path
 import mocker
 
@@ -20,6 +21,10 @@ for path in paths:
   if not os.path.exists(path): 
     raise 'Path does not exist: %s' % path
 sys.path = paths + sys.path
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+from google.appengine.dist import use_library
+use_library('django', '1.1')
 
 import resources
 import models

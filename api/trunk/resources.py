@@ -2,13 +2,13 @@ import logging
 import os
 import binascii
 import re
-import json
 from datetime import datetime
 from urlparse import urlparse, parse_qs
 from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.api import memcache
 from google.appengine.datastore import entity_pb
+from django.utils import simplejson
 from models import Device, List, Item
 
 class Resource(webapp.RequestHandler):
@@ -56,7 +56,7 @@ class DevicesResource(Resource):
         id = device.key().id()
         url = "http://%s/api/devices/%s?secret=%s" % (host, id, secret)
         
-        self.response.out.write(json.dumps({'id': id, 'url': url, 'secret': secret}))
+        self.response.out.write(simplejson.dumps({'id': id, 'url': url, 'secret': secret}))
 
 
 class DeviceResource(Resource):
@@ -94,8 +94,9 @@ class DeviceResource(Resource):
                 host = self.request._environ['HTTP_HOST']
                 id = device.key().id()
                 secret = device.secret
-                url = "http://%s/api/devices/%s?secret=%s" % (host, id, secret)
-                self.response.out.write(json.dumps({'id': id, 'url': url, 'secret': secret}))
+                url = u"http://%s/api/devices/%s?secret=%s" % (host, id, secret)
+                
+                self.response.out.write(simplejson.dumps({'id': id, 'url': url, 'secret': secret}))
                 
             else:
                 # device does not match authenticated device
@@ -122,7 +123,7 @@ class ListsResource(Resource):
                 id = list.key().id()
                 url = "http://%s/api/lists/%s" % (host, id)
                 
-                self.response.out.write(json.dumps({'id': id, 'url': url, 'title': list.title, 'owner': list.owner.key().id()}))
+                self.response.out.write(simplejson.dumps({'id': id, 'url': url, 'title': list.title, 'owner': list.owner.key().id()}))
             
             else:
                 # owner does not match autenticated device
