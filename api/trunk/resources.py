@@ -3,7 +3,8 @@ import os
 import binascii
 import re
 from datetime import datetime
-from urlparse import urlparse, parse_qs
+from urlparse import urlparse
+from cgi import parse_qs
 from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.api import memcache
