@@ -1,0 +1,9 @@
+application: lightning-app
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /api/.*
+  script: api.py
+  secure: always
