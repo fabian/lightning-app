@@ -26,6 +26,8 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 from google.appengine.dist import use_library
 use_library('django', '1.1')
 
+from google.appengine.ext.webapp import Response
+
 import resources
 import models
 
@@ -77,14 +79,14 @@ class DeviceTests(mocker.MockerTestCase):
         self.resource.request = self.mocker.mock()
         self.resource.response = self.mocker.mock()
         self.resource.error = self.mocker.mock()
+        self.resource.get_auth = self.mocker.mock()
     
     def test_get_device(self):
         
         auth = self.mocker.mock()
-        
-        self.resource.require_device = self.mocker.mock()
-        self.resource.require_device()
+        self.resource.get_auth()
         self.mocker.result(auth)
+        self.mocker.count(2)
         
         device = self.mocker.mock()
         model = self.mocker.replace("models.Device")
@@ -100,12 +102,12 @@ class DeviceTests(mocker.MockerTestCase):
         self.mocker.result("some.domain")
         
         device.key().id()
-        self.mocker.result(2)
+        self.mocker.result(3)
         
         device.secret
         self.mocker.result("abc")
         
-        self.resource.response.out.write('{"url": "http://some.domain/api/devices/2?secret=abc", "secret": "abc", "id": 2}')
+        self.resource.response.out.write('{"url": "http://some.domain/api/devices/3?secret=abc", "secret": "abc", "id": 3}')
         
         # REPLAY!
         self.mocker.replay()
@@ -114,10 +116,9 @@ class DeviceTests(mocker.MockerTestCase):
     def test_get_wrong_device(self):
         
         auth = self.mocker.mock()
-        
-        self.resource.require_device = self.mocker.mock()
-        self.resource.require_device()
+        self.resource.get_auth()
         self.mocker.result(auth)
+        self.mocker.count(3)
         
         device = self.mocker.mock()
         model = self.mocker.replace("models.Device")
@@ -137,6 +138,50 @@ class DeviceTests(mocker.MockerTestCase):
         # REPLAY!
         self.mocker.replay()
         self.resource.get("3")
+
+class ItemTests(mocker.MockerTestCase):
+
+    def setUp(self):
+        self.resource = resources.ItemResource()
+        self.resource.initialize(self.mocker.mock(), Response())
+        self.resource.error = self.mocker.mock()
+        self.resource.get_auth = self.mocker.mock()
+        foo = self.mocker.replace("util.device_required")
+    
+    def test_get_item(self):
+        
+        auth = self.mocker.mock()
+        self.resource.get_auth()
+        self.mocker.result(auth)
+        self.mocker.count(2)
+        
+        item = self.mocker.mock()
+        model = self.mocker.replace("models.Item")
+        model.get_by_id(7)
+        self.mocker.result(item)
+        
+        auth.key()
+        self.mocker.result("abc")
+        item.list.owner.key()
+        self.mocker.result("abc")
+        
+        self.resource.request._environ['HTTP_HOST']
+        self.mocker.result("some.domain")
+        
+        key = item.key()
+        self.mocker.count(2)
+        key.id()
+        self.mocker.result(7)
+        self.mocker.count(2)
+        
+        item.value
+        self.mocker.result("2l Milch")
+        
+        # REPLAY!
+        self.mocker.replay()
+        self.resource.get("7")
+        
+        self.assertEqual(self.resource.response.out.getvalue(), '{"url": "http://some.domain/api/items/7", "id": 7, "value": "2l Milch"}')
 
 
 if __name__ == "__main__":
