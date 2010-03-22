@@ -21,15 +21,15 @@ class Item(db.Model):
     added = db.DateTimeProperty(required=True, auto_now_add=True)
     modified = db.DateTimeProperty(required=True, auto_now=True)
 
-class Invitation(db.Model):
-    list = db.ReferenceProperty(List, required=True)
+class Group(db.Model):
     name = db.StringProperty(required=True) # group name
+    lists = db.ListProperty(db.Key)
     token = db.StringProperty(required=True) # random, gets sent per email with the id
     deleted = db.BooleanProperty()
     created = db.DateTimeProperty(required=True, auto_now_add=True)
     modified = db.DateTimeProperty(required=True, auto_now=True)
 
 class SharedList(db.Model):
-    invitation = db.ReferenceProperty(Invitation, required=True)
+    group = db.ReferenceProperty(Group, required=True)
     guest = db.ReferenceProperty(Device, required=True)
     created = db.DateTimeProperty(required=True, auto_now_add=True)
