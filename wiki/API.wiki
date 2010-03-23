@@ -1,14 +1,14 @@
 #summary List with the API methods.
 #labels Phase-Implementation
 
-|| /api/devices                  || POST || Create device ||
-|| /api/devices/(.*)           || GET   || Get device ||
-|| /api/devices/(.*)/lists  || GET   || Get lists for device ||
-|| /api/lists                        || POST || Create list ||
-|| /api/lists/(.*)                 || GET   || Get items of list ||
-|| /api/items                     || POST || Create item ||
-|| /api/items/(.*)              || GET   || Get list item ||
-|| /api/items/(.*)              || PUT   || Update item ||
+|| `/api/devices`               || `POST`   || Create device        ||
+|| `/api/devices/(.*)`          || `GET`    || Get device           ||
+|| `/api/devices/(.*)/lists`    || `GET`    || Get lists for device ||
+|| `/api/lists`                 || `POST`   || Create list          ||
+|| `/api/lists/(.*)`            || `GET`    || Get items of list    ||
+|| `/api/items`                 || `POST`   || Create item          ||
+|| `/api/items/(.*)`            || `GET`    || Get list item        ||
+|| `/api/items/(.*)`            || `PUT`    || Update item          ||
 
-|| /api/devices/(.*)           || PUT   || Update device ||
-|| /api/lists/(.*)                 || PUT   || Update list ||
+|| `/api/devices/(.*)`          || `PUT`    || Update device        ||
+|| `/api/lists/(.*)`            || `PUT`    || Update list          ||
