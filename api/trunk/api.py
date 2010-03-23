@@ -11,7 +11,9 @@ import resources
 application = webapp.WSGIApplication([
     (r'/api/devices', resources.DevicesResource),
     (r'/api/devices/(.*)', resources.DeviceResource),
+    (r'/api/devices/(.*)/lists', resources.DeviceListsResource),
     (r'/api/lists', resources.ListsResource),
+    (r'/api/lists/(.*)', resources.ListsResource),
     (r'/api/items', resources.ItemsResource),
     (r'/api/items/(.*)', resources.ItemResource),
 ], debug=True)

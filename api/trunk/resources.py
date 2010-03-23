@@ -75,36 +75,6 @@ class ListsResource(Resource):
     
     @device_required
     @json
-    def get(self):
-        
-        # owner must match authenticated device
-        owner = Device.get_by_id(int(self.request.get('owner', 0)))
-        if owner:
-            if owner.key() == self.get_auth().key():
-                lists = []
-                
-                for list in List.all().filter('owner =', owner.key()):
-                    
-                    lists.append({
-                        'id': list.key().id(), 
-                        'url': self.url(list), 
-                        'title': list.title, 
-                    })
-                
-                return {'lists': lists}
-            
-            else:
-                # owner does not match autenticated device
-                self.error(403)
-                self.response.out.write("Owner %s doesn't match authenticated device %s" % (owner.key(), self.get_auth().key()))
-        else:
-            # device for owner not found
-            self.error(404)
-            self.response.out.write("Can't get device for owner %s" % self.request.get('owner'))
-    
-    
-    @device_required
-    @json
     def post(self):
         
         # owner must match authenticated device
@@ -129,6 +99,74 @@ class ListsResource(Resource):
             # device for owner not found
             self.error(404)
             self.response.out.write("Can't get device for owner %s" % self.request.get('owner'))
+
+
+class DeviceListsResource(ListsResource):
+    
+    @device_required
+    @json
+    def get(self, device):
+        
+        # owner must match authenticated device
+        owner = Device.get_by_id(int(device))
+        if owner:
+            if owner.key() == self.get_auth().key():
+                lists = []
+                
+                for list in List.all().filter('owner =', owner.key()):
+                    
+                    lists.append({
+                        'id': list.key().id(), 
+                        'url': self.url(list), 
+                        'title': list.title, 
+                    })
+                
+                return {'lists': lists}
+            
+            else:
+                # owner does not match autenticated device
+                self.error(403)
+                self.response.out.write("Owner %s doesn't match authenticated device %s" % (owner.key(), self.get_auth().key()))
+        else:
+            # device for owner not found
+            self.error(404)
+            self.response.out.write("Can't get device for owner %s" % device)
+
+
+class ListResource(ListsResource):
+    
+    @device_required
+    @json
+    def get(self, id):
+        
+        # list owner must match authenticated device
+        list = List.get_by_id(int(id))
+        if list:
+            if list.owner.key() == self.get_auth().key():
+                items = []
+                
+                for item in Item.all().filter('list =', list.key()):
+                    
+                    host = self.request._environ['HTTP_HOST']
+                    id = item.key().id()
+                    url = "http://%s/api/items/%s" % (host, id)
+                    
+                    items.append({
+                        'id': item.key().id(), 
+                        'url': url, 
+                        'value': item.value, 
+                    })
+                
+                return {'items': items}
+            
+            else:
+                # owner does not match autenticated device
+                self.error(403)
+                self.response.out.write("Owner %s doesn't match authenticated device %s" % (list.owner.key(), self.get_auth().key()))
+        else:
+            # list not found
+            self.error(404)
+            self.response.out.write("Can't get list with id %s" % id)
 
 
 class ItemsResource(Resource):
