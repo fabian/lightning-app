@@ -275,7 +275,7 @@
     // Resize the scroll view (which is the root view of the window)
     CGRect viewFrame = [self.view frame];
     viewFrame.size.height -= keyboardSize.height;
-    self.view.frame = viewFrame;/**/
+    self.view.frame = viewFrame;
 	
     // Scroll the active text field into view.
     CGRect tableCellRect = [activeCell frame];

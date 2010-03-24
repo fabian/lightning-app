@@ -9,7 +9,6 @@
 #import "ListsViewController.h"
 #import "ListViewController.h"
 #import "AddListViewController.h"
-#import "ShareListViewController.h"
 
 @implementation ListsViewController
 
@@ -54,9 +53,11 @@
 - (void)addList {
 	NSLog(@"addList");
 	
-	AddListViewController *addListViewController = [[AddListViewController alloc] init];
+	//AddListViewController *addListViewController = [[AddListViewController alloc] init];
+	AddListViewController *addListViewController = [[AddListViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	
 	[self.navigationController pushViewController:addListViewController animated:YES];
+	
 	[addListViewController release];
 	
 }

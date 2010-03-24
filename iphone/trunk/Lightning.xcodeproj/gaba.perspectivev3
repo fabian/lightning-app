@@ -277,7 +277,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>15</integer>
+									<integer>14</integer>
 									<integer>8</integer>
 									<integer>0</integer>
 								</array>
@@ -318,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>02EDDBC21129D1C800E23D03</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>AddListViewController.h</string>
+								<string>AddListViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,32 +326,30 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>02EDDBC31129D1C800E23D03</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AddListViewController.h</string>
+										<string>AddListViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>026AE6731147D853009AE783</string>
+										<string>02BA5F1E115A8FE5002AAD93</string>
 										<key>history</key>
 										<array>
-											<string>0210A5271129EC3D000D8EDB</string>
-											<string>0210A5711129EDB6000D8EDB</string>
-											<string>0210A5B61129EF85000D8EDB</string>
-											<string>0210A5B71129EF85000D8EDB</string>
 											<string>02AC23FA112CA5BE007FC857</string>
 											<string>029CF92711331E0F00D6942C</string>
 											<string>029CF9D911332CCA00D6942C</string>
 											<string>029CFA961135B04C00D6942C</string>
 											<string>029CFBF111371AAD00D6942C</string>
 											<string>026AE35F113D9A05009AE783</string>
-											<string>026AE4C011466F73009AE783</string>
-											<string>026AE4F31146D15E009AE783</string>
-											<string>026AE66C1147D853009AE783</string>
-											<string>026AE66D1147D853009AE783</string>
-											<string>026AE66E1147D853009AE783</string>
-											<string>026AE66F1147D853009AE783</string>
-											<string>026AE6701147D853009AE783</string>
-											<string>026AE6711147D853009AE783</string>
-											<string>026AE6721147D853009AE783</string>
+											<string>02BC7D81114BEBE9006AEF21</string>
+											<string>02BC7D82114BEBE9006AEF21</string>
+											<string>02BC7D83114BEBE9006AEF21</string>
+											<string>02BC7D84114BEBE9006AEF21</string>
+											<string>02BC7D85114BEBE9006AEF21</string>
+											<string>02BC7D86114BEBE9006AEF21</string>
+											<string>02BA5EED1158E31C002AAD93</string>
+											<string>02BA5F0E115A8E4A002AAD93</string>
+											<string>02BA5F0F115A8E4A002AAD93</string>
+											<string>02BA5F1C115A8FE5002AAD93</string>
+											<string>02BA5F1D115A8FE5002AAD93</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -365,18 +363,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1233, 599}}</string>
+								<string>{{0, 0}, {1233, 584}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 59 1440 819 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>599pt</string>
+							<string>584pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>174pt</string>
+							<string>189pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -390,7 +388,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 147}}</string>
+										<string>{{10, 27}, {1233, 162}}</string>
+										<key>RubberWindowFrame</key>
+										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -406,7 +406,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 126}}</string>
+										<string>{{10, 27}, {1233, 157}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXProjectFindModule</string>
@@ -445,8 +445,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1233, 147}}</string>
-										<key>RubberWindowFrame</key>
-										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -474,11 +472,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>026AE345113C7522009AE783</string>
+				<string>02BA5E961158B21D002AAD93</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>026AE346113C7522009AE783</string>
+				<string>02BA5E971158B21D002AAD93</string>
 				<string>02EDDBC21129D1C800E23D03</string>
-				<string>026AE347113C7522009AE783</string>
+				<string>02BA5E981158B21D002AAD93</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -627,14 +625,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>026AE34C113C75F8009AE783</string>
+				<string>02BA5E9F1158B25E002AAD93</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>026AE34D113C75F8009AE783</string>
-				<string>026AE34E113C75F8009AE783</string>
-				<string>026AE34F113C75F8009AE783</string>
-				<string>026AE350113C75F8009AE783</string>
-				<string>026AE351113C75F8009AE783</string>
+				<string>02BA5EA01158B25E002AAD93</string>
+				<string>02BA5EA11158B25E002AAD93</string>
+				<string>02BA5EA21158B25E002AAD93</string>
+				<string>02BA5EA31158B25E002AAD93</string>
+				<string>02EDDBC21129D1C800E23D03</string>
 			</array>
 			<key>ToolbarConfigUserDefaultsMinorVersion</key>
 			<string>2</string>
@@ -668,9 +666,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>026AE6741147D853009AE783</string>
-		<string>026AE358113C7715009AE783</string>
-		<string>026AE353113C75F8009AE783</string>
+		<string>02BA5F1A115A8F48002AAD93</string>
+		<string>02BA5EAF1158E122002AAD93</string>
+		<string>02BA5EB01158E122002AAD93</string>
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
