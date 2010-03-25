@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface AddListViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>{
+@interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>{
 
 }
 

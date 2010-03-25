@@ -11,8 +11,11 @@
 #import <MessageUI/MFMailComposeViewController.h>
 
 
-@interface AddNewGroup : UIViewController<MFMailComposeViewControllerDelegate> {
+@interface AddNewGroup : UIViewController<UITextFieldDelegate, MFMailComposeViewControllerDelegate> {
 
+	UITextField *groupName;
 }
+
+@property (nonatomic, retain) UITextField *groupName;
 
 @end

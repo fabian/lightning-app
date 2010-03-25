@@ -153,6 +153,7 @@
 	if(indexPath.section == 0) {
 		UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(16, 10, cell.frame.size.width-16, cell.frame.size.height-10)];
 		textField.placeholder = @"Set name of list";
+		textField.delegate = self;
 		[cell addSubview: textField];
 		//cell.textLabel.text = @"Set name of list";
 	} else {
@@ -208,8 +209,16 @@
  // Return NO if you do not want the item to be re-orderable.
  return YES;
  }
- */
+*/
 
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    [theTextField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+	return YES;
+}
 
 - (void)dealloc {
     [super dealloc];
