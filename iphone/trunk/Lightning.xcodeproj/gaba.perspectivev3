@@ -277,13 +277,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>14</integer>
+									<integer>16</integer>
 									<integer>8</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {185, 760}}</string>
+							<string>{{0, 73}, {185, 760}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -318,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>02EDDBC21129D1C800E23D03</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>AddListViewController.m</string>
+								<string>AddNewGroup.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,11 +326,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>02EDDBC31129D1C800E23D03</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AddListViewController.m</string>
+										<string>AddNewGroup.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>02BA5F1E115A8FE5002AAD93</string>
+										<string>02BA60BB115BE10A002AAD93</string>
 										<key>history</key>
 										<array>
 											<string>02AC23FA112CA5BE007FC857</string>
@@ -344,12 +344,16 @@
 											<string>02BC7D83114BEBE9006AEF21</string>
 											<string>02BC7D84114BEBE9006AEF21</string>
 											<string>02BC7D85114BEBE9006AEF21</string>
-											<string>02BC7D86114BEBE9006AEF21</string>
 											<string>02BA5EED1158E31C002AAD93</string>
-											<string>02BA5F0E115A8E4A002AAD93</string>
 											<string>02BA5F0F115A8E4A002AAD93</string>
-											<string>02BA5F1C115A8FE5002AAD93</string>
-											<string>02BA5F1D115A8FE5002AAD93</string>
+											<string>02BA5FCA115B7FFB002AAD93</string>
+											<string>02BA6050115BDDC8002AAD93</string>
+											<string>02BA605E115BDE65002AAD93</string>
+											<string>02BA60B1115BE05E002AAD93</string>
+											<string>02BA60B2115BE05E002AAD93</string>
+											<string>02BA60B3115BE05E002AAD93</string>
+											<string>02BA60B4115BE05E002AAD93</string>
+											<string>02BA60BA115BE109002AAD93</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -389,8 +393,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1233, 162}}</string>
-										<key>RubberWindowFrame</key>
-										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -444,7 +446,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 147}}</string>
+										<string>{{10, 27}, {1233, 162}}</string>
+										<key>RubberWindowFrame</key>
+										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -666,7 +670,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>02BA5F1A115A8F48002AAD93</string>
 		<string>02BA5EAF1158E122002AAD93</string>
 		<string>02BA5EB01158E122002AAD93</string>
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>
