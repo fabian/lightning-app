@@ -12,6 +12,8 @@
 
 @implementation AddNewGroup
 
+@synthesize groupName;
+
 
 /*- (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -47,9 +49,10 @@
 	[self.view addSubview:label];
 	[label release];
 	
-	UITextField *groupName = [[UITextField alloc]initWithFrame:CGRectMake(0, 76, 300, 30)];
+	self.groupName = [[UITextField alloc]initWithFrame:CGRectMake(0, 76, 300, 30)];
 	groupName.placeholder = @"Group name";
 	groupName.borderStyle = UITextBorderStyleRoundedRect;
+	groupName.delegate = self;
 	
 	[self.view addSubview:groupName];
 	[groupName release];
@@ -70,7 +73,8 @@
 	MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
 	mailComposer.mailComposeDelegate = self;
 	
-	[mailComposer setSubject:@"Group invite"];
+	NSString *subject = [NSString stringWithFormat:@"Group invite for groupname: %@", groupName.text];
+	[mailComposer setSubject:subject];
 	
 	// Fill out the email body text
 	NSString *emailBody = @"This is an group invite bla bla";
@@ -110,12 +114,18 @@
 
 
 
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    [theTextField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+	return YES;
 }
 
 
 - (void)dealloc {
+	[groupName release];
     [super dealloc];
 }
 
