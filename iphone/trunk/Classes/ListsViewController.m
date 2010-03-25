@@ -128,55 +128,56 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		
+		UIImageView *accessory = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"accessory.png"]];
+		accessory.frame =CGRectMake(270, 16, accessory.frame.size.width, accessory.frame.size.height);
+		
+		[cell addSubview:accessory];
+		
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"middleWithLine.jpg"]];
+		
+		cell.backgroundView = imageView;
+		
+		[imageView release];
+		
+		
+		CGRect cellFrame = cell.bounds;
+		cellFrame.origin.x += 40;
+		int i = cellFrame.origin.x;
+		cellFrame.origin.y +=4;	
+		int i2 = cellFrame.origin.y;
+		cellFrame.size.width -= 68;
+		int i3 = cellFrame.size.width;
+		cellFrame.size.height -= 5;
+		int i4 = cellFrame.size.height;
+		NSLog(@"%i, %i2, %i3, %i4",i, i2, i3, i4);
+		
+		UILabel *label = [[UILabel alloc] initWithFrame:cellFrame];
+		
+		// Set up the cell...
+		NSString *listEntry = [lists titleOfListAtIndex:indexPath.row];
+		label.text	= listEntry;
+		label.backgroundColor = [UIColor clearColor];
+		UIFont *font = [UIFont systemFontOfSize:20.0];
+		label.font = font;
+		[cell addSubview:label];
+		
+		UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
+		roundedLabel.textColor = [UIColor whiteColor];
+		roundedLabel.text=@"1";
+		roundedLabel.textAlignment = UITextAlignmentCenter;
+		roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
+		CALayer *layer = [roundedLabel layer];
+		layer.cornerRadius = 10.0f;
+		
+		[cell addSubview:roundedLabel];
+		
+		[listEntry release];
+		
 	}
 	
-	UIImageView *accessory = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"accessory.png"]];
-	accessory.frame =CGRectMake(270, 16, accessory.frame.size.width, accessory.frame.size.height);
-	
-	[cell addSubview:accessory];
-	
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"middleWithLine.jpg"]];
-	
-	cell.backgroundView = imageView;
-	
-	[imageView release];
-	
-	
-	CGRect cellFrame = cell.bounds;
-	cellFrame.origin.x += 40;
-	int i = cellFrame.origin.x;
-	cellFrame.origin.y +=4;	
-	int i2 = cellFrame.origin.y;
-	cellFrame.size.width -= 68;
-	int i3 = cellFrame.size.width;
-	cellFrame.size.height -= 5;
-	int i4 = cellFrame.size.height;
-	NSLog(@"%i, %i2, %i3, %i4",i, i2, i3, i4);
-	
-	UILabel *label = [[UILabel alloc] initWithFrame:cellFrame];
-	
-    // Set up the cell...
-	NSString *listEntry = [lists titleOfListAtIndex:indexPath.row];
-	label.text	= listEntry;
-	label.backgroundColor = [UIColor clearColor];
-	UIFont *font = [UIFont systemFontOfSize:20.0];
-	label.font = font;
-	[cell addSubview:label];
-	
-	UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
-	roundedLabel.textColor = [UIColor whiteColor];
-	roundedLabel.text=@"1";
-	roundedLabel.textAlignment = UITextAlignmentCenter;
-	roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
-	CALayer *layer = [roundedLabel layer];
-    layer.cornerRadius = 10.0f;
-	
-	[cell addSubview:roundedLabel];
-	
-	[listEntry release];
-	
+		
     return cell;
 }
 

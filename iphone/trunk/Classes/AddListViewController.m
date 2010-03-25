@@ -7,6 +7,7 @@
 //
 
 #import "AddListViewController.h"
+#import "AddNewGroup.h"
 
 @implementation AddListViewController
 
@@ -93,8 +94,9 @@
 		UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(10, 10, 100, 80)] autorelease];
 		
 		UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+		[button	addTarget:self action:@selector(addGroup) forControlEvents:UIControlEventTouchUpInside];
 		button.frame = CGRectMake(10, 30, 300, 40);
-		[button setTitle:@"Add new person" forState:UIControlStateNormal];
+		[button setTitle:@"Add new group" forState:UIControlStateNormal];
 		[view addSubview:button];
 		
 		UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(18, 0, 200, 20)];
@@ -105,6 +107,19 @@
 		return view;
 	}
 	
+}
+
+- (void)addGroup {
+	NSLog(@"addGroup");
+	
+	//AddNewGroup *newGroup = [[AddNewGroup alloc]initWithFrame:[self.view frame]];
+	AddNewGroup *newGroup = [[AddNewGroup alloc]init];
+	newGroup.view.frame = self.view.frame;
+	
+	//[self.view addSubview:newGroup];
+	[self.navigationController pushViewController:newGroup animated:YES];
+	
+	[newGroup release];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

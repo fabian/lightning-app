@@ -14,15 +14,17 @@
 		029CFA57113440CA00D6942C /* middleWithLine.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CFA56113440CA00D6942C /* middleWithLine.jpg */; };
 		029CFACD1135B33000D6942C /* AddListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 029CFACC1135B33000D6942C /* AddListViewController.m */; };
 		029CFBEE11371A9800D6942C /* accessory.png in Resources */ = {isa = PBXBuildFile; fileRef = 029CFBED11371A9800D6942C /* accessory.png */; };
+		02BA5F2D115A92A9002AAD93 /* AddNewGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 02BA5F2C115A92A9002AAD93 /* AddNewGroup.m */; };
+		02BA5FB9115B7F7C002AAD93 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		02BA5FBA115B7F7C002AAD93 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		02BA5FBB115B7F7C002AAD93 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		02BA5FBF115B7FB8002AAD93 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */; };
 		02EDDB6F1129CC1500E23D03 /* Lists.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB6E1129CC1500E23D03 /* Lists.m */; };
 		02EDDB941129CEE700E23D03 /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */; };
 		02EDDB971129CEF000E23D03 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */; };
 		02EDDDC41129E3B200E23D03 /* ListEntries.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDDC31129E3B200E23D03 /* ListEntries.m */; };
 		1D3623260D0F684500981E51 /* LightningAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* LightningAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +37,9 @@
 		029CFACB1135B33000D6942C /* AddListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddListViewController.h; sourceTree = "<group>"; };
 		029CFACC1135B33000D6942C /* AddListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddListViewController.m; sourceTree = "<group>"; };
 		029CFBED11371A9800D6942C /* accessory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accessory.png; sourceTree = "<group>"; };
+		02BA5F2B115A92A9002AAD93 /* AddNewGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewGroup.h; sourceTree = "<group>"; };
+		02BA5F2C115A92A9002AAD93 /* AddNewGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewGroup.m; sourceTree = "<group>"; };
+		02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		02EDDB6D1129CC1500E23D03 /* Lists.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lists.h; sourceTree = "<group>"; };
 		02EDDB6E1129CC1500E23D03 /* Lists.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lists.m; sourceTree = "<group>"; };
 		02EDDB921129CEE700E23D03 /* ListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsViewController.h; sourceTree = "<group>"; };
@@ -60,9 +65,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
-				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				02BA5FB9115B7F7C002AAD93 /* UIKit.framework in Frameworks */,
+				02BA5FBA115B7F7C002AAD93 /* Foundation.framework in Frameworks */,
+				02BA5FBB115B7F7C002AAD93 /* CoreGraphics.framework in Frameworks */,
+				02BA5FBF115B7FB8002AAD93 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +98,8 @@
 				02EDDB961129CEF000E23D03 /* ListViewController.m */,
 				029CFACB1135B33000D6942C /* AddListViewController.h */,
 				029CFACC1135B33000D6942C /* AddListViewController.m */,
+				02BA5F2B115A92A9002AAD93 /* AddNewGroup.h */,
+				02BA5F2C115A92A9002AAD93 /* AddNewGroup.m */,
 			);
 			name = View;
 			path = Classes;
@@ -148,6 +156,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+				02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -218,6 +227,7 @@
 				02EDDB971129CEF000E23D03 /* ListViewController.m in Sources */,
 				02EDDDC41129E3B200E23D03 /* ListEntries.m in Sources */,
 				029CFACD1135B33000D6942C /* AddListViewController.m in Sources */,
+				02BA5F2D115A92A9002AAD93 /* AddNewGroup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
