@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h> 
 
 @interface LightningAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
