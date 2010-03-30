@@ -25,6 +25,8 @@
 		02EDDDC41129E3B200E23D03 /* ListEntries.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDDC31129E3B200E23D03 /* ListEntries.m */; };
 		1D3623260D0F684500981E51 /* LightningAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* LightningAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1FC5D00311629A9900D1130F /* ApiRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC5D00011629A9900D1130F /* ApiRequest.m */; };
+		1FC5D00411629A9900D1130F /* Lightning.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC5D00211629A9900D1130F /* Lightning.m */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +55,10 @@
 		1D3623250D0F684500981E51 /* LightningAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightningAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Lightning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lightning.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1FC5CFFF11629A9900D1130F /* ApiRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiRequest.h; sourceTree = "<group>"; };
+		1FC5D00011629A9900D1130F /* ApiRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiRequest.m; sourceTree = "<group>"; };
+		1FC5D00111629A9900D1130F /* Lightning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lightning.h; sourceTree = "<group>"; };
+		1FC5D00211629A9900D1130F /* Lightning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lightning.m; sourceTree = "<group>"; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -78,6 +84,10 @@
 		02EDDB6A1129CBDB00E23D03 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				1FC5CFFF11629A9900D1130F /* ApiRequest.h */,
+				1FC5D00011629A9900D1130F /* ApiRequest.m */,
+				1FC5D00111629A9900D1130F /* Lightning.h */,
+				1FC5D00211629A9900D1130F /* Lightning.m */,
 				1D3623240D0F684500981E51 /* LightningAppDelegate.h */,
 				1D3623250D0F684500981E51 /* LightningAppDelegate.m */,
 				02EDDB6D1129CC1500E23D03 /* Lists.h */,
@@ -228,6 +238,8 @@
 				02EDDDC41129E3B200E23D03 /* ListEntries.m in Sources */,
 				029CFACD1135B33000D6942C /* AddListViewController.m in Sources */,
 				02BA5F2D115A92A9002AAD93 /* AddNewGroup.m in Sources */,
+				1FC5D00311629A9900D1130F /* ApiRequest.m in Sources */,
+				1FC5D00411629A9900D1130F /* Lightning.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
