@@ -41,7 +41,7 @@ class DeviceResource(Resource):
         else:
             # device does not match authenticated device
             self.error(403)
-            self.response.out.write("Owner %s doesn't match authenticated device %s" % (owner.key(), self.get_auth().key()))
+            self.response.out.write("Device %s doesn't match authenticated device %s" % (device.key().id(), self.get_auth().key().id()))
     
     @device_required
     @json
@@ -62,7 +62,7 @@ class DeviceResource(Resource):
         else:
             # device does not match authenticated device
             self.error(403)
-            self.response.out.write("Device %s doesn't match authenticated device %s" % (device.key(), self.get_auth().key()))
+            self.response.out.write("Device %s doesn't match authenticated device %s" % (device.key().id(), self.get_auth().key().id()))
 
 
 class ListsResource(Resource):
@@ -94,7 +94,7 @@ class ListsResource(Resource):
             else:
                 # owner does not match autenticated device
                 self.error(403)
-                self.response.out.write("Owner %s doesn't match authenticated device %s" % (owner.key(), self.get_auth().key()))
+                self.response.out.write("Owner %s doesn't match authenticated device %s" % (owner.key().id(), self.get_auth().key().id()))
         else:
             # device for owner not found
             self.error(404)
@@ -126,7 +126,7 @@ class DeviceListsResource(ListsResource):
             else:
                 # owner does not match autenticated device
                 self.error(403)
-                self.response.out.write("Owner %s doesn't match authenticated device %s" % (owner.key(), self.get_auth().key()))
+                self.response.out.write("Owner %s doesn't match authenticated device %s" % (owner.key().id(), self.get_auth().key().id()))
         else:
             # device for owner not found
             self.error(404)
@@ -134,6 +134,23 @@ class DeviceListsResource(ListsResource):
 
 
 class ListResource(ListsResource):
+    
+    @device_required
+    @json
+    def put(self, id):
+    
+        list = List.get_by_id(int(id))
+        
+        # device must match authenticated device
+        if list.device.key() == self.get_auth().key():
+            
+            list.title = self.request.get('title')
+            list.put()
+        
+        else:
+            # device does not match authenticated device
+            self.error(403)
+            self.response.out.write("Owner of list %s doesn't match authenticated device %s" % (list.owner.key().id(), self.get_auth().key().id()))
     
     @device_required
     @json
@@ -162,7 +179,7 @@ class ListResource(ListsResource):
             else:
                 # owner does not match autenticated device
                 self.error(403)
-                self.response.out.write("Owner %s doesn't match authenticated device %s" % (list.owner.key(), self.get_auth().key()))
+                self.response.out.write("Owner %s doesn't match authenticated device %s" % (list.owner.key().id(), self.get_auth().key().id()))
         else:
             # list not found
             self.error(404)
@@ -175,13 +192,29 @@ class ItemsResource(Resource):
     @json
     def post(self):
         
-        item = Item()
-        item.value = self.request.get('value')
-        item.put()
-        
-        host = self.request._environ['HTTP_HOST']
-        id = item.key().id()
-        self.response.out.write("http://%s/api/items/%s" % (host, id))
+        # owner of list must match authenticated device
+        list = List.get_by_id(int(self.request.get('list')))
+        if list:
+            if list.owner.key() == self.get_auth().key():
+                
+                item = Item(value=self.request.get('value'), list=list)
+                item.put()
+                
+                host = self.request._environ['HTTP_HOST']
+                id = item.key().id()
+                url = "http://%s/api/items/%s" % (host, id)
+                
+                return {'id': id, 'url': url, 'value': item.value, 'list': list.key().id()}
+            
+            else:
+                # owner of list does not match autenticated device
+                self.error(403)
+                self.response.out.write("Owner of list %s doesn't match authenticated device %s" % (list.owner.key().id(), self.get_auth().key().id()))
+        else:
+            # list not found
+            self.error(404)
+            self.response.out.write("Can't get list %s" % self.request.get('list'))
+
 
 class ItemResource(Resource):
     
@@ -197,14 +230,19 @@ class ItemResource(Resource):
     
         # owner must match authenticated device
         item = Item.get_by_id(int(id))
-        if item.list.owner.key() == self.get_auth().key():
-            
-            return {'id': item.key().id(), 'url': self.url(item), 'value': item.value}
-            
+        if item:
+            if item.list.owner.key() == self.get_auth().key():
+                
+                return {'id': item.key().id(), 'url': self.url(item), 'value': item.value}
+                
+            else:
+                # device does not match authenticated device
+                self.error(403)
+                self.response.out.write("List owner %s of item doesn't match authenticated device %s" % (item.list.owner.key().id(), self.get_auth().key().id()))
         else:
-            # device does not match authenticated device
-            self.error(403)
-            self.response.out.write("List owner %s of item doesn't match authenticated device %s" % (item.list.owner.key(), self.get_auth().key()))
+            # item not found
+            self.error(404)
+            self.response.out.write("Item %s not found" % id)
 
     @device_required
     def put(self, id):
@@ -221,5 +259,5 @@ class ItemResource(Resource):
         else:
             # device does not match authenticated device
             self.error(403)
-            self.response.out.write("List owner %s of item doesn't match authenticated device %s" % (item.list.owner.key(), self.get_auth().key()))
+            self.response.out.write("List owner %s of item doesn't match authenticated device %s" % (item.list.owner.key().id(), self.get_auth().key().id()))
 
