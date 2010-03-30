@@ -44,7 +44,6 @@ class DevicesTests(Tests):
         test = webtest.TestApp(self.application)
         response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345"})
         
-        self.assertEqual('200 OK', response.status)
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
 
 
@@ -67,7 +66,6 @@ class DeviceTests(Tests):
         test = webtest.TestApp(self.application)
         response = test.get("/api/devices/1", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual('200 OK', response.status)
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
     
     def test_get_wrong_device(self):
@@ -75,7 +73,6 @@ class DeviceTests(Tests):
         test = webtest.TestApp(self.application)
         response = test.get("/api/devices/1", headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
         
-        self.assertEqual('403 Forbidden', response.status)
         self.assertEqual(response.body, "Device 1 doesn't match authenticated device 2")
 
 
@@ -104,7 +101,6 @@ class DeviceListsTests(Tests):
         test = webtest.TestApp(self.application)
         response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
         
-        self.assertEqual('200 OK', response.status)
         self.assertEqual(response.body, '{"lists": [{"url": "http://localhost:80/api/lists/3", "id": 3, "title": "List A"}, {"url": "http://localhost:80/api/lists/4", "id": 4, "title": "List B"}]}')
     
     def test_get_lists_only_own(self):
@@ -115,7 +111,6 @@ class DeviceListsTests(Tests):
         test = webtest.TestApp(self.application)
         response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
         
-        self.assertEqual('200 OK', response.status)
         self.assertEqual(response.body, '{"lists": []}')
 
 
@@ -144,7 +139,6 @@ class ItemTests(Tests):
         test = webtest.TestApp(self.application)
         response = test.get("/api/items/4", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual('200 OK', response.status)
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Some Item"}')
 
 
