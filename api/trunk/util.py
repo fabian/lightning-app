@@ -14,17 +14,30 @@ def json(handler_method):
         
     return convert
 
+class WrongSecretException(Exception):
+    def __init__(self, secret):
+        self.secret = secret
+
+class DeviceNotFoundException(Exception):
+    def __init__(self, device):
+        self.device = device
 
 def device_required(handler_method):
     
     def check_device(self, *args):
-        
-        if self.get_auth() == None:
-            # authentication failed
-            self.error(401)
-            self.response.out.write("No device header found!")
-        else:
-            return handler_method(self, *args)
+        try:
+            if self.get_auth() == None:
+                # authentication failed
+                self.error(401)
+                self.response.out.write("No device header found!")
+            else:
+                return handler_method(self, *args)
+        except WrongSecretException, (e):
+            self.error(403)
+            self.response.out.write("Secret %s doesn't match device secret!" % e.secret)
+        except DeviceNotFoundException, (e):
+            self.error(403)
+            self.response.out.write("Device %s not found!" % e.device)
     
     return check_device
 
@@ -47,6 +60,10 @@ class Resource(webapp.RequestHandler):
                 if device:
                     if device.secret == secret:
                         self.auth = device
+                    else:
+                        raise WrongSecretException(secret)
+                else:
+                    raise DeviceNotFoundException(id)
             
             except KeyError, IndexError:
                 pass
