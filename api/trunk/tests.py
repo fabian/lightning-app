@@ -3,41 +3,32 @@
 import unittest
 import sys
 import os
-import os.path
+
+sys.path = sys.path + ['/usr/local/google_appengine', '/usr/local/google_appengine/lib/django', '/usr/local/google_appengine/lib/webob', '/usr/local/google_appengine/lib/yaml/lib', '/usr/local/google_appengine/google/appengine','/Users/aral/singularity/']
+
+from google.appengine.api import apiproxy_stub_map
+from google.appengine.api import datastore_file_stub
+from google.appengine.ext import webapp
 import mocker
-
-# Change the following line to reflect wherever your
-# app engine installation and the mocker library are
-APPENGINE_PATH = '/usr/local/google_appengine'
-
-# Add app-engine related libraries to your path
-paths = [
-    APPENGINE_PATH,
-    os.path.join(APPENGINE_PATH, 'lib', 'django'),
-    os.path.join(APPENGINE_PATH, 'lib', 'webob'),
-    os.path.join(APPENGINE_PATH, 'lib', 'yaml', 'lib'),
-]
-for path in paths:
-  if not os.path.exists(path): 
-    raise 'Path does not exist: %s' % path
-sys.path = paths + sys.path
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-from google.appengine.dist import use_library
-use_library('django', '1.1')
-
-from google.appengine.ext.webapp import Response
-
+import webtest
 import resources
 import models
 
-class DevicesTests(mocker.MockerTestCase):
+class Tests(mocker.MockerTestCase):
+    
+    def stub_datastore(self):
+        apiproxy_stub_map.apiproxy = apiproxy_stub_map.APIProxyStubMap()
+        stub = datastore_file_stub.DatastoreFileStub('lightning-app', None, None)
+        apiproxy_stub_map.apiproxy.RegisterStub('datastore', stub)
+
+
+class DevicesTests(Tests):
 
     def setUp(self):
-        self.resource = resources.DevicesResource()
-        self.resource.request = self.mocker.mock()
-        self.resource.response = self.mocker.mock()
-        self.resource.error = self.mocker.mock()
+        self.stub_datastore()        
+        self.application = webapp.WSGIApplication([
+            (r'/api/devices', resources.DevicesResource), 
+        ], debug=True)
     
     def test_create_device(self):
         
@@ -49,141 +40,114 @@ class DevicesTests(mocker.MockerTestCase):
         hexlify("84763")
         self.mocker.result("abc")
         
-        self.resource.request.get('name')
-        self.mocker.result("My iPhone")
-        self.resource.request.get('identifier')
-        self.mocker.result("123345")
-        
-        device = self.mocker.mock()
-        model = self.mocker.replace("models.Device")
-        model(name="My iPhone", identifier="123345", secret="abc")
-        self.mocker.result(device)
-        device.put()
-        
-        self.resource.request._environ['HTTP_HOST']
-        self.mocker.result("some.domain")
-        
-        device.key().id()
-        self.mocker.result(2)
-        
-        self.resource.response.out.write('{"url": "http://some.domain/api/devices/2?secret=abc", "secret": "abc", "id": 2}')
-        
-        # REPLAY!
         self.mocker.replay()
-        self.resource.post()
+        test = webtest.TestApp(self.application)
+        response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345"})
+        
+        self.assertEqual('200 OK', response.status)
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
 
-class DeviceTests(mocker.MockerTestCase):
+
+class DeviceTests(Tests):
 
     def setUp(self):
-        self.resource = resources.DeviceResource()
-        self.resource.request = self.mocker.mock()
-        self.resource.response = self.mocker.mock()
-        self.resource.error = self.mocker.mock()
-        self.resource.get_auth = self.mocker.mock()
+        self.stub_datastore()        
+        self.application = webapp.WSGIApplication([
+            (r'/api/devices/(.*)', resources.DeviceResource), 
+        ], debug=True)
+        
+        self.device_one = models.Device(identifier="foobar", name="Some Device", secret="abc")
+        self.device_one.put()
+        
+        self.device_two = models.Device(identifier="raboof", name="Another Device", secret="xyz")
+        self.device_two.put()
     
     def test_get_device(self):
         
-        auth = self.mocker.mock()
-        self.resource.get_auth()
-        self.mocker.result(auth)
-        self.mocker.count(2)
+        test = webtest.TestApp(self.application)
+        response = test.get("/api/devices/1", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        device = self.mocker.mock()
-        model = self.mocker.replace("models.Device")
-        model.get_by_id(3)
-        self.mocker.result(device)
-        
-        auth.key()
-        self.mocker.result("abc")
-        device.key()
-        self.mocker.result("abc")
-        
-        self.resource.request._environ['HTTP_HOST']
-        self.mocker.result("some.domain")
-        
-        device.key().id()
-        self.mocker.result(3)
-        
-        device.secret
-        self.mocker.result("abc")
-        
-        self.resource.response.out.write('{"url": "http://some.domain/api/devices/3?secret=abc", "secret": "abc", "id": 3}')
-        
-        # REPLAY!
-        self.mocker.replay()
-        self.resource.get("3")
+        self.assertEqual('200 OK', response.status)
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
     
     def test_get_wrong_device(self):
         
-        auth = self.mocker.mock()
-        self.resource.get_auth()
-        self.mocker.result(auth)
-        self.mocker.count(3)
+        test = webtest.TestApp(self.application)
+        response = test.get("/api/devices/1", headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
         
-        device = self.mocker.mock()
-        model = self.mocker.replace("models.Device")
-        model.get_by_id(3)
-        self.mocker.result(device)
-        
-        auth.key()
-        self.mocker.result("notabc")
-        self.mocker.count(2)
-        device.key()
-        self.mocker.result("abc")
-        self.mocker.count(2)
-        
-        self.resource.error(403)
-        self.resource.response.out.write("Device abc doesn't match authenticated device notabc")
-        
-        # REPLAY!
-        self.mocker.replay()
-        self.resource.get("3")
+        self.assertEqual('403 Forbidden', response.status)
+        self.assertEqual(response.body, "Device 1 doesn't match authenticated device 2")
 
-class ItemTests(mocker.MockerTestCase):
+
+class DeviceListsTests(Tests):
 
     def setUp(self):
-        self.resource = resources.ItemResource()
-        self.resource.initialize(self.mocker.mock(), Response())
-        self.resource.error = self.mocker.mock()
-        self.resource.get_auth = self.mocker.mock()
-        foo = self.mocker.replace("util.device_required")
+        self.stub_datastore()        
+        self.application = webapp.WSGIApplication([
+            (r'/api/devices/(.*)/lists', resources.DeviceListsResource), 
+        ], debug=True)
+        
+        self.device_one = models.Device(identifier="foobar", name="Some Device", secret="abc")
+        self.device_one.put()
+        
+        self.device_two = models.Device(identifier="raboof", name="Another Device", secret="xyz")
+        self.device_two.put()
+    
+    def test_get_lists(self):
+        
+        list_a = models.List(title="List A", owner=self.device_one)
+        list_a.put()
+        
+        list_b = models.List(title="List B", owner=self.device_one)
+        list_b.put()
+        
+        test = webtest.TestApp(self.application)
+        response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
+        
+        self.assertEqual('200 OK', response.status)
+        self.assertEqual(response.body, '{"lists": [{"url": "http://localhost:80/api/lists/3", "id": 3, "title": "List A"}, {"url": "http://localhost:80/api/lists/4", "id": 4, "title": "List B"}]}')
+    
+    def test_get_lists_only_own(self):
+        
+        list_c = models.List(title="List C", owner=self.device_two)
+        list_c.put()
+        
+        test = webtest.TestApp(self.application)
+        response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
+        
+        self.assertEqual('200 OK', response.status)
+        self.assertEqual(response.body, '{"lists": []}')
+
+
+class ItemTests(Tests):
+
+    def setUp(self):
+        self.stub_datastore()        
+        self.application = webapp.WSGIApplication([
+            (r'/api/items/(.*)', resources.ItemResource), 
+        ], debug=True)
+        
+        self.device_one = models.Device(identifier="foobar", name="Some Device", secret="abc")
+        self.device_one.put()
+        
+        self.device_two = models.Device(identifier="raboof", name="Another Device", secret="xyz")
+        self.device_two.put()
     
     def test_get_item(self):
         
-        auth = self.mocker.mock()
-        self.resource.get_auth()
-        self.mocker.result(auth)
-        self.mocker.count(2)
+        list = models.List(title="A random list", owner=self.device_one)
+        list.put()
         
-        item = self.mocker.mock()
-        model = self.mocker.replace("models.Item")
-        model.get_by_id(7)
-        self.mocker.result(item)
+        item = models.Item(value="Some Item", list=list)
+        item.put()
         
-        auth.key()
-        self.mocker.result("abc")
-        item.list.owner.key()
-        self.mocker.result("abc")
+        test = webtest.TestApp(self.application)
+        response = test.get("/api/items/4", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.resource.request._environ['HTTP_HOST']
-        self.mocker.result("some.domain")
-        
-        key = item.key()
-        self.mocker.count(2)
-        key.id()
-        self.mocker.result(7)
-        self.mocker.count(2)
-        
-        item.value
-        self.mocker.result("2l Milch")
-        
-        # REPLAY!
-        self.mocker.replay()
-        self.resource.get("7")
-        
-        self.assertEqual(self.resource.response.out.getvalue(), '{"url": "http://some.domain/api/items/7", "id": 7, "value": "2l Milch"}')
+        self.assertEqual('200 OK', response.status)
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Some Item"}')
 
 
 if __name__ == "__main__":
+    os.environ['APPLICATION_ID'] = 'lightning-app'
     unittest.main()
-
