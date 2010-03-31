@@ -56,6 +56,8 @@
 	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editList)];
 	self.navigationItem.rightBarButtonItem = button;
 	[button release];
+	
+	[self.navigationController setToolbarHidden:YES animated:YES];
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -132,15 +134,17 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"middleWithLine.jpg"]];
+		
+		cell.backgroundView = imageView;
+		
+		[imageView release];
     }
 	 
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"middleWithLine.jpg"]];
-	
-	cell.backgroundView = imageView;
-	
-	[imageView release];
 	
 	
 	CGRect cellFrame = cell.bounds;

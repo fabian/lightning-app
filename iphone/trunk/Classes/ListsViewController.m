@@ -46,6 +46,25 @@
 	self.navigationItem.rightBarButtonItem = button;
 	[button release];
 	
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 200, 90, 45)];
+	label.backgroundColor = [UIColor clearColor];
+	label.textColor = [UIColor whiteColor];
+	label.text = @"Updating...";
+	UIBarButtonItem *itemLabel = [[UIBarButtonItem alloc]initWithCustomView:label];
+	
+	UIActivityIndicatorView *progress = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	[progress startAnimating];
+	UIBarButtonItem *itemProgess = [[UIBarButtonItem alloc]initWithCustomView:progress];
+	
+	NSArray *myToolbarItems = [[NSArray alloc]initWithObjects:itemLabel, itemProgess, nil];
+	
+	[label release];
+	[itemLabel release];
+	[progress release];
+	[itemProgess release];
+	[self setToolbarItems:myToolbarItems];
+	[myToolbarItems release];
+	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
