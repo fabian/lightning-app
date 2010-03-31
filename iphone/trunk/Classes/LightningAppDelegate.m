@@ -18,18 +18,22 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {   
 	
-	NSString *device = @"http://localhost:8080/api/devices/4?secret=3af5e21c38d25eaaa4f186a14ca13f046c004e83736e39c8927cb72962d94f94baa3124a7eca1f0e3fbb1f9f679d9baf63e183c1a57c59c19537e450f36016b9";
+	NSString *device = @"http://localhost:8080/api/devices/1?secret=7e01caa1a4f161323c70b140cbe367f067057d3186918e0f8fe88b5447e5c0c020fc623371785ac4ee8d99d85b066bbd1df45777dc805c8e2307b1ee6e36c808";
 	NSURL *url = [NSURL URLWithString:@"http://localhost:8080/api/"];
 	Lightning *api = [[Lightning alloc] initWithURL:url andDevice:device];
 	//Lightning *api = [[Lightning alloc] initWithURL:url];
-	[api addListWithTitle:@"Foobar"];
+	//[api addListWithTitle:@"Foobar"];
 	[api getLists];
 	
 	ListsViewController *listsViewController = [[ListsViewController alloc] initWithStyle:UITableViewStylePlain];
-	
 	UINavigationController *aNavigationController = [[UINavigationController alloc] initWithRootViewController:listsViewController];
 	aNavigationController.navigationBar.barStyle = UIBarStyleBlack;
 	aNavigationController.navigationBar.translucent = YES;
+	
+	[aNavigationController setToolbarHidden:NO animated:YES];
+	aNavigationController.toolbar.barStyle = UIBarStyleBlackOpaque;
+	aNavigationController.toolbar.translucent = YES;
+	
 	self.navigationController = aNavigationController;
 	
 	[listsViewController release];
