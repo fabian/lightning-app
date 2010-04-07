@@ -8,10 +8,10 @@ The scenarios describe the possible events that could lead to a push notificatio
 
 = Scenarios =
 
-|| *Scenario*                               || *Notification*                               ||
-|| Max adds item Bread.                     || Max added Bread to Groceries.                ||
-|| Max adds items Bread, Wine.              || Max added Bread and Wine to Groceries.       ||
-|| Max adds items Bread, Wine, Salt.        || Max added Bread, Wine and Salt to Groceries. ||
-|| Max adds items Bread, Wine, Salt, Milk.  || Max added 4 items to Groceries.              ||
-|| Max changes Bread to Wine.               || Max changed Bread to Wine.                   ||
-|| Max changes Bread to Wine, Salt to Milk. || Max changed 2 items in Groceries.            ||
+|| *Scenario*                               || *Notification*||                         *Badget count* ||
+|| Max adds item Bread.                     || Max added Bread to Groceries. || 1 ||               
+|| Max adds items Bread, Wine.              || Max added Bread and Wine to Groceries.      || 2 ||
+|| Max adds items Bread, Wine, Salt.        || Max added Bread, Wine and Salt to Groceries. || 3 ||
+|| Max adds items Bread, Wine, Salt, Milk.  || Max added 4 items to Groceries. || 4 ||
+|| Max changes Bread to Wine.               || Max changed Bread to Wine. || 1 ||
+|| Max changes Bread to Wine, Salt to Milk. || Max changed 2 items in Groceries. || 2 ||
