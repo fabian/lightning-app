@@ -20,15 +20,20 @@
  }
  */
 
-/*
+
  - (void)viewDidLoad {
 	 [super viewDidLoad];
 	 
+	 UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+	 
+	 [button release];
+	 
  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
- }*/
+ }
  
-
+- (void)done {
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -115,8 +120,9 @@
 	//AddNewGroup *newGroup = [[AddNewGroup alloc]initWithFrame:[self.view frame]];
 	AddNewGroup *newGroup = [[AddNewGroup alloc]init];
 	newGroup.view.frame = self.view.frame;
+	newGroup.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	
-	//[self.view addSubview:newGroup];
+	//[self presentModalViewController:newGroup animated:YES];
 	[self.navigationController pushViewController:newGroup animated:YES];
 	
 	[newGroup release];

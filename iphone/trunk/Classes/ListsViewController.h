@@ -8,15 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "Lists.h";
-
+#import <CoreData/CoreData.h>
 #import <QuartzCore/QuartzCore.h>
 
 @interface ListsViewController : UITableViewController {
 	Lists *lists;
+	NSManagedObjectContext *context;
+	NSMutableArray *listNames;
 }
 
+-(id)initWithStyle:(UITableViewStyle)style andContext:(NSManagedObjectContext*)initContext;
 -(void) addList;
+-(void) setupModel;
 
 @property (nonatomic, retain) Lists *lists;
+@property (retain, nonatomic) NSManagedObjectContext *context;
+@property (retain, nonatomic) NSMutableArray *listNames;
 
 @end

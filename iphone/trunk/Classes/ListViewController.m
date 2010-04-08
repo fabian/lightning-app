@@ -7,25 +7,70 @@
 //
 
 #import "ListViewController.h"
+#import "ListItem.h"
 
 
 @implementation ListViewController
 
-@synthesize listEntries;
+@synthesize listEntries, listItems, context, listName, doneTextField;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
 	NSLog(@"Foo %@", theTextField.text);
-    [theTextField resignFirstResponder];
+    [theTextField becomeFirstResponder];
 	self.tableView.scrollEnabled = YES;
 	[listEntries.entries addObject:theTextField.text];
+	
+	ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
+	listItem.name = theTextField.text;
+	listItem.creation = [NSDate date];
+	[listName addListItemsObject:listItem];
+	
+	NSError *error;
+	[context save:&error];
+	
+	self.listItems = [[listName listItems] allObjects];
+	
+	NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
+	NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:listItems];
+	[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+	self.listItems = sorted;
+	
+	[sorted release];
+	
 	[self.tableView reloadData];
+	NSLog(@"foo second");
     return YES;
 }
+
+/*- (void)textFieldDidEndEditing:(UITextField *)textField {
+	if(doneTextField != nil) {
+		[textField becomeFirstResponder];
+		NSLog(@"its not nil");
+	}
+}*/
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
 	NSLog(@"Fii");
 	self.tableView.scrollEnabled = YES;
+	//check how to give a selector a parameter
+	//just wright doneAdding: the method the has to look like doneAdding:(id)sender
+	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAdding)];
+	self.navigationItem.rightBarButtonItem = button;
+	doneTextField = textField;
+	[button release];
+	
 	return YES;
+}
+
+- (void)doneAdding {
+	NSLog(@"done adding");
+    [doneTextField resignFirstResponder];
+	doneTextField = nil;
+	
+	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editList)];
+	self.navigationItem.rightBarButtonItem = button;
+	[button release];	
+	
 }
 
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -57,8 +102,6 @@
 	self.navigationItem.rightBarButtonItem = button;
 	[button release];
 	
-	[self.navigationController setToolbarHidden:YES animated:YES];
-
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -122,7 +165,8 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [listEntries.entries count]+1;
+    NSLog(@"listItems count: %i", [listItems count]);
+	return [listItems count]+1;
 }
 
 
@@ -142,47 +186,59 @@
 		cell.backgroundView = imageView;
 		
 		[imageView release];
-    }
-	 
-	
-	
-	
-	CGRect cellFrame = cell.bounds;
-	cellFrame.origin.x += 40;
-	int i = cellFrame.origin.x;
-	cellFrame.origin.y +=5;	
-	int i2 = cellFrame.origin.y;
-	cellFrame.size.width -= 68;
-	int i3 = cellFrame.size.width;
-	cellFrame.size.height -= 5;
-	int i4 = cellFrame.size.height;
-	NSLog(@"%i, %i2, %i3, %i4",i, i2, i3, i4);
-	
-	UITextField *label = [[[UITextField alloc] initWithFrame:cellFrame]autorelease];
-	
-	/*UIFont *font = [UIFont boldSystemFontOfSize:20.0];
-	label.font = font;*/
-	
-	if(indexPath.row >= [listEntries.entries count]) {
-		label.placeholder = @"New entry...";
-	} else {
-		label.text = [listEntries.entries objectAtIndex:indexPath.row];
+		
+		CGRect cellFrame = cell.bounds;
+		cellFrame.origin.x += 40;
+		int i = cellFrame.origin.x;
+		cellFrame.origin.y +=5;	
+		int i2 = cellFrame.origin.y;
+		cellFrame.size.width -= 68;
+		int i3 = cellFrame.size.width;
+		cellFrame.size.height -= 5;
+		int i4 = cellFrame.size.height;
+		
+		UITextField *label = [[[UITextField alloc] initWithFrame:cellFrame]autorelease];
+		label.tag = 123;
+		
+		/*UIFont *font = [UIFont boldSystemFontOfSize:20.0];
+		 label.font = font;*/
+		if(indexPath.row >= [listItems count]) {
+			label.placeholder = @"New entry...";
+		} else {
+			ListItem *listItem = [listItems objectAtIndex:indexPath.row];
+			label.text = [listItem name];
+		}
+		
+		label.delegate = self;
+		
+		label.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+		label.adjustsFontSizeToFitWidth = YES;
+		
+		label.autocorrectionType = UITextAutocorrectionTypeNo;
+		label.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+		label.borderStyle = UITextBorderStyleNone;
+		label.backgroundColor = [UIColor clearColor];
+		label.returnKeyType = UIReturnKeyDone;
+		
+		//cell.textLabel.text = [listEntries.entries objectAtIndex:indexPath.row];
+		[cell.contentView addSubview:label];
+		
+    } else {
+		if(indexPath.row >= [listItems count]) {
+			UITextField *label = (UITextField*)[cell.contentView viewWithTag:123];
+			label.placeholder = @"New entry...";
+			label.text = nil;
+		} else {
+			UITextField *label = (UITextField*)[cell.contentView viewWithTag:123];
+			ListItem *listItem = [listItems objectAtIndex:indexPath.row];
+			label.text = [listItem name];
+		}
+
 	}
 
-	label.delegate = self;
+
 	
-	label.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	label.adjustsFontSizeToFitWidth = YES;
-	
-	label.autocorrectionType = UITextAutocorrectionTypeNo;
-	label.autocapitalizationType = UITextAutocapitalizationTypeSentences;
-	label.borderStyle = UITextBorderStyleNone;
-	label.backgroundColor = [UIColor clearColor];
-	label.returnKeyType = UIReturnKeyDone;
-	
-	//cell.textLabel.text = [listEntries.entries objectAtIndex:indexPath.row];
-	[cell.contentView addSubview:label];
-    return cell;
+	return cell;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -211,6 +267,7 @@
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
+	NSLog(@"select row?");
 }
 
 
@@ -303,6 +360,7 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     activeCell = (UITableViewCell*)textField.superview.superview;
+	NSLog(@"start");
 }
 
 - (void)dealloc {
