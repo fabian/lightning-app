@@ -8,16 +8,28 @@
 
 #import <UIKit/UIKit.h>
 #import "ListEntries.h"
+#import	"ListName.h"
+#import <CoreData/CoreData.h>
 
 
-@interface ListViewController : UITableViewController <UITextFieldDelegate> {
+@interface ListViewController : UITableViewController <UITextFieldDelegate, UITextInputTraits> {
 	ListEntries *listEntries;
 	Boolean keyboardShown;
 	UITableViewCell *activeCell;
+	NSArray *listItems;
+	ListName *listName;
+	NSManagedObjectContext *context;
+	UITextField *doneTextField;
+	
 }
 
 - (void)registerForKeyboardNotifications;
+- (void)doneAdding;
 
 @property (nonatomic, retain) ListEntries *listEntries;
+@property (nonatomic, retain) NSArray *listItems;
+@property (nonatomic, retain) ListName *listName;
+@property (nonatomic, retain) UITextField *doneTextField;
+@property (retain, nonatomic) NSManagedObjectContext *context;
 
 @end

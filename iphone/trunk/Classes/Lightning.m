@@ -7,7 +7,6 @@
 //
 
 #import "Lightning.h"
-#import "ApiRequest.h"
 
 @implementation Lightning
 
@@ -26,6 +25,7 @@
 		NSURL *url = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingString:@"devices"]];
 		
 		ApiRequest *request = [[ApiRequest alloc] initWithURL:url];
+		request.delegate = self;
 		[request post:parameters];
     }
 	
@@ -52,7 +52,7 @@
 - (void)addListWithTitle:(NSString *)title {
 	
 	NSArray *keys = [NSArray arrayWithObjects:@"title", @"owner", nil];
-	NSArray *values = [NSArray arrayWithObjects:title, @"4", nil];
+	NSArray *values = [NSArray arrayWithObjects:title, @"52", nil];
 	NSDictionary *parameters = [NSDictionary dictionaryWithObjects:values forKeys:keys];
 	
 	NSURL *url = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingString:@"lists"]];
@@ -71,6 +71,10 @@
 	
 	ApiRequest *request = [[ApiRequest alloc] initWithURL:url andDevice:device];
 	[request get:parameters];
+}
+
+- (void) reloadData:(NSDictionary *)data {
+	NSLog(@"delegate called IHAA");
 }
 
 @end

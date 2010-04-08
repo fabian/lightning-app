@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import	"ApiRequest.h"
 
-@interface Lightning : NSObject {
+@interface Lightning : NSObject<ApiRequestDelegate> {
 	
     NSURL *url;
 	NSString *device;

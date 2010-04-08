@@ -9,15 +9,27 @@
 #import "ListsViewController.h"
 #import "ListViewController.h"
 #import "AddListViewController.h"
+#import "ListName.h"
+#import "ListItem.h"
 
 @implementation ListsViewController
 
-@synthesize lists;
+@synthesize lists, context, listNames;
 
 
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:style]) {
+		
+    }
+    return self;
+}
+
+- (id)initWithStyle:(UITableViewStyle)style andContext:(NSManagedObjectContext*)initContext{
+    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+    if (self = [super initWithStyle:style]) {
+		self.context = initContext;
+		
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.tableView.backgroundColor = [UIColor clearColor];
 		
@@ -39,6 +51,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	[self setupModel];
+	
 	[self setLists:[[Lists alloc] init]];
 	
 	self.tableView.allowsSelectionDuringEditing = YES;
@@ -46,27 +60,62 @@
 	self.navigationItem.rightBarButtonItem = button;
 	[button release];
 	
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 200, 90, 45)];
-	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor whiteColor];
-	label.text = @"Updating...";
-	UIBarButtonItem *itemLabel = [[UIBarButtonItem alloc]initWithCustomView:label];
-	
-	UIActivityIndicatorView *progress = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	[progress startAnimating];
-	UIBarButtonItem *itemProgess = [[UIBarButtonItem alloc]initWithCustomView:progress];
-	
-	NSArray *myToolbarItems = [[NSArray alloc]initWithObjects:itemLabel, itemProgess, nil];
-	
-	[label release];
-	[itemLabel release];
-	[progress release];
-	[itemProgess release];
-	[self setToolbarItems:myToolbarItems];
-	[myToolbarItems release];
-	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void) setupModel {
+	NSError *error;
+	NSFetchRequest *req = [NSFetchRequest new];
+	if(context == nil)
+	   NSLog(@"context is nil");
+	NSEntityDescription *descr = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:context];
+	[req setEntity:descr];
+	
+	NSSortDescriptor *sort = [[NSSortDescriptor alloc]initWithKey:@"name" ascending:YES];
+	
+	[req setSortDescriptors:[NSArray arrayWithObject:sort]];
+	[sort release];
+	
+	self.listNames = [[context executeFetchRequest:req error:&error] mutableCopy];
+	
+	if([self.listNames count] == 0) {
+		// Test Data
+		
+		ListName *listName;
+		ListItem *item;
+		
+		listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:context];
+		listName.name = @"List 1";
+		
+		item = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
+		item.name = @"YESSS1.1";
+		item.creation = [NSDate date];
+		
+		[listName addListItemsObject:item];
+		
+		listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:context];
+		listName.name = @"List 2";
+		
+		item = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
+		item.name = @"YESSS2.1";
+		item.creation = [NSDate date];
+		
+		[listName addListItemsObject:item];
+		
+		listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:context];
+		listName.name = @"List 3";
+		
+		item = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
+		item.name = @"YESSS3.1";
+		item.creation = [NSDate date];
+		
+		[listName addListItemsObject:item];
+		
+		[context save:&error];
+		
+		self.listNames = [[context executeFetchRequest:req error:&error] mutableCopy];
+	}
 }
 
 - (void)addList {
@@ -75,8 +124,12 @@
 	//AddListViewController *addListViewController = [[AddListViewController alloc] init];
 	AddListViewController *addListViewController = [[AddListViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	
-	[self.navigationController pushViewController:addListViewController animated:YES];
-	
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addListViewController];
+	navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	navigationController.navigationBar.translucent = YES;
+    [self presentModalViewController:navigationController animated:YES];
+    
+    [navigationController release];
 	[addListViewController release];
 	
 }
@@ -134,8 +187,8 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSLog(@"list count: %i", [lists countOfList]);
-    return [lists countOfList];
+	NSLog(@"listNames count: %i", [listNames count]);
+    return [listNames count];
 }
 
 
@@ -175,8 +228,10 @@
 		UILabel *label = [[UILabel alloc] initWithFrame:cellFrame];
 		
 		// Set up the cell...
-		NSString *listEntry = [lists titleOfListAtIndex:indexPath.row];
-		label.text	= listEntry;
+		//NSString *listEntry = [lists titleOfListAtIndex:indexPath.row];
+		ListName *listName = [listNames objectAtIndex:indexPath.row];
+		label.text	= [listName name];
+		//NSLog("id of listname %i", [listName id);
 		label.backgroundColor = [UIColor clearColor];
 		UIFont *font = [UIFont systemFontOfSize:20.0];
 		label.font = font;
@@ -192,7 +247,7 @@
 		
 		[cell addSubview:roundedLabel];
 		
-		[listEntry release];
+		//[listEntry release];
 		
 	}
 	
@@ -204,6 +259,21 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+	
+	//CoreData
+	ListName *listName = [listNames objectAtIndex:indexPath.row];
+	NSArray *listItems = [[listName listItems] allObjects];
+	listViewController.listItems = listItems;
+	listViewController.listName = listName;
+	listViewController.context = context;
+	
+	NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
+	NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:listItems];
+	[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+	listViewController.listItems = sorted;
+	
+	[sorted release];
+	
 	listViewController.listEntries = [lists listEntriesAtIndex:indexPath.row];
 	[listViewController registerForKeyboardNotifications];
 	

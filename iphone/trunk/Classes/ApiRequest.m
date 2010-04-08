@@ -11,7 +11,7 @@
 
 @implementation ApiRequest
 
-@synthesize data, url, device;
+@synthesize data, url, device, delegate;
 
 - (id)initWithURL:(NSURL *)url {
     
@@ -156,6 +156,7 @@
 	SBJSON *parser = [[SBJSON alloc] init];
 	NSDictionary *object = [parser objectWithString:[self response] error:nil];
 	NSLog(@"Response: %@", [object objectForKey:@"title"]);
+	[self.delegate reloadData:object];
     
 }
 

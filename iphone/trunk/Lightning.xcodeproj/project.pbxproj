@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021887B0116B52B8000C57EE /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 021887AD116B52B8000C57EE /* ListName.m */; };
+		02188864116BAD06000C57EE /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02188863116BAD06000C57EE /* ListItem.m */; };
+		0224FCC61163A9E900AFD56C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0224FCC51163A9E900AFD56C /* CoreData.framework */; };
+		0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */; };
 		029CF8A51133166200D6942C /* bottom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A11133166200D6942C /* bottom.jpg */; };
 		029CF8A61133166200D6942C /* line.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A21133166200D6942C /* line.jpg */; };
 		029CF8A71133166200D6942C /* middle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A31133166200D6942C /* middle.jpg */; };
@@ -37,6 +41,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		021887AC116B52B8000C57EE /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
+		021887AD116B52B8000C57EE /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
+		02188862116BAD06000C57EE /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
+		02188863116BAD06000C57EE /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
+		0224FCC51163A9E900AFD56C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Lightning.xcdatamodel; sourceTree = "<group>"; };
 		029CF8A11133166200D6942C /* bottom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bottom.jpg; sourceTree = "<group>"; };
 		029CF8A21133166200D6942C /* line.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = line.jpg; sourceTree = "<group>"; };
 		029CF8A31133166200D6942C /* middle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = middle.jpg; sourceTree = "<group>"; };
@@ -94,12 +104,24 @@
 				02BA5FBA115B7F7C002AAD93 /* Foundation.framework in Frameworks */,
 				02BA5FBB115B7F7C002AAD93 /* CoreGraphics.framework in Frameworks */,
 				02BA5FBF115B7FB8002AAD93 /* MessageUI.framework in Frameworks */,
+				0224FCC61163A9E900AFD56C /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0224FCF01164732C00AFD56C /* Managed Objects */ = {
+			isa = PBXGroup;
+			children = (
+				021887AC116B52B8000C57EE /* ListName.h */,
+				021887AD116B52B8000C57EE /* ListName.m */,
+				02188862116BAD06000C57EE /* ListItem.h */,
+				02188863116BAD06000C57EE /* ListItem.m */,
+			);
+			name = "Managed Objects";
+			sourceTree = "<group>";
+		};
 		02EDDB6A1129CBDB00E23D03 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +187,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				0224FCF01164732C00AFD56C /* Managed Objects */,
 				1FC5D01411629AC300D1130F /* JSON */,
 				02EDDB6A1129CBDB00E23D03 /* Data */,
 				080E96DDFE201D6D7F000001 /* View */,
@@ -196,6 +219,7 @@
 				029CF8A41133166200D6942C /* top.jpg */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Lightning-Info.plist */,
+				0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -203,6 +227,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0224FCC51163A9E900AFD56C /* CoreData.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
@@ -286,6 +311,9 @@
 				1FC5D02511629AC300D1130F /* SBJsonBase.m in Sources */,
 				1FC5D02611629AC300D1130F /* SBJsonParser.m in Sources */,
 				1FC5D02711629AC300D1130F /* SBJsonWriter.m in Sources */,
+				0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */,
+				021887B0116B52B8000C57EE /* ListName.m in Sources */,
+				02188864116BAD06000C57EE /* ListItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
