@@ -142,6 +142,89 @@ class ItemTests(Tests):
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Some Item"}')
 
 
+class ListPushTests(Tests):
+
+    def setUp(self):
+        self.stub_datastore()        
+        self.application = webapp.WSGIApplication([
+            (r'/api/lists/(.*)/push', resources.ListPushResource), 
+        ], debug=True)
+        
+        self.device = models.Device(identifier="foobar", name="Peter", secret="abc")
+        self.device.put()
+        
+        self.list = models.List(title="Groceries", owner=self.device)
+        self.list.put()
+        
+        self.receiver = models.Device(identifier="receiver", name="Max", secret="123")
+        self.receiver.put()
+        
+        self.group = models.Group(name="Friends", lists=[self.list.key()], token="R4ND0M")
+        self.group.put()
+        
+        self.shared_list = models.SharedList(group=self.group, list=self.list, guest=self.receiver)
+        self.shared_list.put()
+        
+        self.item_one = models.Item(value="Wine", list=self.list)
+        self.item_one.put()
+        
+        self.item_two = models.Item(value="Bread", list=self.list)
+        self.item_two.put()
+        
+        self.item_three = models.Item(value="Marmalade", list=self.list)
+        self.item_three.put()
+    
+    def test_push_list(self):
+        
+        log = models.Log(device=self.device, item=self.item_one, list=self.list, action='added')
+        log.put()
+        
+        log = models.Log(device=self.device, item=self.item_two, list=self.list, action='added')
+        log.put()
+        
+        log = models.Log(device=self.device, item=self.item_three, list=self.list, action='modified', old="Butter")
+        log.put()
+        
+        test = webtest.TestApp(self.application)
+        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"notification": "Added Wine and Bread. Changed Butter to Marmalade.", "devices": [3]}')
+
+
+class NotificationTests(Tests):
+    
+    def setUp(self):
+        self.stub_datastore()
+        
+        self.device = models.Device(identifier="foobar", name="Peter", secret="abc")
+        self.device.put()
+        
+        self.list = models.List(title="A random list", owner=self.device)
+        self.list.put()
+        
+        self.item_one = models.Item(value="Wine", list=self.list)
+        self.item_one.put()
+        
+        self.item_two = models.Item(value="Bread", list=self.list)
+        self.item_two.put()
+        
+        self.item_three = models.Item(value="Marmalade", list=self.list)
+        self.item_three.put()
+    
+    def test_get_notification(self):
+        
+        log = models.Log(device=self.device, item=self.item_one, list=self.list, action='added')
+        log.put()
+        
+        log = models.Log(device=self.device, item=self.item_two, list=self.list, action='added')
+        log.put()
+        
+        log = models.Log(device=self.device, item=self.item_three, list=self.list, action='modified', old="Butter")
+        log.put()
+        
+        self.assertEqual(self.list.get_notification(), "Added Wine and Bread. Changed Butter to Marmalade.")
+        
+
 if __name__ == "__main__":
     os.environ['APPLICATION_ID'] = 'lightning-app'
     unittest.main()
