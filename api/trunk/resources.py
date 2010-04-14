@@ -1,5 +1,6 @@
 import os
 import binascii
+from datetime import datetime
 from google.appengine.ext import webapp
 from models import Device, List, Item
 from util import Resource, json, device_required
@@ -142,7 +143,7 @@ class ListResource(ListsResource):
         list = List.get_by_id(int(id))
         
         # device must match authenticated device
-        if list.device.key() == self.get_auth().key():
+        if list.owner.key() == self.get_auth().key():
             
             list.title = self.request.get('title')
             list.put()
@@ -184,6 +185,54 @@ class ListResource(ListsResource):
             # list not found
             self.error(404)
             self.response.out.write("Can't get list with id %s" % id)
+
+
+class ListPushResource(ListsResource):
+    
+    @device_required
+    @json
+    def post(self, id):
+    
+        list = List.get_by_id(int(id))
+        
+        # owner must match authenticated device
+        if list.owner.key() == self.get_auth().key():
+            
+            exclude = Device.get_by_id(int(self.request.get('exclude')))
+            
+            if exclude:
+                devices = []
+                
+                # also notify owner of list if he is not excluded
+                if list.owner.key() != exclude.key():
+                    devices.append(list.owner)
+                
+                for shared in list.sharedlist_set.filter('guest != ', exclude):
+                    devices.append(shared.guest)
+                
+                notification = list.get_notification()
+                for device in devices:
+                    unread = 0
+                    for list in device.list_set.filter('deleted != ', True):
+                        unread += list.unread
+                    for shared in device.sharedlist_set.filter('deleted != ', True):
+                        unread += shared.unread
+                    # TODO push unread and notification to device
+                   
+                list.notified = datetime.now()
+                list.put()
+                
+                return {'devices': [device.key().id() for device in devices], 'notification': notification}
+                
+            else:
+                # device to exclude not found
+                self.error(400)
+                self.response.out.write("Device to exclude %s not found" % self.request.get('exclude'))
+        
+        else:
+            # device does not match authenticated device
+            self.error(403)
+            self.response.out.write("Owner of list %s doesn't match authenticated device %s" % (list.owner.key().id(), self.get_auth().key().id()))
 
 
 class ItemsResource(Resource):
