@@ -9,7 +9,7 @@
 || `/api/lists`                         || `POST`   || Create list                                      || title<br/> owner         ||
 || `/api/lists/(.*)`                    || `GET`    || Get list and items of list                       ||                          ||
 || `/api/lists/(.*)`                    || `PUT`    || Update list                                      || title                    ||
-|| `/api/lists/(.*)/push`               || `PUT`    || Push unread count and log as alert to devices    ||                          ||
+|| `/api/lists/(.*)/push`               || `POST`   || Push unread count and log as alert to devices    ||                          ||
 || `/api/lists/(.*)/read`               || `PUT`    || Mark all items of that list as read              || device                   ||
 || `/api/items`                         || `POST`   || Create item                                      || value<br/> list          ||
 || `/api/items/(.*)`                    || `GET`    || Get item                                         ||                          ||
