@@ -1,15 +1,16 @@
 #summary List with the API methods.
 #labels Phase-Implementation,Draft
 
-|| *Path*                           || *Method* || *Action*                     || *Parameters*             ||
-|| `/api/devices`                   || `POST`   || Create device                || identifier<br/> name     ||
-|| `/api/devices/(.*)`              || `GET`    || Get device                   ||                          ||
-|| `/api/devices/(.*)`              || `PUT`    || Update device                || identifier<br/> name     ||
-|| `/api/devices/(.*)/lists`        || `GET`    || Get lists for device         ||                          ||
-|| `/api/lists`                     || `POST`   || Create list                  || title<br/> owner         ||
-|| `/api/lists/(.*)`                || `GET`    || Get items of list            ||                          ||
-|| `/api/lists/(.*)`                || `PUT`    || Update list                  || title                    || 
-|| `/api/lists/(.*)/push`     || `PUT`    || Push unread count and log as alert to devices  ||                          ||
-|| `/api/items`                     || `POST`   || Create item                  || value<br/> list          ||
-|| `/api/items/(.*)`                || `GET`    || Get list item                ||                          ||
-|| `/api/items/(.*)`                || `PUT`    || Update item                  || value<br/> list          ||
+|| *Path*                               || *Method* || *Action*                                         || *Parameters*             ||
+|| `/api/devices`                       || `POST`   || Create device                                    || identifier<br/> name     ||
+|| `/api/devices/(.*)`                  || `GET`    || Get device                                       ||                          ||
+|| `/api/devices/(.*)`                  || `PUT`    || Update device                                    || identifier<br/> name     ||
+|| `/api/devices/(.*)/lists`            || `GET`    || Get lists for device                             ||                          ||
+|| `/api/lists`                         || `POST`   || Create list                                      || title<br/> owner         ||
+|| `/api/lists/(.*)`                    || `GET`    || Get list and items of list                       ||                          ||
+|| `/api/lists/(.*)`                    || `PUT`    || Update list                                      || title                    ||
+|| `/api/lists/(.*)/push`               || `PUT`    || Push unread count and log as alert to devices    ||                          ||
+|| `/api/lists/(.*)/read`               || `PUT`    || Mark all items of that list as read              || device                   ||
+|| `/api/items`                         || `POST`   || Create item                                      || value<br/> list          ||
+|| `/api/items/(.*)`                    || `GET`    || Get item                                         ||                          ||
+|| `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> list          ||
