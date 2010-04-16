@@ -11,7 +11,6 @@ class Device(db.Model):
     registered = db.DateTimeProperty(required=True, auto_now_add=True)
     modified = db.DateTimeProperty(required=True, auto_now=True)
 
-
 class List(db.Model):
     title = db.StringProperty(required=True)
     owner = db.ReferenceProperty(Device, required=True)
