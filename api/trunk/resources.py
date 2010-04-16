@@ -68,6 +68,23 @@ class DeviceResource(Resource):
 
 class ListsResource(Resource):
     
+    def has_access(self, list):
+        
+        device = self.get_auth()
+        owner = list.owner.key() != device.key()
+        shared = list in device.sharedlist_set
+        
+        # authenticated device must match list owner or have shared list
+        if owner or shared:
+            
+            self.error(403)
+            self.response.out.write("Authenticated device %s has no access to list" % device.key().id())
+            
+            return False
+        
+        else:
+            return True
+    
     def url(self, list):
         host = self.request._environ['HTTP_HOST']
         id = list.key().id()
@@ -153,14 +170,16 @@ class ListResource(ListsResource):
             self.error(403)
             self.response.out.write("Owner of list %s doesn't match authenticated device %s" % (list.owner.key().id(), self.get_auth().key().id()))
     
+    
     @device_required
     @json
     def get(self, id):
         
-        # list owner must match authenticated device
         list = List.get_by_id(int(id))
         if list:
-            if list.owner.key() == self.get_auth().key():
+            
+            # authenticated device must have access to list
+            if self.has_access(list):
                 items = []
                 
                 for item in Item.all().filter('list =', list.key()):
@@ -177,10 +196,6 @@ class ListResource(ListsResource):
                 
                 return {'items': items}
             
-            else:
-                # owner does not match autenticated device
-                self.error(403)
-                self.response.out.write("Owner %s doesn't match authenticated device %s" % (list.owner.key().id(), self.get_auth().key().id()))
         else:
             # list not found
             self.error(404)
@@ -195,8 +210,8 @@ class ListPushResource(ListsResource):
     
         list = List.get_by_id(int(id))
         
-        # owner must match authenticated device
-        if list.owner.key() == self.get_auth().key():
+        # authenticated device must have access to list
+        if self.has_access(list):
             
             exclude = Device.get_by_id(int(self.request.get('exclude')))
             
@@ -228,11 +243,6 @@ class ListPushResource(ListsResource):
                 # device to exclude not found
                 self.error(400)
                 self.response.out.write("Device to exclude %s not found" % self.request.get('exclude'))
-        
-        else:
-            # device does not match authenticated device
-            self.error(403)
-            self.response.out.write("Owner of list %s doesn't match authenticated device %s" % (list.owner.key().id(), self.get_auth().key().id()))
 
 
 class ItemsResource(Resource):
