@@ -188,13 +188,17 @@ class ListPushTests(Tests):
         test = webtest.TestApp(self.application)
         response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"notification": "Added Wine and Bread. Changed Butter to Marmalade.", "devices": [3]}')
+        self.assertEqual(response.body, '{"notification": "Added Bread and Wine. Changed Butter to Marmalade.", "devices": [3]}')
 
 
 class NotificationTests(Tests):
     
     def setUp(self):
-        self.stub_datastore()
+        self.stub_datastore()       
+        self.application = webapp.WSGIApplication([
+            (r'/api/items', resources.ItemsResource), 
+            (r'/api/items/(.*)', resources.ItemResource), 
+        ], debug=True)
         
         self.device = models.Device(identifier="foobar", name="Peter", secret="abc")
         self.device.put()
@@ -204,25 +208,28 @@ class NotificationTests(Tests):
         
         self.item_one = models.Item(value="Wine", list=self.list)
         self.item_one.put()
-        
-        self.item_two = models.Item(value="Bread", list=self.list)
-        self.item_two.put()
-        
-        self.item_three = models.Item(value="Marmalade", list=self.list)
-        self.item_three.put()
     
     def test_get_notification(self):
         
-        log = models.Log(device=self.device, item=self.item_one, list=self.list, action='added')
-        log.put()
+        test = webtest.TestApp(self.application)
         
-        log = models.Log(device=self.device, item=self.item_two, list=self.list, action='added')
-        log.put()
+        response = test.post("/api/items", {'value': "Bread", 'list': '2'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        log = models.Log(device=self.device, item=self.item_three, list=self.list, action='modified', old="Butter")
-        log.put()
+        response = test.post("/api/items", {'value': "Butter", 'list': '2'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(self.list.get_notification(), "Added Wine and Bread. Changed Butter to Marmalade.")
+        response = test.put("/api/items/3", {'value': "Water"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(self.list.get_notification(), "Added Bread and Butter. Changed Wine to Water.")
+    
+    def test_add_delete_notification(self):
+        
+        test = webtest.TestApp(self.application)
+        
+        response = test.post("/api/items", {'value': "Nothing", 'list': '2'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        response = test.delete("/api/items/4", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(self.list.get_notification(), "")
         
 
 if __name__ == "__main__":
