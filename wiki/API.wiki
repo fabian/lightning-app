@@ -2,8 +2,8 @@
 #labels Phase-Implementation,Draft
 
 || *Path*                               || *Method* || *Action*                                         || *Parameters*             ||
-|| `/api/devices`                       || `POST`   || Create device                                    || identifier<br/> name     ||
-|| `/api/devices/(.*)`                  || `GET`    || Get device                                       ||                          ||
+|| `/api/devices`                       || `POST`   || [#Create_device Create device]                                    || identifier<br/> name     ||
+|| `/api/devices/(.*)`                  || `GET`    || #Get_device Get device]                                       ||                          ||
 || `/api/devices/(.*)`                  || `PUT`    || Update device                                    || identifier<br/> name     ||
 || `/api/devices/(.*)/lists`            || `GET`    || Get lists for device                             ||                          ||
 || `/api/lists`                         || `POST`   || Create list                                      || title<br/> owner         ||
@@ -16,6 +16,8 @@
 || `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> list          ||
 
 ==Example==
+
+===Create device===
 
 {{{
 POST /api/devices HTTP/1.1
@@ -30,4 +32,18 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {"url": "https://lightning-app.appspot.com/api/devices/1?secret=abc", "secret": "abc", "id": 1}
+}}}
+
+===Get device===
+
+{{{
+GET /api/devices/1 HTTP/1.1
+Device: https://lightning-app.appspot.com/api/devices/1?secret=abc
+}}}
+
+{{{
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{"url": "http://lightning-app.appspot.com/api/devices/1?secret=abc", "secret": "abc", "id": 1}
 }}}
