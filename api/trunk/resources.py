@@ -18,9 +18,10 @@ class DevicesResource(Resource):
         
         device.put()
         
+        protocol = print self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']
         id = device.key().id()
-        url = "http://%s/api/devices/%s?secret=%s" % (host, id, secret)
+        url = "%s://%s/api/devices/%s?secret=%s" % (protocol, host, id, secret)
         
         return {'id': id, 'url': url, 'secret': secret}
 
