@@ -14,3 +14,25 @@
 || `/api/items`                         || `POST`   || Create item                                      || value<br/> list          ||
 || `/api/items/(.*)`                    || `GET`    || Get item                                         ||                          ||
 || `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> list          ||
+
+==Example==
+
+{{{
+POST /api/devices HTTP/1.1
+Host: lightning-app.appspot.com
+Content-Type: application/x-www-form-urlencoded
+
+name=Test&identifier=123456
+}}}
+
+{{{
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Cache-Control: no-cache
+Expires: Fri, 01 Jan 1990 00:00:00 GMT
+Date: Sat, 28 Aug 2010 12:30:02 GMT
+Server: Google Frontend
+Connection: close
+
+{"url": "https://lightning-app.appspot.com/api/devices/1?secret=abc", "secret": "abc", "id": 1}
+}}}
