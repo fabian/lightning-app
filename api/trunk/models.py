@@ -20,8 +20,14 @@ class List(db.Model):
     created = db.DateTimeProperty(required=True, auto_now_add=True)
     modified = db.DateTimeProperty(required=True, auto_now=True)
     
+    def has_access(self, device):
+        owner = self.owner.key() == device.key()
+        shared = self in device.sharedlist_set
+        # device must match list owner or have shared list
+        return owner or shared
+    
     def get_log(self, since):
-        query = Log.all().filter('list =', self)
+        query = Log.all().filter('list =', self).order('happened')
         if since:
             query.filter('happened > ', since)
         return query

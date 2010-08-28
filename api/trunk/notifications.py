@@ -25,16 +25,27 @@ class Notification:
     
     def get_message(self):
         
+        items = {}
+        for log in self.logs:
+            
+            if not items.has_key(log.item.key()):
+                items[log.item.key()] = {}
+            
+            items[log.item.key()][log.action] = log
+        
         added = []
         modified = []
         deleted = []
-        for log in self.logs:
-            if log.action == 'added':
-                added.append(log.item.value)
-            elif log.action == 'modified':
-                modified.append("%s to %s" % (log.old, log.item.value))
-            elif log.action == 'deleted':
-                deleted.append(log.old)
+        for value in items.values():
+            
+            if value.has_key('added') and not value.has_key('deleted'):
+                added.append(value['added'].item.value)
+            
+            if value.has_key('modified') and not value.has_key('deleted'):
+                modified.append("%s to %s" % (value['modified'].old, value['modified'].item.value))
+                
+            if value.has_key('deleted') and not value.has_key('added'):
+                deleted.append(value['deleted'].old)
         
         messages = []
         if added:

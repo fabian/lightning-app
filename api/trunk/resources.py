@@ -2,7 +2,7 @@ import os
 import binascii
 from datetime import datetime
 from google.appengine.ext import webapp
-from models import Device, List, Item
+from models import Device, List, Item, Log
 from util import Resource, json, device_required
 
 
@@ -71,11 +71,9 @@ class ListsResource(Resource):
     def has_access(self, list):
         
         device = self.get_auth()
-        owner = list.owner.key() != device.key()
-        shared = list in device.sharedlist_set
         
-        # authenticated device must match list owner or have shared list
-        if owner or shared:
+        # authenticated device must have access to list
+        if not list.has_access(device):
             
             self.error(403)
             self.response.out.write("Authenticated device %s has no access to list" % device.key().id())
@@ -247,35 +245,20 @@ class ListPushResource(ListsResource):
 
 class ItemsResource(Resource):
     
-    @device_required
-    @json
-    def post(self):
+    def has_access(self, item):
         
-        # owner of list must match authenticated device
-        list = List.get_by_id(int(self.request.get('list')))
-        if list:
-            if list.owner.key() == self.get_auth().key():
-                
-                item = Item(value=self.request.get('value'), list=list)
-                item.put()
-                
-                host = self.request._environ['HTTP_HOST']
-                id = item.key().id()
-                url = "http://%s/api/items/%s" % (host, id)
-                
-                return {'id': id, 'url': url, 'value': item.value, 'list': list.key().id()}
+        device = self.get_auth()
+        
+        # authenticated device must have access to item list
+        if not item.list.has_access(device):
             
-            else:
-                # owner of list does not match autenticated device
-                self.error(403)
-                self.response.out.write("Owner of list %s doesn't match authenticated device %s" % (list.owner.key().id(), self.get_auth().key().id()))
+            self.error(403)
+            self.response.out.write("Authenticated device %s has no access to list of item" % device.key().id())
+            
+            return False
+        
         else:
-            # list not found
-            self.error(404)
-            self.response.out.write("Can't get list %s" % self.request.get('list'))
-
-
-class ItemResource(Resource):
+            return True
     
     def url(self, item):
         host = self.request._environ['HTTP_HOST']
@@ -285,38 +268,96 @@ class ItemResource(Resource):
     
     @device_required
     @json
-    def get(self, id):
+    def post(self):
+        
+        list = List.get_by_id(int(self.request.get('list')))
+        if list:
+            
+            item = Item(value=self.request.get('value'), list=list)
+            
+            # authenticated device must have access to item
+            if self.has_access(item):
+                
+                # access granted, save item
+                item.put()
+                
+                # log action for notification
+                log = Log(device=self.get_auth(), item=item, list=list, action='added')
+                log.put()
+                
+                host = self.request._environ['HTTP_HOST']
+                id = item.key().id()
+                url = "http://%s/api/items/%s" % (host, id)
+                
+                return {'id': id, 'url': url, 'value': item.value, 'list': list.key().id()}
+            
+        else:
+            # list not found
+            self.error(404)
+            self.response.out.write("Can't get list %s" % self.request.get('list'))
+
+
+class ItemResource(ItemsResource):
     
-        # owner must match authenticated device
+    @device_required
+    @json
+    def get(self, id):
+        
         item = Item.get_by_id(int(id))
         if item:
-            if item.list.owner.key() == self.get_auth().key():
+            if self.has_access(item):
                 
                 return {'id': item.key().id(), 'url': self.url(item), 'value': item.value}
-                
-            else:
-                # device does not match authenticated device
-                self.error(403)
-                self.response.out.write("List owner %s of item doesn't match authenticated device %s" % (item.list.owner.key().id(), self.get_auth().key().id()))
+            
         else:
             # item not found
             self.error(404)
             self.response.out.write("Item %s not found" % id)
-
+    
     @device_required
     def put(self, id):
         
-        # owner must match authenticated device
         item = Item.get_by_id(int(id))
-        if item.list.owner.key() == self.get_auth().key():
-            
-            item.value = self.request.get('value')
-            item.put()
-            
-            return {'id': id, 'url': self.url(item), 'value': item.value}
+        if item:
+            if self.has_access(item):
+                
+                old = item.value
+                
+                # see http://code.google.com/p/googleappengine/issues/detail?id=719
+                import cgi
+                params = cgi.parse_qs(self.request.body)
+                item.value = params['value'][0]
+                item.put()
+                
+                # log action for notification
+                log = Log(device=self.get_auth(), item=item, list=item.list, action='modified', old=old)
+                log.put()
+                
+                return {'id': id, 'url': self.url(item), 'value': item.value}
             
         else:
-            # device does not match authenticated device
-            self.error(403)
-            self.response.out.write("List owner %s of item doesn't match authenticated device %s" % (item.list.owner.key().id(), self.get_auth().key().id()))
+            # item not found
+            self.error(404)
+            self.response.out.write("Item %s not found" % id)
+    
+    @device_required
+    def delete(self, id):
+        
+        item = Item.get_by_id(int(id))
+        if item:
+            if self.has_access(item):
+            
+                item.deleted = True
+                item.put()
+                
+                # log action for notification
+                log = Log(device=self.get_auth(), item=item, list=item.list, action='deleted', old=item.value)
+                log.put()
+                
+                return {}
+            
+        else:
+            # item not found
+            self.error(404)
+            self.response.out.write("Item %s not found" % id)
 
