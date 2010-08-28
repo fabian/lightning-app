@@ -10,6 +10,7 @@ def json(handler_method):
     def convert(self, *args):
         result = handler_method(self, *args)
         if result:
+            self.response.headers['Content-Type'] = 'application/json'
             self.response.out.write(simplejson.dumps(result))
         
     return convert
