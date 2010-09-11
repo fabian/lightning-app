@@ -5,9 +5,10 @@ import urllib
 try:
     import json
 except ImportError:
-    import simplejson as json
-except ImportError:
-    from django.utils import simplejson as json
+    try:
+        import simplejson as json
+    except ImportError:
+        from django.utils import simplejson as json
 
 
 SERVER = 'go.urbanairship.com'
