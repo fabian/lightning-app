@@ -2,9 +2,10 @@ import os
 import binascii
 from datetime import datetime
 from google.appengine.ext import webapp
+import urbanairship
+import settings
 from models import Device, List, Item, Log
 from util import Resource, json, device_required
-
 
 class DevicesResource(Resource):
     
@@ -17,6 +18,10 @@ class DevicesResource(Resource):
         device = Device(name=self.request.get('name'), identifier=self.request.get('identifier'), secret=secret)
         
         device.put()
+        
+        # register with Urban Airship
+        airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
+        airship.register(device.identifier, alias=str(device.key()))
         
         protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']
@@ -224,6 +229,8 @@ class ListPushResource(ListsResource):
                 for shared in list.sharedlist_set.filter('guest != ', exclude):
                     devices.append(shared.guest)
                 
+                airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
+                
                 notification = list.get_notification()
                 for device in devices:
                     unread = 0
@@ -231,8 +238,10 @@ class ListPushResource(ListsResource):
                         unread += list.unread
                     for shared in device.sharedlist_set.filter('deleted != ', True):
                         unread += shared.unread
-                    # TODO push unread and notification to device
-                   
+                    
+                    # push notification and unread count to Urban Airship
+                    airship.push({'aps': {'alert': notification, 'badge': unread}}, aliases=[str(device.key())])
+                
                 list.notified = datetime.now()
                 list.put()
                 
