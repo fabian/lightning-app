@@ -20,6 +20,12 @@ class Tests(mocker.MockerTestCase):
         apiproxy_stub_map.apiproxy = apiproxy_stub_map.APIProxyStubMap()
         stub = datastore_file_stub.DatastoreFileStub('lightning-app', None, None)
         apiproxy_stub_map.apiproxy.RegisterStub('datastore', stub)
+    
+    def mock_urbanairship(self):
+        airship = self.mocker.replace("urbanairship.Airship")
+        airship(mocker.ANY, mocker.ANY)
+        self.urbanairship = self.mocker.mock()
+        self.mocker.result(self.urbanairship)
 
 
 class DevicesTests(Tests):
@@ -29,6 +35,7 @@ class DevicesTests(Tests):
         self.application = webapp.WSGIApplication([
             (r'/api/devices', resources.DevicesResource), 
         ], debug=True)
+        self.mock_urbanairship()
     
     def test_create_device(self):
         
@@ -39,6 +46,8 @@ class DevicesTests(Tests):
         hexlify = self.mocker.replace("binascii.hexlify")
         hexlify("84763")
         self.mocker.result("abc")
+        
+        self.urbanairship.register("123345", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
         
         self.mocker.replay()
         test = webtest.TestApp(self.application)
@@ -149,6 +158,7 @@ class ListPushTests(Tests):
         self.application = webapp.WSGIApplication([
             (r'/api/lists/(.*)/push', resources.ListPushResource), 
         ], debug=True)
+        self.mock_urbanairship()
         
         self.device = models.Device(identifier="foobar", name="Peter", secret="abc")
         self.device.put()
@@ -173,6 +183,8 @@ class ListPushTests(Tests):
         
         self.item_three = models.Item(value="Marmalade", list=self.list)
         self.item_three.put()
+        
+        self.urbanairship.push({'aps': {'badge': 0, 'alert': "Added Bread and Wine. Changed Butter to Marmalade."}}, aliases=['ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAww'])
     
     def test_push_list(self):
         
@@ -185,6 +197,7 @@ class ListPushTests(Tests):
         log = models.Log(device=self.device, item=self.item_three, list=self.list, action='modified', old="Butter")
         log.put()
         
+        self.mocker.replay()
         test = webtest.TestApp(self.application)
         response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
