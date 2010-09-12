@@ -2,7 +2,7 @@
 #labels Phase-Implementation,Draft
 
 || *Path*                               || *Method* || *Action*                                         || *Parameters*             ||
-|| `/api/devices`                       || `POST`   || [#Create_device Create device]                                    || identifier<br/> name     ||
+|| `/api/devices`                       || `POST`   || [#Create_device Create device]                                    || identifier<br/> device_token<br/>name     ||
 || `/api/devices/(.*)`                  || `GET`    || [#Get_device Get device]                                       ||                          ||
 || `/api/devices/(.*)`                  || `PUT`    || Update device                                    || identifier<br/> name     ||
 || `/api/devices/(.*)/lists`            || `GET`    || Get lists for device                             ||                          ||
