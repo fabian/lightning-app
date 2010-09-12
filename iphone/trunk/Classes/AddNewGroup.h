@@ -10,12 +10,23 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 
+@protocol AddNewGroupDelegate;
 
 @interface AddNewGroup : UIViewController<UITextFieldDelegate, MFMailComposeViewControllerDelegate> {
 
 	UITextField *groupName;
+	id <AddNewGroupDelegate> delegate;
 }
 
 @property (nonatomic, retain) UITextField *groupName;
+@property (assign) id <AddNewGroupDelegate> delegate;
+
+- (void)doneAddGroup;
+
+@end
+
+@protocol AddNewGroupDelegate <NSObject>
+
+- (void)finishAddGroup;
 
 @end

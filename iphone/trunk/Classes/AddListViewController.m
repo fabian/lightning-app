@@ -11,6 +11,8 @@
 
 @implementation AddListViewController
 
+@synthesize delegate;
+
 /*
  - (id)initWithStyle:(UITableViewStyle)style {
  // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -24,15 +26,17 @@
  - (void)viewDidLoad {
 	 [super viewDidLoad];
 	 
-	 UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
-	 
+	 UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAddList)];
+	 self.navigationItem.rightBarButtonItem = button;
 	 [button release];
 	 
  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
  }
  
-- (void)done {
+- (void)doneAddList {
+	NSLog(@"doneAddList");
+	[self.delegate finishAddList];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -119,13 +123,24 @@
 	
 	//AddNewGroup *newGroup = [[AddNewGroup alloc]initWithFrame:[self.view frame]];
 	AddNewGroup *newGroup = [[AddNewGroup alloc]init];
-	newGroup.view.frame = self.view.frame;
+	newGroup.delegate = self;
+	
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:newGroup];
+	navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	navigationController.navigationBar.translucent = YES;
+	
+	//newGroup.view.frame = self.view.frame;
 	newGroup.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	
-	//[self presentModalViewController:newGroup animated:YES];
-	[self.navigationController pushViewController:newGroup animated:YES];
+	[self presentModalViewController:navigationController animated:YES];
+	//[self.navigationController pushViewController:newGroup animated:YES];
 	
+	[navigationController release];
 	[newGroup release];
+}
+
+- (void)finishAddGroup {
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

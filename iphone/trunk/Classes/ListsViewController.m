@@ -123,6 +123,7 @@
 	
 	//AddListViewController *addListViewController = [[AddListViewController alloc] init];
 	AddListViewController *addListViewController = [[AddListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+	addListViewController.delegate = self;
 	
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addListViewController];
 	navigationController.navigationBar.barStyle = UIBarStyleBlack;
@@ -132,6 +133,11 @@
     [navigationController release];
 	[addListViewController release];
 	
+}
+
+- (void)finishAddList {
+	NSLog(@"finishAddList");
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 

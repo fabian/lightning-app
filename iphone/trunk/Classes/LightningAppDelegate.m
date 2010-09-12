@@ -47,6 +47,10 @@
     [window makeKeyAndVisible];
 }
 
+- (void) setupUsername {
+	
+}
+
 - (void)setupLightning {
 	NSString *device = @"http://localhost:8080/api/devices/52?secret=441b230ee803430aa7c22a508551bc4f80d546648982287d8cb9b687f0334011b39a9388833512ef316e49f5e430a84ac0063f0df452f3224904d1600ffc0509";
 	NSURL *url = [NSURL URLWithString:@"http://localhost:8080/api/"];
