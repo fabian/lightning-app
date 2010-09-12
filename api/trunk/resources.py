@@ -15,13 +15,13 @@ class DevicesResource(Resource):
         # generate random secret
         secret = binascii.hexlify(os.urandom(64))
         
-        device = Device(name=self.request.get('name'), identifier=self.request.get('identifier'), secret=secret)
+        device = Device(name=self.request.get('name'), identifier=self.request.get('identifier'), device_token=self.request.get('device_token'), secret=secret)
         
         device.put()
         
         # register with Urban Airship
         airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
-        airship.register(device.identifier, alias=str(device.key()))
+        airship.register(device.device_token, alias=str(device.key()))
         
         protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']
@@ -59,10 +59,11 @@ class DeviceResource(Resource):
         # device must match authenticated device
         if device.key() == self.get_auth().key():
             
+            protocol = self.request._environ['wsgi.url_scheme']
             host = self.request._environ['HTTP_HOST']
             id = device.key().id()
             secret = device.secret
-            url = u"http://%s/api/devices/%s?secret=%s" % (host, id, secret)
+            url = u"%s://%s/api/devices/%s?secret=%s" % (protocol, host, id, secret)
             
             return {'id': id, 'url': url, 'secret': secret}
             
@@ -90,9 +91,10 @@ class ListsResource(Resource):
             return True
     
     def url(self, list):
+        protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']
         id = list.key().id()
-        url = u"http://%s/api/lists/%s" % (host, id)
+        url = u"%s://%s/api/lists/%s" % (protocol, host, id)
         return url
     
     @device_required
@@ -107,9 +109,10 @@ class ListsResource(Resource):
                 list = List(title=self.request.get('title'), owner=owner)
                 list.put()
                 
+                protocol = self.request._environ['wsgi.url_scheme']
                 host = self.request._environ['HTTP_HOST']
                 id = list.key().id()
-                url = "http://%s/api/lists/%s" % (host, id)
+                url = "%s://%s/api/lists/%s" % (protocol, host, id)
                 
                 return {'id': id, 'url': url, 'title': list.title, 'owner': list.owner.key().id()}
             
@@ -188,9 +191,10 @@ class ListResource(ListsResource):
                 
                 for item in Item.all().filter('list =', list.key()):
                     
+                    protocol = self.request._environ['wsgi.url_scheme']
                     host = self.request._environ['HTTP_HOST']
                     id = item.key().id()
-                    url = "http://%s/api/items/%s" % (host, id)
+                    url = "%s://%s/api/items/%s" % (protocol, host, id)
                     
                     items.append({
                         'id': item.key().id(), 
@@ -271,9 +275,10 @@ class ItemsResource(Resource):
             return True
     
     def url(self, item):
+        protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']
         id = item.key().id()
-        url = u"http://%s/api/items/%s" % (host, id)
+        url = u"%s://%s/api/items/%s" % (protocol, host, id)
         return url
     
     @device_required
@@ -295,9 +300,10 @@ class ItemsResource(Resource):
                 log = Log(device=self.get_auth(), item=item, list=list, action='added')
                 log.put()
                 
+                protocol = self.request._environ['wsgi.url_scheme']
                 host = self.request._environ['HTTP_HOST']
                 id = item.key().id()
-                url = "http://%s/api/items/%s" % (host, id)
+                url = "%s://%s/api/items/%s" % (protocol, host, id)
                 
                 return {'id': id, 'url': url, 'value': item.value, 'list': list.key().id()}
             

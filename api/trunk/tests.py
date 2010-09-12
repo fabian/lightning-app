@@ -47,11 +47,11 @@ class DevicesTests(Tests):
         hexlify("84763")
         self.mocker.result("abc")
         
-        self.urbanairship.register("123345", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
+        self.urbanairship.register("EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
         
         self.mocker.replay()
         test = webtest.TestApp(self.application)
-        response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345"})
+        response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345", 'device_token': "EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0"})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
 
@@ -64,10 +64,10 @@ class DeviceTests(Tests):
             (r'/api/devices/(.*)', resources.DeviceResource), 
         ], debug=True)
         
-        self.device_one = models.Device(identifier="foobar", name="Some Device", secret="abc")
+        self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
         self.device_one.put()
         
-        self.device_two = models.Device(identifier="raboof", name="Another Device", secret="xyz")
+        self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
         self.device_two.put()
     
     def test_get_device(self):
@@ -93,10 +93,10 @@ class DeviceListsTests(Tests):
             (r'/api/devices/(.*)/lists', resources.DeviceListsResource), 
         ], debug=True)
         
-        self.device_one = models.Device(identifier="foobar", name="Some Device", secret="abc")
+        self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
         self.device_one.put()
         
-        self.device_two = models.Device(identifier="raboof", name="Another Device", secret="xyz")
+        self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
         self.device_two.put()
     
     def test_get_lists(self):
@@ -131,10 +131,10 @@ class ItemTests(Tests):
             (r'/api/items/(.*)', resources.ItemResource), 
         ], debug=True)
         
-        self.device_one = models.Device(identifier="foobar", name="Some Device", secret="abc")
+        self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
         self.device_one.put()
         
-        self.device_two = models.Device(identifier="raboof", name="Another Device", secret="xyz")
+        self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
         self.device_two.put()
     
     def test_get_item(self):
@@ -160,13 +160,13 @@ class ListPushTests(Tests):
         ], debug=True)
         self.mock_urbanairship()
         
-        self.device = models.Device(identifier="foobar", name="Peter", secret="abc")
+        self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
         self.device.put()
         
         self.list = models.List(title="Groceries", owner=self.device)
         self.list.put()
         
-        self.receiver = models.Device(identifier="receiver", name="Max", secret="123")
+        self.receiver = models.Device(identifier="receiver", device_token="ABC123", name="Max", secret="123")
         self.receiver.put()
         
         self.group = models.Group(name="Friends", lists=[self.list.key()], token="R4ND0M")
@@ -213,7 +213,7 @@ class NotificationTests(Tests):
             (r'/api/items/(.*)', resources.ItemResource), 
         ], debug=True)
         
-        self.device = models.Device(identifier="foobar", name="Peter", secret="abc")
+        self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
         self.device.put()
         
         self.list = models.List(title="A random list", owner=self.device)
