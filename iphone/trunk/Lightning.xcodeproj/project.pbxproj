@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		021887B0116B52B8000C57EE /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 021887AD116B52B8000C57EE /* ListName.m */; };
 		02188864116BAD06000C57EE /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02188863116BAD06000C57EE /* ListItem.m */; };
+		02188B74119BF93B000C57EE /* ListsApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 02188B73119BF93B000C57EE /* ListsApi.m */; };
 		0224FCC61163A9E900AFD56C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0224FCC51163A9E900AFD56C /* CoreData.framework */; };
 		0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */; };
 		029CF8A51133166200D6942C /* bottom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A11133166200D6942C /* bottom.jpg */; };
@@ -45,6 +46,8 @@
 		021887AD116B52B8000C57EE /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
 		02188862116BAD06000C57EE /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
 		02188863116BAD06000C57EE /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
+		02188B72119BF93B000C57EE /* ListsApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsApi.h; sourceTree = "<group>"; };
+		02188B73119BF93B000C57EE /* ListsApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListsApi.m; sourceTree = "<group>"; };
 		0224FCC51163A9E900AFD56C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Lightning.xcdatamodel; sourceTree = "<group>"; };
 		029CF8A11133166200D6942C /* bottom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bottom.jpg; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 				02EDDB6E1129CC1500E23D03 /* Lists.m */,
 				02EDDDC21129E3B200E23D03 /* ListEntries.h */,
 				02EDDDC31129E3B200E23D03 /* ListEntries.m */,
+				02188B72119BF93B000C57EE /* ListsApi.h */,
+				02188B73119BF93B000C57EE /* ListsApi.m */,
 			);
 			name = Data;
 			path = Classes;
@@ -263,7 +268,14 @@
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Lightning" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -314,6 +326,7 @@
 				0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */,
 				021887B0116B52B8000C57EE /* ListName.m in Sources */,
 				02188864116BAD06000C57EE /* ListItem.m in Sources */,
+				02188B74119BF93B000C57EE /* ListsApi.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,7 +368,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.1;
+				SDKROOT = iphoneos4.1;
 			};
 			name = Debug;
 		};

@@ -7,10 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddNewGroup.h";
 
+@protocol AddListViewControllerDelegate;
 
-@interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>{
-
+@interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, AddNewGroupDelegate>{
+	id <AddListViewControllerDelegate> delegate;
 }
+
+
+@property (assign) id <AddListViewControllerDelegate> delegate;
+
+- (void)doneAddList;
+
+@end
+
+@protocol AddListViewControllerDelegate <NSObject>
+
+- (void)finishAddList;
 
 @end

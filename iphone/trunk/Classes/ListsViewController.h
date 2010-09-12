@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Lists.h";
+#import "AddListViewController.h";
 #import <CoreData/CoreData.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface ListsViewController : UITableViewController {
+@interface ListsViewController : UITableViewController <AddListViewControllerDelegate>{
 	Lists *lists;
 	NSManagedObjectContext *context;
 	NSMutableArray *listNames;

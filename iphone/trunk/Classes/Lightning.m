@@ -75,6 +75,7 @@
 
 - (void) reloadData:(NSDictionary *)data {
 	NSLog(@"delegate called IHAA");
+	//always getting url in response, so its "easy" to get the service name
 }
 
 @end

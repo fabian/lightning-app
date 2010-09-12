@@ -12,7 +12,7 @@
 
 @implementation AddNewGroup
 
-@synthesize groupName;
+@synthesize groupName, delegate;
 
 
 /*- (id)initWithFrame:(CGRect)frame {
@@ -39,6 +39,12 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
+	self.title = @"Add new group";
+	
+	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAddGroup)];
+	self.navigationItem.rightBarButtonItem = barButton;
+	[barButton release];
+	
 	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 	
 	UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 46, 300, 30)];
@@ -60,11 +66,15 @@
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	[button	addTarget:self action:@selector(addUser) forControlEvents:UIControlEventTouchUpInside];
 	button.frame = CGRectMake(0, 200, 300, 40);
-	[button setTitle:@"Add user" forState:UIControlStateNormal];
+	[button setTitle:@"Add group" forState:UIControlStateNormal];
 	
 	[self.view addSubview:button];
 	
 	
+}
+
+- (void)doneAddGroup {
+	[self.delegate finishAddGroup];
 }
 
 - (void)addUser {
