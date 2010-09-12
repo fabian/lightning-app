@@ -1,0 +1,21 @@
+indexes:
+
+- kind: SharedList
+  properties:
+  - name: list
+  - name: guest
+
+- kind: SharedList
+  properties:
+  - name: guest
+  - name: deleted
+
+- kind: Log
+  properties:
+  - name: list
+  - name: happened
+
+- kind: List
+  properties:
+  - name: owner
+  - name: deleted
