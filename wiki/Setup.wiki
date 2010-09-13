@@ -1,0 +1,12 @@
+== API ==
+
+1. Download and install the [http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python Google App Engine SDK for Python]
+
+
+2. Checkout the source: `svn co http://lightning-app.googlecode.com/svn/api/trunk/`
+
+
+3. Copy the file settings.py.example to settings.py: `cp settings.py.example settings.py`
+
+
+4. Adjust the values inside settings.py
