@@ -55,6 +55,7 @@ class Log(db.Model):
 
 class Group(db.Model):
     name = db.StringProperty(required=True) # group name
+    owner = db.ReferenceProperty(Device, required=True)
     lists = db.ListProperty(db.Key)
     token = db.StringProperty(required=True) # random, gets sent per email with the id
     deleted = db.BooleanProperty()
