@@ -169,7 +169,7 @@ class ListPushTests(Tests):
         self.receiver = models.Device(identifier="receiver", device_token="ABC123", name="Max", secret="123")
         self.receiver.put()
         
-        self.group = models.Group(name="Friends", lists=[self.list.key()], token="R4ND0M")
+        self.group = models.Group(name="Friends", owner=self.device, lists=[self.list.key()], token="R4ND0M")
         self.group.put()
         
         self.shared_list = models.SharedList(group=self.group, list=self.list, guest=self.receiver)
@@ -243,7 +243,39 @@ class NotificationTests(Tests):
         response = test.delete("/api/items/4", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(self.list.get_notification(), "")
+
+
+class GroupsTests(Tests):
+    
+    def setUp(self):
+        self.stub_datastore()       
+        self.application = webapp.WSGIApplication([
+            (r'/api/groups', resources.GroupsResource), 
+        ], debug=True)
         
+        self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
+        self.device.put()
+        
+        self.list = models.List(title="A random list", owner=self.device)
+        self.list.put()
+    
+    def test_create_group(self):
+        
+        random = self.mocker.replace("os.urandom")
+        random(8)
+        self.mocker.result("98257")
+        
+        hexlify = self.mocker.replace("binascii.hexlify")
+        hexlify("98257")
+        self.mocker.result("xyz")
+        
+        self.mocker.replay()
+        test = webtest.TestApp(self.application)
+        
+        response = test.post("/api/groups", {'name': "Friends", 'owner': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/groups/3", "owner": 1, "token": "xyz", "id": 3, "name": "Friends"}')
+
 
 if __name__ == "__main__":
     os.environ['APPLICATION_ID'] = 'lightning-app'
