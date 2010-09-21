@@ -11,6 +11,9 @@
 || `/api/lists/(.*)`                    || `PUT`    || Update list                                      || title                                     ||
 || `/api/lists/(.*)/push`               || `POST`   || Push unread count and log as alert to devices    || exclude                                   ||
 || `/api/lists/(.*)/read`               || `PUT`    || Mark all items of that list as read              || device                                    ||
+|| `/api/groups`                        || `POST`   || Create group (invitation)                        || name                                      ||
+|| `/api/groups/(.*)/lists/(.*)`        || `PUT`    || Add list to group                                ||                                           ||
+|| `/api/groups/(.*)/lists/(.*)`        || `DELETE` || Remove list from group                           ||                                           ||
 || `/api/items`                         || `POST`   || Create item                                      || value<br/> list                           ||
 || `/api/items/(.*)`                    || `GET`    || Get item                                         ||                                           ||
 || `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> list                           ||
