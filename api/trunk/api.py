@@ -15,6 +15,7 @@ application = webapp.WSGIApplication([
     (r'/api/lists', resources.ListsResource),
     (r'/api/lists/(.*)/push', resources.ListPushResource),
     (r'/api/lists/(.*)', resources.ListResource),
+    (r'/api/groups', resources.GroupsResource),
     (r'/api/items', resources.ItemsResource),
     (r'/api/items/(.*)', resources.ItemResource),
 ], debug=True)
