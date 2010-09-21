@@ -14,6 +14,8 @@
 || `/api/groups`                        || `POST`   || Create group (invitation)                        || name                                      ||
 || `/api/groups/(.*)/lists/(.*)`        || `PUT`    || Add list to group                                ||                                           ||
 || `/api/groups/(.*)/lists/(.*)`        || `DELETE` || Remove list from group                           ||                                           ||
+|| `/api/shared_lists`                  || `POST`   || Create shared list (use invitation e.g. group)   || guest<br/> group<br/> token<br/> list     ||
+|| `/api/shared_lists/(.*)`             || `DELETE` || Remove shared list                               ||                                           ||
 || `/api/items`                         || `POST`   || Create item                                      || value<br/> list                           ||
 || `/api/items/(.*)`                    || `GET`    || Get item                                         ||                                           ||
 || `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> list                           ||
