@@ -18,7 +18,7 @@
 || `/api/shared_lists/(.*)`             || `DELETE` || Remove shared list                               ||                                           ||
 || `/api/items`                         || `POST`   || Create item                                      || value<br/> list                           ||
 || `/api/items/(.*)`                    || `GET`    || Get item                                         ||                                           ||
-|| `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> list<br/> modified             ||
+|| `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> modified                       ||
 
 ==Example==
 
