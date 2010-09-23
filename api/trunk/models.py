@@ -43,7 +43,7 @@ class Item(db.Model):
     list = db.ReferenceProperty(List, required=True)
     deleted = db.BooleanProperty()
     added = db.DateTimeProperty(required=True, auto_now_add=True)
-    modified = db.DateTimeProperty(required=True, auto_now=True)
+    modified = db.DateTimeProperty(required=True)
 
 class Log(db.Model):
     device = db.ReferenceProperty(Device, required=True)

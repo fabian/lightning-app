@@ -323,7 +323,8 @@ class ItemsResource(Resource):
         list = List.get_by_id(int(self.request.get('list')))
         if list:
             
-            item = Item(value=self.request.get('value'), list=list)
+            modified = datetime.now()
+            item = Item(value=self.request.get('value'), list=list, modified=modified)
             
             # authenticated device must have access to item
             if self.has_access(item):
@@ -350,6 +351,8 @@ class ItemsResource(Resource):
 
 class ItemResource(ItemsResource):
     
+    DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+    
     @device_required
     @json
     def get(self, id):
@@ -366,6 +369,7 @@ class ItemResource(ItemsResource):
             self.response.out.write("Item %s not found" % id)
     
     @device_required
+    @json
     def put(self, id):
         
         item = Item.get_by_id(int(id))
@@ -377,14 +381,24 @@ class ItemResource(ItemsResource):
                 # see http://code.google.com/p/googleappengine/issues/detail?id=719
                 import cgi
                 params = cgi.parse_qs(self.request.body)
-                item.value = params['value'][0]
-                item.put()
                 
-                # log action for notification
-                log = Log(device=self.get_auth(), item=item, list=item.list, action='modified', old=old)
-                log.put()
-                
-                return {'id': id, 'url': self.url(item), 'value': item.value}
+                modified = datetime.strptime(params['modified'][0], self.DATE_FORMAT)
+                if (item.modified < modified):
+                    
+                    item.value = params['value'][0]
+                    item.modified = modified
+                    item.put()
+                    
+                    # log action for notification
+                    log = Log(device=self.get_auth(), item=item, list=item.list, action='modified', old=old)
+                    log.put()
+                    
+                    return {'id': id, 'url': self.url(item), 'value': item.value, 'modified': item.modified.strftime(self.DATE_FORMAT)}
+                    
+                else:
+                    # conflict
+                    self.error(409)
+                    self.response.out.write("Conflict, has later modification")
             
         else:
             # item not found
