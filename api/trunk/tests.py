@@ -3,6 +3,7 @@
 import unittest
 import sys
 import os
+from datetime import datetime
 
 sys.path = sys.path + ['/usr/local/google_appengine', '/usr/local/google_appengine/lib/django', '/usr/local/google_appengine/lib/webob', '/usr/local/google_appengine/lib/yaml/lib', '/usr/local/google_appengine/google/appengine','/Users/aral/singularity/']
 
@@ -110,7 +111,7 @@ class DeviceListsTests(Tests):
         test = webtest.TestApp(self.application)
         response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"lists": [{"url": "http://localhost:80/api/lists/3", "id": 3, "title": "List A"}, {"url": "http://localhost:80/api/lists/4", "id": 4, "title": "List B"}]}')
+        self.assertEqual(response.body, '{"lists": [{"url": "http://localhost:80/api/lists/3", "unread": 0, "id": 3, "title": "List A"}, {"url": "http://localhost:80/api/lists/4", "unread": 0, "id": 4, "title": "List B"}]}')
     
     def test_get_lists_only_own(self):
         
@@ -136,19 +137,33 @@ class ItemTests(Tests):
         
         self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
         self.device_two.put()
+        
+        self.list = models.List(title="A random list", owner=self.device_one)
+        self.list.put()
+        
+        self.item = models.Item(value="Some Item", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
+        self.item.put()
     
     def test_get_item(self):
-        
-        list = models.List(title="A random list", owner=self.device_one)
-        list.put()
-        
-        item = models.Item(value="Some Item", list=list)
-        item.put()
         
         test = webtest.TestApp(self.application)
         response = test.get("/api/items/4", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Some Item"}')
+    
+    def test_update_item(self):
+        
+        test = webtest.TestApp(self.application)
+        response = test.put("/api/items/4", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/4", "id": "4", "value": "New Value", "modified": "2010-06-29 12:00:01"}')
+    
+    def test_update_conflict_item(self):
+        
+        test = webtest.TestApp(self.application)
+        response = test.put("/api/items/4", {'value': "Old Value", 'modified': "2010-06-29 12:00:00"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=409)
+        
+        self.assertEqual(response.body, "Conflict, has later modification")
 
 
 class ListPushTests(Tests):
@@ -175,13 +190,13 @@ class ListPushTests(Tests):
         self.shared_list = models.SharedList(group=self.group, list=self.list, guest=self.receiver)
         self.shared_list.put()
         
-        self.item_one = models.Item(value="Wine", list=self.list)
+        self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_one.put()
         
-        self.item_two = models.Item(value="Bread", list=self.list)
+        self.item_two = models.Item(value="Bread", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_two.put()
         
-        self.item_three = models.Item(value="Marmalade", list=self.list)
+        self.item_three = models.Item(value="Marmalade", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_three.put()
         
         self.urbanairship.push({'aps': {'badge': 0, 'alert': "Added Bread and Wine. Changed Butter to Marmalade."}}, aliases=['ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAww'])
@@ -219,7 +234,7 @@ class NotificationTests(Tests):
         self.list = models.List(title="A random list", owner=self.device)
         self.list.put()
         
-        self.item_one = models.Item(value="Wine", list=self.list)
+        self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_one.put()
     
     def test_get_notification(self):
@@ -230,7 +245,7 @@ class NotificationTests(Tests):
         
         response = test.post("/api/items", {'value': "Butter", 'list': '2'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        response = test.put("/api/items/3", {'value': "Water"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = test.put("/api/items/3", {'value': "Water", 'modified': "2010-07-02 12:00:00"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(self.list.get_notification(), "Added Bread and Butter. Changed Wine to Water.")
     
