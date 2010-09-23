@@ -144,6 +144,7 @@ class DeviceListsResource(ListsResource):
                         'id': list.key().id(), 
                         'url': self.url(list), 
                         'title': list.title, 
+                        'unread': list.unread, 
                     })
                 
                 return {'lists': lists}
