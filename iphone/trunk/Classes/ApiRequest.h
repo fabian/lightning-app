@@ -18,12 +18,15 @@
     NSString *device;
     NSURLConnection *connection;
 	id <ApiRequestDelegate> delegate;	
-	
+	NSString *name;
+	NSData *deviceToken;
+	NSString *identifier;
 }
 
 @property (nonatomic, readonly) NSData *data;
 @property (nonatomic, copy) NSURL *url;
-@property (nonatomic, copy) NSString *device;
+@property (nonatomic, copy) NSString *device, *name, *identifier;
+@property (nonatomic, copy) NSData *deviceToken;
 @property (assign) id <ApiRequestDelegate> delegate;
 
 - (NSString *)reponse;

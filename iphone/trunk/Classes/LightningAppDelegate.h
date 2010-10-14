@@ -17,6 +17,10 @@
 	NSManagedObjectContext *context;
 	NSManagedObjectModel *model;
 	NSPersistentStoreCoordinator *psc;
+	
+	NSURL *apiUrl;
+	NSData *deviceToken;
+	
 }
 
 - (void)setupPersistentStore;
@@ -29,6 +33,9 @@
 @property (retain, nonatomic) NSManagedObjectContext *context;
 @property (retain, nonatomic) NSManagedObjectModel *model;
 @property (retain, nonatomic) NSPersistentStoreCoordinator *psc;
+
+@property (retain, nonatomic) NSURL *apiUrl;
+@property (retain, nonatomic) NSData *deviceToken;
 
 @end
 

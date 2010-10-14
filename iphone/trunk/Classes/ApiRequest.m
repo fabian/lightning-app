@@ -11,7 +11,7 @@
 
 @implementation ApiRequest
 
-@synthesize data, url, device, delegate;
+@synthesize data, url, device, delegate, name, deviceToken, identifier;
 
 - (id)initWithURL:(NSURL *)url {
     
@@ -76,11 +76,21 @@
 	[headers setValue:@"no-cache" forKey:@"Cache-Control"];
 	[headers setValue:@"no-cache" forKey:@"Pragma"];
 	[headers setValue:@"close" forKey:@"Connection"]; // Avoid HTTP 1.1 "keep alive" for the connection
-	if (self.device != nil) {
-		[headers setValue:self.device forKey:@"Device"];
+	if (self.identifier != nil) {
+		[headers setValue:self.identifier forKey:@"identifier"];
+	}
+	if (self.deviceToken != nil) {
+		NSString * tokenAsString = [[[self.deviceToken description] 
+									 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
+									stringByReplacingOccurrencesOfString:@" " withString:@""];
+		[headers setValue:tokenAsString forKey:@"device_token"];
+	}
+	if (self.name != nil) {
+		[headers setValue:self.name forKey:@"name"];
 	}
 	
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+	NSLog(@"apirequest url %@", [headers description]);
 	[request setHTTPMethod:@"POST"];
 	[request setAllHTTPHeaderFields:headers];
 	[request setHTTPBody:body];

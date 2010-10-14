@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		021887B0116B52B8000C57EE /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 021887AD116B52B8000C57EE /* ListName.m */; };
-		02188864116BAD06000C57EE /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02188863116BAD06000C57EE /* ListItem.m */; };
-		02188B74119BF93B000C57EE /* ListsApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 02188B73119BF93B000C57EE /* ListsApi.m */; };
 		0224FCC61163A9E900AFD56C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0224FCC51163A9E900AFD56C /* CoreData.framework */; };
 		0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */; };
+		026E68ED124A9DF800E84DC8 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E68EA124A9DF800E84DC8 /* ListName.m */; };
+		026E68EE124A9DF800E84DC8 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E68EC124A9DF800E84DC8 /* ListItem.m */; };
+		02822F43124298F600480310 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 02822F41124298F600480310 /* GTMHTTPFetcher.m */; };
+		02822FAC1242A3DD00480310 /* GTMHTTPFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 02822FAA1242A3DD00480310 /* GTMHTTPFetcherLogging.m */; };
 		029CF8A51133166200D6942C /* bottom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A11133166200D6942C /* bottom.jpg */; };
 		029CF8A61133166200D6942C /* line.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A21133166200D6942C /* line.jpg */; };
 		029CF8A71133166200D6942C /* middle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A31133166200D6942C /* middle.jpg */; };
@@ -42,14 +43,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		021887AC116B52B8000C57EE /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
-		021887AD116B52B8000C57EE /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
-		02188862116BAD06000C57EE /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
-		02188863116BAD06000C57EE /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
-		02188B72119BF93B000C57EE /* ListsApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsApi.h; sourceTree = "<group>"; };
-		02188B73119BF93B000C57EE /* ListsApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListsApi.m; sourceTree = "<group>"; };
 		0224FCC51163A9E900AFD56C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Lightning.xcdatamodel; sourceTree = "<group>"; };
+		026E68E9124A9DF800E84DC8 /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
+		026E68EA124A9DF800E84DC8 /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
+		026E68EB124A9DF800E84DC8 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
+		026E68EC124A9DF800E84DC8 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
+		02822F41124298F600480310 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcher.m; sourceTree = "<group>"; };
+		02822F42124298F600480310 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcher.h; sourceTree = "<group>"; };
+		02822FAA1242A3DD00480310 /* GTMHTTPFetcherLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogging.m; sourceTree = "<group>"; };
+		02822FAB1242A3DD00480310 /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogging.h; sourceTree = "<group>"; };
 		029CF8A11133166200D6942C /* bottom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bottom.jpg; sourceTree = "<group>"; };
 		029CF8A21133166200D6942C /* line.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = line.jpg; sourceTree = "<group>"; };
 		029CF8A31133166200D6942C /* middle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = middle.jpg; sourceTree = "<group>"; };
@@ -117,10 +120,10 @@
 		0224FCF01164732C00AFD56C /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
-				021887AC116B52B8000C57EE /* ListName.h */,
-				021887AD116B52B8000C57EE /* ListName.m */,
-				02188862116BAD06000C57EE /* ListItem.h */,
-				02188863116BAD06000C57EE /* ListItem.m */,
+				026E68E9124A9DF800E84DC8 /* ListName.h */,
+				026E68EA124A9DF800E84DC8 /* ListName.m */,
+				026E68EB124A9DF800E84DC8 /* ListItem.h */,
+				026E68EC124A9DF800E84DC8 /* ListItem.m */,
 			);
 			name = "Managed Objects";
 			sourceTree = "<group>";
@@ -128,6 +131,10 @@
 		02EDDB6A1129CBDB00E23D03 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				02822FAA1242A3DD00480310 /* GTMHTTPFetcherLogging.m */,
+				02822FAB1242A3DD00480310 /* GTMHTTPFetcherLogging.h */,
+				02822F41124298F600480310 /* GTMHTTPFetcher.m */,
+				02822F42124298F600480310 /* GTMHTTPFetcher.h */,
 				1FC5CFFF11629A9900D1130F /* ApiRequest.h */,
 				1FC5D00011629A9900D1130F /* ApiRequest.m */,
 				1FC5D00111629A9900D1130F /* Lightning.h */,
@@ -138,8 +145,6 @@
 				02EDDB6E1129CC1500E23D03 /* Lists.m */,
 				02EDDDC21129E3B200E23D03 /* ListEntries.h */,
 				02EDDDC31129E3B200E23D03 /* ListEntries.m */,
-				02188B72119BF93B000C57EE /* ListsApi.h */,
-				02188B73119BF93B000C57EE /* ListsApi.m */,
 			);
 			name = Data;
 			path = Classes;
@@ -324,9 +329,10 @@
 				1FC5D02611629AC300D1130F /* SBJsonParser.m in Sources */,
 				1FC5D02711629AC300D1130F /* SBJsonWriter.m in Sources */,
 				0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */,
-				021887B0116B52B8000C57EE /* ListName.m in Sources */,
-				02188864116BAD06000C57EE /* ListItem.m in Sources */,
-				02188B74119BF93B000C57EE /* ListsApi.m in Sources */,
+				02822F43124298F600480310 /* GTMHTTPFetcher.m in Sources */,
+				02822FAC1242A3DD00480310 /* GTMHTTPFetcherLogging.m in Sources */,
+				026E68ED124A9DF800E84DC8 /* ListName.m in Sources */,
+				026E68EE124A9DF800E84DC8 /* ListItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,11 +369,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cyril Gabathuler (CL5HS4T5E6)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				PRODUCT_NAME = lightning;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "78455F96-D0A7-4DD0-A7DE-BF89E722C22D";
 				SDKROOT = iphoneos4.1;
 			};
 			name = Debug;

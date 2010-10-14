@@ -11,8 +11,9 @@
 #import "AddListViewController.h";
 #import <CoreData/CoreData.h>
 #import <QuartzCore/QuartzCore.h>
+#import "Lightning.h";
 
-@interface ListsViewController : UITableViewController <AddListViewControllerDelegate>{
+@interface ListsViewController : UITableViewController <AddListViewControllerDelegate, LightningDelegate>{
 	Lists *lists;
 	NSManagedObjectContext *context;
 	NSMutableArray *listNames;

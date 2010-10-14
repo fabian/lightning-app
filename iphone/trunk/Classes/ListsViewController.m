@@ -42,6 +42,8 @@
 		[bottom release];
 		
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
+		
+		[self.listNames setArray:nil];
     }
     return self;
 }
@@ -51,8 +53,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	[self setupModel];
-	
 	[self setLists:[[Lists alloc] init]];
 	
 	self.tableView.allowsSelectionDuringEditing = YES;
@@ -60,6 +60,13 @@
 	self.navigationItem.rightBarButtonItem = button;
 	[button release];
 	
+	//testing
+	Lightning *lightning = [[Lightning alloc]init];
+	lightning.delegate = self;
+	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+	[lightning getListsWithContext:self.context];
+	
+	//[self setupModel];
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -78,6 +85,7 @@
 	[sort release];
 	
 	self.listNames = [[context executeFetchRequest:req error:&error] mutableCopy];
+	NSLog(@"listnames %@", self.listNames);
 	
 	if([self.listNames count] == 0) {
 		// Test Data
@@ -116,6 +124,7 @@
 		
 		self.listNames = [[context executeFetchRequest:req error:&error] mutableCopy];
 	}
+	[self.tableView reloadData];
 }
 
 - (void)addList {
@@ -195,6 +204,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	NSLog(@"listNames count: %i", [listNames count]);
     return [listNames count];
+	return 0;
 }
 
 
@@ -332,6 +342,12 @@
     return YES;
 }
 */
+
+- (void)finishFetchingLists:(NSData *)data{
+	NSLog(@"got data from google");
+	
+	[self setupModel];
+}
 
 
 - (void)dealloc {
