@@ -7,20 +7,45 @@
 //
 
 #import <Foundation/Foundation.h>
-#import	"ApiRequest.h"
+#import <CoreData/CoreData.h>
 
-@interface Lightning : NSObject<ApiRequestDelegate> {
+
+@protocol LightningDelegate;
+
+@interface Lightning : NSObject {
 	
     NSURL *url;
 	NSString *device;
+	NSData *deviceToken;
+	NSString *lightningId;
+	NSString *lightningSecret;
+	NSManagedObjectContext *context;
+	
+	id <LightningDelegate> delegate;	
 }
 
 @property (nonatomic, retain) NSURL *url;
 @property (nonatomic, retain) NSString *device;
+@property (nonatomic, retain) NSData *deviceToken;
+@property (nonatomic, retain) NSString *lightningId;
+@property (nonatomic, retain) NSString *lightningSecret;
+@property (retain, nonatomic) NSManagedObjectContext *context;
 
-- (id)initWithURL:(NSURL *)url;
+@property (assign) id <LightningDelegate> delegate;
+
+- (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString *)initDeviceToken;
 - (id)initWithURL:(NSURL *)url andDevice:(NSString *)device;
 - (void)addListWithTitle:(NSString *)title;
 - (void)getLists;
+- (void)getListsWithContext:(NSManagedObjectContext *)context;
+
+-(void)createListWithTitle:(NSString *)listTitle;
+-(void)getLists;
+
+@end
+
+@protocol LightningDelegate <NSObject>
+
+- (void)finishFetchingLists:(NSData *)data;
 
 @end

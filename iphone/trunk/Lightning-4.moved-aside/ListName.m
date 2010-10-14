@@ -2,7 +2,7 @@
 //  ListName.m
 //  Lightning
 //
-//  Created by Cyril Gabathuler on 22.09.10.
+//  Created by Cyril Gabathuler on 06.04.10.
 //  Copyright 2010 Bahnhofstrasse 24, 5400 Baden. All rights reserved.
 //
 
@@ -13,7 +13,6 @@
 @implementation ListName 
 
 @dynamic name;
-@dynamic listId;
 @dynamic listItems;
 
 @end

@@ -6,39 +6,274 @@
 //  Copyright 2010 Liip AG. All rights reserved.
 //
 
-#import "Lightning.h"
+#import "Lightning.h";
+#import "GTMHTTPFetcher.h";
+#import "JSON.h";
+#import "ListName.h"
 
 @implementation Lightning
 
-@synthesize url, device;
+@synthesize url, device, deviceToken, lightningId, lightningSecret, context, delegate;
 
-- (id)initWithURL:(NSURL *)url {
+-(id)init {
+	if(self = [super init]) {
+		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+		self.lightningId = [userDefaults valueForKey:@"lightningId"];
+		self.lightningSecret = [userDefaults valueForKey:@"lightningSecret"];
+	}
+	
+	return self;
+}
+
+- (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString*)initDeviceToken{
     
 	if(self = [super init]) {
 		
-		self.url = url;
+		self.url = initUrl;
 		
-		NSArray *keys = [NSArray arrayWithObjects:@"name", @"identifier", nil];
-		NSArray *values = [NSArray arrayWithObjects:@"Test iPhone", [UIDevice currentDevice].uniqueIdentifier, nil];
-		NSDictionary *parameters = [NSDictionary dictionaryWithObjects:values forKeys:keys];
+		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+		self.lightningId = [userDefaults valueForKey:@"lightningId"];
+		self.lightningSecret = [userDefaults valueForKey:@"lightningSecret"];
 		
-		NSURL *url = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingString:@"devices"]];
+		NSLog(@"lighntingId UserDefaults %@ and secret %@", self.lightningId, self.lightningSecret);
 		
-		ApiRequest *request = [[ApiRequest alloc] initWithURL:url];
-		request.delegate = self;
-		[request post:parameters];
+		if(self.lightningId == nil || self.lightningSecret == nil) {
+			NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingString:@"devices"]];
+		
+			NSLog(@"calling Url: %@", [callUrl description]);
+		
+			NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+			GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+			[GTMHTTPFetcher setLoggingEnabled:YES];
+		
+			NSString * tokenAsString = [[[initDeviceToken description] 
+									 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
+									stringByReplacingOccurrencesOfString:@" " withString:@""];
+			NSString *postString = [NSString stringWithFormat:@"device_token=%@;name=%@;identifier=%@", [tokenAsString uppercaseString], @"testiphone", [UIDevice currentDevice].uniqueIdentifier];
+			[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+		
+			[myFetcher beginFetchWithDelegate:self
+						didFinishSelector:@selector(myFetcher:finishedWithData:error:)];
+		} else {
+			//[self createListWithTitle:@"poschte"];
+		}
     }
 	
     return self;
 }
 
+-(void)createDeviceWithName:(NSString *)deviceName andDeviceToken:(NSString*) initDeviceToken{
+	//name
+	//device_token
+	//identifier
+}
+
+-(void)createListWithTitle:(NSString *)listTitle{
+	
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists?secret=%@", self.lightningSecret]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString *postString = [NSString stringWithFormat:@"title=%@;owner=%@", listTitle, self.lightningId];
+	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedWithCreatingList:error:)];
+}
+
+-(void)createItemWithValue:(NSString *)value andList:(NSString *)list{
+	
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"items?secret=%@", self.lightningSecret]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString *postString = [NSString stringWithFormat:@"value=%@;list=%@", value, list];
+	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedWithCreatingItem:error:)];
+}
+
+-(void)pushUpdateForList:(NSString *)listId{
+	//exclude?
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@/push?secret=%@", listId, self.lightningSecret]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString *postString = [NSString stringWithFormat:@""];
+	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedWithPushToList:error:)];
+}
+
+-(void)getLists {
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"devices/%@/lists", self.lightningId]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedWithGetLists:error:)];
+}
+
+-(void)getListsWithContext:(NSManagedObjectContext *)context {
+	self.context = context;
+	
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"devices/%@/lists", self.lightningId]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedWithGetLists:error:)];
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error creating device");
+	} else {
+		//Testing methods
+		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
+		SBJSON *parser = [[SBJSON alloc] init];
+		NSDictionary *object = [parser objectWithString:data error:nil];
+		self.lightningSecret = [object objectForKey:@"secret"];
+		self.lightningId = [object objectForKey:@"id"];
+		
+		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+		[userDefaults setValue:self.lightningId forKey:@"lightningId"];
+		[userDefaults setValue:self.lightningSecret forKey:@"lightningSecret"];
+		
+		//[self createListWithTitle:@"poschte"];
+		
+		NSLog(@"Response: %@", [object objectForKey:@"secret"]);
+		// fetch succeeded
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithCreatingList:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with creating list");
+	} else {
+		//Testing methods
+		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
+		SBJSON *parser = [[SBJSON alloc] init];
+		NSDictionary *object = [parser objectWithString:data error:nil];
+		NSString *listId = [object objectForKey:@"id"];
+		
+		//[self createItemWithValue:@"red bull" andList:listId];
+		
+		NSLog(@"created a list with response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithCreatingItem:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with creating item on list");
+	} else {
+		NSLog(@"created an item with response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithPushToList:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with push to list");
+	} else {
+		NSLog(@"pushed update to list response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithGetLists:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with getLists");
+	} else {
+		NSLog(@"getLists response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		
+		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
+		SBJSON *parser = [[SBJSON alloc] init];
+		NSDictionary *object = [parser objectWithString:data error:nil];
+		NSArray *arrayOfList = [object objectForKey:@"lists"];
+		
+		ListName *listName;
+		
+		for (NSDictionary *list in arrayOfList) {
+			listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
+			listName.name = [list objectForKey:@"title"];
+			listName.listId = [list objectForKey:@"id"];
+			NSLog(@"where is 5: %@", listName.name);
+		}
+		
+		[context save:&error];
+		
+		[listName release];
+		
+		[self.delegate finishFetchingLists:retrievedData];
+	}
+}
+
 - (id)initWithURL:(NSURL *)url andDevice:(NSString *)device {
     
-	if(self = [super init]) {
+	//Not in use right now!!
+	
+	/*if(self = [super init]) {
 		
 		self.url = url;
 		self.device = device;
-    }
+    }*/
 	
     return self;
 }
@@ -57,21 +292,10 @@
 	
 	NSURL *url = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingString:@"lists"]];
 	
-	ApiRequest *request = [[ApiRequest alloc] initWithURL:url andDevice:device];
-	[request post:parameters];
+	//ApiRequest *request = [[ApiRequest alloc] initWithURL:url andDevice:device];
+	//[request post:parameters];
 }
 
-- (void)getLists {
-	
-	NSURL *url = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingString:@"lists"]];
-	
-	NSArray *keys = [NSArray arrayWithObjects:@"owner", nil];
-	NSArray *values = [NSArray arrayWithObjects:@"4", nil];
-	NSDictionary *parameters = [NSDictionary dictionaryWithObjects:values forKeys:keys];
-	
-	ApiRequest *request = [[ApiRequest alloc] initWithURL:url andDevice:device];
-	[request get:parameters];
-}
 
 - (void) reloadData:(NSDictionary *)data {
 	NSLog(@"delegate called IHAA");
