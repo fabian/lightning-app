@@ -285,7 +285,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 62}, {185, 760}}</string>
+							<string>{{0, 25}, {185, 760}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -332,7 +332,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>024C858D12673DB900259AD8</string>
+										<string>024C86E9126879B600259AD8</string>
 										<key>history</key>
 										<array>
 											<string>029CF92711331E0F00D6942C</string>
@@ -360,17 +360,17 @@
 											<string>028231B4124946D800480310</string>
 											<string>028231E112494E4700480310</string>
 											<string>028231FF12494FA400480310</string>
-											<string>0282320012494FA400480310</string>
 											<string>02823236124950F200480310</string>
-											<string>0282324E1249518200480310</string>
 											<string>026E68C3124A763300E84DC8</string>
 											<string>026E68DE124A9DAE00E84DC8</string>
-											<string>026E68F4124A9E6600E84DC8</string>
-											<string>026E68F9124A9E9400E84DC8</string>
-											<string>026E6906124A9EDF00E84DC8</string>
 											<string>026E691E124AA02D00E84DC8</string>
-											<string>026E692C124B659900E84DC8</string>
-											<string>026E6935124E476000E84DC8</string>
+											<string>024C860812684C6C00259AD8</string>
+											<string>024C860912684C6C00259AD8</string>
+											<string>024C860A12684C6C00259AD8</string>
+											<string>024C860B12684C6C00259AD8</string>
+											<string>024C861712684F0C00259AD8</string>
+											<string>024C86E7126879B600259AD8</string>
+											<string>024C86E8126879B600259AD8</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -646,13 +646,13 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>026E68AC124A669900E84DC8</string>
+				<string>024C859F1268468500259AD8</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>026E68AD124A669900E84DC8</string>
-				<string>026E68AE124A669900E84DC8</string>
-				<string>026E68AF124A669900E84DC8</string>
-				<string>026E68B0124A669900E84DC8</string>
+				<string>024C85A01268468500259AD8</string>
+				<string>024C85A11268468500259AD8</string>
+				<string>024C85A21268468500259AD8</string>
+				<string>024C85A31268468500259AD8</string>
 				<string>02EDDBC21129D1C800E23D03</string>
 			</array>
 			<key>ToolbarConfigUserDefaultsMinorVersion</key>
@@ -687,6 +687,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>024C85B71268470700259AD8</string>
+		<string>024C85B81268470700259AD8</string>
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

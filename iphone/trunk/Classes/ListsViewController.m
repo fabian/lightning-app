@@ -43,7 +43,7 @@
 		
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
 		
-		[self.listNames setArray:nil];
+		//[self.listNames setArray:nil];
     }
     return self;
 }
@@ -85,45 +85,7 @@
 	[sort release];
 	
 	self.listNames = [[context executeFetchRequest:req error:&error] mutableCopy];
-	NSLog(@"listnames %@", self.listNames);
 	
-	if([self.listNames count] == 0) {
-		// Test Data
-		
-		ListName *listName;
-		ListItem *item;
-		
-		listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:context];
-		listName.name = @"List 1";
-		
-		item = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
-		item.name = @"YESSS1.1";
-		item.creation = [NSDate date];
-		
-		[listName addListItemsObject:item];
-		
-		listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:context];
-		listName.name = @"List 2";
-		
-		item = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
-		item.name = @"YESSS2.1";
-		item.creation = [NSDate date];
-		
-		[listName addListItemsObject:item];
-		
-		listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:context];
-		listName.name = @"List 3";
-		
-		item = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
-		item.name = @"YESSS3.1";
-		item.creation = [NSDate date];
-		
-		[listName addListItemsObject:item];
-		
-		[context save:&error];
-		
-		self.listNames = [[context executeFetchRequest:req error:&error] mutableCopy];
-	}
 	[self.tableView reloadData];
 }
 
@@ -255,7 +217,7 @@
 		
 		UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
 		roundedLabel.textColor = [UIColor whiteColor];
-		roundedLabel.text=@"1";
+		roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
 		roundedLabel.textAlignment = UITextAlignmentCenter;
 		roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
 		CALayer *layer = [roundedLabel layer];

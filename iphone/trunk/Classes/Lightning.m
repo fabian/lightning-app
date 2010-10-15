@@ -240,6 +240,9 @@
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
 		NSLog(@"error with getLists");
+		
+		//calling the delegate eitherwise, so the coredata data can be displayed
+		[self.delegate finishFetchingLists:retrievedData];
 	} else {
 		NSLog(@"getLists response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
 		
@@ -248,18 +251,33 @@
 		NSDictionary *object = [parser objectWithString:data error:nil];
 		NSArray *arrayOfList = [object objectForKey:@"lists"];
 		
-		ListName *listName;
-		
 		for (NSDictionary *list in arrayOfList) {
-			listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
-			listName.name = [list objectForKey:@"title"];
-			listName.listId = [list objectForKey:@"id"];
-			NSLog(@"where is 5: %@", listName.name);
+			//checking if existing
+			NSEntityDescription    * entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+			NSPredicate * predicate;
+			predicate = [NSPredicate predicateWithFormat:@"listId == %@", [list objectForKey:@"id"]];
+			
+			NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+			[fetch setEntity: entity];
+			[fetch setPredicate: predicate];
+			
+			NSArray * results = [context executeFetchRequest:fetch error:nil];
+			[fetch release];
+			
+			if([results count] == 0) {
+				NSLog(@"not existing");
+				
+				ListName *listName = nil;
+				
+				listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
+				listName.name = [list objectForKey:@"title"];
+				listName.listId = [list objectForKey:@"id"];
+				listName.unreadCount = [list objectForKey:@"unread"];
+				
+				[context save:&error];
+				[listName release];
+			}
 		}
-		
-		[context save:&error];
-		
-		[listName release];
 		
 		[self.delegate finishFetchingLists:retrievedData];
 	}
