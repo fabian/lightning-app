@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		0224FCC61163A9E900AFD56C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0224FCC51163A9E900AFD56C /* CoreData.framework */; };
 		0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */; };
-		026E68ED124A9DF800E84DC8 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E68EA124A9DF800E84DC8 /* ListName.m */; };
-		026E68EE124A9DF800E84DC8 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E68EC124A9DF800E84DC8 /* ListItem.m */; };
+		024C860212684C0400259AD8 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 024C85FF12684C0400259AD8 /* ListName.m */; };
+		024C860312684C0400259AD8 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 024C860112684C0400259AD8 /* ListItem.m */; };
 		02822F43124298F600480310 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 02822F41124298F600480310 /* GTMHTTPFetcher.m */; };
 		02822FAC1242A3DD00480310 /* GTMHTTPFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 02822FAA1242A3DD00480310 /* GTMHTTPFetcherLogging.m */; };
 		029CF8A51133166200D6942C /* bottom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A11133166200D6942C /* bottom.jpg */; };
@@ -45,10 +45,10 @@
 /* Begin PBXFileReference section */
 		0224FCC51163A9E900AFD56C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Lightning.xcdatamodel; sourceTree = "<group>"; };
-		026E68E9124A9DF800E84DC8 /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
-		026E68EA124A9DF800E84DC8 /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
-		026E68EB124A9DF800E84DC8 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
-		026E68EC124A9DF800E84DC8 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
+		024C85FE12684C0400259AD8 /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
+		024C85FF12684C0400259AD8 /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
+		024C860012684C0400259AD8 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
+		024C860112684C0400259AD8 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
 		02822F41124298F600480310 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcher.m; sourceTree = "<group>"; };
 		02822F42124298F600480310 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcher.h; sourceTree = "<group>"; };
 		02822FAA1242A3DD00480310 /* GTMHTTPFetcherLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogging.m; sourceTree = "<group>"; };
@@ -120,10 +120,10 @@
 		0224FCF01164732C00AFD56C /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
-				026E68E9124A9DF800E84DC8 /* ListName.h */,
-				026E68EA124A9DF800E84DC8 /* ListName.m */,
-				026E68EB124A9DF800E84DC8 /* ListItem.h */,
-				026E68EC124A9DF800E84DC8 /* ListItem.m */,
+				024C85FE12684C0400259AD8 /* ListName.h */,
+				024C85FF12684C0400259AD8 /* ListName.m */,
+				024C860012684C0400259AD8 /* ListItem.h */,
+				024C860112684C0400259AD8 /* ListItem.m */,
 			);
 			name = "Managed Objects";
 			sourceTree = "<group>";
@@ -331,8 +331,8 @@
 				0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */,
 				02822F43124298F600480310 /* GTMHTTPFetcher.m in Sources */,
 				02822FAC1242A3DD00480310 /* GTMHTTPFetcherLogging.m in Sources */,
-				026E68ED124A9DF800E84DC8 /* ListName.m in Sources */,
-				026E68EE124A9DF800E84DC8 /* ListItem.m in Sources */,
+				024C860212684C0400259AD8 /* ListName.m in Sources */,
+				024C860312684C0400259AD8 /* ListItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
