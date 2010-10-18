@@ -124,6 +124,34 @@ class DeviceListsTests(Tests):
         self.assertEqual(response.body, '{"lists": []}')
 
 
+class ListTests(Tests):
+
+    def setUp(self):
+        self.stub_datastore()        
+        self.application = webapp.WSGIApplication([
+            (r'/api/lists/(.*)', resources.ListResource),
+        ], debug=True)
+        
+        self.device = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
+        self.device.put()
+        
+        self.list = models.List(title="A random list", owner=self.device)
+        self.list.put()
+        
+        self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
+        self.item_one.put()
+        
+        self.item_two = models.Item(value="Bread", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
+        self.item_two.put()
+    
+    def test_get_list(self):
+        
+        test = webtest.TestApp(self.application)
+        response = test.get("/api/lists/2", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/3", "id": 3, "value": "Wine"}, {"url": "http://localhost:80/api/items/4", "id": 4, "value": "Bread"}], "unread": 0, "id": 2, "title": "A random list"}')
+
+
 class ItemTests(Tests):
 
     def setUp(self):
