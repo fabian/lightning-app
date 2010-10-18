@@ -4,7 +4,7 @@ from datetime import datetime
 from google.appengine.ext import webapp
 import urbanairship
 import settings
-from models import Device, List, Group, Item, Log
+from models import Device, List, Item, Log
 from util import Resource, json, device_required
 
 class DevicesResource(Resource):
@@ -106,7 +106,10 @@ class ListsResource(Resource):
         if owner:
             if owner.key() == self.get_auth().key():
                 
-                list = List(title=self.request.get('title'), owner=owner)
+                # generate random token
+                token = binascii.hexlify(os.urandom(8))
+                
+                list = List(title=self.request.get('title'), owner=owner, token=token)
                 list.put()
                 
                 protocol = self.request._environ['wsgi.url_scheme']
@@ -114,7 +117,7 @@ class ListsResource(Resource):
                 id = list.key().id()
                 url = "%s://%s/api/lists/%s" % (protocol, host, id)
                 
-                return {'id': id, 'url': url, 'title': list.title, 'owner': list.owner.key().id()}
+                return {'id': id, 'url': url, 'title': list.title, 'owner': list.owner.key().id(), 'token': token}
             
             else:
                 # owner does not match autenticated device
@@ -214,40 +217,6 @@ class ListResource(ListsResource):
             # list not found
             self.error(404)
             self.response.out.write("Can't get list with id %s" % id)
-
-
-class GroupsResource(Resource):
-    
-    @device_required
-    @json
-    def post(self):
-        
-        # owner must match authenticated device
-        owner = Device.get_by_id(int(self.request.get('owner')))
-        if owner:
-            if owner.key() == self.get_auth().key():
-                
-                # generate random token
-                token = binascii.hexlify(os.urandom(8))
-                
-                group = Group(name=self.request.get('name'), owner=owner, token=token)
-                group.put()
-                
-                protocol = self.request._environ['wsgi.url_scheme']
-                host = self.request._environ['HTTP_HOST']
-                id = group.key().id()
-                url = "%s://%s/api/groups/%s" % (protocol, host, id)
-                
-                return {'id': id, 'url': url, 'name': group.name, 'token': group.token, 'owner': group.owner.key().id()}
-            
-            else:
-                # owner does not match autenticated device
-                self.error(403)
-                self.response.out.write("Owner %s doesn't match authenticated device %s" % (owner.key().id(), self.get_auth().key().id()))
-        else:
-            # device for owner not found
-            self.error(404)
-            self.response.out.write("Can't get device for owner %s" % self.request.get('owner'))
 
 
 class ListPushResource(ListsResource):

@@ -15,6 +15,8 @@ class Device(db.Model):
 class List(db.Model):
     title = db.StringProperty(required=True)
     owner = db.ReferenceProperty(Device, required=True)
+    shared = db.BooleanProperty(default=False, required=True)
+    token = db.StringProperty(required=True) # random, gets sent per email with the id
     deleted = db.BooleanProperty()
     unread = db.IntegerProperty(default=0, required=True)
     notified = db.DateTimeProperty() # last time a notification was sent
@@ -53,17 +55,7 @@ class Log(db.Model):
     happened = db.DateTimeProperty(required=True, auto_now_add=True)
     old = db.StringProperty()
 
-class Group(db.Model):
-    name = db.StringProperty(required=True) # group name
-    owner = db.ReferenceProperty(Device, required=True)
-    lists = db.ListProperty(db.Key)
-    token = db.StringProperty(required=True) # random, gets sent per email with the id
-    deleted = db.BooleanProperty()
-    created = db.DateTimeProperty(required=True, auto_now_add=True)
-    modified = db.DateTimeProperty(required=True, auto_now=True)
-
 class SharedList(db.Model):
-    group = db.ReferenceProperty(Group, required=True)
     list = db.ReferenceProperty(List, required=True)
     guest = db.ReferenceProperty(Device, required=True)
     unread = db.IntegerProperty(default=0, required=True)
