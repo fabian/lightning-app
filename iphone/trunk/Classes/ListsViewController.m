@@ -60,7 +60,7 @@
 	self.navigationItem.rightBarButtonItem = button;
 	[button release];
 	
-	//testing
+	//getting lists
 	Lightning *lightning = [[Lightning alloc]init];
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
@@ -241,10 +241,9 @@
 	//CoreData
 	ListName *listName = [listNames objectAtIndex:indexPath.row];
 	NSArray *listItems = [[listName listItems] allObjects];
-	listViewController.listItems = listItems;
 	listViewController.listName = listName;
 	listViewController.context = context;
-	
+				
 	NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
 	NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:listItems];
 	[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
@@ -252,7 +251,6 @@
 	
 	[sorted release];
 	
-	listViewController.listEntries = [lists listEntriesAtIndex:indexPath.row];
 	[listViewController registerForKeyboardNotifications];
 	
 	[self.navigationController pushViewController:listViewController animated:YES];

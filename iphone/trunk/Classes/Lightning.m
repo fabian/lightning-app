@@ -10,6 +10,7 @@
 #import "GTMHTTPFetcher.h";
 #import "JSON.h";
 #import "ListName.h"
+#import "ListItem.h"
 
 @implementation Lightning
 
@@ -56,6 +57,8 @@
 						didFinishSelector:@selector(myFetcher:finishedWithData:error:)];
 		} else {
 			//[self createListWithTitle:@"poschte"];
+			//[self createItemWithValue:@"brot" andList:@"46002"];
+			//[self getItemsFromList:@"46002" context:nil];
 		}
     }
 	
@@ -88,23 +91,51 @@
 					didFinishSelector:@selector(myFetcher:finishedWithCreatingList:error:)];
 }
 
--(void)createItemWithValue:(NSString *)value andList:(NSString *)list{
+-(void)addItemToList:(NSString *)listId andContext:(NSManagedObjectContext *)context{
+	
+	self.context = context;
 	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"items?secret=%@", self.lightningSecret]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
-	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
-	NSString *postString = [NSString stringWithFormat:@"value=%@;list=%@", value, list];
-	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
-	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//CoreData
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+	NSPredicate * predicate;
+	predicate = [NSPredicate predicateWithFormat:@"listId == %@", listId];
 	
-	[myFetcher beginFetchWithDelegate:self
-					didFinishSelector:@selector(myFetcher:finishedWithCreatingItem:error:)];
+	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+	[fetch setEntity: entity];
+	[fetch setPredicate: predicate];
+	
+	NSArray * results = [context executeFetchRequest:fetch error:nil];
+	[fetch release];
+	
+	if([results count] == 0) {
+		NSLog(@"Something went wrong with CoreData");
+	} else {
+		ListName *listName = [results objectAtIndex:0];
+		
+		NSArray *items = [[listName listItems] allObjects];
+		
+		for (ListItem *item in items) {
+			if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+				GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+				[GTMHTTPFetcher setLoggingEnabled:YES];
+				
+				NSString *postString = [NSString stringWithFormat:@"value=%@;list=%@", item.name, listId];
+				[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+				NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+				[myFetcher setDeviceHeader:deviceHeader];
+				
+				[myFetcher beginFetchWithDelegate:self
+								didFinishSelector:@selector(myFetcher:finishedWithCreatingItem:error:)];
+			}
+		}
+	}
+	//
 }
 
 -(void)pushUpdateForList:(NSString *)listId{
@@ -156,6 +187,25 @@
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithGetLists:error:)];
+}
+
+-(void)getItemsFromList:(NSString *)listId context:(NSManagedObjectContext *)context {
+	self.context = context;
+	
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@", listId]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedWithGetItemsFromList:error:)];
+	
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error {
@@ -216,6 +266,43 @@
 		NSLog(@"error with creating item on list");
 	} else {
 		NSLog(@"created an item with response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		
+		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
+		SBJSON *parser = [[SBJSON alloc] init];
+		NSDictionary *object = [parser objectWithString:data error:nil];
+		
+		NSString *listId = [object objectForKey:@"list"];
+		//Getting acutal List
+		NSEntityDescription *entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+		NSPredicate * predicate;
+		predicate = [NSPredicate predicateWithFormat:@"listId == %@", listId];
+		
+		NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+		[fetch setEntity: entity];
+		[fetch setPredicate: predicate];
+		
+		NSArray * results = [context executeFetchRequest:fetch error:nil];
+		[fetch release];
+		
+		if([results count] == 0) {
+			NSLog(@"Something went wrong with CoreData");
+		} else {
+			ListName *listName = [results objectAtIndex:0];
+			
+			NSArray *items = [[listName listItems] allObjects];
+			NSString *listItemId = [object objectForKey:@"id"];
+			
+			for (ListItem *item in items) {
+				if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+					
+					item.name = [object objectForKey:@"value"];
+					item.listItemId = [object objectForKey:@"id"];
+					[context save:&error];
+					break;
+				}
+			}
+			
+		}
 	}
 }
 
@@ -264,8 +351,10 @@
 			NSArray * results = [context executeFetchRequest:fetch error:nil];
 			[fetch release];
 			
+			
+			
 			if([results count] == 0) {
-				NSLog(@"not existing");
+				NSLog(@"creating List");
 				
 				ListName *listName = nil;
 				
@@ -275,11 +364,81 @@
 				listName.unreadCount = [list objectForKey:@"unread"];
 				
 				[context save:&error];
-				[listName release];
+				
+				
+				
+				
+			} else {
+				//update listelement
+				NSLog(@"update list");
+				
+				 ListName *listName = [results objectAtIndex:0];
+				 
+				 listName.name = [list objectForKey:@"title"];
+				 listName.listId = [list objectForKey:@"id"];
+				 listName.unreadCount = [list objectForKey:@"unread"];
+				 
+				 [context save:&error];
+				[self getItemsFromList:[list objectForKey:@"id"] context:self.context];
+				 //[listName release];
+				 
 			}
+			
+			
+			
+			
+
 		}
 		
 		[self.delegate finishFetchingLists:retrievedData];
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithGetItemsFromList:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with getItemsFromList");
+		
+	} else {
+		NSLog(@"getItemsFromList response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		
+		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
+		SBJSON *parser = [[SBJSON alloc] init];
+		NSDictionary *object = [parser objectWithString:data error:nil];
+		
+		NSString *listId = [object objectForKey:@"id"];
+		//Getting acutal List
+		NSEntityDescription *entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+		NSPredicate * predicate;
+		predicate = [NSPredicate predicateWithFormat:@"listId == %@", listId];
+		
+		NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+		[fetch setEntity: entity];
+		[fetch setPredicate: predicate];
+		
+		NSArray * results = [context executeFetchRequest:fetch error:nil];
+		[fetch release];
+		
+		if([results count] == 0) {
+			NSLog(@"Something went wrong with CoreData");
+		} else {
+			ListName *listName = [results objectAtIndex:0];
+			
+			NSArray *arrayOfItems = [object objectForKey:@"items"];
+			
+			for (NSDictionary *item in arrayOfItems) {
+				ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:self.context];
+				listItem.name = [item objectForKey:@"value"];
+				listItem.listItemId = [item objectForKey:@"id"];
+				
+				[listName addListItemsObject:listItem];
+			}
+			[context save:&error];
+		}
 	}
 }
 

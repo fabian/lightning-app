@@ -41,6 +41,7 @@
 
 -(void)createListWithTitle:(NSString *)listTitle;
 -(void)getLists;
+-(void)addItemToList:(NSString *)listId andContext:(NSManagedObjectContext *)context;
 
 @end
 
