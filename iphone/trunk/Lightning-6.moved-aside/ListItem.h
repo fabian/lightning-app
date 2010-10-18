@@ -2,7 +2,7 @@
 //  ListItem.h
 //  Lightning
 //
-//  Created by Cyril Gabathuler on 18.10.10.
+//  Created by Cyril Gabathuler on 15.10.10.
 //  Copyright 2010 Bahnhofstrasse 24, 5400 Baden. All rights reserved.
 //
 
@@ -15,7 +15,6 @@
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDate * creation;
-@property (nonatomic, retain) NSNumber * listItemId;
 
 @end
 

@@ -10,9 +10,10 @@
 #import "ListEntries.h"
 #import	"ListName.h"
 #import <CoreData/CoreData.h>
+#import "Lightning.h"
 
 
-@interface ListViewController : UITableViewController <UITextFieldDelegate, UITextInputTraits> {
+@interface ListViewController : UITableViewController <UITextFieldDelegate, UITextInputTraits, LightningDelegate> {
 	ListEntries *listEntries;
 	Boolean keyboardShown;
 	UITableViewCell *activeCell;

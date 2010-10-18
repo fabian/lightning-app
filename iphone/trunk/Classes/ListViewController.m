@@ -38,6 +38,14 @@
 	[sorted release];
 	
 	[self.tableView reloadData];
+	
+	//Adding Item to List
+	Lightning *lightning = [[Lightning alloc]init];
+	lightning.delegate = self;
+	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+	[lightning addItemToList:(NSString*)listName.listId andContext:self.context];
+	
+	
 	NSLog(@"foo second");
     return YES;
 }
@@ -101,6 +109,13 @@
 	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editList)];
 	self.navigationItem.rightBarButtonItem = button;
 	[button release];
+	
+	//getting items
+	//Lightning *lightning = [[Lightning alloc]init];
+	//lightning.delegate = self;
+	//lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+	//create corresponding service call
+	//[lightning getListsWithContext:self.context];
 	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
