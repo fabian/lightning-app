@@ -102,10 +102,10 @@ class DeviceListsTests(Tests):
     
     def test_get_lists(self):
         
-        list_a = models.List(title="List A", owner=self.device_one)
+        list_a = models.List(title="List A", owner=self.device_one, token="xzy")
         list_a.put()
         
-        list_b = models.List(title="List B", owner=self.device_one)
+        list_b = models.List(title="List B", owner=self.device_one, token="xzy")
         list_b.put()
         
         test = webtest.TestApp(self.application)
@@ -115,7 +115,7 @@ class DeviceListsTests(Tests):
     
     def test_get_lists_only_own(self):
         
-        list_c = models.List(title="List C", owner=self.device_two)
+        list_c = models.List(title="List C", owner=self.device_two, token="xzy")
         list_c.put()
         
         test = webtest.TestApp(self.application)
@@ -135,7 +135,7 @@ class ListTests(Tests):
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
         self.device.put()
         
-        self.list = models.List(title="A random list", owner=self.device)
+        self.list = models.List(title="A random list", owner=self.device, token="xzy")
         self.list.put()
         
         self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
@@ -166,7 +166,7 @@ class ItemTests(Tests):
         self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
         self.device_two.put()
         
-        self.list = models.List(title="A random list", owner=self.device_one)
+        self.list = models.List(title="A random list", owner=self.device_one, token="xzy")
         self.list.put()
         
         self.item = models.Item(value="Some Item", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
@@ -206,16 +206,13 @@ class ListPushTests(Tests):
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
         self.device.put()
         
-        self.list = models.List(title="Groceries", owner=self.device)
+        self.list = models.List(title="Groceries", owner=self.device, token="xzy")
         self.list.put()
         
         self.receiver = models.Device(identifier="receiver", device_token="ABC123", name="Max", secret="123")
         self.receiver.put()
         
-        self.group = models.Group(name="Friends", owner=self.device, lists=[self.list.key()], token="R4ND0M")
-        self.group.put()
-        
-        self.shared_list = models.SharedList(group=self.group, list=self.list, guest=self.receiver)
+        self.shared_list = models.SharedList(list=self.list, guest=self.receiver)
         self.shared_list.put()
         
         self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
@@ -259,7 +256,7 @@ class NotificationTests(Tests):
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
         self.device.put()
         
-        self.list = models.List(title="A random list", owner=self.device)
+        self.list = models.List(title="A random list", owner=self.device, token="xzy")
         self.list.put()
         
         self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
@@ -287,37 +284,6 @@ class NotificationTests(Tests):
         
         self.assertEqual(self.list.get_notification(), "")
 
-
-class GroupsTests(Tests):
-    
-    def setUp(self):
-        self.stub_datastore()       
-        self.application = webapp.WSGIApplication([
-            (r'/api/groups', resources.GroupsResource), 
-        ], debug=True)
-        
-        self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
-        self.device.put()
-        
-        self.list = models.List(title="A random list", owner=self.device)
-        self.list.put()
-    
-    def test_create_group(self):
-        
-        random = self.mocker.replace("os.urandom")
-        random(8)
-        self.mocker.result("98257")
-        
-        hexlify = self.mocker.replace("binascii.hexlify")
-        hexlify("98257")
-        self.mocker.result("xyz")
-        
-        self.mocker.replay()
-        test = webtest.TestApp(self.application)
-        
-        response = test.post("/api/groups", {'name': "Friends", 'owner': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
-        
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/groups/3", "owner": 1, "token": "xyz", "id": 3, "name": "Friends"}')
 
 
 if __name__ == "__main__":
