@@ -22,7 +22,8 @@
 	
 	ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
 	listItem.name = theTextField.text;
-	listItem.creation = [NSDate date];
+	listItem.creation = [self getUTCFormateDate:[NSDate date]];
+
 	[listName addListItemsObject:listItem];
 	
 	NSError *error;
@@ -48,6 +49,17 @@
 	
 	NSLog(@"foo second");
     return YES;
+}
+
+-(NSString *)getUTCFormateDate:(NSDate *)localDate
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [dateFormatter setTimeZone:timeZone];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateString = [dateFormatter stringFromDate:localDate];
+	
+    return dateString;
 }
 
 /*- (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -131,7 +143,7 @@
     
     // Scroll the table view to the top before it appears
     [self.tableView reloadData];
-    self.title = listEntries.title;
+    self.title = listName.name;
 }
 
 /*

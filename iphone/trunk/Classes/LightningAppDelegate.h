@@ -19,7 +19,7 @@
 	NSPersistentStoreCoordinator *psc;
 	
 	NSURL *apiUrl;
-	NSData *deviceToken;
+	NSString *deviceToken;
 	
 }
 
@@ -35,7 +35,7 @@
 @property (retain, nonatomic) NSPersistentStoreCoordinator *psc;
 
 @property (retain, nonatomic) NSURL *apiUrl;
-@property (retain, nonatomic) NSData *deviceToken;
+@property (retain, nonatomic) NSString *deviceToken;
 
 @end
 

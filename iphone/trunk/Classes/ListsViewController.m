@@ -43,6 +43,8 @@
 		
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
 		
+		
+		[self setupModel:TRUE];
 		//[self.listNames setArray:nil];
     }
     return self;
@@ -53,7 +55,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	[self setLists:[[Lists alloc] init]];
+	//[self setLists:[[Lists alloc] init]];
 	
 	self.tableView.allowsSelectionDuringEditing = YES;
 	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addList)];
@@ -65,13 +67,12 @@
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 	[lightning getListsWithContext:self.context];
-	
-	//[self setupModel];
+
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
--(void) setupModel {
+-(void) setupModel:(BOOL)init {
 	NSError *error;
 	NSFetchRequest *req = [NSFetchRequest new];
 	if(context == nil)
@@ -86,7 +87,10 @@
 	
 	self.listNames = [[context executeFetchRequest:req error:&error] mutableCopy];
 	
-	[self.tableView reloadData];
+	if (!init) {
+		[self.tableView reloadData];
+	}
+	
 }
 
 - (void)addList {
@@ -115,7 +119,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	
-	self.title = lists.title;
+	//TODO getting username
+	self.title = @"TODO user";
 }
 
 /*
@@ -213,21 +218,34 @@
 		label.backgroundColor = [UIColor clearColor];
 		UIFont *font = [UIFont systemFontOfSize:20.0];
 		label.font = font;
+		
+		label.tag = 10;
 		[cell addSubview:label];
 		
 		UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
 		roundedLabel.textColor = [UIColor whiteColor];
+		NSLog(@"cellforrow unread %@", listName.unreadCount);
 		roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
 		roundedLabel.textAlignment = UITextAlignmentCenter;
 		roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
 		CALayer *layer = [roundedLabel layer];
 		layer.cornerRadius = 10.0f;
 		
+		roundedLabel.tag = 11;
 		[cell addSubview:roundedLabel];
 		
 		//[listEntry release];
 		
+	} else {
+		ListName *listName = [listNames objectAtIndex:indexPath.row];
+		
+		UILabel *label = (UILabel*)[cell viewWithTag:10];
+		label.text = [listName name];
+		
+		UILabel *roundedLabel = (UILabel*)[cell viewWithTag:11];
+		roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
 	}
+
 	
 		
     return cell;
@@ -306,7 +324,7 @@
 - (void)finishFetchingLists:(NSData *)data{
 	NSLog(@"got data from google");
 	
-	[self setupModel];
+	[self setupModel:FALSE];
 }
 
 
