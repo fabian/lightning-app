@@ -56,7 +56,7 @@
 			[myFetcher beginFetchWithDelegate:self
 						didFinishSelector:@selector(myFetcher:finishedWithData:error:)];
 		} else {
-			//[self createListWithTitle:@"poschte"];
+			//[self createListWithTitle:@"poschte2"];
 			//[self createItemWithValue:@"brot" andList:@"46002"];
 			//[self getItemsFromList:@"46002" context:nil];
 		}
@@ -119,9 +119,10 @@
 		ListName *listName = [results objectAtIndex:0];
 		
 		NSArray *items = [[listName listItems] allObjects];
-		
+
 		for (ListItem *item in items) {
 			if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+				NSManagedObjectID *objectID = [item objectID];
 				GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 				[GTMHTTPFetcher setLoggingEnabled:YES];
 				
@@ -131,7 +132,7 @@
 				[myFetcher setDeviceHeader:deviceHeader];
 				
 				[myFetcher beginFetchWithDelegate:self
-								didFinishSelector:@selector(myFetcher:finishedWithCreatingItem:error:)];
+								didFinishSelector:@selector(myFetcher:finishedWithCreatingItem:error:objectID:)];
 			}
 		}
 	}
@@ -256,7 +257,7 @@
 	}
 }
 
-- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithCreatingItem:(NSData *)retrievedData error:(NSError *)error {
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithCreatingItem:(NSData *)retrievedData error:(NSError *)error objectID:(NSManagedObjectID *)objectID{
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -294,6 +295,7 @@
 			
 			for (ListItem *item in items) {
 				if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+				//if ([objectID isEqual:[item objectID]]) {
 					
 					item.name = [object objectForKey:@"value"];
 					item.listItemId = [object objectForKey:@"id"];
@@ -338,6 +340,40 @@
 		NSDictionary *object = [parser objectWithString:data error:nil];
 		NSArray *arrayOfList = [object objectForKey:@"lists"];
 		
+		if ([arrayOfList count] == 0) {
+			NSEntityDescription    * entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+			
+			NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+			[fetch setEntity: entity];
+			
+			NSArray * results = [context executeFetchRequest:fetch error:nil];
+			[fetch release];
+			
+			for (NSManagedObject *managedObject in results) {
+				[context deleteObject:managedObject];
+			}
+			
+		} else {
+			
+			for (NSDictionary *list in arrayOfList) {
+				NSEntityDescription    * entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+				NSPredicate * predicate;
+				predicate = [NSPredicate predicateWithFormat:@"listId != %@", [list objectForKey:@"id"]];
+			
+				NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+				[fetch setEntity: entity];
+				[fetch setPredicate: predicate];
+			
+				NSArray * results = [context executeFetchRequest:fetch error:nil];
+				[fetch release];
+			
+				for (NSManagedObject *managedObject in results) {
+					[context deleteObject:managedObject];
+				}
+			}
+		}
+
+		
 		for (NSDictionary *list in arrayOfList) {
 			//checking if existing
 			NSEntityDescription    * entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
@@ -379,7 +415,7 @@
 				 listName.unreadCount = [list objectForKey:@"unread"];
 				 
 				 [context save:&error];
-				[self getItemsFromList:[list objectForKey:@"id"] context:self.context];
+				 [self getItemsFromList:[list objectForKey:@"id"] context:self.context];
 				 //[listName release];
 				 
 			}

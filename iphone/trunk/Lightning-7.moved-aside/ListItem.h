@@ -14,7 +14,7 @@
 }
 
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * creation;
+@property (nonatomic, retain) NSDate * creation;
 @property (nonatomic, retain) NSNumber * listItemId;
 
 @end
