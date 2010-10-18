@@ -203,7 +203,12 @@ class ListResource(ListsResource):
                         'value': item.value, 
                     })
                 
-                return {'items': items}
+                id = list.key().id()
+                url = self.url(list)
+                title = list.title
+                unread = list.unread
+                
+                return {'id': id, 'url': url, 'title': title, 'unread': unread, 'items': items}
             
         else:
             # list not found
