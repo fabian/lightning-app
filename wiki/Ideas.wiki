@@ -9,6 +9,8 @@ any ideas from us
 
 == Transparent View ==
 http://doganberktas.com/2010/05/18/adding-transparent-modal-view-programatically-iphone/
+http://cocoawithlove.com/2009/04/showing-message-over-iphone-keyboard.html
+http://stackoverflow.com/questions/849458/transparent-modal-view-on-navigation-controller
 
 == New ones ==
   *How to delete entries which are strike-through
