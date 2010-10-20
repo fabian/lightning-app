@@ -6,6 +6,10 @@ any ideas from us
 
 
 = Details =
+
+== Transparent View ==
+http://doganberktas.com/2010/05/18/adding-transparent-modal-view-programatically-iphone/
+
 == New ones ==
   *How to delete entries which are strike-through
   * Updating via shake and the show a toolbar on the bottom of the screen which says updating(multi-threading update: http://feedproxy.google.com/~r/icodeblog/~3/lS4txJkYBO4/)
