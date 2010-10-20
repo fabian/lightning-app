@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "ListItem.h"
 
 
 @protocol LightningDelegate;
@@ -41,7 +42,7 @@
 
 -(void)createListWithTitle:(NSString *)listTitle;
 -(void)getLists;
--(void)addItemToList:(NSString *)listId andContext:(NSManagedObjectContext *)context;
+-(void)addItemToList:(NSString *)listId item:(ListItem *)item context:(NSManagedObjectContext *)context;
 
 @end
 

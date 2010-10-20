@@ -12,7 +12,7 @@
 
 @implementation ListViewController
 
-@synthesize listEntries, listItems, context, listName, doneTextField;
+@synthesize listEntries, listItems, context, listName, doneTextField, showMail;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
 	NSLog(@"Foo %@", theTextField.text);
@@ -44,7 +44,33 @@
 	Lightning *lightning = [[Lightning alloc]init];
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
-	[lightning addItemToList:(NSString*)listName.listId andContext:self.context];
+	
+	//CoreData
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+	NSPredicate * predicate;
+	predicate = [NSPredicate predicateWithFormat:@"listId == %@", listName.listId];
+	
+	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+	[fetch setEntity: entity];
+	[fetch setPredicate: predicate];
+	
+	NSArray * results = [context executeFetchRequest:fetch error:nil];
+	[fetch release];
+	
+	if([results count] == 0) {
+		NSLog(@"Something went wrong with CoreData");
+	} else {
+		ListName *listNameCoreData = [results objectAtIndex:0];
+		
+		NSArray *items = [[listNameCoreData listItems] allObjects];
+		
+		for (ListItem *item in items) {
+			if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+				//NSManagedObjectID *objectID = [item objectID];
+				[lightning addItemToList:(NSString*)listNameCoreData.listId item:item context:self.context];
+			}
+		}
+	}
 	
 	
 	NSLog(@"foo second");
@@ -133,6 +159,39 @@
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+// Dismisses the email composition interface when users tap Cancel or Send.
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+{	
+	NSLog(@"error mail: %@", error);
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			NSLog(@"Result: canceled");
+			break;
+		case MFMailComposeResultSaved:
+			NSLog(@"Result: saved");
+			break;
+		case MFMailComposeResultSent:
+			NSLog(@"Result: sent");
+			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+			[listViewController registerForKeyboardNotifications];
+			
+			[self.navigationController pushViewController:listViewController animated:YES];
+			[listViewController release];
+			break;
+		case MFMailComposeResultFailed:
+			NSLog(@"Result: failed");
+			break;
+		default:
+			NSLog(@"Result: not sent");
+			break;
+	}
+	
+	
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 - (void)editList {
 	
 }
@@ -146,11 +205,28 @@
     self.title = listName.name;
 }
 
-/*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+	
+	if (self.showMail) {
+		self.showMail = FALSE;
+		
+		MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+		mailComposer.mailComposeDelegate = self;
+		
+		NSString *subject = [NSString stringWithFormat:@"Group invite for groupname: %@", @"mhm"];
+		[mailComposer setSubject:subject];
+		
+		// Fill out the email body text
+		NSString *emailBody = @"This is an group invite bla bla";
+		[mailComposer setMessageBody:emailBody isHTML:NO];
+		
+		[self presentModalViewController:mailComposer animated:YES];
+		[mailComposer release];	
+	}
+	
 }
-*/
+
 /*
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
