@@ -110,7 +110,7 @@
 	
 }
 
-- (void)finishAddList:(int)checkmark listName:(NSString *)listName{
+- (void)finishAddList:(int)checkmark andListName:(NSString *)listName{
 	NSLog(@"finishAddList %i", checkmark);
 	
 	[self dismissModalViewControllerAnimated:YES];

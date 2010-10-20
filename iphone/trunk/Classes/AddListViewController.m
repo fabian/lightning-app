@@ -39,7 +39,7 @@
  
 - (void)doneAddList {
 	NSLog(@"doneAddList");
-	[self.delegate finishAddList:checkmark:listName.text];
+	[self.delegate finishAddList:checkmark andListName:listName.text];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -189,12 +189,12 @@
 			cell.textLabel.text = @"Private";
 			cell.detailTextLabel.text = @"ja isches";
 			indexPathCell1 = indexPath;
-			cell.imageView.image = [UIImage imageNamed:@"private.png"];
+			cell.imageView.image = [UIImage imageNamed:@"Icon-Private.png"];
 		} else {
 			cell.textLabel.text	= @"Share with others";
 			cell.detailTextLabel.text = @"denke schon";
 			indexPathCell2 = indexPath;
-			cell.imageView.image = [UIImage imageNamed:@"sharing.png"];
+			cell.imageView.image = [UIImage imageNamed:@"Icon-Shared.png"];
 		}
 
 	}
