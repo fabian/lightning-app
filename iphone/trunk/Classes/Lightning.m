@@ -91,7 +91,7 @@
 					didFinishSelector:@selector(myFetcher:finishedWithCreatingList:error:)];
 }
 
--(void)addItemToList:(NSString *)listId andContext:(NSManagedObjectContext *)context{
+-(void)addItemToList:(NSString *)listId item:(ListItem *)item context:(NSManagedObjectContext *)context{
 	
 	self.context = context;
 	
@@ -100,43 +100,19 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
-	
-	//CoreData
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
-	NSPredicate * predicate;
-	predicate = [NSPredicate predicateWithFormat:@"listId == %@", listId];
-	
-	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
-	[fetch setEntity: entity];
-	[fetch setPredicate: predicate];
-	
-	NSArray * results = [context executeFetchRequest:fetch error:nil];
-	[fetch release];
-	
-	if([results count] == 0) {
-		NSLog(@"Something went wrong with CoreData");
-	} else {
-		ListName *listName = [results objectAtIndex:0];
-		
-		NSArray *items = [[listName listItems] allObjects];
 
-		for (ListItem *item in items) {
-			if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
-				NSManagedObjectID *objectID = [item objectID];
-				GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-				[GTMHTTPFetcher setLoggingEnabled:YES];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
 				
-				NSString *postString = [NSString stringWithFormat:@"value=%@;list=%@", item.name, listId];
-				[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
-				NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-				[myFetcher setDeviceHeader:deviceHeader];
-				
-				[myFetcher beginFetchWithDelegate:self
-								didFinishSelector:@selector(myFetcher:finishedWithCreatingItem:error:objectID:)];
-			}
-		}
-	}
-	//
+	NSString *postString = [NSString stringWithFormat:@"value=%@;list=%@", item.name, listId];
+	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+	[myFetcher setUserData:[item objectID]];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedWithCreatingItem:error:)];
+
 }
 
 -(void)pushUpdateForList:(NSString *)listId{
@@ -257,7 +233,7 @@
 	}
 }
 
-- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithCreatingItem:(NSData *)retrievedData error:(NSError *)error objectID:(NSManagedObjectID *)objectID{
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithCreatingItem:(NSData *)retrievedData error:(NSError *)error {
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -274,7 +250,7 @@
 		
 		NSString *listId = [object objectForKey:@"list"];
 		//Getting acutal List
-		NSEntityDescription *entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+		NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
 		NSPredicate * predicate;
 		predicate = [NSPredicate predicateWithFormat:@"listId == %@", listId];
 		
@@ -291,10 +267,11 @@
 			ListName *listName = [results objectAtIndex:0];
 			
 			NSArray *items = [[listName listItems] allObjects];
-			NSString *listItemId = [object objectForKey:@"id"];
+			NSManagedObjectID *objectID	= nil;
 			
 			for (ListItem *item in items) {
-				if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+				objectID = [fetcher userData];
+				if ([objectID isEqual:[item objectID]]) {
 				//if ([objectID isEqual:[item objectID]]) {
 					
 					item.name = [object objectForKey:@"value"];

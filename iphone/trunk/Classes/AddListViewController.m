@@ -8,10 +8,11 @@
 
 #import "AddListViewController.h"
 #import "AddNewGroup.h"
+#import "ListViewController.h"
 
 @implementation AddListViewController
 
-@synthesize delegate;
+@synthesize delegate, indexPathCell1, indexPathCell2, checkmark, listName;
 
 /*
  - (id)initWithStyle:(UITableViewStyle)style {
@@ -30,13 +31,15 @@
 	 self.navigationItem.rightBarButtonItem = button;
 	 [button release];
 	 
+	 checkmark = 0;
+	 
  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
  }
  
 - (void)doneAddList {
 	NSLog(@"doneAddList");
-	[self.delegate finishAddList];
+	[self.delegate finishAddList:checkmark:listName.text];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -156,7 +159,7 @@
     if(section == 0)
 		return 1;
 	
-	return 3;
+	return 2;
 }
 
 
@@ -167,18 +170,33 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     // Set up the cell...
 	if(indexPath.section == 0) {
-		UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(16, 10, cell.frame.size.width-16, cell.frame.size.height-10)];
-		textField.placeholder = @"Set name of list";
-		textField.delegate = self;
-		[cell addSubview: textField];
+		listName = [[UITextField alloc] initWithFrame:CGRectMake(16, 10, cell.frame.size.width-16, cell.frame.size.height-10)];
+		listName.placeholder = @"Set name of list";
+		listName.delegate = self;
+		[cell addSubview: listName];
 		//cell.textLabel.text = @"Set name of list";
 	} else {
-		cell.textLabel.text = @"test";
+		
+		
+		if(0 == indexPath.row){
+			cell.accessoryType = UITableViewCellAccessoryCheckmark;
+			cell.textLabel.text = @"Private";
+			cell.detailTextLabel.text = @"ja isches";
+			indexPathCell1 = indexPath;
+			cell.imageView.image = [UIImage imageNamed:@"private.png"];
+		} else {
+			cell.textLabel.text	= @"Share with others";
+			cell.detailTextLabel.text = @"denke schon";
+			indexPathCell2 = indexPath;
+			cell.imageView.image = [UIImage imageNamed:@"sharing.png"];
+		}
+
 	}
 	
     return cell;
@@ -190,6 +208,22 @@
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
+		
+	UITableViewCell *cell1 = [self.tableView cellForRowAtIndexPath:indexPathCell1];
+	UITableViewCell *cell2 = [self.tableView cellForRowAtIndexPath:indexPathCell2];
+	
+	if(checkmark != indexPath.row) {
+		if (checkmark == 0) {
+			cell1.accessoryType = UITableViewCellAccessoryNone;
+			cell2.accessoryType = UITableViewCellAccessoryCheckmark;
+			checkmark = 1;
+			
+		} else {
+			cell1.accessoryType = UITableViewCellAccessoryCheckmark;
+			cell2.accessoryType = UITableViewCellAccessoryNone;
+			checkmark = 0;
+		}
+	}
 }
 
 
@@ -243,6 +277,7 @@
 
 - (void)dealloc {
     [super dealloc];
+	[listName release];
 }
 
 

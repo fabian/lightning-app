@@ -25,6 +25,8 @@
 		02BA5FBF115B7FB8002AAD93 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */; };
 		02BF56B3126CDD4800573423 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 02BF56B0126CDD4800573423 /* ListName.m */; };
 		02BF56B4126CDD4800573423 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02BF56B2126CDD4800573423 /* ListItem.m */; };
+		02DA0B55126EE46A00EA2D60 /* sharing.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0B54126EE46A00EA2D60 /* sharing.png */; };
+		02DA0B57126EE47400EA2D60 /* private.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0B56126EE47400EA2D60 /* private.png */; };
 		02EDDB6F1129CC1500E23D03 /* Lists.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB6E1129CC1500E23D03 /* Lists.m */; };
 		02EDDB941129CEE700E23D03 /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */; };
 		02EDDB971129CEF000E23D03 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */; };
@@ -64,6 +66,8 @@
 		02BF56B0126CDD4800573423 /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
 		02BF56B1126CDD4800573423 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
 		02BF56B2126CDD4800573423 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
+		02DA0B54126EE46A00EA2D60 /* sharing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sharing.png; sourceTree = "<group>"; };
+		02DA0B56126EE47400EA2D60 /* private.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = private.png; sourceTree = "<group>"; };
 		02EDDB6D1129CC1500E23D03 /* Lists.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lists.h; sourceTree = "<group>"; };
 		02EDDB6E1129CC1500E23D03 /* Lists.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lists.m; sourceTree = "<group>"; };
 		02EDDB921129CEE700E23D03 /* ListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsViewController.h; sourceTree = "<group>"; };
@@ -221,6 +225,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				02DA0B56126EE47400EA2D60 /* private.png */,
+				02DA0B54126EE46A00EA2D60 /* sharing.png */,
 				029CFBED11371A9800D6942C /* accessory.png */,
 				029CFA56113440CA00D6942C /* middleWithLine.jpg */,
 				029CF8A11133166200D6942C /* bottom.jpg */,
@@ -302,6 +308,8 @@
 				029CF8A81133166200D6942C /* top.jpg in Resources */,
 				029CFA57113440CA00D6942C /* middleWithLine.jpg in Resources */,
 				029CFBEE11371A9800D6942C /* accessory.png in Resources */,
+				02DA0B55126EE46A00EA2D60 /* sharing.png in Resources */,
+				02DA0B57126EE47400EA2D60 /* private.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

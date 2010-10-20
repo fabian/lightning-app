@@ -110,11 +110,22 @@
 	
 }
 
-- (void)finishAddList {
-	NSLog(@"finishAddList");
+- (void)finishAddList:(int)checkmark listName:(NSString *)listName{
+	NSLog(@"finishAddList %i", checkmark);
+	
 	[self dismissModalViewControllerAnimated:YES];
+	ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+	[listViewController registerForKeyboardNotifications];
+		
+	if (checkmark == 1) {
+		listViewController.showMail = TRUE;
+	} else {
+		listViewController.showMail = FALSE;
+	}
+		
+	[self.navigationController pushViewController:listViewController animated:NO];
+	[listViewController release];
 }
-
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -128,11 +139,13 @@
     [super viewDidAppear:animated];
 }
 */
+
 /*
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 }
 */
+
 /*
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
