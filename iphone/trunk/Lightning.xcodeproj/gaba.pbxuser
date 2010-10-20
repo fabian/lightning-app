@@ -197,9 +197,9 @@
 		path = /Users/gaba/Documents/Projects/Lightning/Classes/AddListViewController.h;
 		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1172, 510}}";
-			sepNavSelRange = "{976, 0}";
-			sepNavVisRange = "{0, 984}";
+			sepNavIntBoundsRect = "{{0, 0}, {1172, 533}}";
+			sepNavSelRange = "{986, 0}";
+			sepNavVisRange = "{0, 987}";
 		};
 	};
 	026AE39D1145870B009AE783 /* AddListViewController.m */ = {
@@ -361,9 +361,9 @@
 	};
 	029CFACC1135B33000D6942C /* AddListViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1172, 3822}}";
-			sepNavSelRange = "{1161, 0}";
-			sepNavVisRange = "{617, 887}";
+			sepNavIntBoundsRect = "{{0, 0}, {1379, 3588}}";
+			sepNavSelRange = "{5794, 0}";
+			sepNavVisRange = "{5278, 522}";
 			sepNavWindowFrame = "{{38, 131}, {1298, 721}}";
 		};
 	};
@@ -519,7 +519,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 123";
 		rLen = 0;
-		rLoc = 4307;
+		rLoc = 4310;
 		rType = 0;
 		vrLen = 1145;
 		vrLoc = 2931;
@@ -592,7 +592,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 181";
 		rLen = 0;
-		rLoc = 5346;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1557;
 		vrLoc = 4372;
@@ -700,7 +700,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 181";
 		rLen = 0;
-		rLoc = 5346;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1608;
 		vrLoc = 4322;
@@ -710,7 +710,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 182";
 		rLen = 0;
-		rLoc = 5346;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1647;
 		vrLoc = 4322;
@@ -730,7 +730,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 182";
 		rLen = 0;
-		rLoc = 5346;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 838;
 		vrLoc = 4843;
@@ -750,7 +750,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 182";
 		rLen = 0;
-		rLoc = 5346;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1647;
 		vrLoc = 4322;
@@ -760,7 +760,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 182";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1645;
 		vrLoc = 4322;
@@ -770,7 +770,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 182";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1643;
 		vrLoc = 4322;
@@ -780,7 +780,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 182";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1643;
 		vrLoc = 4322;
@@ -790,7 +790,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 182";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1643;
 		vrLoc = 4322;
@@ -800,7 +800,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 182";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 532;
 		vrLoc = 4776;
@@ -840,7 +840,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 208";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1404;
 		vrLoc = 5026;
@@ -897,7 +897,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 183";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1347;
 		vrLoc = 4165;
@@ -907,7 +907,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 183";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1347;
 		vrLoc = 4165;
@@ -917,7 +917,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 183";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1473;
 		vrLoc = 4165;
@@ -927,7 +927,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 208";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 526;
 		vrLoc = 5705;
@@ -937,7 +937,7 @@
 		fRef = 026AE39D1145870B009AE783 /* AddListViewController.m */;
 		name = "AddListViewController.m: 183";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1680;
 		vrLoc = 4355;
@@ -947,7 +947,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 183";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1680;
 		vrLoc = 4355;
@@ -957,7 +957,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 183";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 1551;
 		vrLoc = 4355;
@@ -967,7 +967,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 183";
 		rLen = 0;
-		rLoc = 5315;
+		rLoc = 5327;
 		rType = 0;
 		vrLen = 514;
 		vrLoc = 4818;
@@ -1004,7 +1004,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 185";
 		rLen = 0;
-		rLoc = 5344;
+		rLoc = 5356;
 		rType = 0;
 		vrLen = 1368;
 		vrLoc = 4812;
@@ -1014,7 +1014,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 207";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1430;
 		vrLoc = 4812;
@@ -1024,7 +1024,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 209";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1432;
 		vrLoc = 4812;
@@ -1034,7 +1034,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 209";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1432;
 		vrLoc = 4812;
@@ -1044,7 +1044,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 209";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1432;
 		vrLoc = 4812;
@@ -1054,7 +1054,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 209";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1522;
 		vrLoc = 4849;
@@ -1071,7 +1071,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 208";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 625;
 		vrLoc = 5805;
@@ -1081,7 +1081,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 208";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 625;
 		vrLoc = 5805;
@@ -1091,7 +1091,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 207";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1686;
 		vrLoc = 5324;
@@ -1101,7 +1101,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 207";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1686;
 		vrLoc = 5324;
@@ -1111,7 +1111,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 207";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1572;
 		vrLoc = 5324;
@@ -1121,7 +1121,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 213";
 		rLen = 0;
-		rLoc = 6737;
+		rLoc = 6758;
 		rType = 0;
 		vrLen = 738;
 		vrLoc = 5315;
@@ -1131,7 +1131,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 207";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1587;
 		vrLoc = 4823;
@@ -1240,7 +1240,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 213";
 		rLen = 0;
-		rLoc = 6737;
+		rLoc = 6758;
 		rType = 0;
 		vrLen = 738;
 		vrLoc = 5315;
@@ -1574,7 +1574,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 203";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 866;
 		vrLoc = 5409;
@@ -1624,7 +1624,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 208";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1276;
 		vrLoc = 5238;
@@ -1634,7 +1634,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 214";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1228;
 		vrLoc = 5515;
@@ -1644,7 +1644,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 216";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1258;
 		vrLoc = 5519;
@@ -1654,7 +1654,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 213";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1258;
 		vrLoc = 5519;
@@ -1664,7 +1664,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 211";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1391;
 		vrLoc = 5538;
@@ -1674,7 +1674,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 216";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1487;
 		vrLoc = 5540;
@@ -1684,7 +1684,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 215";
 		rLen = 0;
-		rLoc = 6592;
+		rLoc = 6613;
 		rType = 0;
 		vrLen = 1383;
 		vrLoc = 5542;
@@ -1694,7 +1694,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 220";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1467;
 		vrLoc = 5714;
@@ -1704,7 +1704,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 220";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1387;
 		vrLoc = 5914;
@@ -1714,7 +1714,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 220";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 1387;
 		vrLoc = 5914;
@@ -1751,7 +1751,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 220";
 		rLen = 0;
-		rLoc = 6733;
+		rLoc = 6754;
 		rType = 0;
 		vrLen = 451;
 		vrLoc = 5089;
@@ -1781,7 +1781,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 193";
 		rLen = 21;
-		rLoc = 6357;
+		rLoc = 6360;
 		rType = 0;
 		vrLen = 1361;
 		vrLoc = 4816;
@@ -1791,7 +1791,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 189";
 		rLen = 0;
-		rLoc = 5555;
+		rLoc = 5567;
 		rType = 0;
 		vrLen = 1529;
 		vrLoc = 4545;
@@ -1801,7 +1801,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 189";
 		rLen = 0;
-		rLoc = 5581;
+		rLoc = 5598;
 		rType = 0;
 		vrLen = 1584;
 		vrLoc = 4597;
@@ -1811,7 +1811,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 193";
 		rLen = 0;
-		rLoc = 5773;
+		rLoc = 5794;
 		rType = 0;
 		vrLen = 1568;
 		vrLoc = 4710;
@@ -1821,7 +1821,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 188";
 		rLen = 0;
-		rLoc = 5474;
+		rLoc = 5486;
 		rType = 0;
 		vrLen = 1600;
 		vrLoc = 4687;
@@ -1831,7 +1831,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 173";
 		rLen = 0;
-		rLoc = 4963;
+		rLoc = 4975;
 		rType = 0;
 		vrLen = 1605;
 		vrLoc = 4687;
@@ -1841,7 +1841,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 194";
 		rLen = 0;
-		rLoc = 5686;
+		rLoc = 5703;
 		rType = 0;
 		vrLen = 1475;
 		vrLoc = 4898;
@@ -1851,7 +1851,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 194";
 		rLen = 0;
-		rLoc = 5686;
+		rLoc = 5703;
 		rType = 0;
 		vrLen = 1475;
 		vrLoc = 4898;
@@ -1871,7 +1871,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 194";
 		rLen = 0;
-		rLoc = 5686;
+		rLoc = 5703;
 		rType = 0;
 		vrLen = 559;
 		vrLoc = 5298;
@@ -1881,7 +1881,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 172";
 		rLen = 0;
-		rLoc = 4858;
+		rLoc = 4870;
 		rType = 0;
 		vrLen = 1472;
 		vrLoc = 4386;
@@ -1891,7 +1891,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 193";
 		rLen = 0;
-		rLoc = 5621;
+		rLoc = 5638;
 		rType = 0;
 		vrLen = 1396;
 		vrLoc = 4540;
@@ -1901,7 +1901,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 272";
 		rLen = 168;
-		rLoc = 8917;
+		rLoc = 8920;
 		rType = 0;
 		vrLen = 1435;
 		vrLoc = 7517;
@@ -1911,7 +1911,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 147";
 		rLen = 0;
-		rLoc = 4109;
+		rLoc = 4121;
 		rType = 0;
 		vrLen = 1239;
 		vrLoc = 3207;
@@ -1991,7 +1991,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 272";
 		rLen = 168;
-		rLoc = 8917;
+		rLoc = 8920;
 		rType = 0;
 		vrLen = 1490;
 		vrLoc = 7462;
@@ -2001,7 +2001,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1131;
 		vrLoc = 3178;
@@ -2031,7 +2031,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 43";
 		rLen = 0;
-		rLoc = 1214;
+		rLoc = 1226;
 		rType = 0;
 		vrLen = 936;
 		vrLoc = 632;
@@ -2061,7 +2061,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1131;
 		vrLoc = 3178;
@@ -2071,7 +2071,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3728;
+		rLoc = 3731;
 		rType = 0;
 		vrLen = 1163;
 		vrLoc = 3220;
@@ -2081,7 +2081,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3728;
+		rLoc = 3731;
 		rType = 0;
 		vrLen = 1163;
 		vrLoc = 3220;
@@ -2091,7 +2091,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3728;
+		rLoc = 3731;
 		rType = 0;
 		vrLen = 1163;
 		vrLoc = 3220;
@@ -2111,7 +2111,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3728;
+		rLoc = 3731;
 		rType = 0;
 		vrLen = 680;
 		vrLoc = 3351;
@@ -2151,7 +2151,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 908;
 		vrLoc = 3543;
@@ -2190,7 +2190,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3728;
+		rLoc = 3731;
 		rType = 0;
 		vrLen = 559;
 		vrLoc = 3415;
@@ -2250,7 +2250,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 984;
 		vrLoc = 3470;
@@ -2260,7 +2260,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 3548;
@@ -2270,7 +2270,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 951;
 		vrLoc = 3548;
@@ -2290,7 +2290,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 565;
 		vrLoc = 3623;
@@ -2320,7 +2320,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 909;
 		vrLoc = 3548;
@@ -2330,7 +2330,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 873;
 		vrLoc = 3584;
@@ -2340,7 +2340,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1352;
 		vrLoc = 2930;
@@ -2350,7 +2350,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 565;
 		vrLoc = 3623;
@@ -2360,7 +2360,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1352;
 		vrLoc = 2930;
@@ -2400,7 +2400,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 565;
 		vrLoc = 3623;
@@ -2430,7 +2430,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1351;
 		vrLoc = 2931;
@@ -2440,7 +2440,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1336;
 		vrLoc = 2949;
@@ -2450,7 +2450,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1340;
 		vrLoc = 2949;
@@ -2470,7 +2470,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 529;
 		vrLoc = 3622;
@@ -2480,7 +2480,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1340;
 		vrLoc = 2949;
@@ -2490,7 +2490,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 529;
 		vrLoc = 3622;
@@ -2520,7 +2520,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1320;
 		vrLoc = 2969;
@@ -2530,7 +2530,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1315;
 		vrLoc = 2971;
@@ -2540,7 +2540,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1315;
 		vrLoc = 2971;
@@ -2550,7 +2550,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 526;
 		vrLoc = 3622;
@@ -2560,7 +2560,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1315;
 		vrLoc = 2971;
@@ -2600,7 +2600,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 526;
 		vrLoc = 3622;
@@ -2630,7 +2630,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1315;
 		vrLoc = 2971;
@@ -2640,7 +2640,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1183;
 		vrLoc = 3178;
@@ -2667,7 +2667,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 40;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 1146;
 		vrLoc = 3220;
@@ -2677,7 +2677,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 40;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 997;
 		vrLoc = 3415;
@@ -2687,7 +2687,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 40;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 997;
 		vrLoc = 3415;
@@ -2697,7 +2697,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 40;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 557;
 		vrLoc = 3415;
@@ -2724,7 +2724,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 116";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 997;
 		vrLoc = 3415;
@@ -2788,7 +2788,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 997;
 		vrLoc = 3415;
@@ -2798,7 +2798,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 946;
 		vrLoc = 3415;
@@ -2808,7 +2808,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 979;
 		vrLoc = 3470;
@@ -2818,7 +2818,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 504;
 		vrLoc = 3470;
@@ -2865,7 +2865,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 873;
 		vrLoc = 3750;
@@ -2912,7 +2912,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 1324;
 		vrLoc = 2928;
@@ -2922,7 +2922,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 1299;
 		vrLoc = 2928;
@@ -2932,7 +2932,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 1299;
 		vrLoc = 2928;
@@ -2942,7 +2942,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 621;
 		vrLoc = 3351;
@@ -2979,7 +2979,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1328;
 		vrLoc = 2930;
@@ -3026,7 +3026,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 1328;
 		vrLoc = 2930;
@@ -3036,7 +3036,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 1303;
 		vrLoc = 2930;
@@ -3046,7 +3046,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 1339;
 		vrLoc = 2949;
@@ -3066,7 +3066,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 627;
 		vrLoc = 3351;
@@ -3086,7 +3086,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 89";
 		rLen = 0;
-		rLoc = 1218;
+		rLoc = 1230;
 		rType = 0;
 		vrLen = 939;
 		vrLoc = 1882;
@@ -3116,7 +3116,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 114";
 		rLen = 0;
-		rLoc = 3691;
+		rLoc = 3694;
 		rType = 0;
 		vrLen = 1339;
 		vrLoc = 2949;
@@ -3126,7 +3126,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 116";
 		rLen = 0;
-		rLoc = 4174;
+		rLoc = 4177;
 		rType = 0;
 		vrLen = 1304;
 		vrLoc = 2949;
@@ -3146,7 +3146,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 43";
 		rLen = 0;
-		rLoc = 1218;
+		rLoc = 1230;
 		rType = 0;
 		vrLen = 949;
 		vrLoc = 1100;
@@ -3176,7 +3176,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 167";
 		rLen = 0;
-		rLoc = 4177;
+		rLoc = 4180;
 		rType = 0;
 		vrLen = 1030;
 		vrLoc = 4496;
@@ -3186,7 +3186,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 121";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1605;
 		vrLoc = 3220;
@@ -3196,7 +3196,7 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 43";
 		rLen = 0;
-		rLoc = 1218;
+		rLoc = 1230;
 		rType = 0;
 		vrLen = 888;
 		vrLoc = 1100;
@@ -3206,7 +3206,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 121";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1605;
 		vrLoc = 3220;
@@ -3216,7 +3216,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 161";
 		rLen = 0;
-		rLoc = 4176;
+		rLoc = 4179;
 		rType = 0;
 		vrLen = 1421;
 		vrLoc = 4177;
@@ -3226,7 +3226,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 161";
 		rLen = 0;
-		rLoc = 4176;
+		rLoc = 4179;
 		rType = 0;
 		vrLen = 1477;
 		vrLoc = 3662;
@@ -3236,7 +3236,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 161";
 		rLen = 0;
-		rLoc = 4176;
+		rLoc = 4179;
 		rType = 0;
 		vrLen = 667;
 		vrLoc = 3662;
@@ -3246,7 +3246,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 117";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1402;
 		vrLoc = 4226;
@@ -3256,7 +3256,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 117";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1415;
 		vrLoc = 4226;
@@ -3266,7 +3266,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 117";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 699;
 		vrLoc = 4226;
@@ -3286,7 +3286,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 118";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1372;
 		vrLoc = 3620;
@@ -3296,7 +3296,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 196";
 		rLen = 0;
-		rLoc = 4566;
+		rLoc = 4569;
 		rType = 0;
 		vrLen = 1258;
 		vrLoc = 5458;
@@ -3306,7 +3306,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 196";
 		rLen = 0;
-		rLoc = 4566;
+		rLoc = 4569;
 		rType = 0;
 		vrLen = 628;
 		vrLoc = 5458;
@@ -3326,7 +3326,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 198";
 		rLen = 0;
-		rLoc = 4566;
+		rLoc = 4569;
 		rType = 0;
 		vrLen = 1243;
 		vrLoc = 5366;
@@ -3336,7 +3336,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1375;
 		vrLoc = 3632;
@@ -3346,7 +3346,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1375;
 		vrLoc = 3632;
@@ -3356,7 +3356,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1375;
 		vrLoc = 3632;
@@ -3366,7 +3366,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 120";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 615;
 		vrLoc = 4392;
@@ -3376,7 +3376,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 119";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1313;
 		vrLoc = 3630;
@@ -3386,7 +3386,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 119";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1089;
 		vrLoc = 5384;
@@ -3396,7 +3396,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 119";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1088;
 		vrLoc = 5384;
@@ -3406,7 +3406,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 119";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1120;
 		vrLoc = 5387;
@@ -3416,7 +3416,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 119";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1120;
 		vrLoc = 5387;
@@ -3426,7 +3426,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 119";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1085;
 		vrLoc = 5387;
@@ -3436,7 +3436,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 119";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1045;
 		vrLoc = 5620;
@@ -3446,7 +3446,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 119";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 5558;
@@ -3456,7 +3456,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 119";
 		rLen = 0;
-		rLoc = 3732;
+		rLoc = 3735;
 		rType = 0;
 		vrLen = 1045;
 		vrLoc = 5648;
@@ -3466,7 +3466,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 191";
 		rLen = 0;
-		rLoc = 4390;
+		rLoc = 4393;
 		rType = 0;
 		vrLen = 613;
 		vrLoc = 5356;
@@ -3476,7 +3476,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 180";
 		rLen = 0;
-		rLoc = 4390;
+		rLoc = 4393;
 		rType = 0;
 		vrLen = 575;
 		vrLoc = 5356;
@@ -3486,7 +3486,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 180";
 		rLen = 0;
-		rLoc = 4390;
+		rLoc = 4393;
 		rType = 0;
 		vrLen = 934;
 		vrLoc = 5184;
@@ -3496,7 +3496,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 128";
 		rLen = 0;
-		rLoc = 4141;
+		rLoc = 4144;
 		rType = 0;
 		vrLen = 1185;
 		vrLoc = 3558;
@@ -3546,7 +3546,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 123";
 		rLen = 0;
-		rLoc = 4039;
+		rLoc = 4042;
 		rType = 0;
 		vrLen = 910;
 		vrLoc = 3543;
@@ -3556,7 +3556,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 123";
 		rLen = 0;
-		rLoc = 4039;
+		rLoc = 4042;
 		rType = 0;
 		vrLen = 910;
 		vrLoc = 3543;
@@ -3646,7 +3646,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 113";
 		rLen = 0;
-		rLoc = 3689;
+		rLoc = 3692;
 		rType = 0;
 		vrLen = 1384;
 		vrLoc = 2971;
@@ -3665,10 +3665,169 @@
 		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
 		name = "AddListViewController.m: 180";
 		rLen = 0;
-		rLoc = 5153;
+		rLoc = 5165;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 4500;
+	};
+	02DA0CD2126F8FAD00EA2D60 /* Icon-Private.png */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{15, 152}, {1298, 721}}";
+		};
+	};
+	02DA0CD7126F8FDC00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB921129CEE700E23D03 /* ListsViewController.h */;
+		name = "ListsViewController.h: 28";
+		rLen = 0;
+		rLoc = 812;
+		rType = 0;
+		vrLen = 819;
+		vrLoc = 0;
+	};
+	02DA0CD8126F8FDC00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB951129CEF000E23D03 /* ListViewController.h */;
+		name = "ListViewController.h: 37";
+		rLen = 0;
+		rLoc = 1081;
+		rType = 0;
+		vrLen = 1149;
+		vrLoc = 28;
+	};
+	02DA0CD9126F8FDC00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02BA5F2B115A92A9002AAD93 /* AddNewGroup.h */;
+		name = "AddNewGroup.h: 21";
+		rLen = 53;
+		rLoc = 464;
+		rType = 0;
+		vrLen = 674;
+		vrLoc = 0;
+	};
+	02DA0CDA126F8FDC00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 026AE39C1145870B009AE783 /* AddListViewController.h */;
+		name = "AddListViewController.h: 37";
+		rLen = 0;
+		rLoc = 986;
+		rType = 0;
+		vrLen = 987;
+		vrLoc = 0;
+	};
+	02DA0CDB126F8FDC00EA2D60 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 02DA0CD2126F8FAD00EA2D60 /* Icon-Private.png */;
+	};
+	02DA0CDC126F8FDC00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
+		name = "AddListViewController.m: 42";
+		rLen = 0;
+		rLoc = 1161;
+		rType = 0;
+		vrLen = 927;
+		vrLoc = 620;
+	};
+	02DA0CDD126F8FDC00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
+		name = "AddListViewController.m: 197";
+		rLen = 0;
+		rLoc = 5794;
+		rType = 0;
+		vrLen = 1370;
+		vrLoc = 4451;
+	};
+	02DA0CDE126F8FF300EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
+		name = "AddListViewController.m: 197";
+		rLen = 0;
+		rLoc = 5794;
+		rType = 0;
+		vrLen = 1542;
+		vrLoc = 4451;
+	};
+	02DA0CDF126F8FF800EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 139";
+		rLen = 0;
+		rLoc = 4393;
+		rType = 0;
+		vrLen = 379;
+		vrLoc = 4064;
+	};
+	02DA0CE0126F8FF800EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
+		name = "AddListViewController.m: 197";
+		rLen = 0;
+		rLoc = 5794;
+		rType = 0;
+		vrLen = 550;
+		vrLoc = 5443;
+	};
+	02DA0CE1126F900100EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
+		name = "AddListViewController.m: 197";
+		rLen = 0;
+		rLoc = 5794;
+		rType = 0;
+		vrLen = 1587;
+		vrLoc = 5001;
+	};
+	02DA0CEE126F911C00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 026AE39C1145870B009AE783 /* AddListViewController.h */;
+		name = "AddListViewController.h: 37";
+		rLen = 0;
+		rLoc = 986;
+		rType = 0;
+		vrLen = 987;
+		vrLoc = 0;
+	};
+	02DA0CEF126F911C00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 029CFACC1135B33000D6942C /* AddListViewController.m */;
+		name = "AddListViewController.m: 42";
+		rLen = 0;
+		rLoc = 1200;
+		rType = 0;
+		vrLen = 975;
+		vrLoc = 620;
+	};
+	02DA0CF0126F911C00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
+		name = "ListViewController.m: 227";
+		rLen = 0;
+		rLoc = 7281;
+		rType = 0;
+		vrLen = 1596;
+		vrLoc = 4600;
+	};
+	02DA0CF1126F911C00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 113";
+		rLen = 0;
+		rLoc = 3692;
+		rType = 0;
+		vrLen = 1422;
+		vrLoc = 2969;
+	};
+	02DA0CF2126F911C00EA2D60 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 113";
+		rLen = 0;
+		rLoc = 3670;
+		rType = 0;
+		vrLen = 1335;
+		vrLoc = 3059;
 	};
 	02E0A569126C9DA3006AA135 /* Lightning.m:103 */ = {
 		isa = PBXFileBreakpoint;
@@ -3804,9 +3963,9 @@
 	};
 	02EDDB931129CEE700E23D03 /* ListsViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1172, 4615}}";
-			sepNavSelRange = "{3689, 0}";
-			sepNavVisRange = "{2971, 1384}";
+			sepNavIntBoundsRect = "{{0, 0}, {1172, 4602}}";
+			sepNavSelRange = "{3670, 0}";
+			sepNavVisRange = "{3059, 1335}";
 			sepNavWindowFrame = "{{107, 68}, {1298, 721}}";
 		};
 	};
@@ -3820,9 +3979,9 @@
 	};
 	02EDDB961129CEF000E23D03 /* ListViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1172, 6383}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1172, 6331}}";
 			sepNavSelRange = "{7281, 0}";
-			sepNavVisRange = "{6639, 1112}";
+			sepNavVisRange = "{4600, 1596}";
 			sepNavWindowFrame = "{{107, 68}, {1298, 721}}";
 		};
 	};
@@ -4343,6 +4502,22 @@
 			02DA0CBF126F59F600EA2D60 /* PBXTextBookmark */ = 02DA0CBF126F59F600EA2D60 /* PBXTextBookmark */;
 			02DA0CC0126F59F600EA2D60 /* XCBuildMessageTextBookmark */ = 02DA0CC0126F59F600EA2D60 /* XCBuildMessageTextBookmark */;
 			02DA0CC1126F59F600EA2D60 /* PBXTextBookmark */ = 02DA0CC1126F59F600EA2D60 /* PBXTextBookmark */;
+			02DA0CD7126F8FDC00EA2D60 /* PBXTextBookmark */ = 02DA0CD7126F8FDC00EA2D60 /* PBXTextBookmark */;
+			02DA0CD8126F8FDC00EA2D60 /* PBXTextBookmark */ = 02DA0CD8126F8FDC00EA2D60 /* PBXTextBookmark */;
+			02DA0CD9126F8FDC00EA2D60 /* PBXTextBookmark */ = 02DA0CD9126F8FDC00EA2D60 /* PBXTextBookmark */;
+			02DA0CDA126F8FDC00EA2D60 /* PBXTextBookmark */ = 02DA0CDA126F8FDC00EA2D60 /* PBXTextBookmark */;
+			02DA0CDB126F8FDC00EA2D60 /* PBXBookmark */ = 02DA0CDB126F8FDC00EA2D60 /* PBXBookmark */;
+			02DA0CDC126F8FDC00EA2D60 /* PBXTextBookmark */ = 02DA0CDC126F8FDC00EA2D60 /* PBXTextBookmark */;
+			02DA0CDD126F8FDC00EA2D60 /* PBXTextBookmark */ = 02DA0CDD126F8FDC00EA2D60 /* PBXTextBookmark */;
+			02DA0CDE126F8FF300EA2D60 /* PBXTextBookmark */ = 02DA0CDE126F8FF300EA2D60 /* PBXTextBookmark */;
+			02DA0CDF126F8FF800EA2D60 /* PBXTextBookmark */ = 02DA0CDF126F8FF800EA2D60 /* PBXTextBookmark */;
+			02DA0CE0126F8FF800EA2D60 /* PBXTextBookmark */ = 02DA0CE0126F8FF800EA2D60 /* PBXTextBookmark */;
+			02DA0CE1126F900100EA2D60 /* PBXTextBookmark */ = 02DA0CE1126F900100EA2D60 /* PBXTextBookmark */;
+			02DA0CEE126F911C00EA2D60 /* PBXTextBookmark */ = 02DA0CEE126F911C00EA2D60 /* PBXTextBookmark */;
+			02DA0CEF126F911C00EA2D60 /* PBXTextBookmark */ = 02DA0CEF126F911C00EA2D60 /* PBXTextBookmark */;
+			02DA0CF0126F911C00EA2D60 /* PBXTextBookmark */ = 02DA0CF0126F911C00EA2D60 /* PBXTextBookmark */;
+			02DA0CF1126F911C00EA2D60 /* PBXTextBookmark */ = 02DA0CF1126F911C00EA2D60 /* PBXTextBookmark */;
+			02DA0CF2126F911C00EA2D60 /* PBXTextBookmark */ = 02DA0CF2126F911C00EA2D60 /* PBXTextBookmark */;
 			02E0A5DB126CC47B006AA135 = 02E0A5DB126CC47B006AA135 /* PBXTextBookmark */;
 			02E0A5FE126CC7B2006AA135 = 02E0A5FE126CC7B2006AA135 /* PBXTextBookmark */;
 			02E0A5FF126CC7B2006AA135 = 02E0A5FF126CC7B2006AA135 /* PBXTextBookmark */;

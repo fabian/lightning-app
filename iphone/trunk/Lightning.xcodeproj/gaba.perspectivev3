@@ -285,7 +285,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 250}, {185, 760}}</string>
+							<string>{{0, 376}, {185, 760}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -313,12 +313,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>02EDDBC21129D1C800E23D03</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>AddListViewController.m</string>
+								<string>ListsViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,11 +328,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>02EDDBC31129D1C800E23D03</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AddListViewController.m</string>
+										<string>ListsViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>02DA0CC1126F59F600EA2D60</string>
+										<string>02DA0CF2126F911C00EA2D60</string>
 										<key>history</key>
 										<array>
 											<string>029CF92711331E0F00D6942C</string>
@@ -360,14 +362,15 @@
 											<string>02DA0ABD126E218D00EA2D60</string>
 											<string>02DA0B29126E2A6700EA2D60</string>
 											<string>02DA0B5C126EE4D400EA2D60</string>
-											<string>02DA0CB9126F59F600EA2D60</string>
-											<string>02DA0CBA126F59F600EA2D60</string>
 											<string>02DA0CBB126F59F600EA2D60</string>
-											<string>02DA0CBC126F59F600EA2D60</string>
-											<string>02DA0CBD126F59F600EA2D60</string>
-											<string>02DA0CBE126F59F600EA2D60</string>
-											<string>02DA0CBF126F59F600EA2D60</string>
-											<string>02DA0CC0126F59F600EA2D60</string>
+											<string>02DA0CD7126F8FDC00EA2D60</string>
+											<string>02DA0CD8126F8FDC00EA2D60</string>
+											<string>02DA0CD9126F8FDC00EA2D60</string>
+											<string>02DA0CDB126F8FDC00EA2D60</string>
+											<string>02DA0CEE126F911C00EA2D60</string>
+											<string>02DA0CEF126F911C00EA2D60</string>
+											<string>02DA0CF0126F911C00EA2D60</string>
+											<string>02DA0CF1126F911C00EA2D60</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
