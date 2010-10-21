@@ -1,0 +1,16 @@
+[run]
+branch = True
+
+[report]
+
+omit = 
+    /Applications/*
+    django/*
+    mocker.py
+    settings.py
+    tests.py
+    urbanairship.py
+    webtest/*
+
+[html]
+directory = coverage_html_report
