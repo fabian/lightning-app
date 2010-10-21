@@ -20,13 +20,13 @@ class DevicesResource(Resource):
         
         device.put()
         
-        logging.debug("New device with id %s created", device.key().id())
+        logging.debug("New device with id %s created.", device.key().id())
         
         # register with Urban Airship
         airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
         airship.register(device.device_token, alias=str(device.key()))
         
-        logging.debug("Registered device %s with device token %s at Urban Airship", device.key().id(), device.device_token)
+        logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
         
         protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']
@@ -117,7 +117,7 @@ class ListsResource(Resource):
                 list = List(title=self.request.get('title'), owner=owner, token=token)
                 list.put()
                 
-                logging.debug("Device %s created list with id %s", owner.key().id(), list.key().id())
+                logging.debug("Device %s created list with id %s and title %s.", owner.key().id(), list.key().id(), list.title)
                 
                 protocol = self.request._environ['wsgi.url_scheme']
                 host = self.request._environ['HTTP_HOST']
