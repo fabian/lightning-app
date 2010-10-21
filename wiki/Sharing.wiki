@@ -5,11 +5,6 @@
 
 A list always has one owner. The list can be shared with other users which can edit the items in the list, but not the list name or it's sharing settings. The owner of a list can decide at any time to stop sharing a list.
 
-
-= Steps =
-
-== Inviting ==
-
   * A user creates a new LIST and is therefor the owner of the LIST.
   * The owner sets the privacy setting to SHARED and sends a mail with a token for the list (lightning://list/123?ABC123) to persons he'd like to share with.
   * Invitee opens link in mail on the iPhone.
