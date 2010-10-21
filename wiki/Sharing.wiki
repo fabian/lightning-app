@@ -3,20 +3,14 @@
 
 = Introduction =
 
-A list always has one owner. The list can be shared with other users which can edit the items in the list, but not the list name or it's sharing settings. The owner of a list has control who has access to the list.
+A list always has one owner. The list can be shared with other users which can edit the items in the list, but not the list name or it's sharing settings. The owner of a list can decide at any time to stop sharing a list.
 
 
 = Steps =
 
 == Inviting ==
 
-  * User creates a new LIST and is therefor the owner of the LIST.
-  * Owner creates a new INVITATION with a group name and sends a mail with a token for the invitation (say lightning:invitation?ABC123) to persons he'd like to share with.
+  * A user creates a new LIST and is therefor the owner of the LIST.
+  * The owner sets the privacy setting to SHARED and sends a mail with a token for the list (lightning://list/123?ABC123) to persons he'd like to share with.
   * Invitee opens link in mail on the iPhone.
-  * A new SHAREDLIST is created on the server to associate the DEVICE with the INVITATION and finally the LIST.
-
-== Suspending ==
-
-  * Owner removes a group from the sharing settings of a LIST.
-  * The INVITATION gets marked as deleted on the server.
-  * Next time the invitee tries to view/update the SHAREDLIST it gets removed from his lists.
+  * A new SHAREDLIST is created on the server to associate the DEVICE with the shared LIST.
