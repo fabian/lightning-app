@@ -1,3 +1,4 @@
+import logging
 import os
 import binascii
 from datetime import datetime
@@ -19,9 +20,13 @@ class DevicesResource(Resource):
         
         device.put()
         
+        logging.debug("New device with id %s created", device.key().id())
+        
         # register with Urban Airship
         airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
         airship.register(device.device_token, alias=str(device.key()))
+        
+        logging.debug("Registered device %s with device token %s at Urban Airship", device.key().id(), device.device_token)
         
         protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']
@@ -253,7 +258,7 @@ class ListPushResource(ListsResource):
                         unread += shared.unread
                     
                     # push notification and unread count to Urban Airship
-                    airship.push({'aps': {'alert': notification, 'badge': unread}}, aliases=[str(device.key())])
+                    airship.push({'aps': {'alert': notification, 'badge': unread}}, device_tokens=[device.device_token])
                 
                 list.notified = datetime.now()
                 list.put()
