@@ -224,7 +224,7 @@ class ListPushTests(Tests):
         self.item_three = models.Item(value="Marmalade", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_three.put()
         
-        self.urbanairship.push({'aps': {'badge': 0, 'alert': "Added Bread and Wine. Changed Butter to Marmalade."}}, aliases=['ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAww'])
+        self.urbanairship.push({'aps': {'badge': 0, 'alert': "Added Bread and Wine. Changed Butter to Marmalade."}}, device_tokens=["ABC123"])
     
     def test_push_list(self):
         
