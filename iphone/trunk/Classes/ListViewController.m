@@ -12,7 +12,7 @@
 
 @implementation ListViewController
 
-@synthesize listEntries, listItems, context, listName, doneTextField, showMail;
+@synthesize listEntries, listItems, context, listName, doneTextField;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
 	NSLog(@"Foo %@", theTextField.text);
@@ -159,39 +159,6 @@
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-// Dismisses the email composition interface when users tap Cancel or Send.
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
-{	
-	NSLog(@"error mail: %@", error);
-	// Notifies users about errors associated with the interface
-	switch (result)
-	{
-		case MFMailComposeResultCancelled:
-			NSLog(@"Result: canceled");
-			break;
-		case MFMailComposeResultSaved:
-			NSLog(@"Result: saved");
-			break;
-		case MFMailComposeResultSent:
-			NSLog(@"Result: sent");
-			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
-			[listViewController registerForKeyboardNotifications];
-			
-			[self.navigationController pushViewController:listViewController animated:YES];
-			[listViewController release];
-			break;
-		case MFMailComposeResultFailed:
-			NSLog(@"Result: failed");
-			break;
-		default:
-			NSLog(@"Result: not sent");
-			break;
-	}
-	
-	
-	[self dismissModalViewControllerAnimated:YES];
-}
-
 - (void)editList {
 	
 }
@@ -205,27 +172,11 @@
     self.title = listName.name;
 }
 
+/*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-	
-	if (self.showMail) {
-		self.showMail = FALSE;
-		
-		MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
-		mailComposer.mailComposeDelegate = self;
-		
-		NSString *subject = [NSString stringWithFormat:@"Group invite for groupname: %@", @"mhm"];
-		[mailComposer setSubject:subject];
-		
-		// Fill out the email body text
-		NSString *emailBody = @"This is an group invite bla bla";
-		[mailComposer setMessageBody:emailBody isHTML:NO];
-		
-		[self presentModalViewController:mailComposer animated:YES];
-		[mailComposer release];	
-	}
-	
 }
+*/
 
 /*
 - (void)viewWillDisappear:(BOOL)animated {

@@ -11,10 +11,8 @@
 #import	"ListName.h"
 #import <CoreData/CoreData.h>
 #import "Lightning.h"
-#import <MessageUI/MessageUI.h>
-#import <MessageUI/MFMailComposeViewController.h>
 
-@interface ListViewController : UITableViewController <UITextFieldDelegate, UITextInputTraits, LightningDelegate, MFMailComposeViewControllerDelegate> {
+@interface ListViewController : UITableViewController <UITextFieldDelegate, UITextInputTraits, LightningDelegate> {
 	ListEntries *listEntries;
 	Boolean keyboardShown;
 	UITableViewCell *activeCell;
@@ -22,7 +20,6 @@
 	ListName *listName;
 	NSManagedObjectContext *context;
 	UITextField *doneTextField;
-	BOOL showMail;
 	NSString *addListName;
 	
 }
@@ -36,6 +33,5 @@
 @property (nonatomic, retain) UITextField *doneTextField;
 @property (nonatomic, retain) NSString *addListName;
 @property (retain, nonatomic) NSManagedObjectContext *context;
-@property BOOL showMail;
 
 @end

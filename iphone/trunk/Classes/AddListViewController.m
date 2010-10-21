@@ -12,7 +12,7 @@
 
 @implementation AddListViewController
 
-@synthesize delegate, indexPathCell1, indexPathCell2, checkmark, listName;
+@synthesize delegate, indexPathCell1, indexPathCell2, checkmark, listNameTextField, context, sharedList;
 
 /*
  - (id)initWithStyle:(UITableViewStyle)style {
@@ -29,6 +29,8 @@
 	 
 	 UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAddList)];
 	 self.navigationItem.rightBarButtonItem = button;
+	 [self.navigationItem.rightBarButtonItem setEnabled:NO];
+	 
 	 [button release];
 	 
 	 checkmark = 0;
@@ -39,8 +41,49 @@
  
 - (void)doneAddList {
 	NSLog(@"doneAddList");
-	[self.delegate finishAddList:checkmark andListName:listName.text];
+	
+	[self.navigationItem.rightBarButtonItem setEnabled:NO];
+	
+	if (checkmark == 1) {
+		[self showLoadingView];
+		
+		Lightning *lightning = [[Lightning alloc]init];
+		lightning.delegate = self;
+		lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+		[lightning addListWithTitle:self.listNameTextField.text context:self.context];	
+	} else {
+		[self.delegate finishAddList:listNameTextField.text];
+	}
 }
+
+// Dismisses the email composition interface when users tap Cancel or Send.
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+{	
+	NSLog(@"error mail: %@", error);
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			NSLog(@"Result: canceled");
+			break;
+		case MFMailComposeResultSaved:
+			NSLog(@"Result: saved");
+			break;
+		case MFMailComposeResultSent:
+			NSLog(@"Result: sent");
+			break;
+		case MFMailComposeResultFailed:
+			NSLog(@"Result: failed");
+			break;
+		default:
+			NSLog(@"Result: not sent");
+			break;
+	}
+	
+	[self.navigationController dismissModalViewControllerAnimated:YES];
+	[self.delegate performSelector: @selector(finishAddSharedList:) withObject:[self.sharedList objectID] afterDelay: 0.5f];
+}
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -176,10 +219,12 @@
     
     // Set up the cell...
 	if(indexPath.section == 0) {
-		listName = [[UITextField alloc] initWithFrame:CGRectMake(16, 10, cell.frame.size.width-16, cell.frame.size.height-10)];
-		listName.placeholder = @"Set name of list";
-		listName.delegate = self;
-		[cell addSubview: listName];
+		listNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(16, 10, cell.frame.size.width-16, cell.frame.size.height-10)];
+		listNameTextField.placeholder = @"Set name of list";
+		listNameTextField.delegate = self;
+		[listNameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+		
+		[cell addSubview: listNameTextField];
 		//cell.textLabel.text = @"Set name of list";
 	} else {
 		
@@ -275,9 +320,105 @@
 	return YES;
 }
 
+-(void)showLoadingView
+{
+	CGRect transparentViewFrame = CGRectMake(0.0, 0.0,320.0,480.0);
+	UIView *transparentView = [[UIView alloc] initWithFrame:transparentViewFrame];
+	transparentView.tag = 13;
+	transparentView.backgroundColor = [UIColor blackColor];
+	transparentView.alpha = 0.9;
+	
+	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+	spinner.center = transparentView.center;
+	[spinner startAnimating];
+	
+	UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 160, 320, 30)];
+	messageLabel.textAlignment = UITextAlignmentCenter;
+	messageLabel.text = @"Loading...";
+	messageLabel.font = [UIFont systemFontOfSize:20.0];
+	messageLabel.textColor = [UIColor whiteColor];
+	messageLabel.backgroundColor = [UIColor clearColor];
+	
+	[transparentView addSubview:spinner];
+	[transparentView addSubview:messageLabel];
+	
+	[self.view addSubview:transparentView];
+	
+	[messageLabel release];
+	[spinner release];
+	[transparentView release];
+}
+
+-(void)dismissLoadingView {
+	[[self.view viewWithTag:13] removeFromSuperview];
+}
+
+- (void)finishAddingList:(NSManagedObjectID *)objectID {
+	
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+	
+	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+	[fetch setEntity: entity];
+	
+	NSArray * results = [context executeFetchRequest:fetch error:nil];
+	[fetch release];
+	
+	for (ListName *listName in results) {
+		if ([objectID isEqual:[listName objectID]]) {
+			
+			/*ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+			listViewController.listName = listName;
+			listViewController.context = context;
+			
+			NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
+			NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[listName.listItems allObjects]];
+			[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+			listViewController.listItems = sorted;
+			
+			[sorted release];
+			
+			[listViewController registerForKeyboardNotifications];
+			
+			[self dismissModalViewControllerAnimated:YES];
+			[self.navigationController pushViewController:listViewController animated:NO];
+			[listViewController release];*/
+			
+			self.sharedList = listName;
+			
+			MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+			mailComposer.mailComposeDelegate = self;
+			
+			NSString *subject = [NSString stringWithFormat:@"Lightning invite for list: %@", listName.name];
+			[mailComposer setSubject:subject];
+			
+			// Fill out the email body text
+			NSString *emailBody = [NSString stringWithFormat:@"This is an invite with id: %@ and token: %@", listName.listId, listName.token];
+			[mailComposer setMessageBody:emailBody isHTML:NO];
+			
+			[self presentModalViewController:mailComposer animated:YES];
+			[mailComposer release];
+			
+			break;
+		}
+	}
+}
+
+- (void)textFieldDidChange:(id)sender { 
+	
+	UITextField *changedTextField = (UITextField *)sender;
+	
+	if ([changedTextField.text length] > 0) {
+		[self.navigationItem.rightBarButtonItem setEnabled:YES];
+	} else {
+		[self.navigationItem.rightBarButtonItem setEnabled:NO];
+	}
+
+	
+}
+
 - (void)dealloc {
     [super dealloc];
-	[listName release];
+	[listNameTextField release];
 }
 
 

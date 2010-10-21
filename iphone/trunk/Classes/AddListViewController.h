@@ -8,30 +8,41 @@
 
 #import <UIKit/UIKit.h>
 #import "AddNewGroup.h";
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import "Lightning.h";
+#import <CoreData/CoreData.h>
+#import "ListName.h"
 
 @protocol AddListViewControllerDelegate;
 
-@interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, AddNewGroupDelegate>{
+@interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, AddNewGroupDelegate, MFMailComposeViewControllerDelegate, LightningDelegate>{
 	id <AddListViewControllerDelegate> delegate;
 	NSIndexPath *indexPathCell1;
 	NSIndexPath *indexPathCell2;
-	UITextField *listName;
+	UITextField *listNameTextField;
 	int checkmark;
+	NSManagedObjectContext *context;
+	ListName *sharedList;
 }
 
 @property (nonatomic, retain) NSIndexPath *indexPathCell1;
 @property (nonatomic, retain) NSIndexPath *indexPathCell2;
 @property (nonatomic) int checkmark;
-@property (nonatomic, retain) UITextField *listName;
+@property (nonatomic, retain) UITextField *listNameTextField;
+@property (nonatomic, retain) NSManagedObjectContext *context;
+@property (nonatomic, retain) ListName *sharedList;
 
 @property (assign) id <AddListViewControllerDelegate> delegate;
 
 - (void)doneAddList;
+- (void)showLoadingView;
 
 @end
 
 @protocol AddListViewControllerDelegate <NSObject>
 
-- (void)finishAddList:(int)checkmark andListName:(NSString *)listName;
+- (void)finishAddList:(NSString *)listName;
+- (void)finishAddSharedList:(NSManagedObjectID *)objectID;
 
 @end

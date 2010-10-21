@@ -36,11 +36,10 @@
 
 - (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString *)initDeviceToken;
 - (id)initWithURL:(NSURL *)url andDevice:(NSString *)device;
-- (void)addListWithTitle:(NSString *)title;
+- (void)addListWithTitle:(NSString *)listTitle context:(NSManagedObjectContext *)context;
 - (void)getLists;
 - (void)getListsWithContext:(NSManagedObjectContext *)context;
 
--(void)createListWithTitle:(NSString *)listTitle;
 -(void)getLists;
 -(void)addItemToList:(NSString *)listId item:(ListItem *)item context:(NSManagedObjectContext *)context;
 
@@ -49,5 +48,6 @@
 @protocol LightningDelegate <NSObject>
 
 - (void)finishFetchingLists:(NSData *)data;
+- (void)finishAddingList:(NSManagedObjectID *)objectID;
 
 @end
