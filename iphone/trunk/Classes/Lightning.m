@@ -46,6 +46,7 @@
 			NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
 			GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 			[GTMHTTPFetcher setLoggingEnabled:YES];
+			
 		
 			NSString * tokenAsString = [[[initDeviceToken description] 
 									 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
@@ -71,7 +72,8 @@
 	//identifier
 }
 
--(void)createListWithTitle:(NSString *)listTitle{
+-(void)addListWithTitle:(NSString *)listTitle context:(NSManagedObjectContext *)context{
+	self.context = context;
 	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists?secret=%@", self.lightningSecret]];
 	
@@ -88,7 +90,7 @@
 	[myFetcher setDeviceHeader:deviceHeader];
 
 	[myFetcher beginFetchWithDelegate:self
-					didFinishSelector:@selector(myFetcher:finishedWithCreatingList:error:)];
+					didFinishSelector:@selector(myFetcher:finishedWithAddingList:error:)];
 }
 
 -(void)addItemToList:(NSString *)listId item:(ListItem *)item context:(NSManagedObjectContext *)context{
@@ -212,7 +214,7 @@
 	}
 }
 
-- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithCreatingList:(NSData *)retrievedData error:(NSError *)error {
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithAddingList:(NSData *)retrievedData error:(NSError *)error {
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -224,10 +226,19 @@
 		//Testing methods
 		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
 		SBJSON *parser = [[SBJSON alloc] init];
-		NSDictionary *object = [parser objectWithString:data error:nil];
-		NSString *listId = [object objectForKey:@"id"];
+		NSDictionary *list = [parser objectWithString:data error:nil];
 		
-		//[self createItemWithValue:@"red bull" andList:listId];
+		ListName *listName = nil;
+		
+		listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
+		listName.name = [list objectForKey:@"title"];
+		listName.listId = [list objectForKey:@"id"];
+		listName.token = [list objectForKey:@"token"];
+		
+		[context save:&error];
+		
+		[self.delegate finishAddingList:[listName objectID]];
+		
 		
 		NSLog(@"created a list with response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
 	}
@@ -374,7 +385,7 @@
 				listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
 				listName.name = [list objectForKey:@"title"];
 				listName.listId = [list objectForKey:@"id"];
-				listName.unreadCount = [list objectForKey:@"unread"];
+				listName.token = [list objectForKey:@"token"];
 				
 				[context save:&error];
 				
@@ -472,18 +483,6 @@
     [url release];
 	[device release];
     [super dealloc];
-}
-
-- (void)addListWithTitle:(NSString *)title {
-	
-	NSArray *keys = [NSArray arrayWithObjects:@"title", @"owner", nil];
-	NSArray *values = [NSArray arrayWithObjects:title, @"52", nil];
-	NSDictionary *parameters = [NSDictionary dictionaryWithObjects:values forKeys:keys];
-	
-	NSURL *url = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingString:@"lists"]];
-	
-	//ApiRequest *request = [[ApiRequest alloc] initWithURL:url andDevice:device];
-	//[request post:parameters];
 }
 
 

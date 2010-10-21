@@ -99,6 +99,7 @@
 	//AddListViewController *addListViewController = [[AddListViewController alloc] init];
 	AddListViewController *addListViewController = [[AddListViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	addListViewController.delegate = self;
+	addListViewController.context = self.context;
 	
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addListViewController];
 	navigationController.navigationBar.barStyle = UIBarStyleBlack;
@@ -110,21 +111,50 @@
 	
 }
 
-- (void)finishAddList:(int)checkmark andListName:(NSString *)listName{
-	NSLog(@"finishAddList %i", checkmark);
+- (void)finishAddList:(NSString *)listName{
+	NSLog(@"finishAddList");
 	
-	[self dismissModalViewControllerAnimated:YES];
-	ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
-	[listViewController registerForKeyboardNotifications];
-		
-	if (checkmark == 1) {
-		listViewController.showMail = TRUE;
-	} else {
-		listViewController.showMail = FALSE;
+	Lightning *lightning = [[Lightning alloc]init];
+	lightning.delegate = self;
+	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+	[lightning addListWithTitle:listName context:self.context];	
+}
+- (void)finishAddSharedList:(NSManagedObjectID *)objectID {
+	NSLog(@"finishAddSharedList");
+	
+	[self setupModel:FALSE];
+	
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+	
+	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+	[fetch setEntity: entity];
+	
+	NSArray * results = [context executeFetchRequest:fetch error:nil];
+	[fetch release];
+	
+	for (ListName *listName in results) {
+		if ([objectID isEqual:[listName objectID]]) {
+			
+			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+			listViewController.listName = listName;
+			listViewController.context = context;
+			
+			NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
+			NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[listName.listItems allObjects]];
+			[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+			listViewController.listItems = sorted;
+			
+			[sorted release];
+			
+			[listViewController registerForKeyboardNotifications];
+			
+			[self dismissModalViewControllerAnimated:YES];
+			[self.navigationController pushViewController:listViewController animated:NO];
+			[listViewController release];
+			
+			break;
+		}
 	}
-		
-	[self.navigationController pushViewController:listViewController animated:NO];
-	[listViewController release];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -338,6 +368,42 @@
 	NSLog(@"got data from google");
 	
 	[self setupModel:FALSE];
+}
+
+- (void)finishAddingList:(NSManagedObjectID *)objectID {
+	[self setupModel:FALSE];
+	
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+	
+	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+	[fetch setEntity: entity];
+	
+	NSArray * results = [context executeFetchRequest:fetch error:nil];
+	[fetch release];
+	
+	for (ListName *listName in results) {
+		if ([objectID isEqual:[listName objectID]]) {
+			
+			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+			listViewController.listName = listName;
+			listViewController.context = context;
+			
+			NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
+			NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[listName.listItems allObjects]];
+			[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+			listViewController.listItems = sorted;
+			
+			[sorted release];
+			
+			[listViewController registerForKeyboardNotifications];
+			
+			[self dismissModalViewControllerAnimated:YES];
+			[self.navigationController pushViewController:listViewController animated:NO];
+			[listViewController release];
+			
+			break;
+		}
+	}
 }
 
 

@@ -23,12 +23,12 @@
 		02BA5FBA115B7F7C002AAD93 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		02BA5FBB115B7F7C002AAD93 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		02BA5FBF115B7FB8002AAD93 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */; };
-		02BF56B3126CDD4800573423 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 02BF56B0126CDD4800573423 /* ListName.m */; };
 		02BF56B4126CDD4800573423 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02BF56B2126CDD4800573423 /* ListItem.m */; };
 		02DA0CCD126F8F9600EA2D60 /* Icon-Shared@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CCC126F8F9600EA2D60 /* Icon-Shared@2x.png */; };
 		02DA0CCF126F8F9E00EA2D60 /* Icon-Shared.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CCE126F8F9E00EA2D60 /* Icon-Shared.png */; };
 		02DA0CD1126F8FA500EA2D60 /* Icon-Private@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CD0126F8FA500EA2D60 /* Icon-Private@2x.png */; };
 		02DA0CD3126F8FAD00EA2D60 /* Icon-Private.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CD2126F8FAD00EA2D60 /* Icon-Private.png */; };
+		02DA0EB712709C2300EA2D60 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 02DA0EB612709C2300EA2D60 /* ListName.m */; };
 		02EDDB6F1129CC1500E23D03 /* Lists.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB6E1129CC1500E23D03 /* Lists.m */; };
 		02EDDB941129CEE700E23D03 /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */; };
 		02EDDB971129CEF000E23D03 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */; };
@@ -64,14 +64,14 @@
 		02BA5F2B115A92A9002AAD93 /* AddNewGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewGroup.h; sourceTree = "<group>"; };
 		02BA5F2C115A92A9002AAD93 /* AddNewGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewGroup.m; sourceTree = "<group>"; };
 		02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		02BF56AF126CDD4800573423 /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
-		02BF56B0126CDD4800573423 /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
 		02BF56B1126CDD4800573423 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
 		02BF56B2126CDD4800573423 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
 		02DA0CCC126F8F9600EA2D60 /* Icon-Shared@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Shared@2x.png"; sourceTree = "<group>"; };
 		02DA0CCE126F8F9E00EA2D60 /* Icon-Shared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Shared.png"; sourceTree = "<group>"; };
 		02DA0CD0126F8FA500EA2D60 /* Icon-Private@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Private@2x.png"; sourceTree = "<group>"; };
 		02DA0CD2126F8FAD00EA2D60 /* Icon-Private.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Private.png"; sourceTree = "<group>"; };
+		02DA0EB512709C2300EA2D60 /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
+		02DA0EB612709C2300EA2D60 /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
 		02EDDB6D1129CC1500E23D03 /* Lists.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lists.h; sourceTree = "<group>"; };
 		02EDDB6E1129CC1500E23D03 /* Lists.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lists.m; sourceTree = "<group>"; };
 		02EDDB921129CEE700E23D03 /* ListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsViewController.h; sourceTree = "<group>"; };
@@ -128,10 +128,10 @@
 		0224FCF01164732C00AFD56C /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
-				02BF56AF126CDD4800573423 /* ListName.h */,
-				02BF56B0126CDD4800573423 /* ListName.m */,
 				02BF56B1126CDD4800573423 /* ListItem.h */,
 				02BF56B2126CDD4800573423 /* ListItem.m */,
+				02DA0EB512709C2300EA2D60 /* ListName.h */,
+				02DA0EB612709C2300EA2D60 /* ListName.m */,
 			);
 			name = "Managed Objects";
 			sourceTree = "<group>";
@@ -347,8 +347,8 @@
 				0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */,
 				02822F43124298F600480310 /* GTMHTTPFetcher.m in Sources */,
 				02822FAC1242A3DD00480310 /* GTMHTTPFetcherLogging.m in Sources */,
-				02BF56B3126CDD4800573423 /* ListName.m in Sources */,
 				02BF56B4126CDD4800573423 /* ListItem.m in Sources */,
+				02DA0EB712709C2300EA2D60 /* ListName.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
