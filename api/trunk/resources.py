@@ -117,7 +117,7 @@ class ListsResource(Resource):
                 list = List(title=self.request.get('title'), owner=owner, token=token)
                 list.put()
                 
-                logging.debug("Device %s created list with id %s", device.key().id(), list.key().id())
+                logging.debug("Device %s created list with id %s", owner.key().id(), list.key().id())
                 
                 protocol = self.request._environ['wsgi.url_scheme']
                 host = self.request._environ['HTTP_HOST']
