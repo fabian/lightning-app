@@ -43,6 +43,9 @@
 	NSLog(@"doneAddList");
 	
 	[self.navigationItem.rightBarButtonItem setEnabled:NO];
+	[self.listNameTextField becomeFirstResponder];
+	[self.listNameTextField resignFirstResponder];
+	
 	
 	if (checkmark == 1) {
 		[self showLoadingView];
