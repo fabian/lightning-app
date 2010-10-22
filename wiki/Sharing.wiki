@@ -13,3 +13,4 @@ A list always has one owner. The list can be shared with other users which can e
 == Custom URL Schema ==
   * Page 57 in the iOS App Programming Guide
   * http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+  * http://stackoverflow.com/questions/3181711/multitasking-aware-applications-in-ios-4-and-custom-url-schemes
