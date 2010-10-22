@@ -9,3 +9,7 @@ A list always has one owner. The list can be shared with other users which can e
   * The owner sets the privacy setting to SHARED and sends a mail with a token for the list (lightning://list/123?ABC123) to persons he'd like to share with.
   * Invitee opens link in mail on the iPhone.
   * A new SHAREDLIST is created on the server to associate the DEVICE with the shared LIST.
+
+== Custom URL Schema ==
+  * Page 57 in the iOS App Programming Guide
+  * http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
