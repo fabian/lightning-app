@@ -11,7 +11,7 @@
 || `/api/lists/(.*)`                    || `PUT`    || Update list                                      || title                                     ||
 || `/api/lists/(.*)/push`               || `POST`   || Push unread count and log as alert to devices    || exclude                                   ||
 || `/api/lists/(.*)/read`               || `PUT`    || Mark all items of that list as read              || device                                    ||
-|| `/api/shared_lists`                  || `POST`   || Create shared list (token needs to match)        || group<br/> token<br/> list                ||
+|| `/api/shared_lists`                  || `POST`   || Create shared list (token needs to match)        || list<br/> token                           ||
 || `/api/shared_lists/(.*)`             || `DELETE` || Remove shared list                               ||                                           ||
 || `/api/items`                         || `POST`   || Create item                                      || value<br/> list                           ||
 || `/api/items/(.*)`                    || `GET`    || Get item                                         ||                                           ||
