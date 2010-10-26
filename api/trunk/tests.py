@@ -152,6 +152,31 @@ class ListTests(Tests):
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/3", "id": 3, "value": "Wine"}, {"url": "http://localhost:80/api/items/4", "id": 4, "value": "Bread"}], "unread": 0, "id": 2, "title": "A random list"}')
 
 
+class SharedListTests(Tests):
+
+    def setUp(self):
+        self.stub_datastore()        
+        self.application = webapp.WSGIApplication([
+            (r'/api/shared_lists', resources.SharedListsResource),
+        ], debug=True)
+        
+        self.device = models.Device(identifier="owner", device_token="ABC123", name="Some Owner", secret="abc")
+        self.device.put()
+        
+        self.guest = models.Device(identifier="guest", device_token="DEF456", name="Some Guest", secret="def")
+        self.guest.put()
+        
+        self.list = models.List(title="A random list", owner=self.device, token="xzy")
+        self.list.put()
+    
+    def test_create_shared_list(self):
+
+        test = webtest.TestApp(self.application)
+        response = test.post("/api/shared_lists", {'list': "3", 'guest': "2", 'token': "xzy"}, headers={'Device': 'http://localhost:80/api/devices/2?secret=def'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/shared_lists/4", "list": 3, "id": 4, "guest": 2}')
+
+
 class ItemTests(Tests):
 
     def setUp(self):
