@@ -5,7 +5,7 @@ from datetime import datetime
 from google.appengine.ext import webapp
 import urbanairship
 import settings
-from models import Device, List, Item, Log
+from models import Device, List, SharedList, Item, Log
 from util import Resource, json, device_required
 
 class DevicesResource(Resource):
@@ -271,6 +271,51 @@ class ListPushResource(ListsResource):
                 # device to exclude not found
                 self.error(400)
                 self.response.out.write("Device to exclude %s not found" % self.request.get('exclude'))
+
+
+class SharedListsResource(ListsResource):
+    
+    @device_required
+    @json
+    def post(self):
+    
+        list = List.get_by_id(int(self.request.get('list')))
+    
+        # guest must match authenticated device
+        guest = Device.get_by_id(int(self.request.get('guest')))
+        if guest:
+            if guest.key() == self.get_auth().key():
+                
+                token = self.request.get('token')
+                
+                # token must match
+                if list.token == token:
+                    
+                    shared = SharedList(list=list, guest=guest)
+                    shared.put()
+                    
+                    logging.debug("Device %s created shared list with id %s for list %s.", guest.key().id(), shared.key().id(), list.key().id())
+                    
+                    protocol = self.request._environ['wsgi.url_scheme']
+                    host = self.request._environ['HTTP_HOST']
+                    id = shared.key().id()
+                    url = "%s://%s/api/shared_lists/%s" % (protocol, host, id)
+                    
+                    return {'id': id, 'url': url, 'list': shared.list.key().id(), 'guest': shared.guest.key().id()}
+                
+                else:
+                    # token doesn't match
+                    self.error(403)
+                    self.response.out.write("Token %s doesn't match token for list %s" % (token, list.key().id()))
+            
+            else:
+                # owner does not match autenticated device
+                self.error(403)
+                self.response.out.write("Guest %s doesn't match authenticated device %s" % (guest.key().id(), self.get_auth().key().id()))
+        else:
+            # device for owner not found
+            self.error(404)
+            self.response.out.write("Can't get device for guest %s" % self.request.get('guest'))
 
 
 class ItemsResource(Resource):
