@@ -7,6 +7,9 @@ any ideas from us
 
 = Details =
 
+== Strike through == 
+  * http://stackoverflow.com/questions/2652163/draw-underlined-strikethrough-text-multiline-string
+
 == Transparent View ==
   * http://doganberktas.com/2010/05/18/adding-transparent-modal-view-programatically-iphone/
   * http://cocoawithlove.com/2009/04/showing-message-over-iphone-keyboard.html
