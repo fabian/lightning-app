@@ -1,0 +1,10 @@
+#summary Thoughts and guidelines
+#labels Phase-Design,Phase-Implementation
+
+= Icons =
+
+For the app we use the Tabs icons from http://tabsicons.com/
+
+= Inspiration =
+
+  * http://dribbble.com/shots/70692-Meat
