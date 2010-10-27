@@ -233,44 +233,53 @@ class ListPushResource(ListsResource):
     def post(self, id):
     
         list = List.get_by_id(int(id))
-        
-        # authenticated device must have access to list
-        if self.has_access(list):
+        if list:
             
-            exclude = Device.get_by_id(int(self.request.get('exclude')))
-            
-            if exclude:
-                devices = []
+            # authenticated device must have access to list
+            if self.has_access(list):
                 
-                # also notify owner of list if he is not excluded
-                if list.owner.key() != exclude.key():
-                    devices.append(list.owner)
+                exclude = Device.get_by_id(int(self.request.get('exclude')))
                 
-                for shared in list.sharedlist_set.filter('guest != ', exclude):
-                    devices.append(shared.guest)
-                
-                airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
-                
-                notification = list.get_notification()
-                for device in devices:
-                    unread = 0
-                    for list in device.list_set.filter('deleted != ', True):
-                        unread += list.unread
-                    for shared in device.sharedlist_set.filter('deleted != ', True):
-                        unread += shared.unread
+                if exclude:
+                    devices = []
                     
-                    # push notification and unread count to Urban Airship
-                    airship.push({'aps': {'alert': notification, 'badge': unread}}, device_tokens=[device.device_token])
-                
-                list.notified = datetime.now()
-                list.put()
-                
-                return {'devices': [device.key().id() for device in devices], 'notification': notification}
-                
-            else:
-                # device to exclude not found
-                self.error(400)
-                self.response.out.write("Device to exclude %s not found" % self.request.get('exclude'))
+                    # also notify owner of list if he is not excluded
+                    if list.owner.key() != exclude.key() and list.owner.device_token:
+                        devices.append(list.owner)
+                    
+                    for shared in list.sharedlist_set.filter('guest != ', exclude):
+                        if shared.guest.device_token:
+                            devices.append(shared.guest)
+                    
+                    airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
+                    
+                    notification = list.get_notification()
+                    for device in devices:
+                        unread = 0
+                        for list in device.list_set.filter('deleted != ', True):
+                            unread += list.unread
+                        for shared in device.sharedlist_set.filter('deleted != ', True):
+                            unread += shared.unread
+                        
+                        # push notification and unread count to Urban Airship
+                        airship.push({'aps': {'alert': notification, 'badge': unread}}, device_tokens=[device.device_token])
+                        
+                        logging.debug("Pushed '%s' (%s) to device %s with device_token%s.", notification, unread, device.key().id(), device.device_token)
+                    
+                    list.notified = datetime.now()
+                    list.put()
+                    
+                    return {'devices': [device.key().id() for device in devices], 'notification': notification}
+                    
+                else:
+                    # device to exclude not found
+                    self.error(400)
+                    self.response.out.write("Device to exclude %s not found" % self.request.get('exclude'))
+            
+        else:
+            # list not found
+            self.error(404)
+            self.response.out.write("Can't get list with id %s" % id)
 
 
 class SharedListsResource(ListsResource):
