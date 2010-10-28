@@ -25,6 +25,7 @@ class Tests(mocker.MockerTestCase):
     def mock_urbanairship(self):
         airship = self.mocker.replace("urbanairship.Airship")
         airship(mocker.ANY, mocker.ANY)
+        self.mocker.count(1, None)
         self.urbanairship = self.mocker.mock()
         self.mocker.result(self.urbanairship)
 
@@ -226,7 +227,6 @@ class ListPushTests(Tests):
         self.application = webapp.WSGIApplication([
             (r'/api/lists/(.*)/push', resources.ListPushResource), 
         ], debug=True)
-        self.mock_urbanairship()
         
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
         self.device.put()
@@ -249,7 +249,10 @@ class ListPushTests(Tests):
         self.item_three = models.Item(value="Marmalade", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_three.put()
         
+        # mocker screenplay
+        self.mock_urbanairship()
         self.urbanairship.push({'aps': {'badge': 0, 'alert': "Added Bread and Wine. Changed Butter to Marmalade."}}, device_tokens=["ABC123"])
+        self.urbanairship.push({'aps': {'badge': 0, 'alert': "Added Bread."}}, device_tokens=["ABC123"])
     
     def test_push_list(self):
         
@@ -267,6 +270,13 @@ class ListPushTests(Tests):
         response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"notification": "Added Bread and Wine. Changed Butter to Marmalade.", "devices": [3]}')
+        
+        log = models.Log(device=self.device, item=self.item_two, list=self.list, action='added')
+        log.put()
+        
+        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"notification": "Added Bread.", "devices": [3]}')
 
 
 class NotificationTests(Tests):
