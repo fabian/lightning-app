@@ -264,7 +264,7 @@ class ListPushResource(ListsResource):
                         # push notification and unread count to Urban Airship
                         airship.push({'aps': {'alert': notification, 'badge': unread}}, device_tokens=[device.device_token])
                         
-                        logging.debug("Pushed '%s' (%s) to device %s with device_token%s.", notification, unread, device.key().id(), device.device_token)
+                        logging.debug("Pushed '%s' (%s) to device %s with device token %s.", notification, unread, device.key().id(), device.device_token)
                     
                     list.notified = datetime.now()
                     list.put()
