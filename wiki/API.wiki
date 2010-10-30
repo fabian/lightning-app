@@ -9,10 +9,9 @@
 || `/api/lists`                         || `POST`   || Create list                                      || title<br/> owner                          ||
 || `/api/lists/(.*)`                    || `GET`    || Get list and items of list                       ||                                           ||
 || `/api/lists/(.*)`                    || `PUT`    || Update list                                      || title                                     ||
-|| `/api/lists/(.*)/push`               || `POST`   || Push unread count and log as alert to devices    || exclude                                   ||
-|| `/api/lists/(.*)/read`               || `PUT`    || Mark all items of that list as read              || device                                    ||
-|| `/api/shared_lists`                  || `POST`   || Create shared list (token needs to match)        || list<br/> token<br/> guest                ||
-|| `/api/shared_lists/(.*)`             || `DELETE` || Remove shared list                               ||                                           ||
+|| `/api/lists/(.*)/devices/(.*)`       || `PUT`    || Add device to shared                             || token                                     ||
+|| `/api/lists/(.*)/devices/(.*)/read`  || `PUT`    || Mark items of that list for the device as read   ||                                           ||
+|| `/api/lists/(.*)/devices/(.*)/push`  || `POST`   || Push unread count and log as alert to devices    ||                                           ||
 || `/api/items`                         || `POST`   || Create item                                      || value<br/> list                           ||
 || `/api/items/(.*)`                    || `GET`    || Get item                                         ||                                           ||
 || `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> modified                       ||
