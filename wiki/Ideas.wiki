@@ -7,6 +7,9 @@ any ideas from us
 
 = Details =
 
+== Reachability ==
+  * http://iphonedevelopertips.com/objective-c/class-variables.html
+
 == Strike through == 
   * http://stackoverflow.com/questions/2652163/draw-underlined-strikethrough-text-multiline-string
 
