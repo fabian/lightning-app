@@ -9,6 +9,7 @@ any ideas from us
 
 == Reachability ==
   * http://iphonedevelopertips.com/objective-c/class-variables.html
+  * Create Lightning Helper class which has a Class Method to check if there is any connections going on.
 
 == Strike through == 
   * http://stackoverflow.com/questions/2652163/draw-underlined-strikethrough-text-multiline-string
