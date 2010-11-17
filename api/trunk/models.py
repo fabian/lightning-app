@@ -19,9 +19,6 @@ class List(db.Model):
     created = db.DateTimeProperty(required=True, auto_now_add=True)
     modified = db.DateTimeProperty(required=True, auto_now=True)
     
-    def devices(self): 
-        return (x.device for x in self.listdevice_set) 
-    
     def has_access(self, device):
         # device must be in device list
         for x in self.listdevice_set:
