@@ -2,11 +2,13 @@ import logging
 import os
 import binascii
 from datetime import datetime
+from google.appengine.api.labs import taskqueue
 from google.appengine.ext import webapp
 import urbanairship
 import settings
-from models import Device, List, SharedList, Item, Log
+from models import Device, List, Item, Log
 from util import Resource, json, device_required
+from notifications import Notification, Unread
 
 class DevicesResource(Resource):
     
@@ -117,7 +119,10 @@ class ListsResource(Resource):
                 list = List(title=self.request.get('title'), owner=owner, token=token)
                 list.put()
                 
-                logging.debug("Device %s created list with id %s and title %s.", owner.key().id(), list.key().id(), list.title)
+                listdevice = ListDevice(list=list, device=owner)
+                listdevice.put()
+                
+                logging.debug("Device %s created list with id %s and title %s. Device list id is %s.", owner.key().id(), list.key().id(), list.title, listdevice.key().id())
                 
                 protocol = self.request._environ['wsgi.url_scheme']
                 host = self.request._environ['HTTP_HOST']
@@ -148,13 +153,14 @@ class DeviceListsResource(ListsResource):
             if owner.key() == self.get_auth().key():
                 lists = []
                 
-                for list in List.all().filter('owner =', owner.key()):
+                for x in owner.listdevice_set:
                     
+                    list = x.list
                     lists.append({
                         'id': list.key().id(), 
                         'url': self.url(list), 
                         'title': list.title, 
-                        'unread': list.unread, 
+                        'unread': x.unread, 
                     })
                 
                 return {'lists': lists}
@@ -216,10 +222,25 @@ class ListResource(ListsResource):
                 id = list.key().id()
                 url = self.url(list)
                 title = list.title
-                unread = list.unread
                 
-                return {'id': id, 'url': url, 'title': title, 'unread': unread, 'items': items}
+                return {'id': id, 'url': url, 'title': title, 'items': items}
             
+        else:
+            # list not found
+            self.error(404)
+            self.response.out.write("Can't get list with id %s" % id)
+
+
+class ListUnreadResource(ListsResource):
+    
+    def post(self, id):
+    
+        list = List.get_by_id(int(id))
+        if list:
+            
+            u = Unread(list)
+            u.collect()
+        
         else:
             # list not found
             self.error(404)
@@ -241,35 +262,24 @@ class ListPushResource(ListsResource):
                 exclude = Device.get_by_id(int(self.request.get('exclude')))
                 
                 if exclude:
+                    
                     devices = []
-                    
-                    # also notify owner of list if he is not excluded
-                    if list.owner.key() != exclude.key() and list.owner.device_token:
-                        devices.append(list.owner)
-                    
-                    for shared in list.sharedlist_set.filter('guest != ', exclude):
-                        if shared.guest.device_token:
-                            devices.append(shared.guest)
-                    
                     airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
                     
-                    notification = list.get_notification()
-                    for device in devices:
-                        unread = 0
-                        for list in device.list_set.filter('deleted != ', True):
-                            unread += list.unread
-                        for shared in device.sharedlist_set.filter('deleted != ', True):
-                            unread += shared.unread
-                        
-                        # push notification and unread count to Urban Airship
-                        airship.push({'aps': {'alert': notification, 'badge': unread}}, device_tokens=[device.device_token])
-                        
-                        logging.debug("Pushed '%s' (%s) to device %s with device token %s.", notification, unread, device.key().id(), device.device_token)
+                    for x in list.listdevice_set.filter('device != ', exclude):
+                        if x.device.device_token:
+                            
+                            notification = x.notification
+                            unread = x.device.unread
+                            
+                            # push notification and unread count to Urban Airship
+                            airship.push({'aps': {'alert': notification, 'badge': unread, 'lightning_list': list.key().id()}}, device_tokens=[x.device.device_token])
+                            
+                            logging.debug("Pushed '%s' (%s) to device %s with device token %s.", notification, unread, x.device.key().id(), x.device.device_token)
+                            
+                            devices.append(x.device)
                     
-                    list.notified = datetime.now()
-                    list.put()
-                    
-                    return {'devices': [device.key().id() for device in devices], 'notification': notification}
+                    return {'devices': [device.key().id() for device in devices]}
                     
                 else:
                     # device to exclude not found
@@ -280,18 +290,19 @@ class ListPushResource(ListsResource):
             # list not found
             self.error(404)
             self.response.out.write("Can't get list with id %s" % id)
+    
 
 
-class SharedListsResource(ListsResource):
+class ListDeviceResource(ListsResource):
     
     @device_required
     @json
-    def post(self):
+    def put(self, list_id, device_id):
     
-        list = List.get_by_id(int(self.request.get('list')))
+        list = List.get_by_id(int(list_id))
     
         # guest must match authenticated device
-        guest = Device.get_by_id(int(self.request.get('guest')))
+        guest = Device.get_by_id(int(device_id))
         if guest:
             if guest.key() == self.get_auth().key():
                 
@@ -300,10 +311,10 @@ class SharedListsResource(ListsResource):
                 # token must match
                 if list.token == token:
                     
-                    shared = SharedList(list=list, guest=guest)
-                    shared.put()
+                    listdevice = ListDevice(list=list, device=owner)
+                    listdevice.put()
                     
-                    logging.debug("Device %s created shared list with id %s for list %s.", guest.key().id(), shared.key().id(), list.key().id())
+                    logging.debug("Device %s added to list with id %s for list %s.", guest.key().id(), listdevice.key().id(), list.key().id())
                     
                     protocol = self.request._environ['wsgi.url_scheme']
                     host = self.request._environ['HTTP_HOST']
@@ -370,6 +381,7 @@ class ItemsResource(Resource):
                 # log action for notification
                 log = Log(device=self.get_auth(), item=item, list=list, action='added')
                 log.put()
+                taskqueue.add(url='/api/lists/%s/unread' % list.key().id())
                 
                 protocol = self.request._environ['wsgi.url_scheme']
                 host = self.request._environ['HTTP_HOST']
@@ -427,6 +439,7 @@ class ItemResource(ItemsResource):
                     # log action for notification
                     log = Log(device=self.get_auth(), item=item, list=item.list, action='modified', old=old)
                     log.put()
+                    taskqueue.add(url='/api/lists/%s/unread' % item.list.key().id())
                     
                     return {'id': id, 'url': self.url(item), 'value': item.value, 'modified': item.modified.strftime(self.DATE_FORMAT)}
                     
@@ -453,6 +466,7 @@ class ItemResource(ItemsResource):
                 # log action for notification
                 log = Log(device=self.get_auth(), item=item, list=item.list, action='deleted', old=item.value)
                 log.put()
+                taskqueue.add(url='/api/lists/%s/unread' % item.list.key().id())
                 
                 return {}
             

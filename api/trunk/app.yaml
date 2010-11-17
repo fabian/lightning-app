@@ -7,6 +7,9 @@ handlers:
 - url: /api/.*
   script: api.py
   secure: always
+- url: /tasks/*
+  script: tasks.py
+  login: admin
 
 builtins:
 - datastore_admin: on

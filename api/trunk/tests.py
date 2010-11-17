@@ -9,6 +9,7 @@ sys.path = sys.path + ['/usr/local/google_appengine', '/usr/local/google_appengi
 
 from google.appengine.api import apiproxy_stub_map
 from google.appengine.api import datastore_file_stub
+from google.appengine.api.labs.taskqueue import taskqueue_stub
 from google.appengine.ext import webapp
 import mocker
 import webtest
@@ -21,6 +22,8 @@ class Tests(mocker.MockerTestCase):
         apiproxy_stub_map.apiproxy = apiproxy_stub_map.APIProxyStubMap()
         stub = datastore_file_stub.DatastoreFileStub('lightning-app', None, None)
         apiproxy_stub_map.apiproxy.RegisterStub('datastore', stub)
+        stub = apiproxy_stub_map.apiproxy.GetStub('taskqueue')
+        apiproxy_stub_map.apiproxy.RegisterStub('taskqueue', taskqueue_stub.TaskQueueServiceStub())
     
     def mock_urbanairship(self):
         airship = self.mocker.replace("urbanairship.Airship")
@@ -105,14 +108,16 @@ class DeviceListsTests(Tests):
         
         list_a = models.List(title="List A", owner=self.device_one, token="xzy")
         list_a.put()
+        models.ListDevice(device=self.device_one, list=list_a).put()
         
         list_b = models.List(title="List B", owner=self.device_one, token="xzy")
         list_b.put()
+        models.ListDevice(device=self.device_one, list=list_b).put()
         
         test = webtest.TestApp(self.application)
         response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"lists": [{"url": "http://localhost:80/api/lists/3", "unread": 0, "id": 3, "title": "List A"}, {"url": "http://localhost:80/api/lists/4", "unread": 0, "id": 4, "title": "List B"}]}')
+        self.assertEqual(response.body, '{"lists": [{"url": "http://localhost:80/api/lists/3", "unread": 0, "id": 3, "title": "List A"}, {"url": "http://localhost:80/api/lists/5", "unread": 0, "id": 5, "title": "List B"}]}')
     
     def test_get_lists_only_own(self):
         
@@ -138,6 +143,7 @@ class ListTests(Tests):
         
         self.list = models.List(title="A random list", owner=self.device, token="xzy")
         self.list.put()
+        models.ListDevice(device=self.device, list=self.list).put()
         
         self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_one.put()
@@ -150,32 +156,7 @@ class ListTests(Tests):
         test = webtest.TestApp(self.application)
         response = test.get("/api/lists/2", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/3", "id": 3, "value": "Wine"}, {"url": "http://localhost:80/api/items/4", "id": 4, "value": "Bread"}], "unread": 0, "id": 2, "title": "A random list"}')
-
-
-class SharedListTests(Tests):
-
-    def setUp(self):
-        self.stub_datastore()        
-        self.application = webapp.WSGIApplication([
-            (r'/api/shared_lists', resources.SharedListsResource),
-        ], debug=True)
-        
-        self.device = models.Device(identifier="owner", device_token="ABC123", name="Some Owner", secret="abc")
-        self.device.put()
-        
-        self.guest = models.Device(identifier="guest", device_token="DEF456", name="Some Guest", secret="def")
-        self.guest.put()
-        
-        self.list = models.List(title="A random list", owner=self.device, token="xzy")
-        self.list.put()
-    
-    def test_create_shared_list(self):
-
-        test = webtest.TestApp(self.application)
-        response = test.post("/api/shared_lists", {'list': "3", 'guest': "2", 'token': "xzy"}, headers={'Device': 'http://localhost:80/api/devices/2?secret=def'})
-        
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/shared_lists/4", "list": 3, "id": 4, "guest": 2}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Wine"}, {"url": "http://localhost:80/api/items/5", "id": 5, "value": "Bread"}], "id": 2, "title": "A random list"}')
 
 
 class ItemTests(Tests):
@@ -194,6 +175,8 @@ class ItemTests(Tests):
         
         self.list = models.List(title="A random list", owner=self.device_one, token="xzy")
         self.list.put()
+        models.ListDevice(device=self.device_one, list=self.list).put()
+        models.ListDevice(device=self.device_two, list=self.list).put()
         
         self.item = models.Item(value="Some Item", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item.put()
@@ -201,21 +184,21 @@ class ItemTests(Tests):
     def test_get_item(self):
         
         test = webtest.TestApp(self.application)
-        response = test.get("/api/items/4", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = test.get("/api/items/6", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Some Item"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/6", "id": 6, "value": "Some Item"}')
     
     def test_update_item(self):
         
         test = webtest.TestApp(self.application)
-        response = test.put("/api/items/4", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = test.put("/api/items/6", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/4", "id": "4", "value": "New Value", "modified": "2010-06-29 12:00:01"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/6", "id": "6", "value": "New Value", "modified": "2010-06-29 12:00:01"}')
     
     def test_update_conflict_item(self):
         
         test = webtest.TestApp(self.application)
-        response = test.put("/api/items/4", {'value': "Old Value", 'modified': "2010-06-29 12:00:00"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=409)
+        response = test.put("/api/items/6", {'value': "Old Value", 'modified': "2010-06-29 12:00:00"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=409)
         
         self.assertEqual(response.body, "Conflict, has later modification")
 
@@ -225,7 +208,8 @@ class ListPushTests(Tests):
     def setUp(self):
         self.stub_datastore()        
         self.application = webapp.WSGIApplication([
-            (r'/api/lists/(.*)/push', resources.ListPushResource), 
+            (r'/api/lists/(.*)/unread', resources.ListUnreadResource),
+            (r'/api/lists/(.*)/push', resources.ListPushResource),
         ], debug=True)
         
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
@@ -233,12 +217,11 @@ class ListPushTests(Tests):
         
         self.list = models.List(title="Groceries", owner=self.device, token="xzy")
         self.list.put()
+        models.ListDevice(device=self.device, list=self.list).put()
         
         self.receiver = models.Device(identifier="receiver", device_token="ABC123", name="Max", secret="123")
         self.receiver.put()
-        
-        self.shared_list = models.SharedList(list=self.list, guest=self.receiver)
-        self.shared_list.put()
+        models.ListDevice(device=self.receiver, list=self.list).put()
         
         self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_one.put()
@@ -251,8 +234,7 @@ class ListPushTests(Tests):
         
         # mocker screenplay
         self.mock_urbanairship()
-        self.urbanairship.push({'aps': {'badge': 0, 'alert': "Added Bread and Wine. Changed Butter to Marmalade."}}, device_tokens=["ABC123"])
-        self.urbanairship.push({'aps': {'badge': 0, 'alert': "Added Bread."}}, device_tokens=["ABC123"])
+        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 3, 'alert': "Added Bread and Wine. Changed Butter to Marmalade."}}, device_tokens=["ABC123"])
     
     def test_push_list(self):
         
@@ -267,58 +249,12 @@ class ListPushTests(Tests):
         
         self.mocker.replay()
         test = webtest.TestApp(self.application)
-        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"notification": "Added Bread and Wine. Changed Butter to Marmalade.", "devices": [3]}')
-        
-        log = models.Log(device=self.device, item=self.item_two, list=self.list, action='added')
-        log.put()
+        response = test.post("/api/lists/2/unread")
         
         response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"notification": "Added Bread.", "devices": [3]}')
-
-
-class NotificationTests(Tests):
-    
-    def setUp(self):
-        self.stub_datastore()       
-        self.application = webapp.WSGIApplication([
-            (r'/api/items', resources.ItemsResource), 
-            (r'/api/items/(.*)', resources.ItemResource), 
-        ], debug=True)
-        
-        self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
-        self.device.put()
-        
-        self.list = models.List(title="A random list", owner=self.device, token="xzy")
-        self.list.put()
-        
-        self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
-        self.item_one.put()
-    
-    def test_get_notification(self):
-        
-        test = webtest.TestApp(self.application)
-        
-        response = test.post("/api/items", {'value': "Bread", 'list': '2'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
-        
-        response = test.post("/api/items", {'value': "Butter", 'list': '2'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
-        
-        response = test.put("/api/items/3", {'value': "Water", 'modified': "2010-07-02 12:00:00"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
-        
-        self.assertEqual(self.list.get_notification(), "Added Bread and Butter. Changed Wine to Water.")
-    
-    def test_add_delete_notification(self):
-        
-        test = webtest.TestApp(self.application)
-        
-        response = test.post("/api/items", {'value': "Nothing", 'list': '2'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
-        
-        response = test.delete("/api/items/4", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
-        
-        self.assertEqual(self.list.get_notification(), "")
-
+        self.assertEqual(response.body, '{"devices": [4]}')
 
 
 if __name__ == "__main__":

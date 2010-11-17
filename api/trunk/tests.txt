@@ -1,0 +1,3 @@
+./tests.py
+coverage-2.6 run tests.py && coverage-2.6 report
+coverage-2.6 html
