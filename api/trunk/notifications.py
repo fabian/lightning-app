@@ -20,13 +20,14 @@ class Notification:
     Concats multiple log entries to one message.
     """
     
-    def __init__(self, logs):
+    def __init__(self, logs, since):
         self.logs = logs
-    
-    def get_message(self):
         
         items = {}
         for log in self.logs:
+            
+            if log.happened < since:
+                continue # ignore old entries
             
             if not items.has_key(log.item.key()):
                 items[log.item.key()] = {}
@@ -47,13 +48,50 @@ class Notification:
             if value.has_key('deleted') and not value.has_key('added'):
                 deleted.append(value['deleted'].old)
         
+        self.unread = 0
+        
         messages = []
         if added:
             messages.append("Added %s." % list_to_text(added))
+            self.unread += len(added)
         if modified:
             messages.append("Changed %s." % list_to_text(modified))
+            self.unread += len(modified)
         if deleted:
             messages.append("Deleted %s." % list_to_text(deleted))
         
-        return ' '.join(messages)
+        self.message = ' '.join(messages)
+    
+    def get_message(self):
+        return self.message
+    
+    def get_unread(self):
+        return self.unread
 
+
+class Unread:
+
+    def __init__(self, list):
+        self.list = list
+    
+    def collect(self):
+        
+        # get all logs needed for notification
+        eldest = min(x.read for x in self.list.listdevice_set)
+        log = self.list.get_log(eldest)
+        
+        for x in self.list.listdevice_set:
+            
+            notification = Notification(log, x.read)
+            
+            x.unread = notification.get_unread()
+            x.notification = notification.get_message()
+            x.put()
+            
+            # update device unread
+            device = x.device
+            unread = 0
+            for y in device.listdevice_set.filter('deleted != ', True):
+                unread += y.unread
+            device.unread = unread
+            device.put()
