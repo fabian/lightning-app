@@ -13,7 +13,10 @@ from google.appengine.api.labs.taskqueue import taskqueue_stub
 from google.appengine.ext import webapp
 import mocker
 import webtest
-import resources
+from resources.device import DevicesResource, DeviceResource
+from resources.list import DeviceListsResource, DeviceListResource, ListsResource, ListResource
+from resources.notification import ListPushResource, ListUnreadResource
+from resources.item import ItemsResource, ItemResource
 import models
 
 class Tests(mocker.MockerTestCase):
@@ -38,7 +41,7 @@ class DevicesTests(Tests):
     def setUp(self):
         self.stub_datastore()        
         self.application = webapp.WSGIApplication([
-            (r'/api/devices', resources.DevicesResource), 
+            (r'/api/devices', DevicesResource), 
         ], debug=True)
         self.mock_urbanairship()
     
@@ -66,7 +69,7 @@ class DeviceTests(Tests):
     def setUp(self):
         self.stub_datastore()        
         self.application = webapp.WSGIApplication([
-            (r'/api/devices/(.*)', resources.DeviceResource), 
+            (r'/api/devices/(.*)', DeviceResource), 
         ], debug=True)
         
         self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
@@ -95,7 +98,7 @@ class DeviceListsTests(Tests):
     def setUp(self):
         self.stub_datastore()        
         self.application = webapp.WSGIApplication([
-            (r'/api/devices/(.*)/lists', resources.DeviceListsResource), 
+            (r'/api/devices/(.*)/lists', DeviceListsResource), 
         ], debug=True)
         
         self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
@@ -135,7 +138,7 @@ class ListTests(Tests):
     def setUp(self):
         self.stub_datastore()        
         self.application = webapp.WSGIApplication([
-            (r'/api/lists/(.*)', resources.ListResource),
+            (r'/api/lists/(.*)', ListResource),
         ], debug=True)
         
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
@@ -164,7 +167,7 @@ class ItemTests(Tests):
     def setUp(self):
         self.stub_datastore()        
         self.application = webapp.WSGIApplication([
-            (r'/api/items/(.*)', resources.ItemResource), 
+            (r'/api/items/(.*)', ItemResource), 
         ], debug=True)
         
         self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
@@ -208,8 +211,8 @@ class ListPushTests(Tests):
     def setUp(self):
         self.stub_datastore()        
         self.application = webapp.WSGIApplication([
-            (r'/api/lists/(.*)/unread', resources.ListUnreadResource),
-            (r'/api/lists/(.*)/push', resources.ListPushResource),
+            (r'/api/lists/(.*)/unread', ListUnreadResource),
+            (r'/api/lists/(.*)/push', ListPushResource),
         ], debug=True)
         
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
