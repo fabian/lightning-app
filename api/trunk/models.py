@@ -35,7 +35,8 @@ class List(db.Model):
 class Item(db.Model):
     value = db.StringProperty(required=True)
     list = db.ReferenceProperty(List, required=True)
-    deleted = db.BooleanProperty()
+    done = db.BooleanProperty(default=False, required=True)
+    deleted = db.BooleanProperty(default=False, required=True)
     added = db.DateTimeProperty(required=True, auto_now_add=True)
     modified = db.DateTimeProperty(required=True)
 
