@@ -10,7 +10,6 @@ sys.path = sys.path + ['/usr/local/google_appengine', '/usr/local/google_appengi
 from google.appengine.api import apiproxy_stub_map
 from google.appengine.api import datastore_file_stub
 from google.appengine.api.labs.taskqueue import taskqueue_stub
-from google.appengine.ext import webapp
 import mocker
 import webtest
 from resources.device import DevicesResource, DeviceResource
@@ -18,6 +17,7 @@ from resources.list import DeviceListsResource, DeviceListResource, ListsResourc
 from resources.notification import ListPushResource, ListUnreadResource
 from resources.item import ItemsResource, ItemResource
 import models
+import api
 
 class Tests(mocker.MockerTestCase):
     
@@ -39,10 +39,7 @@ class Tests(mocker.MockerTestCase):
 class DevicesTests(Tests):
 
     def setUp(self):
-        self.stub_datastore()        
-        self.application = webapp.WSGIApplication([
-            (r'/api/devices', DevicesResource), 
-        ], debug=True)
+        self.stub_datastore()
         self.mock_urbanairship()
     
     def test_create_device(self):
@@ -58,7 +55,7 @@ class DevicesTests(Tests):
         self.urbanairship.register("EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
         
         self.mocker.replay()
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345", 'device_token': "EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0"})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
@@ -67,10 +64,7 @@ class DevicesTests(Tests):
 class DeviceTests(Tests):
 
     def setUp(self):
-        self.stub_datastore()        
-        self.application = webapp.WSGIApplication([
-            (r'/api/devices/(.*)', DeviceResource), 
-        ], debug=True)
+        self.stub_datastore()
         
         self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
         self.device_one.put()
@@ -80,14 +74,14 @@ class DeviceTests(Tests):
     
     def test_get_device(self):
         
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         response = test.get("/api/devices/1", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
     
     def test_get_wrong_device(self):
         
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         response = test.get("/api/devices/1", headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
         
         self.assertEqual(response.body, "Device 1 doesn't match authenticated device 2")
@@ -96,10 +90,7 @@ class DeviceTests(Tests):
 class DeviceListsTests(Tests):
 
     def setUp(self):
-        self.stub_datastore()        
-        self.application = webapp.WSGIApplication([
-            (r'/api/devices/(.*)/lists', DeviceListsResource), 
-        ], debug=True)
+        self.stub_datastore()
         
         self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
         self.device_one.put()
@@ -117,7 +108,7 @@ class DeviceListsTests(Tests):
         list_b.put()
         models.ListDevice(device=self.device_one, list=list_b).put()
         
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"lists": [{"url": "http://localhost:80/api/lists/3", "unread": 0, "id": 3, "title": "List A"}, {"url": "http://localhost:80/api/lists/5", "unread": 0, "id": 5, "title": "List B"}]}')
@@ -127,7 +118,7 @@ class DeviceListsTests(Tests):
         list_c = models.List(title="List C", owner=self.device_two, token="xzy")
         list_c.put()
         
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"lists": []}')
@@ -136,10 +127,7 @@ class DeviceListsTests(Tests):
 class ListTests(Tests):
 
     def setUp(self):
-        self.stub_datastore()        
-        self.application = webapp.WSGIApplication([
-            (r'/api/lists/(.*)', ListResource),
-        ], debug=True)
+        self.stub_datastore()
         
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
         self.device.put()
@@ -156,7 +144,7 @@ class ListTests(Tests):
     
     def test_get_list(self):
         
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         response = test.get("/api/lists/2", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Wine"}, {"url": "http://localhost:80/api/items/5", "id": 5, "value": "Bread"}], "id": 2, "title": "A random list"}')
@@ -165,10 +153,7 @@ class ListTests(Tests):
 class ItemTests(Tests):
 
     def setUp(self):
-        self.stub_datastore()        
-        self.application = webapp.WSGIApplication([
-            (r'/api/items/(.*)', ItemResource), 
-        ], debug=True)
+        self.stub_datastore()
         
         self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
         self.device_one.put()
@@ -186,21 +171,21 @@ class ItemTests(Tests):
     
     def test_get_item(self):
         
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         response = test.get("/api/items/6", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/6", "id": 6, "value": "Some Item"}')
     
     def test_update_item(self):
         
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         response = test.put("/api/items/6", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/6", "id": "6", "value": "New Value", "modified": "2010-06-29 12:00:01"}')
     
     def test_update_conflict_item(self):
         
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         response = test.put("/api/items/6", {'value': "Old Value", 'modified': "2010-06-29 12:00:00"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=409)
         
         self.assertEqual(response.body, "Conflict, has later modification")
@@ -209,11 +194,7 @@ class ItemTests(Tests):
 class ListPushTests(Tests):
 
     def setUp(self):
-        self.stub_datastore()        
-        self.application = webapp.WSGIApplication([
-            (r'/api/lists/(.*)/unread', ListUnreadResource),
-            (r'/api/lists/(.*)/push', ListPushResource),
-        ], debug=True)
+        self.stub_datastore()
         
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
         self.device.put()
@@ -251,7 +232,7 @@ class ListPushTests(Tests):
         log.put()
         
         self.mocker.replay()
-        test = webtest.TestApp(self.application)
+        test = webtest.TestApp(api.application)
         
         response = test.post("/api/lists/2/unread")
         
