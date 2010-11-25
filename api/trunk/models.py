@@ -27,9 +27,7 @@ class List(db.Model):
         return False
     
     def get_log(self, since):
-        query = Log.all().filter('list =', self).order('happened')
-        if since:
-            query.filter('happened > ', since)
+        query = Log.all().filter('list =', self).filter('happened > ', since).order('happened')
         return query
 
 class Item(db.Model):
