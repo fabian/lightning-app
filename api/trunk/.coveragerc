@@ -6,6 +6,7 @@ branch = True
 omit = 
     /Applications/*
     django/*
+    api.py
     mocker.py
     settings.py
     tests.py
