@@ -45,7 +45,11 @@ class DeviceResource(Resource):
         # device must match authenticated device
         if device.key() == self.get_auth().key():
             
-            device.name = self.request.get('name')
+            # see http://code.google.com/p/googleappengine/issues/detail?id=719
+            import cgi
+            params = cgi.parse_qs(self.request.body)
+            
+            device.name = params['name'][0]
             device.put()
         
         else:
