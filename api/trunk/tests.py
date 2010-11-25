@@ -18,6 +18,8 @@ from resources.notification import ListPushResource, ListUnreadResource
 from resources.item import ItemsResource, ItemResource
 import models
 import api
+import notifications
+
 
 class Tests(mocker.MockerTestCase):
     
@@ -83,6 +85,22 @@ class DeviceTests(Tests):
         
         test = webtest.TestApp(api.application)
         response = test.get("/api/devices/1", headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
+        
+        self.assertEqual(response.body, "Device 1 doesn't match authenticated device 2")
+    
+    def test_change_device(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/devices/1", {'name': 'New Name'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        device = models.Device.get_by_id(1)
+        self.assertEqual(device.name, 'New Name')
+    
+    
+    def test_wrong_change_device(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/devices/1", {'name': 'New Name'}, headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
         
         self.assertEqual(response.body, "Device 1 doesn't match authenticated device 2")
 
@@ -201,11 +219,11 @@ class ListPushTests(Tests):
         
         self.list = models.List(title="Groceries", owner=self.device, token="xzy")
         self.list.put()
-        models.ListDevice(device=self.device, list=self.list).put()
+        models.ListDevice(device=self.device, list=self.list, read=datetime(2010, 01, 01, 12, 00, 00)).put()
         
         self.receiver = models.Device(identifier="receiver", device_token="ABC123", name="Max", secret="123")
         self.receiver.put()
-        models.ListDevice(device=self.receiver, list=self.list).put()
+        models.ListDevice(device=self.receiver, list=self.list, read=datetime(2010, 05, 01, 12, 00, 00)).put()
         
         self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_one.put()
@@ -213,12 +231,16 @@ class ListPushTests(Tests):
         self.item_two = models.Item(value="Bread", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_two.put()
         
-        self.item_three = models.Item(value="Marmalade", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
+        self.item_three = models.Item(value="Butter", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_three.put()
         
-        # mocker screenplay
+        self.item_four = models.Item(value="Honey", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
+        self.item_four.put()
+        
+        self.item_five = models.Item(value="Cheese", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
+        self.item_five.put()
+        
         self.mock_urbanairship()
-        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 3, 'alert': "Added Bread and Wine. Changed Butter to Marmalade."}}, device_tokens=["ABC123"])
     
     def test_push_list(self):
         
@@ -228,8 +250,20 @@ class ListPushTests(Tests):
         log = models.Log(device=self.device, item=self.item_two, list=self.list, action='added')
         log.put()
         
-        log = models.Log(device=self.device, item=self.item_three, list=self.list, action='modified', old="Butter")
+        log = models.Log(device=self.device, item=self.item_three, list=self.list, action='added')
         log.put()
+        
+        log = models.Log(device=self.device, item=self.item_three, list=self.list, action='modified', old="Marmalade")
+        log.put()
+        
+        log = models.Log(device=self.device, item=self.item_four, list=self.list, action='deleted', old="Honey", happened=datetime(2010, 04, 01, 00, 00, 00))
+        log.put()
+        
+        log = models.Log(device=self.device, item=self.item_five, list=self.list, action='modified', old="Milk")
+        log.put()
+        
+        # mocker screenplay
+        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 4, 'alert': "Added Butter, Wine and Bread. Changed Milk to Cheese."}}, device_tokens=["ABC123"])
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
@@ -239,6 +273,36 @@ class ListPushTests(Tests):
         response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"devices": [4]}')
+    
+    
+    def test_empty_list(self):
+        
+        # mocker screenplay
+        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 0, 'alert': ""}}, device_tokens=["ABC123"])
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/unread")
+        
+        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"devices": [4]}')
+
+
+class ListToTextTest(unittest.TestCase):
+
+    def test_empty(self):
+        self.assertEqual('', notifications.list_to_text([]))
+
+    def test_one(self):
+        self.assertEqual('Foo', notifications.list_to_text(['Foo']))
+
+    def test_two(self):
+        self.assertEqual('Bar and Foo', notifications.list_to_text(['Bar', 'Foo']))
+
+    def test_more(self):
+        self.assertEqual('Foo, Bar and Test', notifications.list_to_text(['Foo', 'Bar', 'Test']))
 
 
 if __name__ == "__main__":
