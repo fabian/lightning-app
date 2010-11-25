@@ -29,10 +29,11 @@ class Notification:
             if log.happened < since:
                 continue # ignore old entries
             
-            if not items.has_key(log.item.key()):
-                items[log.item.key()] = {}
+            id = log.item.key().id()
+            if not items.has_key(id):
+                items[id] = {}
             
-            items[log.item.key()][log.action] = log
+            items[id][log.action] = log
         
         added = []
         modified = []
@@ -42,7 +43,7 @@ class Notification:
             if value.has_key('added') and not value.has_key('deleted'):
                 added.append(value['added'].item.value)
             
-            if value.has_key('modified') and not value.has_key('deleted'):
+            if value.has_key('modified') and not value.has_key('added') and not value.has_key('deleted'):
                 modified.append("%s to %s" % (value['modified'].old, value['modified'].item.value))
                 
             if value.has_key('deleted') and not value.has_key('added'):
