@@ -11,8 +11,12 @@ from resources.list import ListsResource
 class ListUnreadResource(ListsResource):
     
     def post(self, id):
-    
-        list = List.get_by_id(int(id))
+        
+        try:
+            list = List.get_by_id(int(id))
+        except ValueError:
+            list = False
+        
         if list:
             
             u = Unread(list)
@@ -29,14 +33,21 @@ class ListPushResource(ListsResource):
     @device_required
     @json
     def post(self, id):
-    
-        list = List.get_by_id(int(id))
+        
+        try:
+            list = List.get_by_id(int(id))
+        except ValueError:
+            list = False
+        
         if list:
             
             # authenticated device must have access to list
             if self.has_access(list):
                 
-                exclude = Device.get_by_id(int(self.request.get('exclude')))
+                try:
+                    exclude = Device.get_by_id(int(self.request.get('exclude')))
+                except ValueError:
+                    exclude = False
                 
                 if exclude:
                     
