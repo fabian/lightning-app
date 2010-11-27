@@ -183,50 +183,57 @@ class DeviceListResource(ListsResource):
     
     @device_required
     @json
-    def put(self, list_id, device_id):
+    def put(self, device_id, list_id):
         
+        # device must match authenticated device
         try:
-            list = List.get_by_id(int(list_id))
+            device = Device.get_by_id(int(device_id))
         except ValueError:
-            list = False
-        # TODO check if list exists
-    
-        # guest must match authenticated device
-        try:
-            guest = Device.get_by_id(int(device_id))
-        except ValueError:
-            exclude = False
+            device = False
         
-        if guest:
-            if guest.key() == self.get_auth().key():
+        if device:
+            if device.key() == self.get_auth().key():
                 
-                token = self.request.get('token')
+                try:
+                    list = List.get_by_id(int(list_id))
+                except ValueError:
+                    list = False
                 
-                # token must match
-                if list.token == token:
+                if list:
                     
-                    listdevice = ListDevice(list=list, device=owner)
-                    listdevice.put()
+                    # see http://code.google.com/p/googleappengine/issues/detail?id=719
+                    import cgi
+                    params = cgi.parse_qs(self.request.body)
                     
-                    logging.debug("Device %s added to list with id %s for list %s.", guest.key().id(), listdevice.key().id(), list.key().id())
+                    token = params['token'][0]
                     
-                    protocol = self.request._environ['wsgi.url_scheme']
-                    host = self.request._environ['HTTP_HOST']
-                    id = shared.key().id()
-                    url = "%s://%s/api/shared_lists/%s" % (protocol, host, id)
+                    # token must match
+                    if list.token == token:
+                        
+                        listdevice = ListDevice(list=list, device=device)
+                        listdevice.put()
+                        
+                        logging.debug("Device %s added to list with id %s for list %s.", device.key().id(), listdevice.key().id(), list.key().id())
+                        
+                        protocol = self.request._environ['wsgi.url_scheme']
+                        host = self.request._environ['HTTP_HOST']
+                        url = "%s://%s/api/devices/%s/lists/%s" % (protocol, host, device.key().id(), list.key().id())
+                        
+                        return {'url': url, 'list': listdevice.list.key().id(), 'device': listdevice.device.key().id()}
                     
-                    return {'id': id, 'url': url, 'list': shared.list.key().id(), 'guest': shared.guest.key().id()}
-                
+                    else:
+                        # token doesn't match
+                        self.error(403)
+                        self.response.out.write("Token %s doesn't match token for list %s" % (token, list.key().id()))
                 else:
-                    # token doesn't match
-                    self.error(403)
-                    self.response.out.write("Token %s doesn't match token for list %s" % (token, list.key().id()))
-            
+                    # list not found
+                    self.error(404)
+                    self.response.out.write("Can't get list with id %s" % list_id)
             else:
                 # owner does not match autenticated device
                 self.error(403)
-                self.response.out.write("Guest %s doesn't match authenticated device %s" % (guest.key().id(), self.get_auth().key().id()))
+                self.response.out.write("Device %s doesn't match authenticated device %s" % (device.key().id(), self.get_auth().key().id()))
         else:
             # device for owner not found
             self.error(404)
-            self.response.out.write("Can't get device for guest %s" % self.request.get('guest'))
+            self.response.out.write("Can't get device with id %s" % device_id)
