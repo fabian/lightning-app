@@ -308,7 +308,7 @@ class ListTests(Tests):
         test = webtest.TestApp(api.application)
         response = test.get("/api/lists/2", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Wine"}, {"url": "http://localhost:80/api/items/5", "id": 5, "value": "Bread"}], "id": 2, "title": "A random list"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/4", "done": false, "id": 4, "value": "Wine"}, {"url": "http://localhost:80/api/items/5", "done": false, "id": 5, "value": "Bread"}], "id": 2, "title": "A random list"}')
     
     def test_get_wrong_id(self):
         
@@ -418,7 +418,7 @@ class ItemTests(Tests):
         
         response = self.test.get("/api/items/7", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/7", "id": 7, "value": "Some Item"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/7", "done": false, "id": 7, "value": "Some Item"}')
     
     def test_wrong_id(self):
         
@@ -440,12 +440,13 @@ class ItemTests(Tests):
     
     def test_update_item(self):
         
-        response = self.test.put("/api/items/7", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = self.test.put("/api/items/7", {'value': "New Value", 'done': "1",  'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/7", "id": "7", "value": "New Value", "modified": "2010-06-29 12:00:01"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/7", "done": true, "id": "7", "value": "New Value", "modified": "2010-06-29 12:00:01"}')
         
         item = models.Item.get_by_id(7)
         self.assertEqual(item.value, "New Value")
+        self.assertTrue(item.done)
     
     def test_update_conflict_item(self):
         

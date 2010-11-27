@@ -86,7 +86,7 @@ class ItemResource(ItemsResource):
         if item:
             if self.has_access(item):
                 
-                return {'id': item.key().id(), 'url': self.url(item), 'value': item.value}
+                return {'id': item.key().id(), 'url': self.url(item), 'value': item.value, 'done': item.done}
             
         else:
             # item not found
@@ -115,6 +115,7 @@ class ItemResource(ItemsResource):
                 if (item.modified < modified):
                     
                     item.value = params['value'][0]
+                    item.done = (params['done'][0] == "1")
                     item.modified = modified
                     item.put()
                     
@@ -123,7 +124,7 @@ class ItemResource(ItemsResource):
                     log.put()
                     taskqueue.add(url='/api/lists/%s/unread' % item.list.key().id())
                     
-                    return {'id': id, 'url': self.url(item), 'value': item.value, 'modified': item.modified.strftime(self.DATE_FORMAT)}
+                    return {'id': id, 'url': self.url(item), 'value': item.value, 'done': item.done, 'modified': item.modified.strftime(self.DATE_FORMAT)}
                     
                 else:
                     # conflict

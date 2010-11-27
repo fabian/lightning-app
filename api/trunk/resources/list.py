@@ -127,6 +127,7 @@ class ListResource(ListsResource):
                         'id': item.key().id(), 
                         'url': url, 
                         'value': item.value, 
+                        'done': item.done, 
                     })
                 
                 id = list.key().id()
