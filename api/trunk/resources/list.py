@@ -35,7 +35,11 @@ class ListsResource(Resource):
     def post(self):
         
         # owner must match authenticated device
-        owner = Device.get_by_id(int(self.request.get('owner')))
+        try:
+            owner = Device.get_by_id(int(self.request.get('owner')))
+        except ValueError:
+            owner = False
+        
         if owner:
             if owner.key() == self.get_auth().key():
                 
@@ -72,8 +76,11 @@ class ListResource(ListsResource):
     @device_required
     @json
     def put(self, id):
-    
-        list = List.get_by_id(int(id))
+        
+        try:
+            list = List.get_by_id(int(id))
+        except ValueError:
+            list = False
         
         # device must match authenticated device
         if list.owner.key() == self.get_auth().key():
@@ -91,7 +98,11 @@ class ListResource(ListsResource):
     @json
     def get(self, id):
         
-        list = List.get_by_id(int(id))
+        try:
+            list = List.get_by_id(int(id))
+        except ValueError:
+            list = False
+        
         if list:
             
             # authenticated device must have access to list
@@ -130,7 +141,11 @@ class DeviceListsResource(ListsResource):
     def get(self, device):
         
         # owner must match authenticated device
-        owner = Device.get_by_id(int(device))
+        try:
+            owner = Device.get_by_id(int(device))
+        except ValueError:
+            owner = False
+        
         if owner:
             if owner.key() == self.get_auth().key():
                 lists = []
@@ -162,11 +177,19 @@ class DeviceListResource(ListsResource):
     @device_required
     @json
     def put(self, list_id, device_id):
-    
-        list = List.get_by_id(int(list_id))
+        
+        try:
+            list = List.get_by_id(int(list_id))
+        except ValueError:
+            list = False
+        # TODO check if list exists
     
         # guest must match authenticated device
-        guest = Device.get_by_id(int(device_id))
+        try:
+            guest = Device.get_by_id(int(device_id))
+        except ValueError:
+            exclude = False
+        
         if guest:
             if guest.key() == self.get_auth().key():
                 
