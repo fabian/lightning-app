@@ -5,7 +5,7 @@ from google.appengine.ext import db
 class Device(db.Model):
     name = db.StringProperty()
     identifier = db.StringProperty(required=True) # UDID for iPhone
-    device_token = db.StringProperty(required=True)
+    device_token = db.StringProperty()
     secret = db.StringProperty(required=True) # random, needed to verify udid
     unread = db.IntegerProperty(default=0, required=True) # unread items
     registered = db.DateTimeProperty(required=True, auto_now_add=True)
