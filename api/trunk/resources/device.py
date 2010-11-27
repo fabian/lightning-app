@@ -39,43 +39,63 @@ class DeviceResource(Resource):
     @device_required
     @json
     def put(self, id):
-    
-        device = Device.get_by_id(int(id))
         
-        # device must match authenticated device
-        if device.key() == self.get_auth().key():
-            
-            # see http://code.google.com/p/googleappengine/issues/detail?id=719
-            import cgi
-            params = cgi.parse_qs(self.request.body)
-            
-            device.name = params['name'][0]
-            device.put()
+        try:
+            device = Device.get_by_id(int(id))
+        except ValueError:
+            device = False
         
+        if device:
+            
+            # device must match authenticated device
+            if device.key() == self.get_auth().key():
+                
+                # see http://code.google.com/p/googleappengine/issues/detail?id=719
+                import cgi
+                params = cgi.parse_qs(self.request.body)
+                
+                device.name = params['name'][0]
+                device.put()
+            
+            else:
+                # device does not match authenticated device
+                self.error(403)
+                self.response.out.write("Device %s doesn't match authenticated device %s" % (device.key().id(), self.get_auth().key().id()))
+            
         else:
-            # device does not match authenticated device
-            self.error(403)
-            self.response.out.write("Device %s doesn't match authenticated device %s" % (device.key().id(), self.get_auth().key().id()))
+            # device not found
+            self.error(404)
+            self.response.out.write("Device %s not found" % id)
     
     @device_required
     @json
     def get(self, id):
         
-        device = Device.get_by_id(int(id))
+        try:
+            device = Device.get_by_id(int(id))
+        except ValueError:
+            device = False
         
-        # device must match authenticated device
-        if device.key() == self.get_auth().key():
+        if device:
             
-            protocol = self.request._environ['wsgi.url_scheme']
-            host = self.request._environ['HTTP_HOST']
-            id = device.key().id()
-            secret = device.secret
-            url = u"%s://%s/api/devices/%s?secret=%s" % (protocol, host, id, secret)
-            
-            return {'id': id, 'url': url, 'secret': secret}
-            
+            # device must match authenticated device
+            if device.key() == self.get_auth().key():
+                
+                protocol = self.request._environ['wsgi.url_scheme']
+                host = self.request._environ['HTTP_HOST']
+                id = device.key().id()
+                secret = device.secret
+                url = u"%s://%s/api/devices/%s?secret=%s" % (protocol, host, id, secret)
+                
+                return {'id': id, 'url': url, 'secret': secret}
+                
+            else:
+                # device does not match authenticated device
+                self.error(403)
+                self.response.out.write("Device %s doesn't match authenticated device %s" % (device.key().id(), self.get_auth().key().id()))
+        
         else:
-            # device does not match authenticated device
-            self.error(403)
-            self.response.out.write("Device %s doesn't match authenticated device %s" % (device.key().id(), self.get_auth().key().id()))
+            # device not found
+            self.error(404)
+            self.response.out.write("Device %s not found" % id)
 
