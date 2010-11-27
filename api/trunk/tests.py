@@ -174,6 +174,112 @@ class DeviceListsTests(Tests):
         response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"lists": []}')
+    
+    def test_get_lists_wrong_owner(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.get("/api/devices/aaa/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Can't get device for owner aaa")
+    
+    def test_get_lists_no_access(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.get("/api/devices/2/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'}, status=403)
+        
+        self.assertEqual(response.body, "Owner 2 doesn't match authenticated device 1")
+
+
+class DeviceListTests(Tests):
+
+    def setUp(self):
+        self.stub_datastore()
+        
+        self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
+        self.device_one.put()
+        
+        self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
+        self.device_two.put()
+        
+        list = models.List(title="Some List", owner=self.device_one, token="QWERT")
+        list.put()
+        
+        self.test = webtest.TestApp(api.application)
+    
+    def test_create_device_list(self):
+        
+        response = self.test.put("/api/devices/1/lists/3", {'token': "QWERT"}, headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1/lists/3", "device": 1, "list": 3}')
+    
+    def test_create_wrong_device(self):
+        
+        response = self.test.put("/api/devices/aaa/lists/3", {'token': "QWERT"}, headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Can't get device with id aaa")
+    
+    def test_create_no_access(self):
+        
+        response = self.test.put("/api/devices/1/lists/3", {'token': "QWERT"}, headers={'Device': 'http://some.domain:8080/api/devices/2?secret=xyz'}, status=403)
+        
+        self.assertEqual(response.body, "Device 1 doesn't match authenticated device 2")
+    
+    def test_create_wrong_list(self):
+        
+        response = self.test.put("/api/devices/1/lists/aaa", {'token': "QWERT"}, headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Can't get list with id aaa")
+    
+    def test_create_wrong_token(self):
+        
+        response = self.test.put("/api/devices/1/lists/3", {'token': "WRONG"}, headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'}, status=403)
+        
+        self.assertEqual(response.body, "Token WRONG doesn't match token for list 3")
+
+
+class ListsTests(Tests):
+    
+    def setUp(self):
+        self.stub_datastore()
+        
+        self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
+        self.device_one.put()
+        
+        self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
+        self.device_two.put()
+    
+    def test_create_list(self):
+        
+        random = self.mocker.replace("os.urandom")
+        random(8)
+        self.mocker.result("548312")
+        
+        hexlify = self.mocker.replace("binascii.hexlify")
+        hexlify("548312")
+        self.mocker.result("foobar")
+        
+        self.mocker.replay()
+        self.test = webtest.TestApp(api.application)
+        
+        response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "1"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/3", "token": "foobar", "id": 3, "title": "Groceries"}')
+    
+    def test_create_wrong_owner(self):
+        
+        self.test = webtest.TestApp(api.application)
+        
+        response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "aaa"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Can't get device for owner aaa")
+    
+    def test_create_no_access(self):
+        
+        self.test = webtest.TestApp(api.application)
+        
+        response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "1"}, headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
+        
+        self.assertEqual(response.body, "Owner 1 doesn't match authenticated device 2")
 
 
 class ListTests(Tests):
@@ -193,6 +299,9 @@ class ListTests(Tests):
         
         self.item_two = models.Item(value="Bread", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_two.put()
+        
+        self.device_second = models.Device(identifier="raboof", device_token="ABC123", name="Uninvolved Device", secret="xyz")
+        self.device_second.put()
     
     def test_get_list(self):
         
@@ -200,7 +309,44 @@ class ListTests(Tests):
         response = test.get("/api/lists/2", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Wine"}, {"url": "http://localhost:80/api/items/5", "id": 5, "value": "Bread"}], "id": 2, "title": "A random list"}')
-
+    
+    def test_get_wrong_id(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.get("/api/lists/aaa", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Can't get list with id aaa")
+    
+    def test_get_no_access(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.get("/api/lists/2", headers={'Device': 'http://localhost:80/api/devices/6?secret=xyz'}, status=403)
+        
+        self.assertEqual(response.body, "Authenticated device 6 has no access to list")
+    
+    def test_update_list(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/lists/2", {'title': "New Title"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "id": "2", "title": "New Title"}')
+        
+        list = models.List.get_by_id(2)
+        self.assertEqual(list.title, "New Title")
+    
+    def test_update_wrong_id(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/lists/aaa", {'title': "New Title"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, 'List aaa not found')
+    
+    def test_update_no_access(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/lists/2", {'title': "New Title"}, headers={'Device': 'http://localhost:80/api/devices/6?secret=xyz'}, status=403)
+        
+        self.assertEqual(response.body, 'Authenticated device 6 has no access to list')
 
 class ItemsTests(Tests):
 
@@ -230,6 +376,12 @@ class ItemsTests(Tests):
         response = self.test.post("/api/items", {'list': "99", 'value': "Milk"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, "Can't get list 99")
+    
+    def test_invalid_list(self):
+        
+        response = self.test.post("/api/items", {'list': "aaa", 'value': "Milk"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Can't get list aaa")
     
     def test_no_access(self):
         
@@ -274,6 +426,12 @@ class ItemTests(Tests):
         
         self.assertEqual(response.body, 'Item 99 not found')
     
+    def test_invalid_id(self):
+        
+        response = self.test.get("/api/items/aaa", headers={'Device': 'http://localhost:80/api/devices/3?secret=qwert'}, status=404)
+        
+        self.assertEqual(response.body, 'Item aaa not found')
+    
     def test_no_access(self):
         
         response = self.test.get("/api/items/7", headers={'Device': 'http://localhost:80/api/devices/3?secret=qwert'}, status=403)
@@ -301,6 +459,12 @@ class ItemTests(Tests):
         
         self.assertEqual(response.body, 'Item 99 not found')
     
+    def test_update_invalid_id(self):
+        
+        response = self.test.put("/api/items/aaa", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, 'Item aaa not found')
+    
     def test_update_no_access(self):
         
         response = self.test.put("/api/items/7", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/3?secret=qwert'}, status=403)
@@ -318,9 +482,9 @@ class ItemTests(Tests):
     
     def test_delete_wrong_id(self):
         
-        response = self.test.delete("/api/items/99", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        response = self.test.delete("/api/items/aaa", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
-        self.assertEqual(response.body, 'Item 99 not found')
+        self.assertEqual(response.body, 'Item aaa not found')
     
     def test_delete_no_access(self):
         
