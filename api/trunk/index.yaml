@@ -1,9 +1,5 @@
 indexes:
 
-- kind: Item
-  properties:
-  - name: list
-
 - kind: DeviceList
   properties:
   - name: device
