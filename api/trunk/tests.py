@@ -88,6 +88,34 @@ class DeviceTests(Tests):
         
         self.assertEqual(response.body, "Device 1 doesn't match authenticated device 2")
     
+    def test_get_wrong_secret(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.get("/api/devices/1", headers={'Device': 'http://localhost:80/api/devices/1?secret=qwert'}, status=403)
+        
+        self.assertEqual(response.body, "Secret qwert doesn't match device secret!")
+    
+    def test_get_missing_device(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.get("/api/devices/1", headers={'Device': 'http://localhost:80/api/devices/99?secret=xyz'}, status=403)
+        
+        self.assertEqual(response.body, "Device 99 not found!")
+    
+    def test_get_invalid_id(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.get("/api/devices/aaa", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Device aaa not found")
+    
+    def test_get_no_header(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.get("/api/devices/1", status=401)
+        
+        self.assertEqual(response.body, "No device header found!")
+    
     def test_change_device(self):
         
         test = webtest.TestApp(api.application)
@@ -96,6 +124,12 @@ class DeviceTests(Tests):
         device = models.Device.get_by_id(1)
         self.assertEqual(device.name, 'New Name')
     
+    def test_change_invalid_id(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/devices/aaa", {'name': 'New Name'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Device aaa not found")
     
     def test_wrong_change_device(self):
         
@@ -168,6 +202,42 @@ class ListTests(Tests):
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/4", "id": 4, "value": "Wine"}, {"url": "http://localhost:80/api/items/5", "id": 5, "value": "Bread"}], "id": 2, "title": "A random list"}')
 
 
+class ItemsTests(Tests):
+
+    def setUp(self):
+        self.stub_datastore()
+        
+        self.device_one = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
+        self.device_one.put()
+        
+        self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
+        self.device_two.put()
+        
+        self.list = models.List(title="A random list", owner=self.device_one, token="xzy")
+        self.list.put()
+        models.ListDevice(device=self.device_one, list=self.list).put()
+        
+        self.test = webtest.TestApp(api.application)
+    
+    def test_create_item(self):
+        
+        response = self.test.post("/api/items", {'list': "3", 'value': "Milk"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/5", "list": 3, "id": 5, "value": "Milk"}')
+    
+    def test_wrong_list(self):
+        
+        response = self.test.post("/api/items", {'list': "99", 'value': "Milk"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Can't get list 99")
+    
+    def test_no_access(self):
+        
+        response = self.test.post("/api/items", {'list': "3", 'value': "Milk"}, headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
+        
+        self.assertEqual(response.body, "Authenticated device 2 has no access to list of item")
+        
+
 class ItemTests(Tests):
 
     def setUp(self):
@@ -215,6 +285,9 @@ class ItemTests(Tests):
         response = self.test.put("/api/items/7", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/7", "id": "7", "value": "New Value", "modified": "2010-06-29 12:00:01"}')
+        
+        item = models.Item.get_by_id(7)
+        self.assertEqual(item.value, "New Value")
     
     def test_update_conflict_item(self):
         
@@ -231,6 +304,27 @@ class ItemTests(Tests):
     def test_update_no_access(self):
         
         response = self.test.put("/api/items/7", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/3?secret=qwert'}, status=403)
+        
+        self.assertEqual(response.body, 'Authenticated device 3 has no access to list of item')
+    
+    def test_delete_item(self):
+        
+        response = self.test.delete("/api/items/7", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '')
+        
+        item = models.Item.get_by_id(7)
+        self.assertTrue(item.deleted)
+    
+    def test_delete_wrong_id(self):
+        
+        response = self.test.delete("/api/items/99", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, 'Item 99 not found')
+    
+    def test_delete_no_access(self):
+        
+        response = self.test.delete("/api/items/7", headers={'Device': 'http://localhost:80/api/devices/3?secret=qwert'}, status=403)
         
         self.assertEqual(response.body, 'Authenticated device 3 has no access to list of item')
 
@@ -266,7 +360,8 @@ class ListPushTests(Tests):
         self.item_five = models.Item(value="Cheese", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_five.put()
         
-        self.mock_urbanairship()
+        self.device_second = models.Device(identifier="raboof", device_token="ABC123", name="Uninvolved Device", secret="xyz")
+        self.device_second.put()
     
     def test_push_list(self):
         
@@ -289,6 +384,7 @@ class ListPushTests(Tests):
         log.put()
         
         # mocker screenplay
+        self.mock_urbanairship()
         self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 4, 'alert': "Added Butter, Wine and Bread. Changed Milk to Cheese."}}, device_tokens=["ABC123"])
         
         self.mocker.replay()
@@ -300,10 +396,22 @@ class ListPushTests(Tests):
         
         self.assertEqual(response.body, '{"devices": [4]}')
     
+    def test_push_no_device_token(self):
+        
+        self.receiver.device_token = ''
+        self.receiver.put()
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"devices": []}')
     
     def test_empty_list(self):
         
         # mocker screenplay
+        self.mock_urbanairship()
         self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 0, 'alert': ""}}, device_tokens=["ABC123"])
         
         self.mocker.replay()
@@ -314,7 +422,76 @@ class ListPushTests(Tests):
         response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"devices": [4]}')
+    
+    def test_push_wrong_id(self):
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/99/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Can't get list with id 99")
+    
+    def test_push_invalid_id(self):
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/aaa/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        
+        self.assertEqual(response.body, "Can't get list with id aaa")
+    
+    def test_push_no_access(self):
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/11?secret=xyz'}, status=403)
+        
+        self.assertEqual(response.body, "Authenticated device 11 has no access to list")
+    
+    def test_push_wrong_exclude(self):
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/push", {'exclude': '99'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
+        
+        self.assertEqual(response.body, "Device to exclude 99 not found")
+    
+    def test_push_invalid_exclude(self):
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/push", {'exclude': 'aaa'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
+        
+        self.assertEqual(response.body, "Device to exclude aaa not found")
 
+
+class UnreadTests(Tests):
+
+    def setUp(self):
+        self.stub_datastore()
+    
+    def test_unread_wrong_id(self):
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/99/unread", status=404)
+        
+        self.assertEqual(response.body, "Can't get list with id 99")
+    
+    def test_unread_invalid_id(self):
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/aaa/unread", status=404)
+        
+        self.assertEqual(response.body, "Can't get list with id aaa")
+    
 
 class ListToTextTest(unittest.TestCase):
 
