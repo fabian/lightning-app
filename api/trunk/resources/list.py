@@ -4,7 +4,7 @@ import binascii
 import urbanairship
 import settings
 from util import Resource, json, device_required
-from models import Device, List, Item
+from models import ListDevice, Device, List, Item
 
 class ListsResource(Resource):
     
@@ -46,10 +46,10 @@ class ListsResource(Resource):
                 # generate random token
                 token = binascii.hexlify(os.urandom(8))
                 
-                list = List(title=self.request.get('title'), owner=owner, token=token)
+                list = List(title=self.request.get('title'), token=token)
                 list.put()
                 
-                listdevice = ListDevice(list=list, device=owner)
+                listdevice = ListDevice(list=list, device=owner, permission='owner')
                 listdevice.put()
                 
                 logging.debug("Device %s created list with id %s and title %s. Device list id is %s.", owner.key().id(), list.key().id(), list.title, listdevice.key().id())
@@ -59,7 +59,7 @@ class ListsResource(Resource):
                 id = list.key().id()
                 url = "%s://%s/api/lists/%s" % (protocol, host, id)
                 
-                return {'id': id, 'url': url, 'title': list.title, 'owner': list.owner.key().id(), 'token': token}
+                return {'id': id, 'url': url, 'title': list.title, 'token': token}
             
             else:
                 # owner does not match autenticated device
@@ -82,17 +82,24 @@ class ListResource(ListsResource):
         except ValueError:
             list = False
         
-        # device must match authenticated device
-        if list.owner.key() == self.get_auth().key():
+        if list:
             
-            list.title = self.request.get('title')
-            list.put()
+            # device must match authenticated device
+            if self.has_access(list):
+                
+                # see http://code.google.com/p/googleappengine/issues/detail?id=719
+                import cgi
+                params = cgi.parse_qs(self.request.body)
+                
+                list.title = params['title'][0]
+                list.put()
+                
+                return {'id': id, 'url': self.url(list), 'title': list.title}
         
         else:
-            # device does not match authenticated device
-            self.error(403)
-            self.response.out.write("Owner of list %s doesn't match authenticated device %s" % (list.owner.key().id(), self.get_auth().key().id()))
-    
+            # list not found
+            self.error(404)
+            self.response.out.write("List %s not found" % id)
     
     @device_required
     @json
