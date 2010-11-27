@@ -36,7 +36,11 @@ class ItemsResource(Resource):
     @json
     def post(self):
         
-        list = List.get_by_id(int(self.request.get('list')))
+        try:
+            list = List.get_by_id(int(self.request.get('list')))
+        except ValueError:
+            list = False
+        
         if list:
             
             modified = datetime.now()
@@ -74,7 +78,11 @@ class ItemResource(ItemsResource):
     @json
     def get(self, id):
         
-        item = Item.get_by_id(int(id))
+        try:
+            item = Item.get_by_id(int(id))
+        except ValueError:
+            item = False
+        
         if item:
             if self.has_access(item):
                 
@@ -89,7 +97,11 @@ class ItemResource(ItemsResource):
     @json
     def put(self, id):
         
-        item = Item.get_by_id(int(id))
+        try:
+            item = Item.get_by_id(int(id))
+        except ValueError:
+            item = False
+        
         if item:
             if self.has_access(item):
                 
@@ -126,7 +138,11 @@ class ItemResource(ItemsResource):
     @device_required
     def delete(self, id):
         
-        item = Item.get_by_id(int(id))
+        try:
+            item = Item.get_by_id(int(id))
+        except ValueError:
+            item = False
+        
         if item:
             if self.has_access(item):
             
