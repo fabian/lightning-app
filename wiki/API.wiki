@@ -1,5 +1,5 @@
 #summary List with the API methods.
-#labels Phase-Implementation,Draft
+#labels Phase-Implementation,Draft,Featured
 
 || *Path*                               || *Method* || *Action*                                         || *Parameters*                              ||
 || `/api/devices`                       || `POST`   || [#Create_device Create device]                   || identifier<br/> device_token<br/>name     ||
