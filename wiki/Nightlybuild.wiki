@@ -1,0 +1,11 @@
+#summary ideas for nightly build
+
+= Introduction =
+
+Ideas for nightly build's
+
+
+= Details =
+
+ * http://nachbaur.com/blog/how-to-automate-your-iphone-app-builds-with-hudson
+ * http://stackoverflow.com/questions/3837043/best-practice-for-setting-up-an-automated-build-server-for-iphone-apps
