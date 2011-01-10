@@ -1,7 +1,8 @@
 indexes:
 
-- kind: DeviceList
+- kind: ListDevice
   properties:
+  - name: list
   - name: device
   - name: deleted
 
