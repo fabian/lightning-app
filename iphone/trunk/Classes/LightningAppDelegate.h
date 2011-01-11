@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h> 
 #import <CoreData/CoreData.h>
+#import "Lightning.h"
 
 @interface LightningAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
@@ -21,11 +22,14 @@
 	NSURL *apiUrl;
 	NSString *deviceToken;
 	
+	Lightning *lightning;
+	
 }
 
 - (void)setupPersistentStore;
 - (void)setupLightning;
 - (NSString *)applicationDocumentsDirectory;
+- (NSString *)getUsername;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) UINavigationController *navigationController;
@@ -36,6 +40,7 @@
 
 @property (retain, nonatomic) NSURL *apiUrl;
 @property (retain, nonatomic) NSString *deviceToken;
+@property (retain, nonatomic) Lightning *lightning;
 
 @end
 

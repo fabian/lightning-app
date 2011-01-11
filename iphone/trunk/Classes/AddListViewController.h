@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AddNewGroup.h";
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "Lightning.h";
@@ -16,7 +15,7 @@
 
 @protocol AddListViewControllerDelegate;
 
-@interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, AddNewGroupDelegate, MFMailComposeViewControllerDelegate, LightningDelegate>{
+@interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, LightningDelegate>{
 	id <AddListViewControllerDelegate> delegate;
 	NSIndexPath *indexPathCell1;
 	NSIndexPath *indexPathCell2;

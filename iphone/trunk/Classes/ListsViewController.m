@@ -43,6 +43,10 @@
 		
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
 		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(resignActive)
+													 name:UIApplicationWillResignActiveNotification 
+												   object:NULL];
 		
 		[self setupModel:TRUE];
 		//[self.listNames setArray:nil];
@@ -50,17 +54,34 @@
     return self;
 }
 
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
 	//[self setLists:[[Lists alloc] init]];
 	
 	self.tableView.allowsSelectionDuringEditing = YES;
-	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addList)];
-	self.navigationItem.rightBarButtonItem = button;
-	[button release];
+	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addList)];
+	self.navigationItem.rightBarButtonItem = rightButton;
+	[rightButton release];
+	
+	//own icon
+	//load the image
+	UIImage *buttonImage = [UIImage imageNamed:@"someImage.png"];
+	
+	//create the button and assign the image
+	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+	[button setImage:buttonImage forState:UIControlStateNormal];
+	
+	//set the frame of the button to the size of the image (see note below)
+	button.frame = CGRectMake(0, 0, buttonImage.size.width, buttonImage.size.height);
+	
+	//create a UIBarButtonItem with the button as a custom view
+	UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+	
+	
+	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(addList)];
+	self.navigationItem.leftBarButtonItem = leftButton;
+	[leftButton release];
 	
 	//getting lists
 	Lightning *lightning = [[Lightning alloc]init];
@@ -85,7 +106,10 @@
 	[req setSortDescriptors:[NSArray arrayWithObject:sort]];
 	[sort release];
 	
-	self.listNames = [[context executeFetchRequest:req error:&error] mutableCopy];
+	NSArray * results = [context executeFetchRequest:req error:nil];
+	[req release];
+	
+	self.listNames = [results mutableCopy];
 	
 	if (!init) {
 		[self.tableView reloadData];
@@ -160,8 +184,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	
-	//TODO getting username
-	self.title = @"TODO user";
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	self.title = [userDefaults objectForKey:@"username"];
 }
 
 /*
@@ -297,14 +321,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+	
 	
 	//CoreData
 	ListName *listName = [listNames objectAtIndex:indexPath.row];
 	NSArray *listItems = [[listName listItems] allObjects];
-	listViewController.listName = listName;
+	
+	ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain listName:listName];
+	//listViewController.listName = listName;
 	listViewController.context = context;
-				
+	
+	NSLog(@"test id %@", [listName listId]);
+	
 	NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
 	NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:listItems];
 	[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
@@ -406,6 +434,9 @@
 	}
 }
 
+- (void)resignActive {
+	NSLog(@"now tooo?");
+}
 
 - (void)dealloc {
 	[lists release];

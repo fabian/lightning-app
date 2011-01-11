@@ -23,7 +23,7 @@
 		02BA5FBA115B7F7C002AAD93 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		02BA5FBB115B7F7C002AAD93 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		02BA5FBF115B7FB8002AAD93 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */; };
-		02BF56B4126CDD4800573423 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02BF56B2126CDD4800573423 /* ListItem.m */; };
+		02D122CA127DB93F002037B8 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D122C9127DB93F002037B8 /* ListItem.m */; };
 		02DA0CCD126F8F9600EA2D60 /* Icon-Shared@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CCC126F8F9600EA2D60 /* Icon-Shared@2x.png */; };
 		02DA0CCF126F8F9E00EA2D60 /* Icon-Shared.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CCE126F8F9E00EA2D60 /* Icon-Shared.png */; };
 		02DA0CD1126F8FA500EA2D60 /* Icon-Private@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CD0126F8FA500EA2D60 /* Icon-Private@2x.png */; };
@@ -64,8 +64,8 @@
 		02BA5F2B115A92A9002AAD93 /* AddNewGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewGroup.h; sourceTree = "<group>"; };
 		02BA5F2C115A92A9002AAD93 /* AddNewGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewGroup.m; sourceTree = "<group>"; };
 		02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		02BF56B1126CDD4800573423 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
-		02BF56B2126CDD4800573423 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
+		02D122C8127DB93F002037B8 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
+		02D122C9127DB93F002037B8 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
 		02DA0CCC126F8F9600EA2D60 /* Icon-Shared@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Shared@2x.png"; sourceTree = "<group>"; };
 		02DA0CCE126F8F9E00EA2D60 /* Icon-Shared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Shared.png"; sourceTree = "<group>"; };
 		02DA0CD0126F8FA500EA2D60 /* Icon-Private@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Private@2x.png"; sourceTree = "<group>"; };
@@ -128,10 +128,10 @@
 		0224FCF01164732C00AFD56C /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
-				02BF56B1126CDD4800573423 /* ListItem.h */,
-				02BF56B2126CDD4800573423 /* ListItem.m */,
 				02DA0EB512709C2300EA2D60 /* ListName.h */,
 				02DA0EB612709C2300EA2D60 /* ListName.m */,
+				02D122C8127DB93F002037B8 /* ListItem.h */,
+				02D122C9127DB93F002037B8 /* ListItem.m */,
 			);
 			name = "Managed Objects";
 			sourceTree = "<group>";
@@ -347,8 +347,8 @@
 				0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */,
 				02822F43124298F600480310 /* GTMHTTPFetcher.m in Sources */,
 				02822FAC1242A3DD00480310 /* GTMHTTPFetcherLogging.m in Sources */,
-				02BF56B4126CDD4800573423 /* ListItem.m in Sources */,
 				02DA0EB712709C2300EA2D60 /* ListName.m in Sources */,
+				02D122CA127DB93F002037B8 /* ListItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +392,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = lightning;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "78455F96-D0A7-4DD0-A7DE-BF89E722C22D";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -405,7 +405,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.1;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
