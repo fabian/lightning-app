@@ -26,7 +26,7 @@
 	return self;
 }
 
-- (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString*)initDeviceToken{
+- (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString*)initDeviceToken username:(NSString *)username{
     
 	if(self = [super init]) {
 		
@@ -51,7 +51,7 @@
 			NSString * tokenAsString = [[[initDeviceToken description] 
 									 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
 									stringByReplacingOccurrencesOfString:@" " withString:@""];
-			NSString *postString = [NSString stringWithFormat:@"device_token=%@;name=%@;identifier=%@", [tokenAsString uppercaseString], @"testiphone", [UIDevice currentDevice].uniqueIdentifier];
+			NSString *postString = [NSString stringWithFormat:@"device_token=%@;name=%@;identifier=%@", [tokenAsString uppercaseString], username, [UIDevice currentDevice].uniqueIdentifier];
 			[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 		
 			[myFetcher beginFetchWithDelegate:self
@@ -108,8 +108,10 @@
 				
 	NSString *postString = [NSString stringWithFormat:@"value=%@;list=%@", item.name, listId];
 	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
+	
 	[myFetcher setUserData:[item objectID]];
 	
 	[myFetcher beginFetchWithDelegate:self
@@ -119,7 +121,7 @@
 
 -(void)pushUpdateForList:(NSString *)listId{
 	//exclude?
-	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@/push?secret=%@", listId, self.lightningSecret]];
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@/push", listId]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
@@ -127,8 +129,11 @@
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
-	NSString *postString = [NSString stringWithFormat:@""];
+	NSString *postString = [NSString stringWithFormat:@"exclude=%@", self.lightningId];
 	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	 
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithPushToList:error:)];
@@ -187,6 +192,25 @@
 	
 }
 
+-(void)shareList:(NSString *)listId token:(NSString *)token {
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"shared_lists"]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString *postString = [NSString stringWithFormat:@"token=%@;list=%@;guest=%@", token, listId, self.lightningId];
+	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedWithShareList:error:)];
+}
+
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error {
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
@@ -228,15 +252,27 @@
 		SBJSON *parser = [[SBJSON alloc] init];
 		NSDictionary *list = [parser objectWithString:data error:nil];
 		
-		ListName *listName = nil;
+		ListName *listName;
 		
 		listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
+		NSLog(@"%@, %@, %@", [list objectForKey:@"title"], [list objectForKey:@"id"], [list objectForKey:@"token"]);
 		listName.name = [list objectForKey:@"title"];
-		listName.listId = [list objectForKey:@"id"];
+		listName.listId = (NSNumber *)[list objectForKey:@"id"];
 		listName.token = [list objectForKey:@"token"];
 		
-		[context save:&error];
-		
+		NSError* error;
+        if(![context save:&error]) {
+			NSLog(@"Failed to save to data store: %@", [error localizedDescription]);
+			NSArray* detailedErrors = [[error userInfo] objectForKey:NSDetailedErrorsKey];
+			if(detailedErrors != nil && [detailedErrors count] > 0) {
+				for(NSError* detailedError in detailedErrors) {
+					NSLog(@"  DetailedError: %@", [detailedError userInfo]);
+				}
+			}
+			else {
+				NSLog(@"  %@", [error userInfo]);
+			}
+        }
 		[self.delegate finishAddingList:[listName objectID]];
 		
 		
@@ -328,6 +364,11 @@
 		NSDictionary *object = [parser objectWithString:data error:nil];
 		NSArray *arrayOfList = [object objectForKey:@"lists"];
 		
+		//check if list were delete
+		//check if new list were added
+		//update the list
+		
+		
 		if ([arrayOfList count] == 0) {
 			NSEntityDescription    * entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
 			
@@ -342,76 +383,91 @@
 			}
 			
 		} else {
-			
-			for (NSDictionary *list in arrayOfList) {
-				NSEntityDescription    * entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
-				NSPredicate * predicate;
-				predicate = [NSPredicate predicateWithFormat:@"listId != %@", [list objectForKey:@"id"]];
-			
-				NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
-				[fetch setEntity: entity];
-				[fetch setPredicate: predicate];
-			
-				NSArray * results = [context executeFetchRequest:fetch error:nil];
-				[fetch release];
-			
-				for (NSManagedObject *managedObject in results) {
-					[context deleteObject:managedObject];
-				}
-			}
-		}
-
-		
-		for (NSDictionary *list in arrayOfList) {
-			//checking if existing
-			NSEntityDescription    * entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
-			NSPredicate * predicate;
-			predicate = [NSPredicate predicateWithFormat:@"listId == %@", [list objectForKey:@"id"]];
+			//Version1
+			NSEntityDescription * entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
 			
 			NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
 			[fetch setEntity: entity];
-			[fetch setPredicate: predicate];
 			
 			NSArray * results = [context executeFetchRequest:fetch error:nil];
 			[fetch release];
 			
-			
-			
-			if([results count] == 0) {
-				NSLog(@"creating List");
-				
-				ListName *listName = nil;
-				
-				listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
-				listName.name = [list objectForKey:@"title"];
-				listName.listId = [list objectForKey:@"id"];
-				listName.token = [list objectForKey:@"token"];
-				
-				[context save:&error];
-				
-				
-				
-				
-			} else {
-				//update listelement
-				NSLog(@"update list");
-				
-				 ListName *listName = [results objectAtIndex:0];
-				 
-				 listName.name = [list objectForKey:@"title"];
-				 listName.listId = [list objectForKey:@"id"];
-				 listName.unreadCount = [list objectForKey:@"unread"];
-				 
-				 [context save:&error];
-				 [self getItemsFromList:[list objectForKey:@"id"] context:self.context];
-				 //[listName release];
-				 
-			}
-			
-			
-			
-			
+			for (ListName *listName in results) {
+				BOOL isListExists = FALSE;
+				NSDictionary *list = nil;
+				for (list in arrayOfList) {
+					//NSLog(@"checking update google id %@ core")
+					if ([[list objectForKey:@"id"] isEqual:[listName listId]]) {
+						//update
+						isListExists = TRUE;
+						NSLog(@"update list");
+						
+						ListName *updatedList = listName;
+						
+						updatedList.name = [list objectForKey:@"title"];
+						updatedList.listId = [list objectForKey:@"id"];
+						updatedList.unreadCount = [list objectForKey:@"unread"];
+						
+						[context save:&error];
+						[self getItemsFromList:[list objectForKey:@"id"] context:self.context];
+					} 
+				}
+				if(!isListExists) {
+					//list is not existing
+					if ([results count] > [arrayOfList count]) {
+						//delete list
+						NSLog(@"delete List");
+						
+						[context deleteObject:listName];
+					} else {
+						//add list
+						NSLog(@"creating List");
+						
+						ListName *listName = nil;
+						
+						listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
+						listName.name = [list objectForKey:@"title"];
+						listName.listId = [list objectForKey:@"id"];
+						listName.token = [list objectForKey:@"token"];
+						
+						[context save:&error];
+					}
+					
+				} 
 
+			}
+			if ([arrayOfList count] > [results count]) {
+					//go through listitems
+					//check if listId = id
+					//if result is 0 add list
+				for (NSDictionary *list in arrayOfList) {
+					
+					NSEntityDescription *entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+					NSPredicate * predicate;
+					predicate = [NSPredicate predicateWithFormat:@"listId == %@", [list objectForKey:@"id"]];
+					
+					NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+					[fetch setEntity: entity];
+					[fetch setPredicate: predicate];
+					
+					NSArray * results = [context executeFetchRequest:fetch error:nil];
+					[fetch release];
+					
+					if ([results count] == 0) {
+						//add list
+						NSLog(@"creating List");
+						
+						ListName *listName;
+						 
+						 listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
+						 listName.name = [list objectForKey:@"title"];
+						 listName.listId = [list objectForKey:@"id"];
+						 listName.token = [list objectForKey:@"token"];
+						 
+						 [context save:&error];
+					}
+				}
+			}
 		}
 		
 		[self.delegate finishFetchingLists:retrievedData];
@@ -454,6 +510,50 @@
 			
 			NSArray *arrayOfItems = [object objectForKey:@"items"];
 			
+			if ([arrayOfItems count] == 0) {
+				//TODO doe this work?
+				listName.listItems = nil;
+				[context save:&error];
+				
+			} else {
+				NSMutableArray *listItems = [[listName listItems] mutableCopy];
+				NSMutableDictionary *listItemsWithKeysCoreData = [NSMutableDictionary dictionaryWithCapacity:[listItems count]];
+				
+				for (ListItem *listItem in listItems) {
+					[listItemsWithKeysCoreData setValue:listItem forKey:listItem.listItemId];
+				}
+				
+				//check if id is existing
+				//update
+				//check if we have to add or delete not existing item
+				for (NSDictionary *listItemGoogle in arrayOfItems) {
+					NSString *listId = [listItemGoogle objectForKey:@"id"];
+					
+					if ([listItemsWithKeysCoreData objectForKey:listId]) {
+						if ([listItems count] > [arrayOfItems count]) {
+							NSLog(@"delete item");
+							ListItem *listItem = [listItemsWithKeysCoreData objectForKey:listId];
+							[context deleteObject:listItem];
+						} else {
+							NSLog(@"listitem update");
+							ListItem *listItem = [listItemsWithKeysCoreData objectForKey:listId];
+							listItem.name = [listItemGoogle objectForKey:@"value"];
+							listItem.listItemId = [listItemGoogle objectForKey:@"id"];
+						}
+					} else {
+						NSLog(@"listitem add");
+						ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:self.context];
+						listItem.name = [listItemGoogle objectForKey:@"value"];
+						listItem.listItemId = [listItemGoogle objectForKey:@"id"];
+							
+						[listName addListItemsObject:listItem];
+					}
+					
+					[context save:&error];
+				}
+			}
+			
+			/*
 			for (NSDictionary *item in arrayOfItems) {
 				ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:self.context];
 				listItem.name = [item objectForKey:@"value"];
@@ -461,8 +561,26 @@
 				
 				[listName addListItemsObject:listItem];
 			}
-			[context save:&error];
+			
+			 */
 		}
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithShareList:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with finishWithShareList");
+		
+	} else {
+		NSLog(@"finishWithShareList %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
+		SBJSON *parser = [[SBJSON alloc] init];
+		NSDictionary *object = [parser objectWithString:data error:nil];
 	}
 }
 

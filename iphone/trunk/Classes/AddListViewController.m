@@ -7,7 +7,6 @@
 //
 
 #import "AddListViewController.h"
-#import "AddNewGroup.h"
 #import "ListViewController.h"
 
 @implementation AddListViewController
@@ -27,20 +26,31 @@
  - (void)viewDidLoad {
 	 [super viewDidLoad];
 	 
-	 UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAddList)];
-	 self.navigationItem.rightBarButtonItem = button;
+	 UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAddList)];
+	 self.navigationItem.rightBarButtonItem = doneButton;
 	 [self.navigationItem.rightBarButtonItem setEnabled:NO];
+
+	 [doneButton release];
 	 
-	 [button release];
+	 UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAddList)];
+	 self.navigationItem.leftBarButtonItem = cancelButton;
+	 
+	 [cancelButton release];
+
 	 
 	 checkmark = 0;
 	 
  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
  }
+
+-(void)cancelAddList{
+	[self dismissModalViewControllerAnimated:YES];
+}
  
 - (void)doneAddList {
 	NSLog(@"doneAddList");
+	[self.navigationItem.leftBarButtonItem setEnabled:NO];
 	
 	[self.navigationItem.rightBarButtonItem setEnabled:NO];
 	[self.listNameTextField becomeFirstResponder];
@@ -143,19 +153,13 @@
 		return @"Share list with";
 
 }
-
+/*
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	
 	if(section == 0) {
 		return tableView.tableHeaderView;
 	} else {
 		UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(10, 10, 100, 80)] autorelease];
-		
-		UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		[button	addTarget:self action:@selector(addGroup) forControlEvents:UIControlEventTouchUpInside];
-		button.frame = CGRectMake(10, 30, 300, 40);
-		[button setTitle:@"Add new group" forState:UIControlStateNormal];
-		[view addSubview:button];
 		
 		UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(18, 0, 200, 20)];
 		label.text = @"Share list with";
@@ -165,38 +169,13 @@
 		return view;
 	}
 	
-}
-
-- (void)addGroup {
-	NSLog(@"addGroup");
-	
-	//AddNewGroup *newGroup = [[AddNewGroup alloc]initWithFrame:[self.view frame]];
-	AddNewGroup *newGroup = [[AddNewGroup alloc]init];
-	newGroup.delegate = self;
-	
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:newGroup];
-	navigationController.navigationBar.barStyle = UIBarStyleBlack;
-	navigationController.navigationBar.translucent = YES;
-	
-	//newGroup.view.frame = self.view.frame;
-	newGroup.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-	
-	[self presentModalViewController:navigationController animated:YES];
-	//[self.navigationController pushViewController:newGroup animated:YES];
-	
-	[navigationController release];
-	[newGroup release];
-}
-
-- (void)finishAddGroup {
-	[self dismissModalViewControllerAnimated:YES];
-}
+}*/
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 	if(section == 0)
 		return 30;
 	else
-		return 80;
+		return 30;
 }
 
 
@@ -358,6 +337,8 @@
 
 - (void)finishAddingList:(NSManagedObjectID *)objectID {
 	
+	
+	
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
 	
 	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
@@ -395,8 +376,9 @@
 			[mailComposer setSubject:subject];
 			
 			// Fill out the email body text
-			NSString *emailBody = [NSString stringWithFormat:@"This is an invite with id: %@ and token: %@", listName.listId, listName.token];
-			[mailComposer setMessageBody:emailBody isHTML:NO];
+			NSString *emailBody = [NSString stringWithFormat:@"This is an invite with for the list: <a href=\"lightning://list/%@?token=%@\">%@</a>", listName.listId, listName.token, listName.name];
+			NSLog(@"link: <a href=\"lightning://list/%@?token=%@\">%@</a>", listName.listId, listName.token, listName.name);
+			[mailComposer setMessageBody:emailBody isHTML:YES];
 			
 			[self presentModalViewController:mailComposer animated:YES];
 			[mailComposer release];

@@ -21,6 +21,7 @@
 	NSManagedObjectContext *context;
 	UITextField *doneTextField;
 	NSString *addListName;
+	NSTimer *timer;
 	
 }
 
@@ -33,5 +34,6 @@
 @property (nonatomic, retain) UITextField *doneTextField;
 @property (nonatomic, retain) NSString *addListName;
 @property (retain, nonatomic) NSManagedObjectContext *context;
+@property (nonatomic, retain) NSTimer *timer;
 
 @end

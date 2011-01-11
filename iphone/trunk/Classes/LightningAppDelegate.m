@@ -15,9 +15,9 @@
 @synthesize window;
 @synthesize navigationController, model, context, psc, apiUrl, deviceToken;
 
-
-- (void)applicationDidFinishLaunching:(UIApplication *)application {   
-	
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	NSLog(@"launch options %@", [launchOptions description]);
+	[self setupUsername];
 	self.apiUrl = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 	
 	//Setup Core Data
@@ -42,29 +42,70 @@
 	[aNavigationController release];
 	
 	[window addSubview:[navigationController view]];
-
+	
     // Override point for customization after application launch
     [window makeKeyAndVisible];
 	
 	//push notification
-	 [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+	
+	return TRUE;
 }
 
-- (void) setupUsername {
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+	if (![[url scheme] isEqualToString:@"lightning"] && ![[url host] isEqualToString:@"list"]) {
+		return FALSE;
+	}
 	
+	NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+	for (NSString* param in [[url query] componentsSeparatedByString:@"&"]) {
+		NSArray* elts = [param componentsSeparatedByString:@"="];
+		[params setObject:[elts objectAtIndex:1] forKey:[elts objectAtIndex:0]];
+	}
+	
+	NSString *listId = [[[url path] pathComponents]	objectAtIndex:1];
+
+	NSLog(@"token %@", [params objectForKey:@"token"]);
+	NSLog(@"listId %@", [[[url path] pathComponents] objectAtIndex:1]);
+	
+	//getlistsview delegate?
+	Lightning *lightning = [[Lightning alloc]init];
+	lightning.delegate = self;
+	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+	[lightning shareList:listId token:[params objectForKey:@"token"]];
+	
+	return TRUE;
+}
+
+- (void)setupUsername {
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	
+	if ([userDefaults objectForKey:@"username"] != nil) {
+		return;
+	}
+	
+	NSString *username = [[UIDevice currentDevice] name];
+	
+	[userDefaults setValue:username forKey:@"username"];
+	
+	[username release];
 }
 
 - (void)setupLightning {
-	//NSString *device = @"http://localhost:8080/api/devices/52?secret=441b230ee803430aa7c22a508551bc4f80d546648982287d8cb9b687f0334011b39a9388833512ef316e49f5e430a84ac0063f0df452f3224904d1600ffc0509";
-	//NSURL *url = [NSURL URLWithString:@"http://localhost:8080/api/"];
-	Lightning *api = [[Lightning alloc] initWithURL:self.apiUrl andDeviceToken:self.deviceToken];
-	//Lightning *api = [[Lightning alloc] initWithURL:url];
+	Lightning *lighting = [[Lightning alloc] initWithURL:self.apiUrl andDeviceToken:self.deviceToken username:[self getUsername]];
+}
+
+- (NSString *)getUsername {
+	
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	
+	return [userDefaults objectForKey:@"username"];
 }
 
 - (void)setupPersistentStore
 {
 	NSString *docDir = [self applicationDocumentsDirectory];
-	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning5.sqlite"];
+	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning8.sqlite"];
 	
 	NSURL *urlForPath = [NSURL fileURLWithPath:pathToDb];
 	NSError *error;
@@ -104,6 +145,22 @@
 	self.setupLightning;
 	
     NSLog(@"Error in registration. Error: %@", err);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+	NSLog(@"remotenotification was send %@", [[userInfo objectForKey:@"lightning"] description]);
+	
+	if ([application applicationState] == UIApplicationStateInactive) {
+		//tapped button
+		NSLog(@"came from background");
+	} else if ([application applicationState] == UIApplicationStateActive) {
+		//no button
+		NSLog(@"front");
+	}
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+	NSLog(@"nownow??");
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

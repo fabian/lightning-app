@@ -9,15 +9,20 @@
 #import "ListViewController.h"
 #import "ListItem.h"
 
-
 @implementation ListViewController
 
-@synthesize listEntries, listItems, context, listName, doneTextField;
+@synthesize listEntries, listItems, context, listName, doneTextField, timer;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
 	NSLog(@"Foo %@", theTextField.text);
     [theTextField becomeFirstResponder];
 	self.tableView.scrollEnabled = YES;
+	
+	if ([theTextField.text length] == 0) {
+		[theTextField resignFirstResponder];
+		return YES;
+	}
+	
 	[listEntries.entries addObject:theTextField.text];
 	
 	ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
@@ -72,9 +77,22 @@
 		}
 	}
 	
+	//Start the timer
+	NSDate *d = [NSDate dateWithTimeIntervalSinceNow: 15.0];
+	timer = [[NSTimer alloc] initWithFireDate:d interval:0 target:self selector:@selector(pushAfterTimer) userInfo:nil repeats:NO];
+	NSRunLoop *runner = [NSRunLoop currentRunLoop];
+	[runner addTimer:timer forMode: NSDefaultRunLoopMode];
 	
 	NSLog(@"foo second");
     return YES;
+}
+
+-(void)pushAfterTimer {
+	NSLog(@"pushing after timer");
+	Lightning *lightning = [[Lightning alloc]init];
+	lightning.delegate = self;
+	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
+	[lightning pushUpdateForList:[self.listName listId]];
 }
 
 -(NSString *)getUTCFormateDate:(NSDate *)localDate
@@ -97,13 +115,16 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
 	NSLog(@"Fii");
+	
+	//Kill timer
+	if ([timer isValid]) {
+		[timer invalidate];
+		NSLog(@"killed the timer");
+	}
+	
 	self.tableView.scrollEnabled = YES;
-	//check how to give a selector a parameter
-	//just wright doneAdding: the method the has to look like doneAdding:(id)sender
-	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAdding)];
-	self.navigationItem.rightBarButtonItem = button;
+	
 	doneTextField = textField;
-	[button release];
 	
 	return YES;
 }
@@ -119,9 +140,11 @@
 	
 }
 
-- (id)initWithStyle:(UITableViewStyle)style {
+- (id)initWithStyle:(UITableViewStyle)style listName:(ListName *)listNameInit{
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:style]) {
+		
+		self.listName = listNameInit;
 		
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.tableView.backgroundColor = [UIColor redColor];
@@ -135,6 +158,11 @@
 		[bottom release];
 
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(resignActive)
+													 name:UIApplicationWillResignActiveNotification 
+												   object:NULL];
     }
     return self;
 }
@@ -178,11 +206,16 @@
 }
 */
 
-/*
+
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
+	NSLog(@"pushing because the user is going back to the main view");
+	Lightning *lightning = [[Lightning alloc]init];
+	lightning.delegate = self;
+	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
+	[lightning pushUpdateForList:[self.listName listId]];
 }
-*/
+
 /*
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
@@ -260,6 +293,7 @@
 			label.placeholder = @"New entry...";
 		} else {
 			ListItem *listItem = [listItems objectAtIndex:indexPath.row];
+			
 			label.text = [listItem name];
 		}
 		
@@ -417,8 +451,18 @@
 	NSLog(@"start");
 }
 
+- (void)resignActive {
+	NSLog(@"pushing because user closes the app");
+	Lightning *lightning = [[Lightning alloc]init];
+	lightning.delegate = self;
+	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
+	[lightning pushUpdateForList:[self.listName listId]];
+	
+}
+
 - (void)dealloc {
 	[listEntries release];
+	[timer release];
     [super dealloc];
 }
 

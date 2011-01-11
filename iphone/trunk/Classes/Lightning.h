@@ -34,7 +34,7 @@
 
 @property (assign) id <LightningDelegate> delegate;
 
-- (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString *)initDeviceToken;
+- (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString *)initDeviceToken username:(NSString *)username;
 - (id)initWithURL:(NSURL *)url andDevice:(NSString *)device;
 - (void)addListWithTitle:(NSString *)listTitle context:(NSManagedObjectContext *)context;
 - (void)getLists;
@@ -42,6 +42,7 @@
 
 -(void)getLists;
 -(void)addItemToList:(NSString *)listId item:(ListItem *)item context:(NSManagedObjectContext *)context;
+-(void)shareList:(NSString *)listId token:(NSString *)token;
 
 @end
 
