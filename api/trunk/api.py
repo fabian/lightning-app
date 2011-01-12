@@ -6,12 +6,14 @@ use_library('django', '1.1')
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
+from resources.ping import PingResource
 from resources.device import DevicesResource, DeviceResource
 from resources.list import DeviceListsResource, DeviceListResource, ListsResource, ListResource
 from resources.notification import ListPushResource, ListUnreadResource
 from resources.item import ItemsResource, ItemResource
 
 application = webapp.WSGIApplication([
+    (r'/api/ping', PingResource),
     (r'/api/devices', DevicesResource),
     (r'/api/devices/(.*)/lists', DeviceListsResource),
     (r'/api/devices/(.*)/lists/(.*)', DeviceListResource),
