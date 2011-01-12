@@ -38,6 +38,19 @@ class Tests(mocker.MockerTestCase):
         self.mocker.result(self.urbanairship)
 
 
+class PingTests(Tests):
+
+    def setUp(self):
+        self.stub_datastore()
+    
+    def test_ping(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.get("/api/ping")
+        
+        self.assertEqual(response.body, '{"ping": "pong"}')
+
+
 class DevicesTests(Tests):
 
     def setUp(self):
