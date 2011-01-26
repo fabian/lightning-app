@@ -20,11 +20,12 @@ class DevicesResource(Resource):
         
         logging.debug("New device with id %s created.", device.key().id())
         
-        # register with Urban Airship
-        airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
-        airship.register(device.device_token, alias=str(device.key()))
-        
-        logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
+        if device.device_token:
+            # register with Urban Airship
+            airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
+            airship.register(device.device_token, alias=str(device.key()))
+            
+            logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
         
         protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']

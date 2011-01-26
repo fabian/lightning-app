@@ -55,7 +55,6 @@ class DevicesTests(Tests):
 
     def setUp(self):
         self.stub_datastore()
-        self.mock_urbanairship()
     
     def test_create_device(self):
         
@@ -67,11 +66,28 @@ class DevicesTests(Tests):
         hexlify("84763")
         self.mocker.result("abc")
         
+        self.mock_urbanairship()
         self.urbanairship.register("EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345", 'device_token': "EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0"})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
+    
+    def test_create_device_without_token(self):
+        
+        random = self.mocker.replace("os.urandom")
+        random(64)
+        self.mocker.result("84763")
+        
+        hexlify = self.mocker.replace("binascii.hexlify")
+        hexlify("84763")
+        self.mocker.result("abc")
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        response = test.post("/api/devices", {'name': "My random device", 'identifier': "000-000-000"})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
 
