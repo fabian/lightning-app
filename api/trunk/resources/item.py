@@ -2,7 +2,7 @@ import os
 import logging
 import binascii
 from datetime import datetime
-from google.appengine.api.labs import taskqueue
+from google.appengine.api import taskqueue
 import urbanairship
 import settings
 from util import Resource, json, device_required
