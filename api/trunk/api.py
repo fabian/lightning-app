@@ -19,7 +19,7 @@ application = webapp.WSGIApplication([
     (r'/api/devices/(.*)/lists/(.*)', DeviceListResource),
     (r'/api/devices/(.*)', DeviceResource),
     (r'/api/lists', ListsResource),
-    (r'/api/lists/(.*)/push', ListPushResource),
+    (r'/api/lists/(.*)/devices/(.*)/push', ListPushResource),
     (r'/api/lists/(.*)/unread', ListUnreadResource),
     (r'/api/lists/(.*)', ListResource),
     (r'/api/items', ItemsResource),
