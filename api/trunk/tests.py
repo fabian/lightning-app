@@ -592,7 +592,7 @@ class ListPushTests(Tests):
         
         response = test.post("/api/lists/2/unread")
         
-        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"devices": [4]}')
     
@@ -604,7 +604,7 @@ class ListPushTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"devices": []}')
     
@@ -619,7 +619,7 @@ class ListPushTests(Tests):
         
         response = test.post("/api/lists/2/unread")
         
-        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"devices": [4]}')
     
@@ -628,7 +628,7 @@ class ListPushTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/99/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        response = test.post("/api/lists/99/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, "Can't get list with id 99")
     
@@ -637,7 +637,7 @@ class ListPushTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/aaa/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        response = test.post("/api/lists/aaa/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, "Can't get list with id aaa")
     
@@ -646,7 +646,7 @@ class ListPushTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/2/push", {'exclude': '1'}, headers={'Device': 'http://localhost:80/api/devices/11?secret=xyz'}, status=403)
+        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/11?secret=xyz'}, status=403)
         
         self.assertEqual(response.body, "Authenticated device 11 has no access to list")
     
@@ -655,7 +655,7 @@ class ListPushTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/2/push", {'exclude': '99'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
+        response = test.post("/api/lists/2/devices/99/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
         
         self.assertEqual(response.body, "Device to exclude 99 not found")
     
@@ -664,7 +664,7 @@ class ListPushTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/2/push", {'exclude': 'aaa'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
+        response = test.post("/api/lists/2/devices/aaa/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
         
         self.assertEqual(response.body, "Device to exclude aaa not found")
 

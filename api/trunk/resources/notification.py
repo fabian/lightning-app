@@ -32,7 +32,7 @@ class ListPushResource(ListsResource):
     
     @device_required
     @json
-    def post(self, id):
+    def post(self, id, device_id):
         
         try:
             list = List.get_by_id(int(id))
@@ -45,7 +45,7 @@ class ListPushResource(ListsResource):
             if self.has_access(list):
                 
                 try:
-                    exclude = Device.get_by_id(int(self.request.get('exclude')))
+                    exclude = Device.get_by_id(int(device_id))
                 except ValueError:
                     exclude = False
                 
@@ -72,7 +72,7 @@ class ListPushResource(ListsResource):
                 else:
                     # device to exclude not found
                     self.error(400)
-                    self.response.out.write("Device to exclude %s not found" % self.request.get('exclude'))
+                    self.response.out.write("Device to exclude %s not found" % device_id)
             
         else:
             # list not found
