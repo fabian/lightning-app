@@ -20,7 +20,7 @@ class Notification:
     Concats multiple log entries to one message.
     """
     
-    def __init__(self, logs, since):
+    def __init__(self, logs, device, since):
         self.logs = logs
         
         items = {}
@@ -28,6 +28,9 @@ class Notification:
             
             if log.happened < since:
                 continue # ignore old entries
+            
+            if log.device.key() == device.key():
+                continue # ignore entries of the device itself
             
             id = log.item.key().id()
             if not items.has_key(id):
@@ -83,7 +86,7 @@ class Unread:
         
         for x in self.list.listdevice_set:
             
-            notification = Notification(log, x.read)
+            notification = Notification(log, x.device, x.read)
             
             x.unread = notification.get_unread()
             x.notification = notification.get_message()
