@@ -230,7 +230,7 @@ class DeviceListTests(Tests):
         self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
         self.device_two.put()
         
-        list = models.List(title="Some List", owner=self.device_one, token="QWERT")
+        list = models.List(title="Some List", token="QWERT")
         list.put()
         
         self.test = webtest.TestApp(api.application)
