@@ -9,7 +9,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from resources.ping import PingResource
 from resources.device import DevicesResource, DeviceResource
 from resources.list import DeviceListsResource, DeviceListResource, ListsResource, ListResource
-from resources.notification import ListPushResource, ListUnreadResource
+from resources.notification import ListReadResource, ListPushResource, ListUnreadResource
 from resources.item import ItemsResource, ItemResource
 
 application = webapp.WSGIApplication([
@@ -19,6 +19,7 @@ application = webapp.WSGIApplication([
     (r'/api/devices/(.*)/lists/(.*)', DeviceListResource),
     (r'/api/devices/(.*)', DeviceResource),
     (r'/api/lists', ListsResource),
+    (r'/api/lists/(.*)/devices/(.*)/read', ListReadResource),
     (r'/api/lists/(.*)/devices/(.*)/push', ListPushResource),
     (r'/api/lists/(.*)/unread', ListUnreadResource),
     (r'/api/lists/(.*)', ListResource),
