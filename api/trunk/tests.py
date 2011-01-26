@@ -209,14 +209,14 @@ class DeviceListsTests(Tests):
         test = webtest.TestApp(api.application)
         response = test.get("/api/devices/aaa/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'}, status=404)
         
-        self.assertEqual(response.body, "Can't get device for owner aaa")
+        self.assertEqual(response.body, "Can't get device aaa")
     
     def test_get_lists_no_access(self):
         
         test = webtest.TestApp(api.application)
         response = test.get("/api/devices/2/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'}, status=403)
         
-        self.assertEqual(response.body, "Owner 2 doesn't match authenticated device 1")
+        self.assertEqual(response.body, "Device 2 doesn't match authenticated device 1")
 
 
 class DeviceListTests(Tests):
