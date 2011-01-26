@@ -9,7 +9,7 @@ sys.path = sys.path + ['/usr/local/google_appengine', '/usr/local/google_appengi
 
 from google.appengine.api import apiproxy_stub_map
 from google.appengine.api import datastore_file_stub
-from google.appengine.api.labs.taskqueue import taskqueue_stub
+from google.appengine.api.taskqueue import taskqueue_stub
 import mocker
 import webtest
 from resources.device import DevicesResource, DeviceResource
@@ -630,6 +630,9 @@ class ListPushTests(Tests):
         self.item_five = models.Item(value="Cheese", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_five.put()
         
+        self.item_six = models.Item(value="Margarine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
+        self.item_six.put()
+        
         self.device_second = models.Device(identifier="raboof", device_token="ABC123", name="Uninvolved Device", secret="xyz")
         self.device_second.put()
     
@@ -647,15 +650,18 @@ class ListPushTests(Tests):
         log = models.Log(device=self.device, item=self.item_three, list=self.list, action='modified', old="Marmalade")
         log.put()
         
-        log = models.Log(device=self.device, item=self.item_four, list=self.list, action='deleted', old="Honey", happened=datetime(2010, 04, 01, 00, 00, 00))
+        log = models.Log(device=self.device, item=self.item_four, list=self.list, action='deleted', old="Honey")
         log.put()
         
         log = models.Log(device=self.device, item=self.item_five, list=self.list, action='modified', old="Milk")
         log.put()
         
+        log = models.Log(device=self.device, item=self.item_six, list=self.list, action='deleted', old="Margarine", happened=datetime(2010, 04, 01, 00, 00, 00))
+        log.put()
+        
         # mocker screenplay
         self.mock_urbanairship()
-        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 4, 'alert': "Added Butter, Wine and Bread. Changed Milk to Cheese."}}, device_tokens=["ABC123"])
+        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 4, 'alert': "Added Butter, Wine and Bread. Changed Milk to Cheese. Deleted Honey."}}, device_tokens=["ABC123"])
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
@@ -664,6 +670,8 @@ class ListPushTests(Tests):
         
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
+        self.assertEqual(self.device.listdevice_set[0].unread, 0)
+        self.assertEqual(self.receiver.listdevice_set[0].unread, 4)
         self.assertEqual(response.body, '{"devices": [4]}')
     
     def test_push_no_device_token(self):
@@ -716,9 +724,9 @@ class ListPushTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/11?secret=xyz'}, status=403)
+        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/12?secret=xyz'}, status=403)
         
-        self.assertEqual(response.body, "Authenticated device 11 has no access to list")
+        self.assertEqual(response.body, "Authenticated device 12 has no access to list")
     
     def test_push_wrong_exclude(self):
         
