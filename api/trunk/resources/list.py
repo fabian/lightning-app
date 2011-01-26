@@ -146,19 +146,19 @@ class DeviceListsResource(ListsResource):
     
     @device_required
     @json
-    def get(self, device):
+    def get(self, device_id):
         
-        # owner must match authenticated device
+        # device must match authenticated device
         try:
-            owner = Device.get_by_id(int(device))
+            device = Device.get_by_id(int(device_id))
         except ValueError:
-            owner = False
+            device = False
         
-        if owner:
-            if owner.key() == self.get_auth().key():
+        if device:
+            if device.key() == self.get_auth().key():
                 lists = []
                 
-                for x in owner.listdevice_set:
+                for x in device.listdevice_set:
                     
                     list = x.list
                     lists.append({
@@ -174,11 +174,11 @@ class DeviceListsResource(ListsResource):
             else:
                 # owner does not match autenticated device
                 self.error(403)
-                self.response.out.write("Owner %s doesn't match authenticated device %s" % (owner.key().id(), self.get_auth().key().id()))
+                self.response.out.write("Device %s doesn't match authenticated device %s" % (device.key().id(), self.get_auth().key().id()))
         else:
-            # device for owner not found
+            # device for guest not found
             self.error(404)
-            self.response.out.write("Can't get device for owner %s" % device)
+            self.response.out.write("Can't get device %s" % device_id)
 
 
 class DeviceListResource(ListsResource):
