@@ -3,10 +3,50 @@ import logging
 import binascii
 import urbanairship
 import settings
+from datetime import datetime
 from util import Resource, json, device_required
 from models import Device, List
 from notifications import Unread
 from resources.list import ListsResource
+
+class ListReadResource(ListsResource):
+    
+    @device_required
+    @json
+    def post(self, list_id, device_id):
+        
+        try:
+            list = List.get_by_id(int(list_id))
+        except ValueError:
+            list = False
+        
+        if list:
+            
+            # authenticated device must have access to list
+            if self.has_access(list):
+                
+                try:
+                    device = Device.get_by_id(int(device_id))
+                except ValueError:
+                    device = False
+                
+                if device:
+                    
+                    for x in list.listdevice_set.filter('device = ', device):
+                        x.read = datetime.now()
+                        x.put()
+                    
+                    return {'list': list.key().id(), 'device': device.key().id()}
+                    
+                else:
+                    # device not found
+                    self.error(400)
+                    self.response.out.write("Device %s not found" % device_id)
+            
+        else:
+            # list not found
+            self.error(404)
+            self.response.out.write("Can't get list with id %s" % list_id)
 
 class ListUnreadResource(ListsResource):
     
@@ -32,10 +72,10 @@ class ListPushResource(ListsResource):
     
     @device_required
     @json
-    def post(self, id, device_id):
+    def post(self, list_id, device_id):
         
         try:
-            list = List.get_by_id(int(id))
+            list = List.get_by_id(int(list_id))
         except ValueError:
             list = False
         
@@ -77,5 +117,5 @@ class ListPushResource(ListsResource):
         else:
             # list not found
             self.error(404)
-            self.response.out.write("Can't get list with id %s" % id)
+            self.response.out.write("Can't get list with id %s" % list_id)
     
