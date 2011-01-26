@@ -240,6 +240,12 @@ class DeviceListTests(Tests):
         response = self.test.put("/api/devices/1/lists/3", {'token': "QWERT"}, headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1/lists/3", "device": 1, "list": 3}')
+        
+        self.assertEqual(self.device_one.listdevice_set.count(), 1)
+        
+        for x in self.device_one.listdevice_set:
+            self.assertEqual(x.device.key().id(), 1)
+            self.assertEqual(x.list.key().id(), 3)
     
     def test_create_wrong_device(self):
         
