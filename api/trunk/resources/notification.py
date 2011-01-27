@@ -4,6 +4,7 @@ import binascii
 import urbanairship
 import settings
 from datetime import datetime
+from google.appengine.api import taskqueue
 from util import Resource, json, device_required
 from models import Device, List
 from notifications import Unread
@@ -34,7 +35,11 @@ class ListReadResource(ListsResource):
                     
                     for x in list.listdevice_set.filter('device = ', device):
                         x.read = datetime.now()
+                        x.unread = 0
                         x.put()
+                    
+                    # recollect unread count
+                    taskqueue.add(url='/api/lists/%s/unread' % list.key().id())
                     
                     return {'list': list.key().id(), 'device': device.key().id()}
                     
