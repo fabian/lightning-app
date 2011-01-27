@@ -552,7 +552,7 @@ class ListReadTests(Tests):
         
         self.list = models.List(title="Groceries", owner=self.device, token="xzy")
         self.list.put()
-        models.ListDevice(device=self.device, list=self.list, read=datetime(2010, 01, 01, 12, 00, 00)).put()
+        models.ListDevice(device=self.device, list=self.list, read=datetime(2010, 01, 01, 12, 00, 00), unread=72).put()
         
         self.device_second = models.Device(identifier="raboof", device_token="ABC123", name="Uninvolved Device", secret="xyz")
         self.device_second.put()
@@ -565,6 +565,10 @@ class ListReadTests(Tests):
         response = test.post("/api/lists/2/devices/1/read", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"device": 1, "list": 2}')
+        
+        listdevice = models.ListDevice.get_by_id(3)
+        self.assertNotEqual(listdevice.read, datetime(2010, 01, 01, 12, 00, 00))
+        self.assertEqual(listdevice.unread, 0)
     
     def test_read_wrong_id(self):
         
