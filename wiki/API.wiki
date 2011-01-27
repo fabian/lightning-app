@@ -14,7 +14,7 @@
 || `/api/lists/(.*)/devices/(.*)/push`  || `POST`   || Push unread count and log as alert to devices    ||                                           ||
 || `/api/items`                         || `POST`   || Create item                                      || value<br/> list                           ||
 || `/api/items/(.*)`                    || `GET`    || Get item                                         ||                                           ||
-|| `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> modified                       ||
+|| `/api/items/(.*)`                    || `PUT`    || Update item                                      || value<br/> done<br/> modified             ||
 
 ==Example==
 
