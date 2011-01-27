@@ -56,7 +56,19 @@ class DeviceResource(Resource):
                 params = cgi.parse_qs(self.request.body)
                 
                 device.name = params['name'][0]
-                device.put()
+                
+                device_token = params.get('device_token', [])
+                if device_token:
+                    
+                    device.device_token = ''.join(device_token)
+                    
+                    # register with Urban Airship
+                    airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
+                    airship.register(device.device_token, alias=str(device.key()))
+                    
+                    logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
+                
+                device.put()    
             
             else:
                 # device does not match authenticated device
