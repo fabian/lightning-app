@@ -45,6 +45,8 @@ def device_required(handler_method):
 
 class Resource(webapp.RequestHandler):
     
+    DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+    
     def get_auth(self):
         
         if hasattr(self, 'auth'):

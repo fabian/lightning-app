@@ -72,8 +72,6 @@ class ItemsResource(Resource):
 
 class ItemResource(ItemsResource):
     
-    DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-    
     @device_required
     @json
     def get(self, id):
