@@ -127,6 +127,7 @@ class ListResource(ListsResource):
                         'id': item.key().id(), 
                         'url': url, 
                         'value': item.value, 
+                        'modified': item.modified.strftime(self.DATE_FORMAT), 
                         'done': item.done, 
                     })
                 
