@@ -147,6 +147,19 @@ class DeviceTests(Tests):
     
     def test_change_device(self):
         
+        self.mock_urbanairship()
+        self.urbanairship.register("EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/devices/1", {'name': 'New Name', 'device_token': 'EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        device = models.Device.get_by_id(1)
+        self.assertEqual(device.name, 'New Name')
+        self.assertEqual(device.device_token, 'EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0')
+    
+    def test_change_device_without_device_token(self):
+        
         test = webtest.TestApp(api.application)
         response = test.put("/api/devices/1", {'name': 'New Name'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
