@@ -240,7 +240,7 @@
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
-	NSString *putString = [NSString stringWithFormat:@"value=%@;done=%@;modified=%@", listItem.name, listItem.done, listItem.creation];
+	NSString *putString = [NSString stringWithFormat:@"value=%@;done=%@;modified=%@", listItem.name, listItem.done, listItem.modified];
 	NSLog(@"%@",putString);
 	[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
 	
@@ -585,7 +585,7 @@
 							listItem.name = [listItemGoogle objectForKey:@"value"];
 							listItem.listItemId = [listItemGoogle objectForKey:@"id"];
 							listItem.done = [NSNumber numberWithBool:[[listItemGoogle objectForKey:@"done"] boolValue]];
-							listItem.creation = [listItemGoogle objectForKey:@"modified"];
+							listItem.modified = [listItemGoogle objectForKey:@"modified"];
 						}
 					} else {
 						NSLog(@"listitem add");
@@ -593,6 +593,7 @@
 						listItem.name = [listItemGoogle objectForKey:@"value"];
 						listItem.listItemId = [listItemGoogle objectForKey:@"id"];
 						listItem.done = [NSNumber numberWithBool:[[listItemGoogle objectForKey:@"done"] boolValue]];
+						listItem.modified = [listItemGoogle objectForKey:@"modified"];
 						listItem.creation = [listItemGoogle objectForKey:@"modified"];
 							
 						[listName addListItemsObject:listItem];
