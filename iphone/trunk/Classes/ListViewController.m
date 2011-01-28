@@ -8,6 +8,8 @@
 
 #import "ListViewController.h"
 #import "ListItem.h"
+#import	"LightningUtil.h"
+#import	"Line.h";
 
 @implementation ListViewController
 
@@ -27,7 +29,7 @@
 	
 	ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
 	listItem.name = theTextField.text;
-	listItem.creation = [self getUTCFormateDate:[NSDate date]];
+	listItem.creation = [LightningUtil getUTCFormateDate:[NSDate date]];
 
 	[listName addListItemsObject:listItem];
 	
@@ -179,12 +181,17 @@
 	//getting items
 	//Lightning *lightning = [[Lightning alloc]init];
 	//lightning.delegate = self;
-	//lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+	//lightning.url = [NSURL URLWithString:@"http://localhost:8080p.appspot.com/api/"];
 	//create corresponding service call
 	//[lightning getListsWithContext:self.context];
 	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	Lightning *lightning = [[Lightning alloc] init];
+	lightning.delegate = self;
+	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
+	[lightning readList:[self.listName listId]];
 }
 
 - (void)editList {
@@ -295,6 +302,16 @@
 			ListItem *listItem = [listItems objectAtIndex:indexPath.row];
 			
 			label.text = [listItem name];
+			
+			if([listItem.done boolValue]) {
+				CGFloat width =  [label.text sizeWithFont:label.font].width;
+				Line *line = [[Line alloc] initWithFrame:CGRectMake(label.frame.origin.x, label.frame.origin.y+20, width, 3)];
+				line.backgroundColor = [UIColor clearColor];
+				line.tag = 124;
+				[cell.contentView addSubview:line];
+
+				[line release];
+			}
 		}
 		
 		label.delegate = self;
@@ -311,6 +328,7 @@
 		//cell.textLabel.text = [listEntries.entries objectAtIndex:indexPath.row];
 		[cell.contentView addSubview:label];
 		
+		
     } else {
 		if(indexPath.row >= [listItems count]) {
 			UITextField *label = (UITextField*)[cell.contentView viewWithTag:123];
@@ -320,11 +338,21 @@
 			UITextField *label = (UITextField*)[cell.contentView viewWithTag:123];
 			ListItem *listItem = [listItems objectAtIndex:indexPath.row];
 			label.text = [listItem name];
+			
+			if([listItem.done boolValue]) {
+				CGFloat width =  [label.text sizeWithFont:label.font].width;
+				Line *line = [[Line alloc] initWithFrame:CGRectMake(label.frame.origin.x, label.frame.origin.y+20, width, 3)];
+				line.backgroundColor = [UIColor clearColor];
+				line.tag = 124;
+				[cell.contentView addSubview:line];
+				
+				[line release];
+			}
 		}
 
 	}
 
-
+	
 	
 	return cell;
 }
@@ -332,20 +360,52 @@
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSLog(@"DELETESTYLE");
 	
-	/*UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-	NSArray *subviews = [cell.contentView subviews];
-	UITextField *textfield = (UITextField *)[subviews objectAtIndex:0];
-
-	NSString *htmlString = htmlString=@"<div style=\"font-family:Helvetica, Arial, sans-serif; font-size: 14pt; text-decoration: line-through; font-weight:bold;\">";
-	htmlString = [htmlString stringByAppendingString:textfield.text];
-	htmlString = [htmlString stringByAppendingString:@"</div>"];
+	Lightning *lightning = [[Lightning alloc]init];
+	lightning.delegate = self;
+	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
 	
-	UIWebView *webView = [[UIWebView alloc] initWithFrame:[cell frame]];
-	[webView loadHTMLString:htmlString baseURL:nil];
-	[textfield removeFromSuperview];
-	[cell.contentView addSubview:webView];
 	
-	[cell release];*/
+	
+	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+	
+	UIView *existingLine = [cell viewWithTag:124];
+	
+	
+	if (existingLine == nil) {
+		UITextField *label = (UITextField *)[cell.contentView viewWithTag:123];
+		
+		CGFloat width =  [label.text sizeWithFont:label.font].width;
+		Line *line = [[Line alloc] initWithFrame:CGRectMake(label.frame.origin.x, label.frame.origin.y+20, width, 3)];
+		line.backgroundColor = [UIColor clearColor];
+		line.tag = 124;
+		[cell.contentView addSubview:line];
+		
+		ListItem *listItem = [listItems objectAtIndex:indexPath.row];
+		
+		listItem.creation = [LightningUtil getUTCFormateDate:[NSDate date]];
+		listItem.done = [NSNumber numberWithBool:TRUE];
+		
+		NSError *error;
+		[context save:&error];
+		
+		[lightning updateItem:listItem];
+		[listItem release];
+		[line release];
+	} else {
+		[existingLine removeFromSuperview];
+		ListItem *listItem = [listItems objectAtIndex:indexPath.row];
+		
+		listItem.creation = [LightningUtil getUTCFormateDate:[NSDate date]];
+		listItem.done = [NSNumber numberWithBool:FALSE];
+		
+		NSError *error;
+		[context save:&error];
+		
+		[lightning updateItem:listItem];
+		[listItem release];
+		
+	}
+	
 	
 	return UITableViewCellEditingStyleNone;
 }
@@ -370,7 +430,7 @@
 
 
 // Override to support editing the table view.
-/*
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
@@ -380,7 +440,7 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
 
 
 /*

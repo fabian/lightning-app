@@ -43,6 +43,7 @@
 -(void)getLists;
 -(void)addItemToList:(NSString *)listId item:(ListItem *)item context:(NSManagedObjectContext *)context;
 -(void)shareList:(NSString *)listId token:(NSString *)token;
+-(void)updateItem:(ListItem *)listItem;
 
 @end
 

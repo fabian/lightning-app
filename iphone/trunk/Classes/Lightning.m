@@ -9,8 +9,9 @@
 #import "Lightning.h";
 #import "GTMHTTPFetcher.h";
 #import "JSON.h";
-#import "ListName.h"
-#import "ListItem.h"
+#import "ListName.h";
+#import "ListItem.h";
+#import "LightningUtil.h";
 
 @implementation Lightning
 
@@ -120,8 +121,7 @@
 }
 
 -(void)pushUpdateForList:(NSString *)listId{
-	//exclude?
-	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@/push", listId]];
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@/devices/%@/push", listId, self.lightningId]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
@@ -129,9 +129,9 @@
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
-	NSString *postString = [NSString stringWithFormat:@"exclude=%@", self.lightningId];
+	NSString *postString = [NSString stringWithFormat:@""];
 	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
-	 
+	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
 	
@@ -193,7 +193,7 @@
 }
 
 -(void)shareList:(NSString *)listId token:(NSString *)token {
-	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"shared_lists"]];
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"devices/%@/lists/%@", self.lightningId, listId]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
@@ -201,14 +201,55 @@
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
-	NSString *postString = [NSString stringWithFormat:@"token=%@;list=%@;guest=%@", token, listId, self.lightningId];
-	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	NSString *putString = [NSString stringWithFormat:@"token=%@", token];
+	[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithShareList:error:)];
+}
+
+-(void)readList:(NSString *)listId {
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@/devices/%@/read", listId, self.lightningId]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString *postString = [NSString stringWithFormat:@""];
+	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedReadList:error:)];
+
+}
+
+-(void)updateItem:(ListItem *)listItem {
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"items/%@", listItem.listItemId]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString *putString = [NSString stringWithFormat:@"value=%@;done=%@;modified=%@", listItem.name, listItem.done, listItem.creation];
+	NSLog(@"%@",putString);
+	[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedUpdateItem:error:)];
+	
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error {
@@ -259,6 +300,7 @@
 		listName.name = [list objectForKey:@"title"];
 		listName.listId = (NSNumber *)[list objectForKey:@"id"];
 		listName.token = [list objectForKey:@"token"];
+		listName.lastModified = [LightningUtil getUTCFormateDate:[NSDate date]];
 		
 		NSError* error;
         if(![context save:&error]) {
@@ -407,6 +449,7 @@
 						updatedList.name = [list objectForKey:@"title"];
 						updatedList.listId = [list objectForKey:@"id"];
 						updatedList.unreadCount = [list objectForKey:@"unread"];
+						updatedList.token = [list objectForKey:@"token"];
 						
 						[context save:&error];
 						[self getItemsFromList:[list objectForKey:@"id"] context:self.context];
@@ -429,6 +472,7 @@
 						listName.name = [list objectForKey:@"title"];
 						listName.listId = [list objectForKey:@"id"];
 						listName.token = [list objectForKey:@"token"];
+						listName.lastModified = [LightningUtil getUTCFormateDate:[NSDate date]];
 						
 						[context save:&error];
 					}
@@ -463,6 +507,7 @@
 						 listName.name = [list objectForKey:@"title"];
 						 listName.listId = [list objectForKey:@"id"];
 						 listName.token = [list objectForKey:@"token"];
+						 listName.lastModified = [LightningUtil getUTCFormateDate:[NSDate date]];
 						 
 						 [context save:&error];
 					}
@@ -539,12 +584,16 @@
 							ListItem *listItem = [listItemsWithKeysCoreData objectForKey:listId];
 							listItem.name = [listItemGoogle objectForKey:@"value"];
 							listItem.listItemId = [listItemGoogle objectForKey:@"id"];
+							listItem.done = [NSNumber numberWithBool:[[listItemGoogle objectForKey:@"done"] boolValue]];
+							listItem.creation = [listItemGoogle objectForKey:@"modified"];
 						}
 					} else {
 						NSLog(@"listitem add");
 						ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:self.context];
 						listItem.name = [listItemGoogle objectForKey:@"value"];
 						listItem.listItemId = [listItemGoogle objectForKey:@"id"];
+						listItem.done = [NSNumber numberWithBool:[[listItemGoogle objectForKey:@"done"] boolValue]];
+						listItem.creation = [listItemGoogle objectForKey:@"modified"];
 							
 						[listName addListItemsObject:listItem];
 					}
@@ -581,6 +630,36 @@
 		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
 		SBJSON *parser = [[SBJSON alloc] init];
 		NSDictionary *object = [parser objectWithString:data error:nil];
+		
+		[self getLists];
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedReadList:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with finishedReadList");
+		
+	} else {
+		NSLog(@"finishedReadList %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedUpdateItem:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with finishedUpdateItem");
+		
+	} else {
+		NSLog(@"finishedUpdateItem %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
 	}
 }
 

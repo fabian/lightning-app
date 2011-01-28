@@ -2,8 +2,8 @@
 //  ListName.m
 //  Lightning
 //
-//  Created by Cyril Gabathuler on 19.01.11.
-//  Copyright 2011 Bahnhofstrasse 24, 5400 Baden. All rights reserved.
+//  Created by Cyril Gabathuler on 21.10.10.
+//  Copyright 2010 Bahnhofstrasse 24, 5400 Baden. All rights reserved.
 //
 
 #import "ListName.h"
@@ -12,7 +12,6 @@
 
 @implementation ListName 
 
-@dynamic lastModified;
 @dynamic listId;
 @dynamic name;
 @dynamic unreadCount;
