@@ -23,16 +23,18 @@
 		02BA5FBA115B7F7C002AAD93 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		02BA5FBB115B7F7C002AAD93 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		02BA5FBF115B7FB8002AAD93 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */; };
-		02D122CA127DB93F002037B8 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D122C9127DB93F002037B8 /* ListItem.m */; };
 		02DA0CCD126F8F9600EA2D60 /* Icon-Shared@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CCC126F8F9600EA2D60 /* Icon-Shared@2x.png */; };
 		02DA0CCF126F8F9E00EA2D60 /* Icon-Shared.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CCE126F8F9E00EA2D60 /* Icon-Shared.png */; };
 		02DA0CD1126F8FA500EA2D60 /* Icon-Private@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CD0126F8FA500EA2D60 /* Icon-Private@2x.png */; };
 		02DA0CD3126F8FAD00EA2D60 /* Icon-Private.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CD2126F8FAD00EA2D60 /* Icon-Private.png */; };
-		02DA0EB712709C2300EA2D60 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 02DA0EB612709C2300EA2D60 /* ListName.m */; };
+		02EC4CAE12E77FF300BAD6A8 /* LightningUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC4CAD12E77FF300BAD6A8 /* LightningUtil.m */; };
+		02EC4CBA12E7836A00BAD6A8 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC4CB912E7836A00BAD6A8 /* ListName.m */; };
 		02EDDB6F1129CC1500E23D03 /* Lists.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB6E1129CC1500E23D03 /* Lists.m */; };
 		02EDDB941129CEE700E23D03 /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */; };
 		02EDDB971129CEF000E23D03 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */; };
 		02EDDDC41129E3B200E23D03 /* ListEntries.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDDC31129E3B200E23D03 /* ListEntries.m */; };
+		02FC8F8812F1E9F800FE45AD /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 02FC8F8712F1E9F800FE45AD /* Line.m */; };
+		02FC906F12F2287700FE45AD /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02FC906E12F2287700FE45AD /* ListItem.m */; };
 		1D3623260D0F684500981E51 /* LightningAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* LightningAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1FC5D00311629A9900D1130F /* ApiRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC5D00011629A9900D1130F /* ApiRequest.m */; };
@@ -64,14 +66,14 @@
 		02BA5F2B115A92A9002AAD93 /* AddNewGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewGroup.h; sourceTree = "<group>"; };
 		02BA5F2C115A92A9002AAD93 /* AddNewGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewGroup.m; sourceTree = "<group>"; };
 		02BA5FBE115B7FB8002AAD93 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		02D122C8127DB93F002037B8 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
-		02D122C9127DB93F002037B8 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
 		02DA0CCC126F8F9600EA2D60 /* Icon-Shared@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Shared@2x.png"; sourceTree = "<group>"; };
 		02DA0CCE126F8F9E00EA2D60 /* Icon-Shared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Shared.png"; sourceTree = "<group>"; };
 		02DA0CD0126F8FA500EA2D60 /* Icon-Private@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Private@2x.png"; sourceTree = "<group>"; };
 		02DA0CD2126F8FAD00EA2D60 /* Icon-Private.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Private.png"; sourceTree = "<group>"; };
-		02DA0EB512709C2300EA2D60 /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
-		02DA0EB612709C2300EA2D60 /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
+		02EC4CAC12E77FF300BAD6A8 /* LightningUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightningUtil.h; sourceTree = "<group>"; };
+		02EC4CAD12E77FF300BAD6A8 /* LightningUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightningUtil.m; sourceTree = "<group>"; };
+		02EC4CB812E7836A00BAD6A8 /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
+		02EC4CB912E7836A00BAD6A8 /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
 		02EDDB6D1129CC1500E23D03 /* Lists.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lists.h; sourceTree = "<group>"; };
 		02EDDB6E1129CC1500E23D03 /* Lists.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lists.m; sourceTree = "<group>"; };
 		02EDDB921129CEE700E23D03 /* ListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsViewController.h; sourceTree = "<group>"; };
@@ -80,6 +82,10 @@
 		02EDDB961129CEF000E23D03 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		02EDDDC21129E3B200E23D03 /* ListEntries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListEntries.h; sourceTree = "<group>"; };
 		02EDDDC31129E3B200E23D03 /* ListEntries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListEntries.m; sourceTree = "<group>"; };
+		02FC8F8612F1E9F800FE45AD /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line.h; sourceTree = "<group>"; };
+		02FC8F8712F1E9F800FE45AD /* Line.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Line.m; sourceTree = "<group>"; };
+		02FC906D12F2287700FE45AD /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
+		02FC906E12F2287700FE45AD /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* LightningAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightningAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* LightningAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightningAppDelegate.m; sourceTree = "<group>"; };
@@ -128,12 +134,21 @@
 		0224FCF01164732C00AFD56C /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
-				02DA0EB512709C2300EA2D60 /* ListName.h */,
-				02DA0EB612709C2300EA2D60 /* ListName.m */,
-				02D122C8127DB93F002037B8 /* ListItem.h */,
-				02D122C9127DB93F002037B8 /* ListItem.m */,
+				02EC4CB812E7836A00BAD6A8 /* ListName.h */,
+				02EC4CB912E7836A00BAD6A8 /* ListName.m */,
+				02FC906D12F2287700FE45AD /* ListItem.h */,
+				02FC906E12F2287700FE45AD /* ListItem.m */,
 			);
 			name = "Managed Objects";
+			sourceTree = "<group>";
+		};
+		02EC4CAA12E77FDA00BAD6A8 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				02EC4CAC12E77FF300BAD6A8 /* LightningUtil.h */,
+				02EC4CAD12E77FF300BAD6A8 /* LightningUtil.m */,
+			);
+			name = Util;
 			sourceTree = "<group>";
 		};
 		02EDDB6A1129CBDB00E23D03 /* Data */ = {
@@ -169,6 +184,8 @@
 				029CFACC1135B33000D6942C /* AddListViewController.m */,
 				02BA5F2B115A92A9002AAD93 /* AddNewGroup.h */,
 				02BA5F2C115A92A9002AAD93 /* AddNewGroup.m */,
+				02FC8F8612F1E9F800FE45AD /* Line.h */,
+				02FC8F8712F1E9F800FE45AD /* Line.m */,
 			);
 			name = View;
 			path = Classes;
@@ -205,6 +222,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				02EC4CAA12E77FDA00BAD6A8 /* Util */,
 				0224FCF01164732C00AFD56C /* Managed Objects */,
 				1FC5D01411629AC300D1130F /* JSON */,
 				02EDDB6A1129CBDB00E23D03 /* Data */,
@@ -347,14 +365,42 @@
 				0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */,
 				02822F43124298F600480310 /* GTMHTTPFetcher.m in Sources */,
 				02822FAC1242A3DD00480310 /* GTMHTTPFetcherLogging.m in Sources */,
-				02DA0EB712709C2300EA2D60 /* ListName.m in Sources */,
-				02D122CA127DB93F002037B8 /* ListItem.m in Sources */,
+				02EC4CAE12E77FF300BAD6A8 /* LightningUtil.m in Sources */,
+				02EC4CBA12E7836A00BAD6A8 /* ListName.m in Sources */,
+				02FC8F8812F1E9F800FE45AD /* Line.m in Sources */,
+				02FC906F12F2287700FE45AD /* ListItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		02BD08EC12F0860700C5C31B /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cyril Gabathuler";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "02ACF783-5A1E-4DCB-A76F-C9ACEF8FDA5F";
+				SDKROOT = iphoneos;
+			};
+			name = "Ad Hoc";
+		};
+		02BD08ED12F0860700C5C31B /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Lightning_Prefix.pch;
+				INFOPLIST_FILE = "Lightning-Info.plist";
+				PRODUCT_NAME = Lightning;
+			};
+			name = "Ad Hoc";
+		};
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -391,7 +437,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				PRODUCT_NAME = lightning;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "78455F96-D0A7-4DD0-A7DE-BF89E722C22D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A1091DDE-F2C0-41A5-A841-265C90A3AE58";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -417,6 +463,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				02BD08ED12F0860700C5C31B /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -426,6 +473,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				02BD08EC12F0860700C5C31B /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

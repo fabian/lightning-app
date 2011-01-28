@@ -2,8 +2,8 @@
 //  ListItem.h
 //  Lightning
 //
-//  Created by Cyril Gabathuler on 31.10.10.
-//  Copyright 2010 Bahnhofstrasse 24, 5400 Baden. All rights reserved.
+//  Created by Cyril Gabathuler on 27.01.11.
+//  Copyright 2011 Bahnhofstrasse 24, 5400 Baden. All rights reserved.
 //
 
 #import <CoreData/CoreData.h>
@@ -13,9 +13,10 @@
 {
 }
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * creation;
+@property (nonatomic, retain) NSNumber * done;
 @property (nonatomic, retain) NSNumber * listItemId;
+@property (nonatomic, retain) NSString * creation;
+@property (nonatomic, retain) NSString * name;
 
 @end
 

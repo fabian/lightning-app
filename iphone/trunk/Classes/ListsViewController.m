@@ -101,7 +101,7 @@
 	NSEntityDescription *descr = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:context];
 	[req setEntity:descr];
 	
-	NSSortDescriptor *sort = [[NSSortDescriptor alloc]initWithKey:@"name" ascending:YES];
+	NSSortDescriptor *sort = [[NSSortDescriptor alloc]initWithKey:@"lastModified" ascending:NO];
 	
 	[req setSortDescriptors:[NSArray arrayWithObject:sort]];
 	[sort release];
@@ -159,7 +159,7 @@
 	for (ListName *listName in results) {
 		if ([objectID isEqual:[listName objectID]]) {
 			
-			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain listName:listName];
 			listViewController.listName = listName;
 			listViewController.context = context;
 			
@@ -289,17 +289,19 @@
 		label.tag = 10;
 		[cell addSubview:label];
 		
-		UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
-		roundedLabel.textColor = [UIColor whiteColor];
-		NSLog(@"cellforrow unread %@", listName.unreadCount);
-		roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
-		roundedLabel.textAlignment = UITextAlignmentCenter;
-		roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
-		CALayer *layer = [roundedLabel layer];
-		layer.cornerRadius = 10.0f;
+		if([listName.unreadCount intValue] > 0 ) {
+			UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
+			roundedLabel.textColor = [UIColor whiteColor];
+			NSLog(@"cellforrow unread %@", listName.unreadCount);
+			roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
+			roundedLabel.textAlignment = UITextAlignmentCenter;
+			roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
+			CALayer *layer = [roundedLabel layer];
+			layer.cornerRadius = 10.0f;
 		
-		roundedLabel.tag = 11;
-		[cell addSubview:roundedLabel];
+			roundedLabel.tag = 11;
+			[cell addSubview:roundedLabel];
+		}
 		
 		//[listEntry release];
 		
@@ -412,7 +414,7 @@
 	for (ListName *listName in results) {
 		if ([objectID isEqual:[listName objectID]]) {
 			
-			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain listName:listName];
 			listViewController.listName = listName;
 			listViewController.context = context;
 			

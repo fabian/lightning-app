@@ -9,6 +9,8 @@
 #import "LightningAppDelegate.h"
 #import "ListsViewController.h";
 #import "Lightning.h";
+#import "ListViewController.h";
+#import "LightningUtil.h";
 
 @implementation LightningAppDelegate
 
@@ -70,7 +72,8 @@
 	
 	//getlistsview delegate?
 	Lightning *lightning = [[Lightning alloc]init];
-	lightning.delegate = self;
+	lightning.delegate = [self.navigationController topViewController];
+	lightning.context = self.context;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 	[lightning shareList:listId token:[params objectForKey:@"token"]];
 	
@@ -105,7 +108,7 @@
 - (void)setupPersistentStore
 {
 	NSString *docDir = [self applicationDocumentsDirectory];
-	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning8.sqlite"];
+	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning15.sqlite"];
 	
 	NSURL *urlForPath = [NSURL fileURLWithPath:pathToDb];
 	NSError *error;
@@ -148,19 +151,84 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-	NSLog(@"remotenotification was send %@", [[userInfo objectForKey:@"lightning"] description]);
+	NSLog(@"remotenotification was send %@", [[userInfo objectForKey:@"aps"] objectForKey:@"lightning_list"]);
+	
+	NSString *listId = [[userInfo objectForKey:@"aps"] objectForKey:@"lightning_list"];
 	
 	if ([application applicationState] == UIApplicationStateInactive) {
 		//tapped button
 		NSLog(@"came from background");
+		
+		[LightningUtil updateData:self.context navigationController:self.navigationController];
+		
+		NSEntityDescription *entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+		NSPredicate * predicate;
+		predicate = [NSPredicate predicateWithFormat:@"listId == %@", listId];
+		
+		NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+		[fetch setEntity: entity];
+		[fetch setPredicate: predicate];
+		
+		NSArray * results = [context executeFetchRequest:fetch error:nil];
+		[fetch release];
+		
+		if ([results count] == 1) {
+			ListName *listName = [results objectAtIndex:0];
+			
+			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain listName:listName];
+			listViewController.listName = listName;
+			listViewController.context = context;
+			
+			NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
+			NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[listName.listItems allObjects]];
+			[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+			listViewController.listItems = sorted;
+			
+			[sorted release];
+			
+			[listViewController registerForKeyboardNotifications];
+			
+			[self.navigationController popToRootViewControllerAnimated:NO];
+			
+			[self.navigationController pushViewController:listViewController animated:YES];
+			[listViewController release];
+		}
+		
 	} else if ([application applicationState] == UIApplicationStateActive) {
 		//no button
 		NSLog(@"front");
+		
+		[LightningUtil updateData:self.context navigationController:self.navigationController];
 	}
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"nownow??");
+	
+	//recount badge number
+	NSEntityDescription *entity   = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+	
+	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+	[fetch setEntity: entity];
+	
+	NSArray * results = [context executeFetchRequest:fetch error:nil];
+	[fetch release];
+	
+	int badgeNumber = 0;
+	
+	for (ListName *listName in results) {
+		badgeNumber += [listName.unreadCount intValue];
+	}
+	
+	[UIApplication sharedApplication].applicationIconBadgeNumber = badgeNumber;
+	
+}
+
+-(void)applicationDidBecomeActive:(UIApplication *)application {
+	NSLog(@"didbecomeactive");
+	
+	[LightningUtil updateData:self.context navigationController:self.navigationController];
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
