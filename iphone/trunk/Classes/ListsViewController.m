@@ -311,8 +311,30 @@
 		UILabel *label = (UILabel*)[cell viewWithTag:10];
 		label.text = [listName name];
 		
-		UILabel *roundedLabel = (UILabel*)[cell viewWithTag:11];
-		roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
+		if([listName.unreadCount intValue] > 0 ) {
+			UILabel *roundedLabel = (UILabel*)[cell viewWithTag:11];
+
+			if (roundedLabel == nil) {
+				UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
+				roundedLabel.textColor = [UIColor whiteColor];
+				roundedLabel.textAlignment = UITextAlignmentCenter;
+				roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
+				roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
+				CALayer *layer = [roundedLabel layer];
+				layer.cornerRadius = 10.0f;
+				
+				roundedLabel.tag = 11;
+				[cell addSubview:roundedLabel];
+			} else {
+				roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
+			}
+		} else {
+			UILabel *roundedLabel = (UILabel*)[cell viewWithTag:11];
+			
+			if (roundedLabel != nil) {
+				[roundedLabel removeFromSuperview];
+			}
+		}
 	}
 
 	

@@ -231,8 +231,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -282,11 +280,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>40</integer>
+									<integer>38</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {258, 764}}</string>
+							<string>{{0, 16}, {258, 1060}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -296,14 +296,14 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {275, 782}}</string>
+						<string>{{0, 0}, {275, 1078}}</string>
 						<key>GroupTreeTableConfiguration</key>
 						<array>
 							<string>MainColumn</string>
 							<real>258</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>0 355 1920 823 0 0 1920 1178 </string>
+						<string>0 59 1920 1119 0 0 1920 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -314,12 +314,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>02EDDBC21129D1C800E23D03</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Lightning.m</string>
+								<string>ListsViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -327,11 +329,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>02EDDBC31129D1C800E23D03</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Lightning.m</string>
+										<string>ListsViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>021D631912F3351200ED2F11</string>
+										<string>021D632912F337A600ED2F11</string>
 										<key>history</key>
 										<array>
 											<string>029CF9D911332CCA00D6942C</string>
@@ -366,14 +368,14 @@
 											<string>02FC8F5912F1E67000FE45AD</string>
 											<string>02FC8F8F12F1EA9B00FE45AD</string>
 											<string>02FC901612F1F5FC00FE45AD</string>
-											<string>02FC905112F1FB9200FE45AD</string>
 											<string>02FC908212F22A6900FE45AD</string>
 											<string>02FC908312F22A6900FE45AD</string>
 											<string>02FC908412F22A6900FE45AD</string>
 											<string>02FC908512F22A6900FE45AD</string>
 											<string>02FC90D512F22FB800FE45AD</string>
 											<string>02FC90DA12F2302F00FE45AD</string>
-											<string>02FC90EC12F3266400FE45AD</string>
+											<string>021D631F12F336F200ED2F11</string>
+											<string>02FC905112F1FB9200FE45AD</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -387,14 +389,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1640, 516}}</string>
+								<string>{{0, 0}, {1640, 812}}</string>
 								<key>RubberWindowFrame</key>
-								<string>0 355 1920 823 0 0 1920 1178 </string>
+								<string>0 59 1920 1119 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>516pt</string>
+							<string>812pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
@@ -414,7 +416,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {1640, 234}}</string>
 										<key>RubberWindowFrame</key>
-										<string>0 355 1920 823 0 0 1920 1178 </string>
+										<string>0 59 1920 1119 0 0 1920 1178 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -649,14 +651,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>02FC8E3C12F1B02E00FE45AD</string>
+				<string>021D632112F336F200ED2F11</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>02FC8E3D12F1B02E00FE45AD</string>
-				<string>02FC8E3E12F1B02E00FE45AD</string>
-				<string>02FC8E3F12F1B02E00FE45AD</string>
-				<string>02FC8E4012F1B02E00FE45AD</string>
-				<string>02FC8E4112F1B02E00FE45AD</string>
+				<string>021D632212F336F200ED2F11</string>
+				<string>021D632312F336F200ED2F11</string>
+				<string>021D632412F336F200ED2F11</string>
+				<string>021D632512F336F200ED2F11</string>
+				<string>021D632612F336F200ED2F11</string>
 			</array>
 			<key>ToolbarConfigUserDefaultsMinorVersion</key>
 			<string>2</string>
@@ -693,7 +695,7 @@
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>0 355 1920 823 0 0 1920 1178 </string>
+	<string>0 59 1920 1119 0 0 1920 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

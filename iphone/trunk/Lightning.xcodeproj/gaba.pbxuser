@@ -10,6 +10,36 @@
 		vrLen = 1791;
 		vrLoc = 21773;
 	};
+	021D631F12F336F200ED2F11 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1FC5D00211629A9900D1130F /* Lightning.m */;
+		name = "Lightning.m: 596";
+		rLen = 0;
+		rLoc = 23434;
+		rType = 0;
+		vrLen = 2442;
+		vrLoc = 21773;
+	};
+	021D632012F336F200ED2F11 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 330";
+		rLen = 0;
+		rLoc = 11084;
+		rType = 0;
+		vrLen = 2076;
+		vrLoc = 9022;
+	};
+	021D632912F337A600ED2F11 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 334";
+		rLen = 0;
+		rLoc = 11181;
+		rType = 0;
+		vrLen = 1877;
+		vrLoc = 9626;
+	};
 	0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */ = {
 		uiCtxt = {
 			"Xdesign Model Editor Bookmark Key" = {
@@ -381,7 +411,7 @@
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02944CE312F1B0030011B74A /* ListsViewController.m:399 */ = {
+	02944CE312F1B0030011B74A /* ListsViewController.m:421 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -393,7 +423,7 @@
 		functionName = "-finishFetchingLists:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 399;
+		lineNumber = 421;
 		location = Lightning;
 		modificationTime = 317848496.834775;
 		originalNumberOfMultipleMatches = 1;
@@ -819,7 +849,7 @@
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02EC4C8212E763A100BAD6A8 /* ListsViewController.m:404 */ = {
+	02EC4C8212E763A100BAD6A8 /* ListsViewController.m:426 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -831,7 +861,7 @@
 		functionName = "-finishAddingList:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 404;
+		lineNumber = 426;
 		location = Lightning;
 		modificationTime = 317848496.83248;
 		originalNumberOfMultipleMatches = 1;
@@ -965,9 +995,9 @@
 	};
 	02EDDB931129CEE700E23D03 /* ListsViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1579, 6006}}";
-			sepNavSelRange = "{9595, 27}";
-			sepNavVisRange = "{0, 1799}";
+			sepNavIntBoundsRect = "{{0, 0}, {1579, 6253}}";
+			sepNavSelRange = "{11181, 0}";
+			sepNavVisRange = "{9626, 1877}";
 			sepNavWindowFrame = "{{107, 68}, {1298, 721}}";
 		};
 	};
@@ -1314,9 +1344,9 @@
 	};
 	1FC5D00211629A9900D1130F /* Lightning.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1579, 8983}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1579, 9035}}";
 			sepNavSelRange = "{23434, 0}";
-			sepNavVisRange = "{21773, 1791}";
+			sepNavVisRange = "{21773, 2442}";
 			sepNavWindowFrame = "{{15, 152}, {1298, 721}}";
 		};
 	};
@@ -1344,7 +1374,7 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = 02EDDB641129CBCB00E23D03 /* Lightning */;
-		activeSDKPreference = iphoneos4.2;
+		activeSDKPreference = iphonesimulator4.2;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* Lightning */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* Lightning */,
@@ -1365,12 +1395,12 @@
 			02EC4C7C12E7636F00BAD6A8 /* AddListViewController.m:52 */,
 			02EC4C7E12E7637B00BAD6A8 /* ListsViewController.m:121 */,
 			02EC4C8012E7637E00BAD6A8 /* ListsViewController.m:139 */,
-			02EC4C8212E763A100BAD6A8 /* ListsViewController.m:404 */,
+			02EC4C8212E763A100BAD6A8 /* ListsViewController.m:426 */,
 			02EA42CD12E8A21900157A74 /* ListsViewController.m:97 */,
 			02944CAF12F1AC990011B74A /* ListsViewController.m:60 */,
 			02944CBA12F1ACF20011B74A /* LightningAppDelegate.m:49 */,
 			02944CDE12F1AEC70011B74A /* LightningAppDelegate.m:21 */,
-			02944CE312F1B0030011B74A /* ListsViewController.m:399 */,
+			02944CE312F1B0030011B74A /* ListsViewController.m:421 */,
 			02FC8E7D12F1B57D00FE45AD /* LightningAppDelegate.m:154 */,
 			02FC8F3712F1E13D00FE45AD /* ListsViewController.m:115 */,
 			02FC8F7312F1E8A800FE45AD /* ListsViewController.m:292 */,
@@ -1456,6 +1486,9 @@
 		};
 		perUserProjectItems = {
 			021D631912F3351200ED2F11 /* PBXTextBookmark */ = 021D631912F3351200ED2F11 /* PBXTextBookmark */;
+			021D631F12F336F200ED2F11 /* PBXTextBookmark */ = 021D631F12F336F200ED2F11 /* PBXTextBookmark */;
+			021D632012F336F200ED2F11 /* PBXTextBookmark */ = 021D632012F336F200ED2F11 /* PBXTextBookmark */;
+			021D632912F337A600ED2F11 /* PBXTextBookmark */ = 021D632912F337A600ED2F11 /* PBXTextBookmark */;
 			026AE35F113D9A05009AE783 = 026AE35F113D9A05009AE783 /* PBXTextBookmark */;
 			027B5CE51278A2C8003F8DD1 = 027B5CE51278A2C8003F8DD1 /* PBXTextBookmark */;
 			028230211242B26900480310 = 028230211242B26900480310 /* PBXTextBookmark */;
