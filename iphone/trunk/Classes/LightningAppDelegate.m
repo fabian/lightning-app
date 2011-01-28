@@ -108,7 +108,7 @@
 - (void)setupPersistentStore
 {
 	NSString *docDir = [self applicationDocumentsDirectory];
-	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning15.sqlite"];
+	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning16.sqlite"];
 	
 	NSURL *urlForPath = [NSURL fileURLWithPath:pathToDb];
 	NSError *error;

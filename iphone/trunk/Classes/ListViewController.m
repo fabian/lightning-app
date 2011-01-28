@@ -30,6 +30,7 @@
 	ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
 	listItem.name = theTextField.text;
 	listItem.creation = [LightningUtil getUTCFormateDate:[NSDate date]];
+	listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
 
 	[listName addListItemsObject:listItem];
 	
@@ -382,7 +383,7 @@
 		
 		ListItem *listItem = [listItems objectAtIndex:indexPath.row];
 		
-		listItem.creation = [LightningUtil getUTCFormateDate:[NSDate date]];
+		listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
 		listItem.done = [NSNumber numberWithBool:TRUE];
 		
 		NSError *error;
@@ -395,7 +396,7 @@
 		[existingLine removeFromSuperview];
 		ListItem *listItem = [listItems objectAtIndex:indexPath.row];
 		
-		listItem.creation = [LightningUtil getUTCFormateDate:[NSDate date]];
+		listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
 		listItem.done = [NSNumber numberWithBool:FALSE];
 		
 		NSError *error;
