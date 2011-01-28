@@ -6,6 +6,8 @@ any ideas from us
 
 
 = Details =
+== Pull to Refresh ==
+  * https://github.com/enormego/EGOTableViewPullRefresh
 
 == Reachability ==
   * http://iphonedevelopertips.com/objective-c/class-variables.html
