@@ -29,6 +29,8 @@
 
 - (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString*)initDeviceToken username:(NSString *)username{
     
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	if(self = [super init]) {
 		
 		self.url = initUrl;
@@ -76,6 +78,8 @@
 }
 
 -(void)addListWithTitle:(NSString *)listTitle context:(NSManagedObjectContext *)context{
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	self.context = context;
 	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists?secret=%@", self.lightningSecret]];
@@ -99,6 +103,7 @@
 }
 
 -(void)addItemToList:(NSString *)listId item:(ListItem *)item context:(NSManagedObjectContext *)context{
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	
 	self.context = context;
 	
@@ -126,6 +131,8 @@
 }
 
 -(void)pushUpdateForList:(NSString *)listId{
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@/devices/%@/push", listId, self.lightningId]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
@@ -147,6 +154,8 @@
 }
 
 -(void)getLists {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"devices/%@/lists", self.lightningId]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
@@ -165,6 +174,8 @@
 }
 
 -(void)getListsWithContext:(NSManagedObjectContext *)context {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	self.context = context;
 	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"devices/%@/lists", self.lightningId]];
@@ -185,6 +196,8 @@
 }
 
 -(void)getItemsFromList:(NSString *)listId context:(NSManagedObjectContext *)context {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	self.context = context;
 	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@", listId]];
@@ -206,6 +219,8 @@
 }
 
 -(void)shareList:(NSString *)listId token:(NSString *)token {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"devices/%@/lists/%@", self.lightningId, listId]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
@@ -227,6 +242,8 @@
 }
 
 -(void)readList:(NSString *)listId {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"lists/%@/devices/%@/read", listId, self.lightningId]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
@@ -249,6 +266,8 @@
 }
 
 -(void)updateItem:(ListItem *)listItem {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"items/%@", listItem.listItemId]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
@@ -272,6 +291,8 @@
 }
 
 -(void)updateDevice:(NSString *)updatedDeviceToken andName:(NSString *)updatedName {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"devices/%@", self.lightningId]];
 	
 	NSLog(@"calling Url: %@", [callUrl description]);
@@ -299,6 +320,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -328,6 +351,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithAddingList:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -371,6 +396,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithCreatingItem:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -425,6 +452,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithPushToList:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -438,6 +467,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithGetLists:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -572,6 +603,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithGetItemsFromList:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -674,6 +707,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithShareList:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -690,6 +725,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedReadList:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -704,6 +741,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedUpdateItem:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -718,6 +757,8 @@
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishUpdateDevice:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
