@@ -194,7 +194,7 @@
 	[req release];
 	
 	
-	if ([userDefaults valueForKey:@"lightningId"] == nil && [userDefaults valueForKey:@"lightningSecret"] == nil) {
+	if ([userDefaults valueForKey:@"lightningId"] != nil && [userDefaults valueForKey:@"lightningSecret"] != nil) {
 		Lightning *updateLightning = [[[Lightning alloc]init] autorelease];
 		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];

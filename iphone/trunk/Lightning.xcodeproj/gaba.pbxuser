@@ -2598,6 +2598,16 @@
 		vrLen = 2435;
 		vrLoc = 4940;
 	};
+	02E3FA4712F766A300794335 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* LightningAppDelegate.m */;
+		name = "LightningAppDelegate.m: 197";
+		rLen = 0;
+		rLoc = 6884;
+		rType = 0;
+		vrLen = 2435;
+		vrLoc = 4940;
+	};
 	02EA42CD12E8A21900157A74 /* ListsViewController.m:97 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
@@ -2783,7 +2793,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
+		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -3202,8 +3212,8 @@
 	};
 	1D3623250D0F684500981E51 /* LightningAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1579, 4069}}";
-			sepNavSelRange = "{5064, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1579, 4108}}";
+			sepNavSelRange = "{6884, 0}";
 			sepNavVisRange = "{4940, 2435}";
 			sepNavWindowFrame = "{{15, 152}, {1298, 721}}";
 		};
@@ -3548,6 +3558,7 @@
 			02E3FA4412F762D300794335 /* PBXTextBookmark */ = 02E3FA4412F762D300794335 /* PBXTextBookmark */;
 			02E3FA4512F762D300794335 /* PBXTextBookmark */ = 02E3FA4512F762D300794335 /* PBXTextBookmark */;
 			02E3FA4612F762D300794335 /* PBXTextBookmark */ = 02E3FA4612F762D300794335 /* PBXTextBookmark */;
+			02E3FA4712F766A300794335 /* PBXTextBookmark */ = 02E3FA4712F766A300794335 /* PBXTextBookmark */;
 			02EC4CBB12E783DD00BAD6A8 = 02EC4CBB12E783DD00BAD6A8 /* PBXBookmark */;
 			02EC4CBC12E783DD00BAD6A8 = 02EC4CBC12E783DD00BAD6A8 /* PBXTextBookmark */;
 			02EC4CC312E783DD00BAD6A8 = 02EC4CC312E783DD00BAD6A8 /* PBXTextBookmark */;
