@@ -19,6 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	NSLog(@"launch options %@", [launchOptions description]);
+
 	[self setupUsername];
 	self.apiUrl = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 	
@@ -135,8 +136,16 @@
 	
 	self.deviceToken = [devToken description];
 	
-	self.setupLightning;	
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	
+	if ([userDefaults valueForKey:@"lightningId"] != nil && [userDefaults valueForKey:@"lightningSecret"]) {
+		Lightning *updateLightning = [[Lightning alloc]init];
+		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+		[updateLightning updateDevice:self.deviceToken andName:[self getUsername]];
+	} else {
+		self.setupLightning;
+	}
+
 	NSLog(@"bytes in hex: %@", [devToken description]);
 	//self.registered = YES;
     //[self sendProviderDeviceToken:devTokenBytes]; // custom method
