@@ -28,6 +28,7 @@
 		02DA0CCF126F8F9E00EA2D60 /* Icon-Shared.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CCE126F8F9E00EA2D60 /* Icon-Shared.png */; };
 		02DA0CD1126F8FA500EA2D60 /* Icon-Private@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CD0126F8FA500EA2D60 /* Icon-Private@2x.png */; };
 		02DA0CD3126F8FAD00EA2D60 /* Icon-Private.png in Resources */ = {isa = PBXBuildFile; fileRef = 02DA0CD2126F8FAD00EA2D60 /* Icon-Private.png */; };
+		02E3F9D412F7581700794335 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 02E3F9D312F7581700794335 /* Device.m */; };
 		02EC4CAE12E77FF300BAD6A8 /* LightningUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC4CAD12E77FF300BAD6A8 /* LightningUtil.m */; };
 		02EC4CBA12E7836A00BAD6A8 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC4CB912E7836A00BAD6A8 /* ListName.m */; };
 		02EDDB6F1129CC1500E23D03 /* Lists.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EDDB6E1129CC1500E23D03 /* Lists.m */; };
@@ -72,6 +73,8 @@
 		02DA0CCE126F8F9E00EA2D60 /* Icon-Shared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Shared.png"; sourceTree = "<group>"; };
 		02DA0CD0126F8FA500EA2D60 /* Icon-Private@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Private@2x.png"; sourceTree = "<group>"; };
 		02DA0CD2126F8FAD00EA2D60 /* Icon-Private.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Private.png"; sourceTree = "<group>"; };
+		02E3F9D212F7581700794335 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
+		02E3F9D312F7581700794335 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Device.m; sourceTree = "<group>"; };
 		02EC4CAC12E77FF300BAD6A8 /* LightningUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightningUtil.h; sourceTree = "<group>"; };
 		02EC4CAD12E77FF300BAD6A8 /* LightningUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightningUtil.m; sourceTree = "<group>"; };
 		02EC4CB812E7836A00BAD6A8 /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
@@ -138,6 +141,8 @@
 				02EC4CB912E7836A00BAD6A8 /* ListName.m */,
 				021D638E12F3408F00ED2F11 /* ListItem.h */,
 				021D638F12F3408F00ED2F11 /* ListItem.m */,
+				02E3F9D212F7581700794335 /* Device.h */,
+				02E3F9D312F7581700794335 /* Device.m */,
 			);
 			name = "Managed Objects";
 			sourceTree = "<group>";
@@ -369,6 +374,7 @@
 				02EC4CBA12E7836A00BAD6A8 /* ListName.m in Sources */,
 				02FC8F8812F1E9F800FE45AD /* Line.m in Sources */,
 				021D639012F3408F00ED2F11 /* ListItem.m in Sources */,
+				02E3F9D412F7581700794335 /* Device.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

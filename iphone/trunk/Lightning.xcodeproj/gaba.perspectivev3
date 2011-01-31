@@ -280,8 +280,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>31</integer>
-									<integer>23</integer>
+									<integer>35</integer>
+									<integer>25</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -321,7 +321,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>02EDDBC21129D1C800E23D03</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Lightning.m</string>
+								<string>LightningAppDelegate.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -329,11 +329,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>02EDDBC31129D1C800E23D03</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Lightning.m</string>
+										<string>LightningAppDelegate.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>02E3F99B12F74F6F00794335</string>
+										<string>02E3FA4612F762D300794335</string>
 										<key>history</key>
 										<array>
 											<string>029CF9D911332CCA00D6942C</string>
@@ -373,13 +373,13 @@
 											<string>021D636412F33B2D00ED2F11</string>
 											<string>021D636512F33B2D00ED2F11</string>
 											<string>021D636612F33B2D00ED2F11</string>
-											<string>021D639612F3416100ED2F11</string>
 											<string>021D639712F3416100ED2F11</string>
 											<string>021D63E112F3487C00ED2F11</string>
 											<string>021D63E412F353CF00ED2F11</string>
-											<string>02E3F98E12F74E9100794335</string>
-											<string>02E3F99912F74F6F00794335</string>
-											<string>02E3F99A12F74F6F00794335</string>
+											<string>02E3F9D912F7588500794335</string>
+											<string>02E3FA3E12F7629A00794335</string>
+											<string>02E3FA4412F762D300794335</string>
+											<string>02E3FA4512F762D300794335</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -696,7 +696,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>02E3F99C12F74F6F00794335</string>
 		<string>02E3F90B12F7409300794335</string>
 		<string>02E3F90C12F7409300794335</string>
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>

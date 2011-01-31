@@ -12,6 +12,7 @@
 #import "ListName.h";
 #import "ListItem.h";
 #import "LightningUtil.h";
+#import "Device.h";
 
 @implementation Lightning
 
@@ -27,13 +28,13 @@
 	return self;
 }
 
-- (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString*)initDeviceToken username:(NSString *)username{
-    
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+- (id)initWithURL:(NSURL *)initUrl andDeviceToken:(NSString*)initDeviceToken username:(NSString *)username context:(NSManagedObjectContext *)context{
 	
 	if(self = [super init]) {
+		[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 		
 		self.url = initUrl;
+		self.context = context;
 		
 		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 		self.lightningId = [userDefaults valueForKey:@"lightningId"];
@@ -290,8 +291,10 @@
 	
 }
 
--(void)updateDevice:(NSString *)updatedDeviceToken andName:(NSString *)updatedName {
+-(void)updateDevice:(NSString *)updatedDeviceToken andName:(NSString *)updatedName context:(NSManagedObjectContext *)context {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
+	self.context = context;
 	
 	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"devices/%@", self.lightningId]];
 	
@@ -330,7 +333,8 @@
 		int status = [error code];
 		NSLog(@"error creating device: %@", status);
 	} else {
-		//Testing methods
+		NSLog(@"created a device %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
+			
 		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
 		SBJSON *parser = [[SBJSON alloc] init];
 		NSDictionary *object = [parser objectWithString:data error:nil];
@@ -340,6 +344,15 @@
 		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 		[userDefaults setValue:self.lightningId forKey:@"lightningId"];
 		[userDefaults setValue:self.lightningSecret forKey:@"lightningSecret"];
+		
+		NSError *error;
+		Device *newDevice = [NSEntityDescription insertNewObjectForEntityForName:@"Device" inManagedObjectContext:self.context];
+		newDevice.deviceName = [object objectForKey:@"name"];;
+		newDevice.deviceIdentifier = [UIDevice currentDevice].uniqueIdentifier;
+		newDevice.lightningId = [NSString stringWithFormat:@"%@", self.lightningId];
+		newDevice.lightningSecret = [NSString stringWithFormat:@"%@", self.lightningSecret];
+		
+		[context save:&error];
 		
 		//[self createListWithTitle:@"poschte"];
 		
