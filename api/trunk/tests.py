@@ -707,7 +707,7 @@ class ListPushTests(Tests):
         
         # mocker screenplay
         self.mock_urbanairship()
-        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 0, 'alert': ""}}, device_tokens=["ABC123"])
+        self.urbanairship.push({'aps': {'badge': 0}}, device_tokens=["ABC123"])
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)

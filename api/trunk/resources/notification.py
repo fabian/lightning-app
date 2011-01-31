@@ -105,8 +105,13 @@ class ListPushResource(ListsResource):
                             notification = x.notification
                             unread = x.device.unread
                             
+                            payload = {'badge': unread}
+                            if notification:
+                                payload['alert'] = notification
+                                payload['lightning_list'] = list.key().id()
+                            
                             # push notification and unread count to Urban Airship
-                            airship.push({'aps': {'alert': notification, 'badge': unread, 'lightning_list': list.key().id()}}, device_tokens=[x.device.device_token])
+                            airship.push({'aps': payload}, device_tokens=[x.device.device_token])
                             
                             logging.debug("Pushed '%s' (%s) to device %s with device token %s.", notification, unread, x.device.key().id(), x.device.device_token)
                             
