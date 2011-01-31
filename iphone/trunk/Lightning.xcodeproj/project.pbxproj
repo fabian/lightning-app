@@ -379,12 +379,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cyril Gabathuler";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cyril Gabathuler (CL5HS4T5E6)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "02ACF783-5A1E-4DCB-A76F-C9ACEF8FDA5F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "393A05E2-C7BD-476A-8635-45DB122A33EF";
 				SDKROOT = iphoneos;
 			};
 			name = "Ad Hoc";
@@ -437,7 +437,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				PRODUCT_NAME = lightning;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A1091DDE-F2C0-41A5-A841-265C90A3AE58";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "393A05E2-C7BD-476A-8635-45DB122A33EF";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;

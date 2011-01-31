@@ -45,6 +45,8 @@
 			NSLog(@"calling Url: %@", [callUrl description]);
 		
 			NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+			[callUrl release];
+			
 			GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 			[GTMHTTPFetcher setLoggingEnabled:YES];
 			
@@ -81,6 +83,8 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	[callUrl release];
+	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
@@ -103,7 +107,8 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
-
+	[callUrl release];
+	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 				
@@ -126,6 +131,8 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	[callUrl release];
+	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
@@ -145,6 +152,8 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	[callUrl release];
+	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
@@ -163,6 +172,8 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	[callUrl release];
+	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
@@ -181,6 +192,8 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	[callUrl release];
+	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
@@ -198,6 +211,8 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	[callUrl release];
+	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
@@ -217,6 +232,8 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	[callUrl release];
+	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
@@ -237,6 +254,8 @@
 	NSLog(@"calling Url: %@", [callUrl description]);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	[callUrl release];
+	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
 	
@@ -252,6 +271,33 @@
 	
 }
 
+-(void)updateDevice:(NSString *)updatedDeviceToken andName:(NSString *)updatedName {
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.url absoluteString] stringByAppendingFormat:@"devices/%@", self.lightningId]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:callUrl];
+	[callUrl release];
+	
+	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	NSString * tokenAsString = [[[updatedDeviceToken description] 
+								 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
+								stringByReplacingOccurrencesOfString:@" " withString:@""];
+	
+	NSString *putString = [NSString stringWithFormat:@"identifier=%@;name=%@;device_token=%@", [UIDevice currentDevice].uniqueIdentifier, updatedName, [tokenAsString uppercaseString]];
+	NSLog(@"%@",putString);
+	[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+	[myFetcher setDeviceHeader:deviceHeader];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishUpdateDevice:error:)];
+	
+}
+
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error {
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
@@ -259,7 +305,7 @@
 		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error creating device");
+		NSLog(@"error creating device: %@", status);
 	} else {
 		//Testing methods
 		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
@@ -274,6 +320,8 @@
 		
 		//[self createListWithTitle:@"poschte"];
 		
+		[parser release];
+		
 		NSLog(@"Response: %@", [object objectForKey:@"secret"]);
 		// fetch succeeded
 	}
@@ -286,13 +334,14 @@
 		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error with creating list");
+		NSLog(@"error with creating list: %i", status);
 	} else {
 		//Testing methods
 		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
 		SBJSON *parser = [[SBJSON alloc] init];
 		NSDictionary *list = [parser objectWithString:data error:nil];
 		
+		[parser release];
 		ListName *listName;
 		
 		listName = [NSEntityDescription insertNewObjectForEntityForName:@"ListName" inManagedObjectContext:self.context];
@@ -317,8 +366,7 @@
         }
 		[self.delegate finishAddingList:[listName objectID]];
 		
-		
-		NSLog(@"created a list with response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		NSLog(@"created a list with response %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 	}
 }
 
@@ -329,13 +377,15 @@
 		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error with creating item on list");
+		NSLog(@"error with creating item on list: %i", status);
 	} else {
-		NSLog(@"created an item with response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		NSLog(@"created an item with response %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 		
 		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
 		SBJSON *parser = [[SBJSON alloc] init];
 		NSDictionary *object = [parser objectWithString:data error:nil];
+		
+		[parser autorelease];
 		
 		NSString *listId = [object objectForKey:@"list"];
 		//Getting acutal List
@@ -381,9 +431,9 @@
 		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error with push to list");
+		NSLog(@"error with push to list: %i", status);
 	} else {
-		NSLog(@"pushed update to list response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		NSLog(@"pushed update to list response %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 	}
 }
 
@@ -394,17 +444,19 @@
 		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error with getLists");
+		NSLog(@"error with getLists: %i", status);
 		
 		//calling the delegate eitherwise, so the coredata data can be displayed
 		[self.delegate finishFetchingLists:retrievedData];
 	} else {
-		NSLog(@"getLists response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		NSLog(@"getLists response %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 		
 		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
 		SBJSON *parser = [[SBJSON alloc] init];
 		NSDictionary *object = [parser objectWithString:data error:nil];
 		NSArray *arrayOfList = [object objectForKey:@"lists"];
+		
+		[parser release];
 		
 		//check if list were delete
 		//check if new list were added
@@ -526,14 +578,16 @@
 		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error with getItemsFromList");
+		NSLog(@"error with getItemsFromList: %i", status);
 		
 	} else {
-		NSLog(@"getItemsFromList response %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		NSLog(@"getItemsFromList response %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 		
 		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
 		SBJSON *parser = [[SBJSON alloc] init];
 		NSDictionary *object = [parser objectWithString:data error:nil];
+		
+		[parser release];
 		
 		NSString *listId = [object objectForKey:@"id"];
 		//Getting acutal List
@@ -601,6 +655,8 @@
 					
 					[context save:&error];
 				}
+				
+				[listItems release];
 			}
 			
 			/*
@@ -624,13 +680,10 @@
 		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error with finishWithShareList");
+		NSLog(@"error with finishWithShareList: %i", status);
 		
 	} else {
-		NSLog(@"finishWithShareList %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
-		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
-		SBJSON *parser = [[SBJSON alloc] init];
-		NSDictionary *object = [parser objectWithString:data error:nil];
+		NSLog(@"finishWithShareList %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 		
 		[self getLists];
 	}
@@ -643,10 +696,10 @@
 		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error with finishedReadList");
+		NSLog(@"error with finishedReadList: %i", status);
 		
 	} else {
-		NSLog(@"finishedReadList %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		NSLog(@"finishedReadList %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 	}
 }
 
@@ -657,10 +710,24 @@
 		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error with finishedUpdateItem");
+		NSLog(@"error with finishedUpdateItem: %i", status);
 		
 	} else {
-		NSLog(@"finishedUpdateItem %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+		NSLog(@"finishedUpdateItem %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishUpdateDevice:(NSData *)retrievedData error:(NSError *)error {
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with finishUpdateDevice: %i", status);
+		
+	} else {
+		NSLog(@"finishUpdateDevice %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 	}
 }
 

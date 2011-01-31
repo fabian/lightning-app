@@ -27,59 +27,72 @@
 	
 	[listEntries.entries addObject:theTextField.text];
 	
-	ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
-	listItem.name = theTextField.text;
-	listItem.creation = [LightningUtil getUTCFormateDate:[NSDate date]];
-	listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
-
-	[listName addListItemsObject:listItem];
-	
-	NSError *error;
-	[context save:&error];
-	
-	self.listItems = [[listName listItems] allObjects];
-	
-	NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
-	NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:listItems];
-	[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
-	self.listItems = sorted;
-	
-	[sorted release];
-	
-	[self.tableView reloadData];
-	
 	//Adding Item to List
-	Lightning *lightning = [[Lightning alloc]init];
+	Lightning *lightning = [[[Lightning alloc]init] autorelease];
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 	
-	//CoreData
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
-	NSPredicate * predicate;
-	predicate = [NSPredicate predicateWithFormat:@"listId == %@", listName.listId];
-	
-	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
-	[fetch setEntity: entity];
-	[fetch setPredicate: predicate];
-	
-	NSArray * results = [context executeFetchRequest:fetch error:nil];
-	[fetch release];
-	
-	if([results count] == 0) {
-		NSLog(@"Something went wrong with CoreData");
-	} else {
-		ListName *listNameCoreData = [results objectAtIndex:0];
+	//if (theTextField.editing) {
 		
-		NSArray *items = [[listNameCoreData listItems] allObjects];
+		/*listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
+		listItem.name = theTextField.text;
+		NSError *error;
+		[context save:&error];
 		
-		for (ListItem *item in items) {
-			if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
-				//NSManagedObjectID *objectID = [item objectID];
-				[lightning addItemToList:(NSString*)listNameCoreData.listId item:item context:self.context];
+		[lightning updateItem:listItem];*/
+	//} else {
+		
+		ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
+		listItem.name = theTextField.text;
+		listItem.creation = [LightningUtil getUTCFormateDate:[NSDate date]];
+		listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
+		
+		[listName addListItemsObject:listItem];
+		
+		NSError *error;
+		[context save:&error];
+		
+		self.listItems = [[listName listItems] allObjects];
+		
+		NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
+		NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:listItems];
+		[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+		self.listItems = sorted;
+		
+		[descriptor release];
+		[sorted release];
+		
+		[self.tableView reloadData];
+		
+		//CoreData
+		NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
+		NSPredicate * predicate;
+		predicate = [NSPredicate predicateWithFormat:@"listId == %@", listName.listId];
+		
+		NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+		[fetch setEntity: entity];
+		[fetch setPredicate: predicate];
+		
+		NSArray * results = [context executeFetchRequest:fetch error:nil];
+		[fetch release];
+		
+		if([results count] == 0) {
+			NSLog(@"Something went wrong with CoreData");
+		} else {
+			ListName *listNameCoreData = [results objectAtIndex:0];
+			
+			NSArray *items = [[listNameCoreData listItems] allObjects];
+			
+			for (ListItem *item in items) {
+				if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+					//NSManagedObjectID *objectID = [item objectID];
+					[lightning addItemToList:(NSString*)listNameCoreData.listId item:item context:self.context];
+				}
 			}
 		}
-	}
-	
+		
+	//}
+
 	//Start the timer
 	NSDate *d = [NSDate dateWithTimeIntervalSinceNow: 15.0];
 	timer = [[NSTimer alloc] initWithFireDate:d interval:0 target:self selector:@selector(pushAfterTimer) userInfo:nil repeats:NO];
@@ -92,21 +105,10 @@
 
 -(void)pushAfterTimer {
 	NSLog(@"pushing after timer");
-	Lightning *lightning = [[Lightning alloc]init];
+	Lightning *lightning = [[[Lightning alloc]init] autorelease];
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
 	[lightning pushUpdateForList:[self.listName listId]];
-}
-
--(NSString *)getUTCFormateDate:(NSDate *)localDate
-{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
-    [dateFormatter setTimeZone:timeZone];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString *dateString = [dateFormatter stringFromDate:localDate];
-	
-    return dateString;
 }
 
 /*- (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -189,7 +191,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
-	Lightning *lightning = [[Lightning alloc] init];
+	Lightning *lightning = [[[Lightning alloc] init] autorelease];
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
 	[lightning readList:[self.listName listId]];
@@ -218,7 +220,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	NSLog(@"pushing because the user is going back to the main view");
-	Lightning *lightning = [[Lightning alloc]init];
+	Lightning *lightning = [[[Lightning alloc]init] autorelease];
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
 	[lightning pushUpdateForList:[self.listName listId]];
@@ -284,13 +286,9 @@
 		
 		CGRect cellFrame = cell.bounds;
 		cellFrame.origin.x += 40;
-		int i = cellFrame.origin.x;
 		cellFrame.origin.y +=5;	
-		int i2 = cellFrame.origin.y;
 		cellFrame.size.width -= 68;
-		int i3 = cellFrame.size.width;
 		cellFrame.size.height -= 5;
-		int i4 = cellFrame.size.height;
 		
 		UITextField *label = [[[UITextField alloc] initWithFrame:cellFrame]autorelease];
 		label.tag = 123;
@@ -361,11 +359,9 @@
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSLog(@"DELETESTYLE");
 	
-	Lightning *lightning = [[Lightning alloc]init];
+	Lightning *lightning = [[[Lightning alloc]init] autorelease];
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
-	
-	
 	
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 	
@@ -390,7 +386,6 @@
 		[context save:&error];
 		
 		[lightning updateItem:listItem];
-		[listItem release];
 		[line release];
 	} else {
 		[existingLine removeFromSuperview];
@@ -403,7 +398,6 @@
 		[context save:&error];
 		
 		[lightning updateItem:listItem];
-		[listItem release];
 		
 	}
 	
@@ -514,7 +508,7 @@
 
 - (void)resignActive {
 	NSLog(@"pushing because user closes the app");
-	Lightning *lightning = [[Lightning alloc]init];
+	Lightning *lightning = [[[Lightning alloc]init] autorelease];
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
 	[lightning pushUpdateForList:[self.listName listId]];
