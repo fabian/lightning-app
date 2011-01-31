@@ -11,6 +11,7 @@
 #import "Lightning.h";
 #import "ListViewController.h";
 #import "LightningUtil.h";
+#import "Device.h";
 
 @implementation LightningAppDelegate
 
@@ -96,7 +97,7 @@
 }
 
 - (void)setupLightning {
-	Lightning *lighting = [[Lightning alloc] initWithURL:self.apiUrl andDeviceToken:self.deviceToken username:[self getUsername]];
+	Lightning *lighting = [[Lightning alloc] initWithURL:self.apiUrl andDeviceToken:self.deviceToken username:[self getUsername] context:self.context];
 }
 
 - (NSString *)getUsername {
@@ -109,7 +110,7 @@
 - (void)setupPersistentStore
 {
 	NSString *docDir = [self applicationDocumentsDirectory];
-	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning16.sqlite"];
+	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning17.sqlite"];
 	
 	NSURL *urlForPath = [NSURL fileURLWithPath:pathToDb];
 	NSError *error;
@@ -138,10 +139,35 @@
 	
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	
-	if ([userDefaults valueForKey:@"lightningId"] != nil && [userDefaults valueForKey:@"lightningSecret"]) {
-		Lightning *updateLightning = [[Lightning alloc]init];
+	NSError *error;
+	NSFetchRequest *req = [NSFetchRequest new];
+	if(self.context == nil)
+		NSLog(@"context is nil");
+	NSEntityDescription *descr = [NSEntityDescription entityForName:@"Device" inManagedObjectContext:self.context];
+	[req setEntity:descr];
+	
+	NSArray * results = [context executeFetchRequest:req error:nil];
+	[req release];
+	
+	
+	if ([userDefaults valueForKey:@"lightningId"] != nil && [userDefaults valueForKey:@"lightningSecret"] != nil) {
+		Lightning *updateLightning = [[[Lightning alloc]init] autorelease];
 		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
-		[updateLightning updateDevice:self.deviceToken andName:[self getUsername]];
+		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];
+	} else if ([results count] > 0) {
+		Device *device = [results objectAtIndex:0];
+		
+		[userDefaults setValue:device.lightningId forKey:@"lightningId"];
+		[userDefaults setValue:device.lightningId forKey:@"lightningSecret"];
+		
+		device.deviceName = [self getUsername];
+		device.deviceIdentifier = [UIDevice currentDevice].uniqueIdentifier;
+		
+		[context save:&error];
+		
+		Lightning *updateLightning = [[[Lightning alloc]init] autorelease];
+		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];
 	} else {
 		self.setupLightning;
 	}
@@ -154,7 +180,41 @@
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
 	//simulator testing
 	self.deviceToken = @"56388792DCFAA3C4A08CDBAFEE90467607C44C8196A021BEEBC5AE7988164EAA";
-	self.setupLightning;
+	
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	
+	NSError *error;
+	NSFetchRequest *req = [NSFetchRequest new];
+	if(self.context == nil)
+		NSLog(@"context is nil");
+	NSEntityDescription *descr = [NSEntityDescription entityForName:@"Device" inManagedObjectContext:self.context];
+	[req setEntity:descr];
+	
+	NSArray * results = [context executeFetchRequest:req error:nil];
+	[req release];
+	
+	
+	if ([userDefaults valueForKey:@"lightningId"] == nil && [userDefaults valueForKey:@"lightningSecret"] == nil) {
+		Lightning *updateLightning = [[[Lightning alloc]init] autorelease];
+		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];
+	} else if ([results count] > 0) {
+		Device *device = [results objectAtIndex:0];
+		
+		[userDefaults setValue:device.lightningId forKey:@"lightningId"];
+		[userDefaults setValue:device.lightningId forKey:@"lightningSecret"];
+		
+		device.deviceName = [self getUsername];
+		device.deviceIdentifier = [UIDevice currentDevice].uniqueIdentifier;
+		
+		[context save:&error];
+		
+		Lightning *updateLightning = [[[Lightning alloc]init] autorelease];
+		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
+		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];
+	} else {
+		self.setupLightning;
+	}
 	
     NSLog(@"Error in registration. Error: %@", err);
 }
