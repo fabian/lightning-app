@@ -11,11 +11,12 @@
 #import	"ListName.h"
 #import <CoreData/CoreData.h>
 #import "Lightning.h"
+#import "ItemTableViewCell.h";
 
 @interface ListViewController : UITableViewController <UITextFieldDelegate, UITextInputTraits, LightningDelegate> {
 	ListEntries *listEntries;
 	Boolean keyboardShown;
-	UITableViewCell *activeCell;
+	ItemTableViewCell *activeCell;
 	NSArray *listItems;
 	ListName *listName;
 	NSManagedObjectContext *context;

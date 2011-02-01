@@ -281,13 +281,11 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>35</integer>
-									<integer>25</integer>
-									<integer>0</integer>
+									<integer>86</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {258, 1060}}</string>
+							<string>{{0, 453}, {258, 1060}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -322,7 +320,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>02EDDBC21129D1C800E23D03</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>LightningAppDelegate.m</string>
+								<string>ListViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -330,11 +328,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>02EDDBC31129D1C800E23D03</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>LightningAppDelegate.m</string>
+										<string>ListViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>02255FDB12F89F03005DE37E</string>
+										<string>0225603512F8A6A6005DE37E</string>
 										<key>history</key>
 										<array>
 											<string>029CF9D911332CCA00D6942C</string>
@@ -349,18 +347,14 @@
 											<string>028231B1124946D800480310</string>
 											<string>028231B2124946D800480310</string>
 											<string>02BF568C126CD91B00573423</string>
-											<string>02DA0CD9126F8FDC00EA2D60</string>
 											<string>02DA0CDB126F8FDC00EA2D60</string>
 											<string>02DA11DE1272E66E00EA2D60</string>
 											<string>02DA124312732CB500EA2D60</string>
 											<string>027B5CE51278A2C8003F8DD1</string>
 											<string>02F0611112DC7B6700BE4D10</string>
-											<string>02EC4CBC12E783DD00BAD6A8</string>
 											<string>02EC4CC312E783DD00BAD6A8</string>
 											<string>02FC8ED512F1C93800FE45AD</string>
 											<string>02FC8F5912F1E67000FE45AD</string>
-											<string>02FC8F8F12F1EA9B00FE45AD</string>
-											<string>02FC901612F1F5FC00FE45AD</string>
 											<string>02FC908212F22A6900FE45AD</string>
 											<string>02FC908312F22A6900FE45AD</string>
 											<string>021D633512F3391900ED2F11</string>
@@ -370,17 +364,23 @@
 											<string>021D636512F33B2D00ED2F11</string>
 											<string>021D636612F33B2D00ED2F11</string>
 											<string>021D639712F3416100ED2F11</string>
-											<string>021D63E112F3487C00ED2F11</string>
 											<string>02E3F9D912F7588500794335</string>
 											<string>02E3FA3E12F7629A00794335</string>
 											<string>02255F9212F87C0E005DE37E</string>
-											<string>02255FB912F89CDE005DE37E</string>
 											<string>02255FC012F89D92005DE37E</string>
 											<string>02255FC112F89D92005DE37E</string>
 											<string>02255FC212F89D92005DE37E</string>
-											<string>02255FC712F89E09005DE37E</string>
 											<string>02255FCC12F89EA4005DE37E</string>
-											<string>02255FD912F89ED8005DE37E</string>
+											<string>02255FE112F89F93005DE37E</string>
+											<string>02255FFB12F8A27E005DE37E</string>
+											<string>02255FFC12F8A27E005DE37E</string>
+											<string>02255FFD12F8A27E005DE37E</string>
+											<string>02255FFE12F8A27E005DE37E</string>
+											<string>0225601412F8A4E9005DE37E</string>
+											<string>0225601512F8A4E9005DE37E</string>
+											<string>0225601612F8A4E9005DE37E</string>
+											<string>0225601712F8A4E9005DE37E</string>
+											<string>0225603212F8A65F005DE37E</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -420,6 +420,8 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1640, 295}}</string>
+										<key>RubberWindowFrame</key>
+										<string>0 59 1920 1119 0 0 1920 1178 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -474,8 +476,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1640, 295}}</string>
-										<key>RubberWindowFrame</key>
-										<string>0 59 1920 1119 0 0 1920 1178 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -697,6 +697,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>0225601D12F8A503005DE37E</string>
+		<string>0225601E12F8A503005DE37E</string>
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

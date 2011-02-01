@@ -32,15 +32,17 @@
 	lightning.delegate = self;
 	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 	
-	//if (theTextField.editing) {
+	if (activeCell.editing) {
 		
-		/*listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
+		ListItem *listItem = [self.listItems objectAtIndex:activeCell.indexPath.row];
+		listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
 		listItem.name = theTextField.text;
 		NSError *error;
 		[context save:&error];
 		
-		[lightning updateItem:listItem];*/
-	//} else {
+		[lightning updateItem:listItem];
+		[self.tableView reloadData];
+	} else {
 		
 		ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:context];
 		listItem.name = theTextField.text;
@@ -52,10 +54,11 @@
 		NSError *error;
 		[context save:&error];
 		
-		self.listItems = [[listName listItems] allObjects];
+		[lightning addItemToList:listName.listId item:listItem context:self.context];
+
 		
 		NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
-		NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:listItems];
+		NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[[listName listItems] allObjects]];
 		[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
 		self.listItems = sorted;
 		
@@ -64,34 +67,7 @@
 		
 		[self.tableView reloadData];
 		
-		//CoreData
-		NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
-		NSPredicate * predicate;
-		predicate = [NSPredicate predicateWithFormat:@"listId == %@", listName.listId];
-		
-		NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
-		[fetch setEntity: entity];
-		[fetch setPredicate: predicate];
-		
-		NSArray * results = [context executeFetchRequest:fetch error:nil];
-		[fetch release];
-		
-		if([results count] == 0) {
-			NSLog(@"Something went wrong with CoreData");
-		} else {
-			ListName *listNameCoreData = [results objectAtIndex:0];
-			
-			NSArray *items = [[listNameCoreData listItems] allObjects];
-			
-			for (ListItem *item in items) {
-				if (item.listItemId == nil || [item.listItemId isEqualToNumber:[NSNumber numberWithInt:0]]) {
-					//NSManagedObjectID *objectID = [item objectID];
-					[lightning addItemToList:(NSString*)listNameCoreData.listId item:item context:self.context];
-				}
-			}
-		}
-		
-	//}
+	}
 
 	//Start the timer
 	NSDate *d = [NSDate dateWithTimeIntervalSinceNow: 15.0];
@@ -120,6 +96,15 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
 	NSLog(@"Fii");
+	
+	activeCell = (ItemTableViewCell*)textField.superview.superview;
+	
+	if ([textField.text length] > 0) {
+		activeCell.editing = true;
+	} else {
+		activeCell.editing = false;
+	}
+
 	
 	//Kill timer
 	if ([timer isValid]) {
@@ -272,9 +257,11 @@
     
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[ItemTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell.indexPath = indexPath;
 		
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
@@ -410,7 +397,7 @@
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
-	NSLog(@"select row?");
+	NSLog(@"didSelectRowAtIndexPath");
 }
 
 
@@ -418,6 +405,7 @@
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
+		NSLog(@"canEditRowAtIndexPath");
     return YES;
 }
 
@@ -427,6 +415,7 @@
 // Override to support editing the table view.
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSLog(@"commitEditingStyle");
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
@@ -502,7 +491,6 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    activeCell = (UITableViewCell*)textField.superview.superview;
 	NSLog(@"start");
 }
 

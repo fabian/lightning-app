@@ -10,6 +10,7 @@
 		021D639012F3408F00ED2F11 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 021D638F12F3408F00ED2F11 /* ListItem.m */; };
 		0224FCC61163A9E900AFD56C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0224FCC51163A9E900AFD56C /* CoreData.framework */; };
 		0224FE9C1165507700AFD56C /* Lightning.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */; };
+		02255FF212F8A0FC005DE37E /* ItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 02255FF112F8A0FC005DE37E /* ItemTableViewCell.m */; };
 		02822F43124298F600480310 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 02822F41124298F600480310 /* GTMHTTPFetcher.m */; };
 		02822FAC1242A3DD00480310 /* GTMHTTPFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 02822FAA1242A3DD00480310 /* GTMHTTPFetcherLogging.m */; };
 		029CF8A51133166200D6942C /* bottom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 029CF8A11133166200D6942C /* bottom.jpg */; };
@@ -54,6 +55,8 @@
 		021D638F12F3408F00ED2F11 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
 		0224FCC51163A9E900AFD56C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0224FE9B1165507700AFD56C /* Lightning.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Lightning.xcdatamodel; sourceTree = "<group>"; };
+		02255FF012F8A0FC005DE37E /* ItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemTableViewCell.h; sourceTree = "<group>"; };
+		02255FF112F8A0FC005DE37E /* ItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemTableViewCell.m; sourceTree = "<group>"; };
 		02822F41124298F600480310 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcher.m; sourceTree = "<group>"; };
 		02822F42124298F600480310 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcher.h; sourceTree = "<group>"; };
 		02822FAA1242A3DD00480310 /* GTMHTTPFetcherLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogging.m; sourceTree = "<group>"; };
@@ -191,6 +194,8 @@
 				02BA5F2C115A92A9002AAD93 /* AddNewGroup.m */,
 				02FC8F8612F1E9F800FE45AD /* Line.h */,
 				02FC8F8712F1E9F800FE45AD /* Line.m */,
+				02255FF012F8A0FC005DE37E /* ItemTableViewCell.h */,
+				02255FF112F8A0FC005DE37E /* ItemTableViewCell.m */,
 			);
 			name = View;
 			path = Classes;
@@ -393,6 +398,7 @@
 				02FC8F8812F1E9F800FE45AD /* Line.m in Sources */,
 				021D639012F3408F00ED2F11 /* ListItem.m in Sources */,
 				02E3F9D412F7581700794335 /* Device.m in Sources */,
+				02255FF212F8A0FC005DE37E /* ItemTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,7 +462,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cyril Gabathuler (CL5HS4T5E6)";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
