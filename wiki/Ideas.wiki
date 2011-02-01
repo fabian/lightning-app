@@ -9,8 +9,7 @@ any ideas from us
 
 == TestFlightApp(Build number) ==
   * http://support.testflightapp.com/kb/tutorials/how-version-numbers-are-set
-  * http://imthi.com/blog/programming/auto-increment-build-number-date-in-xcode-iphone-project.php
-  * http://stackoverflow.com/questions/4145733/infodictionary-build-number-not-synchronized-with-plist
+  * http://useyourloaf.com/blog/2010/8/18/setting-iphone-application-build-versions.html
 == Pull to Refresh ==
   * https://github.com/enormego/EGOTableViewPullRefresh
 
