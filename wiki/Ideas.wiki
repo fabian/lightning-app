@@ -6,6 +6,9 @@ any ideas from us
 
 
 = Details =
+
+== TestFlightApp ==
+  * http://support.testflightapp.com/kb/tutorials/how-version-numbers-are-set
 == Pull to Refresh ==
   * https://github.com/enormego/EGOTableViewPullRefresh
 
