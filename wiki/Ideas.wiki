@@ -9,6 +9,7 @@ any ideas from us
 
 == TestFlightApp ==
   * http://support.testflightapp.com/kb/tutorials/how-version-numbers-are-set
+  * http://imthi.com/blog/programming/auto-increment-build-number-date-in-xcode-iphone-project.php
 == Pull to Refresh ==
   * https://github.com/enormego/EGOTableViewPullRefresh
 
