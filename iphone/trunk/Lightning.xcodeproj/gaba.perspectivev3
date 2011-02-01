@@ -281,6 +281,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>35</integer>
+									<integer>25</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -313,12 +315,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>02EDDBC21129D1C800E23D03</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Lightning-Info.plist</string>
+								<string>LightningAppDelegate.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,11 +330,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>02EDDBC31129D1C800E23D03</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Lightning-Info.plist</string>
+										<string>LightningAppDelegate.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>02255FBB12F89CDE005DE37E</string>
+										<string>02255FDB12F89F03005DE37E</string>
 										<key>history</key>
 										<array>
 											<string>029CF9D911332CCA00D6942C</string>
@@ -354,8 +358,6 @@
 											<string>02EC4CBC12E783DD00BAD6A8</string>
 											<string>02EC4CC312E783DD00BAD6A8</string>
 											<string>02FC8ED512F1C93800FE45AD</string>
-											<string>02FC8F1812F1CE7E00FE45AD</string>
-											<string>02FC8F1F12F1CECE00FE45AD</string>
 											<string>02FC8F5912F1E67000FE45AD</string>
 											<string>02FC8F8F12F1EA9B00FE45AD</string>
 											<string>02FC901612F1F5FC00FE45AD</string>
@@ -369,14 +371,16 @@
 											<string>021D636612F33B2D00ED2F11</string>
 											<string>021D639712F3416100ED2F11</string>
 											<string>021D63E112F3487C00ED2F11</string>
-											<string>021D63E412F353CF00ED2F11</string>
 											<string>02E3F9D912F7588500794335</string>
 											<string>02E3FA3E12F7629A00794335</string>
-											<string>02E3FA4412F762D300794335</string>
-											<string>0260107412F8762A0073890C</string>
 											<string>02255F9212F87C0E005DE37E</string>
 											<string>02255FB912F89CDE005DE37E</string>
-											<string>02255FBA12F89CDE005DE37E</string>
+											<string>02255FC012F89D92005DE37E</string>
+											<string>02255FC112F89D92005DE37E</string>
+											<string>02255FC212F89D92005DE37E</string>
+											<string>02255FC712F89E09005DE37E</string>
+											<string>02255FCC12F89EA4005DE37E</string>
+											<string>02255FD912F89ED8005DE37E</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -390,18 +394,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1640, 763}}</string>
+								<string>{{0, 0}, {1640, 751}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 59 1920 1119 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>763pt</string>
+							<string>751pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>310pt</string>
+							<string>322pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -415,9 +419,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1640, 283}}</string>
-										<key>RubberWindowFrame</key>
-										<string>0 59 1920 1119 0 0 1920 1178 </string>
+										<string>{{10, 27}, {1640, 295}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -471,7 +473,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1160, 267}}</string>
+										<string>{{10, 27}, {1640, 295}}</string>
+										<key>RubberWindowFrame</key>
+										<string>0 59 1920 1119 0 0 1920 1178 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>

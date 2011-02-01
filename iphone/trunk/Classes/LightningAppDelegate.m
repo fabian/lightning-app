@@ -158,7 +158,7 @@
 		Device *device = [results objectAtIndex:0];
 		
 		[userDefaults setValue:device.lightningId forKey:@"lightningId"];
-		[userDefaults setValue:device.lightningId forKey:@"lightningSecret"];
+		[userDefaults setValue:device.lightningSecret forKey:@"lightningSecret"];
 		
 		device.deviceName = [self getUsername];
 		device.deviceIdentifier = [UIDevice currentDevice].uniqueIdentifier;
