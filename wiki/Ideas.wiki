@@ -12,6 +12,7 @@ any ideas from us
   * http://useyourloaf.com/blog/2010/8/18/setting-iphone-application-build-versions.html
 == Pull to Refresh ==
   * https://github.com/enormego/EGOTableViewPullRefresh
+  * http://blog.blackwhale.at/2009/07/uibutton-in-uitableview-footer/
 
 == Reachability ==
   * http://iphonedevelopertips.com/objective-c/class-variables.html
