@@ -26,6 +26,9 @@ any ideas from us
   * http://cocoawithlove.com/2009/04/showing-message-over-iphone-keyboard.html
   * http://stackoverflow.com/questions/849458/transparent-modal-view-on-navigation-controller
 
+== Tab bar ==
+  * http://web0.at/blog/?p=38
+
 == New ones ==
   *back button 10 characters, table title 15 characters
   *How to delete entries which are strike-through
