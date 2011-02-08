@@ -2,12 +2,12 @@ import os
 import logging
 import binascii
 import urbanairship
-import settings
-from util import Resource, json, device_required
+from util import Resource, json, device_required, environment
 from models import Device
 
 class DevicesResource(Resource):
     
+    @environment
     @json
     def post(self):
         
@@ -22,7 +22,7 @@ class DevicesResource(Resource):
         
         if device.device_token:
             # register with Urban Airship
-            airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
+            airship = urbanairship.Airship(self.settings.URBANAIRSHIP_APPLICATION_KEY, self.settings.URBANAIRSHIP_MASTER_SECRET)
             airship.register(device.device_token, alias=str(device.key()))
             
             logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
@@ -37,6 +37,7 @@ class DevicesResource(Resource):
 
 class DeviceResource(Resource):
     
+    @environment
     @device_required
     @json
     def put(self, id):
@@ -63,7 +64,7 @@ class DeviceResource(Resource):
                     device.device_token = ''.join(device_token)
                     
                     # register with Urban Airship
-                    airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
+                    airship = urbanairship.Airship(self.settings.URBANAIRSHIP_APPLICATION_KEY, self.settings.URBANAIRSHIP_MASTER_SECRET)
                     airship.register(device.device_token, alias=str(device.key()))
                     
                     logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)

@@ -4,8 +4,7 @@ import binascii
 from datetime import datetime
 from google.appengine.api import taskqueue
 import urbanairship
-import settings
-from util import Resource, json, device_required
+from util import Resource, json, device_required, environment
 from models import List, Item, Log
 
 class ItemsResource(Resource):
@@ -32,6 +31,7 @@ class ItemsResource(Resource):
         url = u"%s://%s/api/items/%s" % (protocol, host, id)
         return url
     
+    @environment
     @device_required
     @json
     def post(self):
@@ -55,7 +55,7 @@ class ItemsResource(Resource):
                 # log action for notification
                 log = Log(device=self.get_auth(), item=item, list=list, action='added')
                 log.put()
-                taskqueue.add(url='/api/lists/%s/unread' % list.key().id())
+                taskqueue.add(url='/api/lists/%s/unread' % list.key().id(), headers={'Environment': self.environment})
                 
                 protocol = self.request._environ['wsgi.url_scheme']
                 host = self.request._environ['HTTP_HOST']
@@ -91,6 +91,7 @@ class ItemResource(ItemsResource):
             self.error(404)
             self.response.out.write("Item %s not found" % id)
     
+    @environment
     @device_required
     @json
     def put(self, id):
@@ -120,7 +121,7 @@ class ItemResource(ItemsResource):
                     # log action for notification
                     log = Log(device=self.get_auth(), item=item, list=item.list, action='modified', old=old)
                     log.put()
-                    taskqueue.add(url='/api/lists/%s/unread' % item.list.key().id())
+                    taskqueue.add(url='/api/lists/%s/unread' % item.list.key().id(), headers={'Environment': self.environment})
                     
                     return {'id': id, 'url': self.url(item), 'value': item.value, 'done': item.done, 'modified': item.modified.strftime(self.DATE_FORMAT)}
                     
@@ -134,6 +135,7 @@ class ItemResource(ItemsResource):
             self.error(404)
             self.response.out.write("Item %s not found" % id)
     
+    @environment
     @device_required
     def delete(self, id):
         
@@ -151,7 +153,7 @@ class ItemResource(ItemsResource):
                 # log action for notification
                 log = Log(device=self.get_auth(), item=item, list=item.list, action='deleted', old=item.value)
                 log.put()
-                taskqueue.add(url='/api/lists/%s/unread' % item.list.key().id())
+                taskqueue.add(url='/api/lists/%s/unread' % item.list.key().id(), headers={'Environment': self.environment})
                 
                 return {}
             

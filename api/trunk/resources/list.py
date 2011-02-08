@@ -2,7 +2,6 @@ import os
 import logging
 import binascii
 import urbanairship
-import settings
 from util import Resource, json, device_required
 from models import ListDevice, Device, List, Item
 
