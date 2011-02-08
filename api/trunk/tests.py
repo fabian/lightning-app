@@ -19,6 +19,7 @@ from resources.item import ItemsResource, ItemResource
 import models
 import api
 import notifications
+import util
 
 
 class Tests(mocker.MockerTestCase):
@@ -27,12 +28,12 @@ class Tests(mocker.MockerTestCase):
         apiproxy_stub_map.apiproxy = apiproxy_stub_map.APIProxyStubMap()
         stub = datastore_file_stub.DatastoreFileStub('lightning-app', None, None)
         apiproxy_stub_map.apiproxy.RegisterStub('datastore', stub)
-        stub = apiproxy_stub_map.apiproxy.GetStub('taskqueue')
-        apiproxy_stub_map.apiproxy.RegisterStub('taskqueue', taskqueue_stub.TaskQueueServiceStub())
+        self.taskqueue_stub = taskqueue_stub.TaskQueueServiceStub()
+        apiproxy_stub_map.apiproxy.RegisterStub('taskqueue', self.taskqueue_stub)
     
-    def mock_urbanairship(self):
+    def mock_urbanairship(self, key='', secret=''):
         airship = self.mocker.replace("urbanairship.Airship")
-        airship(mocker.ANY, mocker.ANY)
+        airship(key, secret)
         self.mocker.count(1, None)
         self.urbanairship = self.mocker.mock()
         self.mocker.result(self.urbanairship)
@@ -55,8 +56,9 @@ class DevicesTests(Tests):
 
     def setUp(self):
         self.stub_datastore()
+        self.mock_secret()
     
-    def test_create_device(self):
+    def mock_secret(self):
         
         random = self.mocker.replace("os.urandom")
         random(64)
@@ -65,6 +67,8 @@ class DevicesTests(Tests):
         hexlify = self.mocker.replace("binascii.hexlify")
         hexlify("84763")
         self.mocker.result("abc")
+    
+    def test_create_device(self):
         
         self.mock_urbanairship()
         self.urbanairship.register("EC1A770EE68DDC468FC3DFC0DB77BEC534EB2F6F4368B103EDF410D89B5D5CC0", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
@@ -77,19 +81,20 @@ class DevicesTests(Tests):
     
     def test_create_device_without_token(self):
         
-        random = self.mocker.replace("os.urandom")
-        random(64)
-        self.mocker.result("84763")
-        
-        hexlify = self.mocker.replace("binascii.hexlify")
-        hexlify("84763")
-        self.mocker.result("abc")
-        
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         response = test.post("/api/devices", {'name': "My random device", 'identifier': "000-000-000"})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
+    
+    def test_enviroment(self):
+        
+        self.mock_urbanairship('Adr6zi712Z', 'Jei1co955G')
+        self.urbanairship.register(mocker.ANY, alias=mocker.ANY)
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345", 'device_token': "789012"}, headers={'Environment': 'test'})
 
 
 class DeviceTests(Tests):
@@ -418,6 +423,12 @@ class ItemsTests(Tests):
         response = self.test.post("/api/items", {'list': "3", 'value': "Milk"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/5", "list": 3, "id": 5, "value": "Milk"}')
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 1)
+        for task in tasks:
+            self.assertEqual(task['url'], '/api/lists/3/unread')
+            self.assertEqual(task['headers'][0], ('Environment', ''))
     
     def test_wrong_list(self):
         
@@ -436,7 +447,17 @@ class ItemsTests(Tests):
         response = self.test.post("/api/items", {'list': "3", 'value': "Milk"}, headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
         
         self.assertEqual(response.body, "Authenticated device 2 has no access to list of item")
+    
+    def test_environment(self):
         
+        response = self.test.post("/api/items", {'list': "3", 'value': "Milk"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc', 'Environment': 'test'})
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 1)
+        for task in tasks:
+            self.assertEqual(task['url'], '/api/lists/3/unread')
+            self.assertEqual(task['headers'][0], ('Environment', 'test'))
+    
 
 class ItemTests(Tests):
 
@@ -495,30 +516,58 @@ class ItemTests(Tests):
         item = models.Item.get_by_id(7)
         self.assertEqual(item.value, "New Value")
         self.assertTrue(item.done)
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 1)
+        for task in tasks:
+            self.assertEqual(task['url'], '/api/lists/4/unread')
+            self.assertEqual(task['headers'][0], ('Environment', ''))
     
     def test_update_conflict_item(self):
         
         response = self.test.put("/api/items/7", {'value': "Old Value", 'modified': "2010-06-29 12:00:00"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=409)
         
         self.assertEqual(response.body, "Conflict, has later modification")
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 0)
     
     def test_update_wrong_id(self):
         
         response = self.test.put("/api/items/99", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, 'Item 99 not found')
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 0)
     
     def test_update_invalid_id(self):
         
         response = self.test.put("/api/items/aaa", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, 'Item aaa not found')
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 0)
     
     def test_update_no_access(self):
         
         response = self.test.put("/api/items/7", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/3?secret=qwert'}, status=403)
         
         self.assertEqual(response.body, 'Authenticated device 3 has no access to list of item')
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 0)
+    
+    def test_update_environment(self):
+        
+        response = self.test.put("/api/items/7", {'value': "New Value", 'done': "1",  'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc', 'Environment': 'test'})
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 1)
+        for task in tasks:
+            self.assertEqual(task['url'], '/api/lists/4/unread')
+            self.assertEqual(task['headers'][0], ('Environment', 'test'))
     
     def test_delete_item(self):
         
@@ -528,18 +577,40 @@ class ItemTests(Tests):
         
         item = models.Item.get_by_id(7)
         self.assertTrue(item.deleted)
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 1)
+        for task in tasks:
+            self.assertEqual(task['url'], '/api/lists/4/unread')
+            self.assertEqual(task['headers'][0], ('Environment', ''))
     
     def test_delete_wrong_id(self):
         
         response = self.test.delete("/api/items/aaa", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, 'Item aaa not found')
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 0)
     
     def test_delete_no_access(self):
         
         response = self.test.delete("/api/items/7", headers={'Device': 'http://localhost:80/api/devices/3?secret=qwert'}, status=403)
         
         self.assertEqual(response.body, 'Authenticated device 3 has no access to list of item')
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 0)
+    
+    def test_delete_environment(self):
+        
+        response = self.test.delete("/api/items/7", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc', 'Environment': 'test'})
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 1)
+        for task in tasks:
+            self.assertEqual(task['url'], '/api/lists/4/unread')
+            self.assertEqual(task['headers'][0], ('Environment', 'test'))
 
 
 class ListReadTests(Tests):
@@ -569,6 +640,12 @@ class ListReadTests(Tests):
         listdevice = models.ListDevice.get_by_id(3)
         self.assertNotEqual(listdevice.read, datetime(2010, 01, 01, 12, 00, 00))
         self.assertEqual(listdevice.unread, 0)
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 1)
+        for task in tasks:
+            self.assertEqual(task['url'], '/api/lists/2/unread')
+            self.assertEqual(task['headers'][0], ('Environment', ''))
     
     def test_read_wrong_id(self):
         
@@ -614,6 +691,19 @@ class ListReadTests(Tests):
         response = test.post("/api/lists/2/devices/aaa/read", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
         
         self.assertEqual(response.body, "Device aaa not found")
+    
+    def test_environment(self):
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/devices/1/read", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc', 'Environment': 'test'})
+        
+        tasks = self.taskqueue_stub.GetTasks('default')
+        self.assertEquals(len(tasks), 1)
+        for task in tasks:
+            self.assertEqual(task['url'], '/api/lists/2/unread')
+            self.assertEqual(task['headers'][0], ('Environment', 'test'))
 
 
 class ListPushTests(Tests):
@@ -762,6 +852,20 @@ class ListPushTests(Tests):
         response = test.post("/api/lists/2/devices/aaa/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
         
         self.assertEqual(response.body, "Device to exclude aaa not found")
+    
+    def test_environment(self):
+        
+        log = models.Log(device=self.device, item=self.item_six, list=self.list, action='deleted', old="Margarine", happened=datetime(2010, 04, 01, 00, 00, 00))
+        log.put()
+        
+        # mocker screenplay
+        self.mock_urbanairship('Adr6zi712Z', 'Jei1co955G')
+        self.urbanairship.push(mocker.ANY, device_tokens=mocker.ANY)
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc', 'Environment': 'test'})
 
 
 class UnreadTests(Tests):

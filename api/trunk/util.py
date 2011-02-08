@@ -42,6 +42,28 @@ def device_required(handler_method):
     
     return check_device
 
+def environment(handler_method):
+    
+    ENVIRONMENTS = ('test', 'development', 'production')
+    
+    def get_environment(self, *args):
+        
+        # default settings
+        self.settings = __import__('settings')
+        
+        try:
+            # read environment
+            self.environment = self.request.headers["Environment"]
+        
+        except KeyError:
+            self.environment = ''
+        
+        if self.environment in ENVIRONMENTS:
+            self.settings = __import__('settings_' + self.environment)
+        
+        return handler_method(self, *args)
+    
+    return get_environment
 
 class Resource(webapp.RequestHandler):
     

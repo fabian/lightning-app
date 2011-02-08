@@ -2,16 +2,16 @@ import os
 import logging
 import binascii
 import urbanairship
-import settings
 from datetime import datetime
 from google.appengine.api import taskqueue
-from util import Resource, json, device_required
+from util import Resource, json, device_required, environment
 from models import Device, List
 from notifications import Unread
 from resources.list import ListsResource
 
 class ListReadResource(ListsResource):
     
+    @environment
     @device_required
     @json
     def post(self, list_id, device_id):
@@ -39,7 +39,7 @@ class ListReadResource(ListsResource):
                         x.put()
                     
                     # recollect unread count
-                    taskqueue.add(url='/api/lists/%s/unread' % list.key().id())
+                    taskqueue.add(url='/api/lists/%s/unread' % list.key().id(), headers={'Environment': self.environment})
                     
                     return {'list': list.key().id(), 'device': device.key().id()}
                     
@@ -75,6 +75,7 @@ class ListUnreadResource(ListsResource):
 
 class ListPushResource(ListsResource):
     
+    @environment
     @device_required
     @json
     def post(self, list_id, device_id):
@@ -97,7 +98,7 @@ class ListPushResource(ListsResource):
                 if exclude:
                     
                     devices = []
-                    airship = urbanairship.Airship(settings.URBANAIRSHIP_APPLICATION_KEY, settings.URBANAIRSHIP_MASTER_SECRET)
+                    airship = urbanairship.Airship(self.settings.URBANAIRSHIP_APPLICATION_KEY, self.settings.URBANAIRSHIP_MASTER_SECRET)
                     
                     for x in list.listdevice_set.filter('device != ', exclude):
                         if x.device.device_token:
