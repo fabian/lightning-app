@@ -16,6 +16,10 @@
 
 @synthesize lists, context, listNames;
 
+- (void) drawRect:(CGRect)rect {
+    UIImage *barImage = [UIImage imageNamed:@"tabbar.png"];
+    [barImage drawInRect:rect];
+}
 
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.

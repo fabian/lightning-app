@@ -303,6 +303,7 @@
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				0260107312F876240073890C /* ShellScript */,
+				029A942E1301B9C500283428 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -375,6 +376,19 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/bash\n# Auto Increment Version Script\n";
 		};
+		029A942E1301B9C500283428 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n# Auto Increment Version Script\nbuildPlist=\"Lightning-Info.plist\"\nCFBundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" $buildPlist)\nCFBundleVersion=$(($CFBundleVersion + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $CFBundleVersion\" $buildPlist";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -417,13 +431,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cyril Gabathuler (CL5HS4T5E6)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cyril Gabathuler";
 				CURRENT_PROJECT_VERSION = 5;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "393A05E2-C7BD-476A-8635-45DB122A33EF";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8817D788-727A-4972-9138-32089727851B";
 				SDKROOT = iphoneos;
 				VERSIONING_SYSTEM = "";
 			};
@@ -433,6 +448,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Lightning_Prefix.pch;
@@ -445,6 +461,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -459,6 +476,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "~/Documents/Projects/Lightning/Entitlements.plist";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Lightning_Prefix.pch;

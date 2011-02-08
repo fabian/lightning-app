@@ -128,6 +128,7 @@ const NSTimeInterval kDefaultMaxUploadRetryInterval = 60.0 * 10.;
   [proxyCredential_ release];
   [postData_ release];
   [deviceHeader_ release];
+  [environment_ release];
   [postStream_ release];
   [putData_ release];
   [putStream_ release];
@@ -227,6 +228,7 @@ const NSTimeInterval kDefaultMaxUploadRetryInterval = 60.0 * 10.;
   }
 	
   [request_ addValue:self.deviceHeader forHTTPHeaderField:@"Device"]; // header name
+  [request_ addValue:self.environment forHTTPHeaderField:@"Environment"]; // environment
 
   [fetchHistory_ updateRequest:request_ isHTTPGet:isEffectiveHTTPGet];
 
@@ -1049,6 +1051,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 @synthesize putData = putData_;
 @synthesize putStream = putStream_;
 @synthesize	deviceHeader = deviceHeader_;
+@synthesize	environment = environment_;
 @synthesize sentDataSelector = sentDataSEL_;
 @synthesize receivedDataSelector = receivedDataSEL_;
 @synthesize retrySelector = retrySEL_;
