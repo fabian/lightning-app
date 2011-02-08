@@ -285,6 +285,7 @@ void AssertSelectorNilOrImplementedWithArguments(id obj, SEL sel, ...);
   NSData *putData_;
   NSInputStream *putStream_;
   NSString *deviceHeader_;
+  NSString *environment_;
   NSMutableData *loggedStreamData_;
   NSURLResponse *response_;         // set in connection:didReceiveResponse:
   __weak id delegate_;              // weak (though retained during an open connection)
@@ -354,6 +355,7 @@ void AssertSelectorNilOrImplementedWithArguments(id obj, SEL sel, ...);
 @property (retain) NSInputStream *putStream;
 
 @property (retain) NSString *deviceHeader;
+@property (retain) NSString *environment;
 
 // the default cookie storage method is kGTMHTTPFetcherCookieStorageMethodStatic
 // without a fetch history set, and kGTMHTTPFetcherCookieStorageMethodFetchHistory

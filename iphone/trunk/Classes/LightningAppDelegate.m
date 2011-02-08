@@ -13,6 +13,15 @@
 #import "LightningUtil.h";
 #import "Device.h";
 
+/*@interface UINavigationBar (MyCustomNavBar)
+@end
+@implementation UINavigationBar (MyCustomNavBar)
+- (void) drawRect:(CGRect)rect {
+    UIImage *barImage = [UIImage imageNamed:@"tabbar.png"];
+    [barImage drawInRect:rect];
+}
+@end*/
+
 @implementation LightningAppDelegate
 
 @synthesize window;

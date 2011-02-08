@@ -18,6 +18,8 @@
 
 @synthesize url, device, deviceToken, lightningId, lightningSecret, context, delegate;
 
+NSString const *environment = @"production";
+
 -(id)init {
 	if(self = [super init]) {
 		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -59,6 +61,12 @@
 									stringByReplacingOccurrencesOfString:@" " withString:@""];
 			NSString *postString = [NSString stringWithFormat:@"device_token=%@;name=%@;identifier=%@", [tokenAsString uppercaseString], username, [UIDevice currentDevice].uniqueIdentifier];
 			[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+			
+			NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
+			[myFetcher setDeviceHeader:deviceHeader];
+			
+			NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+			[myFetcher setEnvironment:environment_];
 		
 			[myFetcher beginFetchWithDelegate:self
 						didFinishSelector:@selector(myFetcher:finishedWithData:error:)];
@@ -98,6 +106,9 @@
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
+	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setEnvironment:environment_];
 
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithAddingList:error:)];
@@ -123,6 +134,9 @@
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
+	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setEnvironment:environment_];
 	
 	[myFetcher setUserData:[item objectID]];
 	
@@ -150,6 +164,9 @@
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
 	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setEnvironment:environment_];
+	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithPushToList:error:)];
 }
@@ -169,6 +186,9 @@
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
+	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithGetLists:error:)];
@@ -192,6 +212,9 @@
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
 	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setEnvironment:environment_];
+	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithGetLists:error:)];
 }
@@ -213,6 +236,9 @@
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
+	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithGetItemsFromList:error:)];
@@ -238,6 +264,9 @@
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
 	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setEnvironment:environment_];
+	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithShareList:error:)];
 }
@@ -260,6 +289,9 @@
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
+	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setDeviceHeader:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedReadList:error:)];
@@ -285,6 +317,9 @@
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
+	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedUpdateItem:error:)];
@@ -317,6 +352,9 @@
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
 	[myFetcher setDeviceHeader:deviceHeader];
 	
+	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
+	[myFetcher setEnvironment:environment_];
+	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishUpdateDevice:error:)];
 	
@@ -328,10 +366,9 @@
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
-		//
 		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
 		int status = [error code];
-		NSLog(@"error creating device: %@", status);
+		NSLog(@"error creating device: %i", status);
 	} else {
 		NSLog(@"created a device %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 			
