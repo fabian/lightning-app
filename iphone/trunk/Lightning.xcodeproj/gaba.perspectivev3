@@ -289,7 +289,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 555}, {189, 1060}}</string>
+							<string>{{0, 0}, {189, 1060}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -336,7 +336,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>02AB463D1303373300C39953</string>
+										<string>02AB464B13033FFB00C39953</string>
 										<key>history</key>
 										<array>
 											<string>029CF9D911332CCA00D6942C</string>
@@ -374,11 +374,12 @@
 											<string>029A94931301E9D400283428</string>
 											<string>022EBB961301F7E500CE7EB9</string>
 											<string>025FD2C5130311C900004B72</string>
-											<string>025FD2E01303121900004B72</string>
-											<string>02AB462C130336C100C39953</string>
-											<string>02AB4636130336FC00C39953</string>
 											<string>02AB463B1303373300C39953</string>
-											<string>02AB463C1303373300C39953</string>
+											<string>02AB464013033FCD00C39953</string>
+											<string>02AB464113033FCD00C39953</string>
+											<string>02AB464213033FCD00C39953</string>
+											<string>02AB464913033FFB00C39953</string>
+											<string>02AB464A13033FFB00C39953</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -695,6 +696,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>02AB464C13033FFB00C39953</string>
 		<string>02AB45E613032FC600C39953</string>
 		<string>02AB45E813032FC600C39953</string>
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>
