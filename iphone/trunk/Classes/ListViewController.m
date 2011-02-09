@@ -139,17 +139,12 @@
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.tableView.backgroundColor = [UIColor clearColor];
 		
-		[self setWantsFullScreenLayout:YES];
-
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(resignActive)
 													 name:UIApplicationWillResignActiveNotification 
 												   object:NULL];
-		
-		//dont do it every time
-		[self.tableView reloadData];
     }
     return self;
 }

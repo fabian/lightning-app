@@ -32,8 +32,6 @@
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.tableView.backgroundColor = [UIColor clearColor];
 		
-		[self setWantsFullScreenLayout:YES];
-		
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
