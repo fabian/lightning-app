@@ -147,6 +147,9 @@
 												 selector:@selector(resignActive)
 													 name:UIApplicationWillResignActiveNotification 
 												   object:NULL];
+		
+		//dont do it every time
+		[self.tableView reloadData];
     }
     return self;
 }
@@ -358,22 +361,24 @@
 	if (existingLine == nil) {
 		UITextField *label = (UITextField *)[cell.contentView viewWithTag:123];
 		
-		CGFloat width =  [label.text sizeWithFont:label.font].width;
-		Line *line = [[Line alloc] initWithFrame:CGRectMake(label.frame.origin.x, label.frame.origin.y+20, width, 3)];
-		line.backgroundColor = [UIColor clearColor];
-		line.tag = 124;
-		[cell.contentView addSubview:line];
+		if([label.text length] > 0) {
+			CGFloat width =  [label.text sizeWithFont:label.font].width;
+			Line *line = [[Line alloc] initWithFrame:CGRectMake(label.frame.origin.x, label.frame.origin.y+20, width, 3)];
+			line.backgroundColor = [UIColor clearColor];
+			line.tag = 124;
+			[cell.contentView addSubview:line];
 		
-		ListItem *listItem = [listItems objectAtIndex:indexPath.row];
+			ListItem *listItem = [listItems objectAtIndex:indexPath.row];
 		
-		listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
-		listItem.done = [NSNumber numberWithBool:TRUE];
+			listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
+			listItem.done = [NSNumber numberWithBool:TRUE];
 		
-		NSError *error;
-		[context save:&error];
+			NSError *error;
+			[context save:&error];
 		
-		[lightning updateItem:listItem];
-		[line release];
+			[lightning updateItem:listItem];
+			[line release];
+		}
 	} else {
 		[existingLine removeFromSuperview];
 		ListItem *listItem = [listItems objectAtIndex:indexPath.row];
