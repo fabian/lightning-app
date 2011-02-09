@@ -16,11 +16,6 @@
 
 @synthesize lists, context, listNames;
 
-- (void) drawRect:(CGRect)rect {
-    UIImage *barImage = [UIImage imageNamed:@"tabbar.png"];
-    [barImage drawInRect:rect];
-}
-
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:style]) {
@@ -37,14 +32,6 @@
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.tableView.backgroundColor = [UIColor clearColor];
 		
-		UIImageView *top = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"top.jpg"]];
-		self.tableView.tableHeaderView = top;
-		[top release];
-		
-		UIImageView *bottom = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom.jpg"]];
-		self.tableView.tableFooterView = bottom;
-		[bottom release];
-		
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -59,9 +46,14 @@
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
 	
-	//[self setLists:[[Lists alloc] init]];
+	UIImageView *top = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"top.jpg"]];
+	self.tableView.tableHeaderView = top;
+	[top release];
+	
+	UIImageView *bottom = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom.jpg"]];
+	self.tableView.tableFooterView = bottom;
+	[bottom release];
 	
 	self.tableView.allowsSelectionDuringEditing = YES;
 	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addList)];

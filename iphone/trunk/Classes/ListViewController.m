@@ -138,14 +138,6 @@
 		
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.tableView.backgroundColor = [UIColor redColor];
-		
-		UIImageView *top = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"top.jpg"]];
-		self.tableView.tableHeaderView = top;
-		[top release];
-		
-		UIImageView *bottom = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom.jpg"]];
-		self.tableView.tableFooterView = bottom;
-		[bottom release];
 
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
 		
@@ -160,7 +152,13 @@
 
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    UIImageView *top = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"top.jpg"]];
+	self.tableView.tableHeaderView = top;
+	[top release];
+	
+	UIImageView *bottom = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom.jpg"]];
+	self.tableView.tableFooterView = bottom;
+	[bottom release];
 	
 	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editList)];
 	self.navigationItem.rightBarButtonItem = button;
