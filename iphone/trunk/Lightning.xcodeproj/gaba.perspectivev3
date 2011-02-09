@@ -334,7 +334,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>025FD2E11303121A00004B72</string>
+										<string>025FD2E21303187900004B72</string>
 										<key>history</key>
 										<array>
 											<string>029CF9D911332CCA00D6942C</string>
@@ -692,7 +692,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>025FD2CE130311C900004B72</string>
 		<string>025FD2CF130311C900004B72</string>
 		<string>/Users/gaba/Documents/Projects/Lightning/Lightning.xcodeproj</string>
 	</array>
