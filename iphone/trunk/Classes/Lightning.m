@@ -291,7 +291,7 @@ NSString const *environment = @"production";
 	[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setDeviceHeader:environment_];
+	[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedReadList:error:)];
