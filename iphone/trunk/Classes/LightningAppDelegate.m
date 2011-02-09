@@ -42,6 +42,8 @@
 	if(context == nil)
 		NSLog(@"appdelegate context is nil");
 	
+	[[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackTranslucent];
+	
 	//override init method to use context
 	ListsViewController *listsViewController = [[ListsViewController alloc] initWithStyle:UITableViewStylePlain andContext:context];
 	
