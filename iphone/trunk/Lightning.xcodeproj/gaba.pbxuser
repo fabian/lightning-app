@@ -484,7 +484,7 @@
 		vrLen = 1213;
 		vrLoc = 5437;
 	};
-	02944CAF12F1AC990011B74A /* ListsViewController.m:47 */ = {
+	02944CAF12F1AC990011B74A /* ListsViewController.m:49 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -496,13 +496,13 @@
 		functionName = "-viewDidLoad";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 47;
+		lineNumber = 49;
 		location = Lightning;
 		modificationTime = 318285253.930216;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02944CBA12F1ACF20011B74A /* LightningAppDelegate.m:51 */ = {
+	02944CBA12F1ACF20011B74A /* LightningAppDelegate.m:53 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -514,7 +514,7 @@
 		functionName = "-application:didFinishLaunchingWithOptions:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 51;
+		lineNumber = 53;
 		location = Lightning;
 		modificationTime = 318285253.9357049;
 		originalNumberOfMultipleMatches = 1;
@@ -538,7 +538,7 @@
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02944CE312F1B0030011B74A /* ListsViewController.m:413 */ = {
+	02944CE312F1B0030011B74A /* ListsViewController.m:415 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -550,7 +550,7 @@
 		functionName = "-finishFetchingLists:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 413;
+		lineNumber = 415;
 		location = Lightning;
 		modificationTime = 318285253.954936;
 		originalNumberOfMultipleMatches = 1;
@@ -640,7 +640,7 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 418";
 		rLen = 0;
-		rLoc = 13754;
+		rLoc = 13796;
 		rType = 0;
 		vrLen = 2094;
 		vrLoc = 1327;
@@ -650,7 +650,7 @@
 		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
 		name = "ListViewController.m: 265";
 		rLen = 0;
-		rLoc = 7933;
+		rLoc = 7977;
 		rType = 0;
 		vrLen = 1690;
 		vrLoc = 6825;
@@ -660,7 +660,7 @@
 		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
 		name = "ListViewController.m: 265";
 		rLen = 0;
-		rLoc = 7933;
+		rLoc = 7977;
 		rType = 0;
 		vrLen = 1613;
 		vrLoc = 3175;
@@ -670,7 +670,7 @@
 		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
 		name = "ListViewController.m: 265";
 		rLen = 0;
-		rLoc = 7933;
+		rLoc = 7977;
 		rType = 0;
 		vrLen = 1613;
 		vrLoc = 3175;
@@ -680,7 +680,7 @@
 		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
 		name = "ListViewController.m: 265";
 		rLen = 0;
-		rLoc = 7933;
+		rLoc = 7977;
 		rType = 0;
 		vrLen = 343;
 		vrLoc = 4445;
@@ -690,7 +690,7 @@
 		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
 		name = "ListViewController.m: 265";
 		rLen = 0;
-		rLoc = 7933;
+		rLoc = 7977;
 		rType = 0;
 		vrLen = 2529;
 		vrLoc = 3175;
@@ -700,7 +700,7 @@
 		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
 		name = "ListViewController.m: 163";
 		rLen = 0;
-		rLoc = 4753;
+		rLoc = 4797;
 		rType = 0;
 		vrLen = 2579;
 		vrLoc = 3265;
@@ -710,7 +710,7 @@
 		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
 		name = "ListViewController.m: 155";
 		rLen = 0;
-		rLoc = 4453;
+		rLoc = 4497;
 		rType = 0;
 		vrLen = 2581;
 		vrLoc = 3265;
@@ -720,7 +720,7 @@
 		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
 		name = "ListViewController.m: 155";
 		rLen = 0;
-		rLoc = 4453;
+		rLoc = 4497;
 		rType = 0;
 		vrLen = 2646;
 		vrLoc = 3265;
@@ -760,7 +760,7 @@
 		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
 		name = "ListViewController.m: 263";
 		rLen = 0;
-		rLoc = 7933;
+		rLoc = 7977;
 		rType = 0;
 		vrLen = 504;
 		vrLoc = 4399;
@@ -784,6 +784,183 @@
 		rType = 0;
 		vrLen = 1753;
 		vrLoc = 0;
+	};
+	02AB460E1303332F00C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
+		name = "ListViewController.m: 155";
+		rLen = 0;
+		rLoc = 4497;
+		rType = 0;
+		vrLen = 1946;
+		vrLoc = 3767;
+	};
+	02AB460F1303332F00C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 48";
+		rLen = 0;
+		rLoc = 1527;
+		rType = 0;
+		vrLen = 1921;
+		vrLoc = 166;
+	};
+	02AB46101303332F00C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* LightningAppDelegate.m */;
+		name = "LightningAppDelegate.m: 16";
+		rLen = 0;
+		rLoc = 336;
+		rType = 0;
+		vrLen = 1753;
+		vrLoc = 0;
+	};
+	02AB46111303332F00C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* LightningAppDelegate.m */;
+		name = "LightningAppDelegate.m: 45";
+		rLen = 0;
+		rLoc = 1332;
+		rType = 0;
+		vrLen = 1965;
+		vrLoc = 467;
+	};
+	02AB4622130334DB00C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* LightningAppDelegate.m */;
+		name = "LightningAppDelegate.m: 45";
+		rLen = 0;
+		rLoc = 1332;
+		rType = 0;
+		vrLen = 1965;
+		vrLoc = 467;
+	};
+	02AB4623130334DB00C39953 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Lightning-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleName,
+		);
+		name = "/Users/gaba/Documents/Projects/Lightning/Lightning-Info.plist";
+		rLen = 0;
+		rLoc = 0;
+	};
+	02AB4624130334DB00C39953 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Lightning-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleName,
+		);
+		name = "/Users/gaba/Documents/Projects/Lightning/Lightning-Info.plist";
+		rLen = 0;
+		rLoc = 0;
+	};
+	02AB4627130335F000C39953 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Lightning-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleIdentifier,
+		);
+		name = "/Users/gaba/Documents/Projects/Lightning/Lightning-Info.plist";
+		rLen = 33;
+		rLoc = 13;
+	};
+	02AB462C130336C100C39953 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Lightning-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/gaba/Documents/Projects/Lightning/Lightning-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	02AB462D130336C100C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 48";
+		rLen = 0;
+		rLoc = 1527;
+		rType = 0;
+		vrLen = 1909;
+		vrLoc = 166;
+	};
+	02AB462E130336C100C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 35";
+		rLen = 1;
+		rLoc = 1206;
+		rType = 0;
+		vrLen = 1999;
+		vrLoc = 343;
+	};
+	02AB4636130336FC00C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* LightningAppDelegate.m */;
+		name = "LightningAppDelegate.m: 45";
+		rLen = 0;
+		rLoc = 1332;
+		rType = 0;
+		vrLen = 1965;
+		vrLoc = 467;
+	};
+	02AB4637130336FC00C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 33";
+		rLen = 0;
+		rLoc = 1147;
+		rType = 0;
+		vrLen = 1999;
+		vrLoc = 343;
+	};
+	02AB4638130336FC00C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 35";
+		rLen = 0;
+		rLoc = 1147;
+		rType = 0;
+		vrLen = 1978;
+		vrLoc = 343;
+	};
+	02AB463B1303373300C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
+		name = "ListsViewController.m: 35";
+		rLen = 36;
+		rLoc = 1111;
+		rType = 0;
+		vrLen = 1977;
+		vrLoc = 343;
+	};
+	02AB463C1303373300C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
+		name = "ListViewController.m: 142";
+		rLen = 0;
+		rLoc = 4140;
+		rType = 0;
+		vrLen = 1468;
+		vrLoc = 3172;
+	};
+	02AB463D1303373300C39953 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 02EDDB961129CEF000E23D03 /* ListViewController.m */;
+		name = "ListViewController.m: 140";
+		rLen = 0;
+		rLoc = 4132;
+		rType = 0;
+		vrLen = 1470;
+		vrLoc = 3172;
 	};
 	02BA5F2B115A92A9002AAD93 /* AddNewGroup.h */ = {
 		uiCtxt = {
@@ -895,7 +1072,7 @@
 		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.1.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIApplication.h;
 		sourceTree = "<absolute>";
 	};
-	02DA11BE1272E34D00EA2D60 /* LightningAppDelegate.m:60 */ = {
+	02DA11BE1272E34D00EA2D60 /* LightningAppDelegate.m:62 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -907,7 +1084,7 @@
 		functionName = "-application:handleOpenURL:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 60;
+		lineNumber = 62;
 		location = Lightning;
 		modificationTime = 318285253.8698739;
 		originalNumberOfMultipleMatches = 1;
@@ -968,7 +1145,7 @@
 		vrLen = 1231;
 		vrLoc = 169;
 	};
-	02E3F91012F740D600794335 /* LightningAppDelegate.m:138 */ = {
+	02E3F91012F740D600794335 /* LightningAppDelegate.m:140 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -980,7 +1157,7 @@
 		functionName = "-application:didRegisterForRemoteNotificationsWithDeviceToken:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 138;
+		lineNumber = 140;
 		location = Lightning;
 		modificationTime = 318285254.002855;
 		originalNumberOfMultipleMatches = 1;
@@ -1070,7 +1247,7 @@
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02E3FA2712F7617900794335 /* LightningAppDelegate.m:184 */ = {
+	02E3FA2712F7617900794335 /* LightningAppDelegate.m:186 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1082,7 +1259,7 @@
 		functionName = "-application:didFailToRegisterForRemoteNotificationsWithError:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 184;
+		lineNumber = 186;
 		location = Lightning;
 		modificationTime = 318285254.032417;
 		originalNumberOfMultipleMatches = 1;
@@ -1093,12 +1270,12 @@
 		fRef = 02EDDB931129CEE700E23D03 /* ListsViewController.m */;
 		name = "ListsViewController.m: 422";
 		rLen = 0;
-		rLoc = 13754;
+		rLoc = 13796;
 		rType = 0;
 		vrLen = 2105;
 		vrLoc = 1260;
 	};
-	02EA42CD12E8A21900157A74 /* ListsViewController.m:89 */ = {
+	02EA42CD12E8A21900157A74 /* ListsViewController.m:91 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1110,7 +1287,7 @@
 		functionName = "-setupModel:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 89;
+		lineNumber = 91;
 		location = Lightning;
 		modificationTime = 318285253.924939;
 		originalNumberOfMultipleMatches = 1;
@@ -1134,7 +1311,7 @@
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02EC4C7A12E7625F00BAD6A8 /* ListViewController.m:161 */ = {
+	02EC4C7A12E7625F00BAD6A8 /* ListViewController.m:163 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1146,7 +1323,7 @@
 		functionName = "-viewDidLoad";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 161;
+		lineNumber = 163;
 		location = Lightning;
 		modificationTime = 318285253.894118;
 		originalNumberOfMultipleMatches = 1;
@@ -1170,7 +1347,7 @@
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02EC4C7E12E7637B00BAD6A8 /* ListsViewController.m:113 */ = {
+	02EC4C7E12E7637B00BAD6A8 /* ListsViewController.m:115 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1182,13 +1359,13 @@
 		functionName = "-addList";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 113;
+		lineNumber = 115;
 		location = Lightning;
 		modificationTime = 318285253.908846;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02EC4C8012E7637E00BAD6A8 /* ListsViewController.m:131 */ = {
+	02EC4C8012E7637E00BAD6A8 /* ListsViewController.m:133 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1200,13 +1377,13 @@
 		functionName = "-finishAddList:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 131;
+		lineNumber = 133;
 		location = Lightning;
 		modificationTime = 318285253.9138219;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02EC4C8212E763A100BAD6A8 /* ListsViewController.m:418 */ = {
+	02EC4C8212E763A100BAD6A8 /* ListsViewController.m:420 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1218,7 +1395,7 @@
 		functionName = "-finishAddingList:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 418;
+		lineNumber = 420;
 		location = Lightning;
 		modificationTime = 318285253.919357;
 		originalNumberOfMultipleMatches = 1;
@@ -1338,9 +1515,9 @@
 	};
 	02EDDB931129CEE700E23D03 /* ListsViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1648, 5993}}";
-			sepNavSelRange = "{381, 0}";
-			sepNavVisRange = "{0, 2726}";
+			sepNavIntBoundsRect = "{{0, 0}, {1648, 6058}}";
+			sepNavSelRange = "{1111, 36}";
+			sepNavVisRange = "{343, 1977}";
 			sepNavWindowFrame = "{{107, 68}, {1298, 721}}";
 		};
 	};
@@ -1354,9 +1531,9 @@
 	};
 	02EDDB961129CEF000E23D03 /* ListViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1648, 6747}}";
-			sepNavSelRange = "{4453, 0}";
-			sepNavVisRange = "{3767, 1946}";
+			sepNavIntBoundsRect = "{{0, 0}, {1648, 6773}}";
+			sepNavSelRange = "{4132, 0}";
+			sepNavVisRange = "{3172, 1470}";
 			sepNavWindowFrame = "{{107, 68}, {1298, 721}}";
 		};
 	};
@@ -1386,7 +1563,7 @@
 		vrLen = 514;
 		vrLoc = 0;
 	};
-	02FC8E7D12F1B57D00FE45AD /* LightningAppDelegate.m:223 */ = {
+	02FC8E7D12F1B57D00FE45AD /* LightningAppDelegate.m:225 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1398,7 +1575,7 @@
 		functionName = "-application:didReceiveRemoteNotification:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 223;
+		lineNumber = 225;
 		location = Lightning;
 		modificationTime = 318285253.9605981;
 		originalNumberOfMultipleMatches = 1;
@@ -1414,7 +1591,7 @@
 		vrLen = 1477;
 		vrLoc = 2138;
 	};
-	02FC8F3712F1E13D00FE45AD /* ListsViewController.m:107 */ = {
+	02FC8F3712F1E13D00FE45AD /* ListsViewController.m:109 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1426,13 +1603,13 @@
 		functionName = "-setupModel:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 107;
+		lineNumber = 109;
 		location = Lightning;
 		modificationTime = 318285253.964848;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
-	02FC8F7312F1E8A800FE45AD /* ListsViewController.m:284 */ = {
+	02FC8F7312F1E8A800FE45AD /* ListsViewController.m:286 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1444,7 +1621,7 @@
 		functionName = "-tableView:cellForRowAtIndexPath:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 284;
+		lineNumber = 286;
 		location = Lightning;
 		modificationTime = 318285253.980922;
 		originalNumberOfMultipleMatches = 1;
@@ -1464,7 +1641,7 @@
 			sepNavVisRange = "{0, 751}";
 		};
 	};
-	02FC903C12F1F8E700FE45AD /* ListViewController.m:351 */ = {
+	02FC903C12F1F8E700FE45AD /* ListViewController.m:353 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1476,7 +1653,7 @@
 		functionName = "-tableView:editingStyleForRowAtIndexPath:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 351;
+		lineNumber = 353;
 		location = Lightning;
 		modificationTime = 318285253.988216;
 		originalNumberOfMultipleMatches = 1;
@@ -1510,9 +1687,9 @@
 	};
 	1D3623250D0F684500981E51 /* LightningAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1648, 4303}}";
-			sepNavSelRange = "{336, 0}";
-			sepNavVisRange = "{0, 1753}";
+			sepNavIntBoundsRect = "{{0, 0}, {1648, 4368}}";
+			sepNavSelRange = "{1332, 0}";
+			sepNavVisRange = "{467, 1965}";
 			sepNavWindowFrame = "{{15, 152}, {1298, 721}}";
 		};
 	};
@@ -1584,33 +1761,33 @@
 		breakpoints = (
 			02BA609A115BDFEB002AAD93 /* MailComposerDelegate.m:27 */,
 			02BF56CC126CDDB600573423 /* Lightning.m:187 */,
-			02DA11BE1272E34D00EA2D60 /* LightningAppDelegate.m:60 */,
+			02DA11BE1272E34D00EA2D60 /* LightningAppDelegate.m:62 */,
 			02DA12091273297E00EA2D60 /* ListViewController.m:24 */,
 			027B5DB81279CADF003F8DD1 /* Lightning.m:427 */,
 			027B5DD31279CBFC003F8DD1 /* Lightning.m:100 */,
 			02EC4C6C12E761F600BAD6A8 /* ListViewController.m:135 */,
-			02EC4C7A12E7625F00BAD6A8 /* ListViewController.m:161 */,
+			02EC4C7A12E7625F00BAD6A8 /* ListViewController.m:163 */,
 			02EC4C7C12E7636F00BAD6A8 /* AddListViewController.m:52 */,
-			02EC4C7E12E7637B00BAD6A8 /* ListsViewController.m:113 */,
-			02EC4C8012E7637E00BAD6A8 /* ListsViewController.m:131 */,
-			02EC4C8212E763A100BAD6A8 /* ListsViewController.m:418 */,
-			02EA42CD12E8A21900157A74 /* ListsViewController.m:89 */,
-			02944CAF12F1AC990011B74A /* ListsViewController.m:47 */,
-			02944CBA12F1ACF20011B74A /* LightningAppDelegate.m:51 */,
+			02EC4C7E12E7637B00BAD6A8 /* ListsViewController.m:115 */,
+			02EC4C8012E7637E00BAD6A8 /* ListsViewController.m:133 */,
+			02EC4C8212E763A100BAD6A8 /* ListsViewController.m:420 */,
+			02EA42CD12E8A21900157A74 /* ListsViewController.m:91 */,
+			02944CAF12F1AC990011B74A /* ListsViewController.m:49 */,
+			02944CBA12F1ACF20011B74A /* LightningAppDelegate.m:53 */,
 			02944CDE12F1AEC70011B74A /* LightningAppDelegate.m:23 */,
-			02944CE312F1B0030011B74A /* ListsViewController.m:413 */,
-			02FC8E7D12F1B57D00FE45AD /* LightningAppDelegate.m:223 */,
-			02FC8F3712F1E13D00FE45AD /* ListsViewController.m:107 */,
-			02FC8F7312F1E8A800FE45AD /* ListsViewController.m:284 */,
-			02FC903C12F1F8E700FE45AD /* ListViewController.m:351 */,
+			02944CE312F1B0030011B74A /* ListsViewController.m:415 */,
+			02FC8E7D12F1B57D00FE45AD /* LightningAppDelegate.m:225 */,
+			02FC8F3712F1E13D00FE45AD /* ListsViewController.m:109 */,
+			02FC8F7312F1E8A800FE45AD /* ListsViewController.m:286 */,
+			02FC903C12F1F8E700FE45AD /* ListViewController.m:353 */,
 			021D639C12F341E700ED2F11 /* Lightning.m:729 */,
 			021D63BD12F3459400ED2F11 /* ListViewController.m:33 */,
-			02E3F91012F740D600794335 /* LightningAppDelegate.m:138 */,
+			02E3F91012F740D600794335 /* LightningAppDelegate.m:140 */,
 			02E3F93712F7427100794335 /* Lightning.m:527 */,
 			02E3F9ED12F75F0500794335 /* Lightning.m:374 */,
 			02E3F9EF12F75F0D00794335 /* Lightning.m:36 */,
 			02E3F9F112F75F1200794335 /* Lightning.m:330 */,
-			02E3FA2712F7617900794335 /* LightningAppDelegate.m:184 */,
+			02E3FA2712F7617900794335 /* LightningAppDelegate.m:186 */,
 			0225602512F8A5B2005DE37E /* ListViewController.m:100 */,
 		);
 		codeSenseManager = 02EDDB6C1129CBDB00E23D03 /* Code sense */;
@@ -1717,7 +1894,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					950,
+					1430,
 					60,
 					20,
 					48,
@@ -1780,6 +1957,23 @@
 			02AB46001303311400C39953 /* PBXTextBookmark */ = 02AB46001303311400C39953 /* PBXTextBookmark */;
 			02AB46011303311400C39953 /* PBXTextBookmark */ = 02AB46011303311400C39953 /* PBXTextBookmark */;
 			02AB46021303313000C39953 /* PBXTextBookmark */ = 02AB46021303313000C39953 /* PBXTextBookmark */;
+			02AB460E1303332F00C39953 /* PBXTextBookmark */ = 02AB460E1303332F00C39953 /* PBXTextBookmark */;
+			02AB460F1303332F00C39953 /* PBXTextBookmark */ = 02AB460F1303332F00C39953 /* PBXTextBookmark */;
+			02AB46101303332F00C39953 /* PBXTextBookmark */ = 02AB46101303332F00C39953 /* PBXTextBookmark */;
+			02AB46111303332F00C39953 /* PBXTextBookmark */ = 02AB46111303332F00C39953 /* PBXTextBookmark */;
+			02AB4622130334DB00C39953 /* PBXTextBookmark */ = 02AB4622130334DB00C39953 /* PBXTextBookmark */;
+			02AB4623130334DB00C39953 /* PlistBookmark */ = 02AB4623130334DB00C39953 /* PlistBookmark */;
+			02AB4624130334DB00C39953 /* PlistBookmark */ = 02AB4624130334DB00C39953 /* PlistBookmark */;
+			02AB4627130335F000C39953 /* PlistBookmark */ = 02AB4627130335F000C39953 /* PlistBookmark */;
+			02AB462C130336C100C39953 /* PlistBookmark */ = 02AB462C130336C100C39953 /* PlistBookmark */;
+			02AB462D130336C100C39953 /* PBXTextBookmark */ = 02AB462D130336C100C39953 /* PBXTextBookmark */;
+			02AB462E130336C100C39953 /* PBXTextBookmark */ = 02AB462E130336C100C39953 /* PBXTextBookmark */;
+			02AB4636130336FC00C39953 /* PBXTextBookmark */ = 02AB4636130336FC00C39953 /* PBXTextBookmark */;
+			02AB4637130336FC00C39953 /* PBXTextBookmark */ = 02AB4637130336FC00C39953 /* PBXTextBookmark */;
+			02AB4638130336FC00C39953 /* PBXTextBookmark */ = 02AB4638130336FC00C39953 /* PBXTextBookmark */;
+			02AB463B1303373300C39953 /* PBXTextBookmark */ = 02AB463B1303373300C39953 /* PBXTextBookmark */;
+			02AB463C1303373300C39953 /* PBXTextBookmark */ = 02AB463C1303373300C39953 /* PBXTextBookmark */;
+			02AB463D1303373300C39953 /* PBXTextBookmark */ = 02AB463D1303373300C39953 /* PBXTextBookmark */;
 			02BC7D84114BEBE9006AEF21 = 02BC7D84114BEBE9006AEF21 /* PBXTextBookmark */;
 			02BC7D85114BEBE9006AEF21 = 02BC7D85114BEBE9006AEF21 /* PBXTextBookmark */;
 			02BF568C126CD91B00573423 = 02BF568C126CD91B00573423 /* PBXTextBookmark */;

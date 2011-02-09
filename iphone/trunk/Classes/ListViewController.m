@@ -137,7 +137,9 @@
 		self.listName = listNameInit;
 		
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		self.tableView.backgroundColor = [UIColor redColor];
+		self.tableView.backgroundColor = [UIColor clearColor];
+		
+		[self setWantsFullScreenLayout:YES];
 
 		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
 		
