@@ -367,6 +367,10 @@
 			[self.navigationController pushViewController:listViewController animated:NO];
 			[listViewController release];*/
 			
+			NSError *error;
+			listName.shared = [NSNumber numberWithBool:TRUE];
+			[context save:&error];
+			
 			self.sharedList = listName;
 			
 			MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];

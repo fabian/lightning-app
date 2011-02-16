@@ -56,6 +56,7 @@
 	[listsViewController release];
 	[aNavigationController release];
 	
+	window.backgroundColor = [UIColor blackColor];
 	[window addSubview:[navigationController view]];
 	
     // Override point for customization after application launch
