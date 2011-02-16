@@ -10,6 +10,7 @@
 #import "ListItem.h"
 #import	"LightningUtil.h"
 #import	"Line.h";
+#import	"EditListViewController.h";
 
 @implementation ListViewController
 
@@ -135,16 +136,6 @@
     if (self = [super initWithStyle:style]) {
 		
 		self.listName = listNameInit;
-		
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		self.tableView.backgroundColor = [UIColor clearColor];
-		
-		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(resignActive)
-													 name:UIApplicationWillResignActiveNotification 
-												   object:NULL];
     }
     return self;
 }
@@ -152,6 +143,18 @@
 
 
 - (void)viewDidLoad {
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	self.tableView.backgroundColor = [UIColor clearColor];
+	
+	[self setWantsFullScreenLayout:YES];
+	
+	self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(resignActive)
+												 name:UIApplicationWillResignActiveNotification 
+											   object:NULL];
+	
     UIImageView *top = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"top.jpg"]];
 	self.tableView.tableHeaderView = top;
 	[top release];
@@ -181,6 +184,18 @@
 }
 
 - (void)editList {
+	
+	EditListViewController *editListViewController = [[EditListViewController alloc] initWithStyle:UITableViewStyleGrouped context:self.context list:self.listName];
+
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:editListViewController];
+	navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	navigationController.navigationBar.translucent = YES;
+	navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	
+    [self presentModalViewController:navigationController animated:YES];
+    
+    [navigationController release];
+	[editListViewController release];
 	
 }
 

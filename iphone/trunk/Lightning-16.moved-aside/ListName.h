@@ -2,7 +2,7 @@
 //  ListName.h
 //  Lightning
 //
-//  Created by Cyril Gabathuler on 16.02.11.
+//  Created by Cyril Gabathuler on 19.01.11.
 //  Copyright 2011 Bahnhofstrasse 24, 5400 Baden. All rights reserved.
 //
 
@@ -14,12 +14,11 @@
 {
 }
 
+@property (nonatomic, retain) NSString * lastModified;
 @property (nonatomic, retain) NSNumber * listId;
-@property (nonatomic, retain) NSNumber * shared;
+@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * unreadCount;
 @property (nonatomic, retain) NSString * token;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * lastModified;
 @property (nonatomic, retain) NSSet* listItems;
 
 @end

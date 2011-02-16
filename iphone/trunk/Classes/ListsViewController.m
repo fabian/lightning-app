@@ -29,16 +29,6 @@
     if (self = [super initWithStyle:style]) {
 		self.context = initContext;
 		
-		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		self.tableView.backgroundColor = [UIColor clearColor];
-		
-		self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(resignActive)
-													 name:UIApplicationWillResignActiveNotification 
-												   object:NULL];
-		
 		[self setupModel:TRUE];
 		//[self.listNames setArray:nil];
     }
@@ -46,6 +36,18 @@
 }
 
 - (void)viewDidLoad {
+	
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	self.tableView.backgroundColor = [UIColor clearColor];
+	
+	[self setWantsFullScreenLayout:YES];
+	
+	self.tableView.contentInset = UIEdgeInsetsMake(-420, 0, -420, 0);
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(resignActive)
+												 name:UIApplicationWillResignActiveNotification 
+											   object:NULL];
 	
 	UIImageView *top = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"top.jpg"]];
 	self.tableView.tableHeaderView = top;
@@ -234,7 +236,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	NSLog(@"listNames count: %i", [listNames count]);
     return [listNames count];
-	return 0;
 }
 
 
