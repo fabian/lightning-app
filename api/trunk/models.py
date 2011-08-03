@@ -16,6 +16,7 @@ class List(db.Model):
     shared = db.BooleanProperty(default=False, required=True)
     token = db.StringProperty(required=True) # random, gets sent per email with the id
     deleted = db.BooleanProperty()
+    pushed = db.DateTimeProperty(required=True, auto_now_add=True) # last time the list was pushed
     created = db.DateTimeProperty(required=True, auto_now_add=True)
     modified = db.DateTimeProperty(required=True, auto_now=True)
     
@@ -51,7 +52,6 @@ class ListDevice(db.Model):
     device = db.ReferenceProperty(Device, required=True)
     permission = db.StringProperty(default='guest', required=True, choices=set(['owner', 'guest']))
     deleted = db.BooleanProperty(default=False, required=True)
-    notification = db.StringProperty()
     unread = db.IntegerProperty(default=0, required=True)
     read = db.DateTimeProperty(required=True, auto_now_add=True) # last time the list was marked as read
     created = db.DateTimeProperty(required=True, auto_now_add=True)

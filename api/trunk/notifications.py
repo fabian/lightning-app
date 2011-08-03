@@ -14,23 +14,15 @@ def list_to_text(list):
     if len(list) == 1: return list[0]
     return "%s and %s" % (", ".join([i for i in list][:-1]), list[-1])
 
-
-class Notification:
+class History:
     """
-    Concats multiple log entries to one message.
+    Summarize multiple log entries into added, modified and deleted. Ignoring added and modified items that have already been deleted.
     """
     
-    def __init__(self, logs, device, since):
-        self.logs = logs
+    def __init__(self, logs):
         
         items = {}
-        for log in self.logs:
-            
-            if log.happened < since:
-                continue # ignore old entries
-            
-            if log.device.key() == device.key():
-                continue # ignore entries of the device itself
+        for log in logs:
             
             id = log.item.key().id()
             if not items.has_key(id):
@@ -38,29 +30,50 @@ class Notification:
             
             items[id][log.action] = log
         
-        added = []
-        modified = []
-        deleted = []
+        self.added = []
+        self.modified = []
+        self.deleted = []
         for value in items.values():
             
             if value.has_key('added') and not value.has_key('deleted'):
-                added.append(value['added'].item.value)
+                self.added.append(value['added'].item.value)
             
             if value.has_key('modified') and not value.has_key('added') and not value.has_key('deleted'):
-                modified.append("%s to %s" % (value['modified'].old, value['modified'].item.value))
+                self.modified.append("%s to %s" % (value['modified'].old, value['modified'].item.value))
                 
             if value.has_key('deleted') and not value.has_key('added'):
-                deleted.append(value['deleted'].old)
+                self.deleted.append(value['deleted'].old)
+    
+    def get_added(self):
+        return self.added
+    
+    def get_modified(self):
+        return self.modified
+    
+    def get_deleted(self):
+        return self.deleted
+    
+
+class Notification:
+    """
+    Concats multiple log entries to one message.
+    """
+    
+    def __init__(self, logs):
         
-        self.unread = 0
+        history = History(logs)
         
         messages = []
+        
+        added = history.get_added()
         if added:
             messages.append("Added %s." % list_to_text(added))
-            self.unread += len(added)
+        
+        modified = history.get_modified()
         if modified:
             messages.append("Changed %s." % list_to_text(modified))
-            self.unread += len(modified)
+        
+        deleted = history.get_deleted()
         if deleted:
             messages.append("Deleted %s." % list_to_text(deleted))
         
@@ -68,34 +81,18 @@ class Notification:
     
     def get_message(self):
         return self.message
-    
-    def get_unread(self):
-        return self.unread
 
 
 class Unread:
 
-    def __init__(self, list):
-        self.list = list
+    def __init__(self, logs, device, since):
+        
+        # filter out old entries and entries of the device itself
+        # this is done in Python because there's no nice way to clone a query
+        logs = [log for log in logs if (log.happened > since) and (log.device.key() != device.key())]
+        
+        history = History(logs)
+        self.count = len(history.get_added()) + len(history.get_modified())
     
-    def collect(self):
-        
-        # get all logs needed for notification
-        eldest = min(x.read for x in self.list.listdevice_set)
-        log = self.list.get_log(eldest)
-        
-        for x in self.list.listdevice_set:
-            
-            notification = Notification(log, x.device, x.read)
-            
-            x.unread = notification.get_unread()
-            x.notification = notification.get_message()
-            x.put()
-            
-            # update device unread
-            device = x.device
-            unread = 0
-            for y in device.listdevice_set.filter('deleted != ', True):
-                unread += y.unread
-            device.unread = unread
-            device.put()
+    def get_count(self):
+        return self.count

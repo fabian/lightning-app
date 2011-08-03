@@ -6,7 +6,7 @@ from datetime import datetime
 from google.appengine.api import taskqueue
 from util import Resource, json, device_required, environment
 from models import Device, List
-from notifications import Unread
+from notifications import Notification, Unread
 from resources.list import ListsResource
 
 class ListReadResource(ListsResource):
@@ -64,8 +64,24 @@ class ListUnreadResource(ListsResource):
         
         if list:
             
-            u = Unread(list)
-            u.collect()
+            # get all logs needed for calculation of unread count
+            eldest = min(x.read for x in list.listdevice_set)
+            log = list.get_log(eldest)
+            
+            for x in list.listdevice_set:
+                
+                unread = Unread(log, x.device, x.read)
+                
+                x.unread = unread.get_count()
+                x.put()
+                
+                # update device unread
+                device = x.device
+                count = 0
+                for y in device.listdevice_set.filter('deleted != ', True):
+                    count += y.unread
+                device.unread = count
+                device.put()
         
         else:
             # list not found
@@ -100,23 +116,29 @@ class ListPushResource(ListsResource):
                     devices = []
                     airship = urbanairship.Airship(self.settings.URBANAIRSHIP_APPLICATION_KEY, self.settings.URBANAIRSHIP_MASTER_SECRET)
                     
+                    log = list.get_log(list.pushed)
+                    
+                    notification = Notification(log)
+                    message = notification.get_message()
+                    
                     for x in list.listdevice_set.filter('device != ', exclude):
                         if x.device.device_token:
                             
-                            notification = x.notification
                             unread = x.device.unread
                             
                             payload = {'badge': unread}
-                            if notification:
-                                payload['alert'] = notification
+                            if message:
+                                payload['alert'] = message
                                 payload['lightning_list'] = list.key().id()
                             
                             # push notification and unread count to Urban Airship
                             airship.push({'aps': payload}, device_tokens=[x.device.device_token])
                             
-                            logging.debug("Pushed '%s' (%s) to device %s with device token %s.", notification, unread, x.device.key().id(), x.device.device_token)
+                            logging.debug("Pushed '%s' (%s) to device %s with device token %s.", message, unread, x.device.key().id(), x.device.device_token)
                             
                             devices.append(x.device)
+                    
+                    list.pushed = datetime.now()
                     
                     return {'devices': [device.key().id() for device in devices]}
                     
