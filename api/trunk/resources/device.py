@@ -21,11 +21,15 @@ class DevicesResource(Resource):
         logging.debug("New device with id %s created.", device.key().id())
         
         if device.device_token:
-            # register with Urban Airship
-            airship = urbanairship.Airship(self.settings.URBANAIRSHIP_APPLICATION_KEY, self.settings.URBANAIRSHIP_MASTER_SECRET)
-            airship.register(device.device_token, alias=str(device.key()))
-            
-            logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
+            try:
+                # register with Urban Airship
+                airship = urbanairship.Airship(self.settings.URBANAIRSHIP_APPLICATION_KEY, self.settings.URBANAIRSHIP_MASTER_SECRET)
+                airship.register(device.device_token, alias=str(device.key()))
+                
+                logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
+                
+            except urbanairship.AirshipFailure as (status, response):
+                logging.error("Could not register device %s with device token %s at Urban Airship: %s (%d)", device.key().id(), device.device_token, response, status)
         
         protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']
