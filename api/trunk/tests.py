@@ -10,8 +10,10 @@ sys.path = sys.path + ['/usr/local/google_appengine', '/usr/local/google_appengi
 from google.appengine.api import apiproxy_stub_map
 from google.appengine.api import datastore_file_stub
 from google.appengine.api.taskqueue import taskqueue_stub
+from google.appengine.api.urlfetch import DownloadError
 import mocker
 import webtest
+import urbanairship
 from resources.device import DevicesResource, DeviceResource
 from resources.list import DeviceListsResource, DeviceListResource, ListsResource, ListResource
 from resources.notification import ListReadResource, ListPushResource, ListUnreadResource
@@ -84,6 +86,30 @@ class DevicesTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         response = test.post("/api/devices", {'name': "My random device", 'identifier': "000-000-000"})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
+    
+    def test_create_device_download_error(self):
+        
+        self.mock_urbanairship()
+        self.urbanairship.register("EC1A77", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
+        self.mocker.throw(DownloadError)
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345", 'device_token': "EC1A77"})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
+    
+    def test_create_device_urbanairship_failure(self):
+        
+        self.mock_urbanairship()
+        self.urbanairship.register("EC1A77", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
+        self.mocker.throw(urbanairship.AirshipFailure(500, 'Server Error'))
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345", 'device_token': "EC1A77"})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
     
@@ -184,6 +210,34 @@ class DeviceTests(Tests):
         response = test.put("/api/devices/1", {'name': 'New Name'}, headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
         
         self.assertEqual(response.body, "Device 1 doesn't match authenticated device 2")
+    
+    def test_change_device_download_error(self):
+        
+        self.mock_urbanairship()
+        self.urbanairship.register("EC1A770", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
+        self.mocker.throw(DownloadError)
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/devices/1", {'name': 'New Name', 'device_token': 'EC1A770'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        device = models.Device.get_by_id(1)
+        self.assertEqual(device.name, 'New Name')
+        self.assertEqual(device.device_token, 'EC1A770')
+    
+    def test_change_device_urbanairship_failure(self):
+        
+        self.mock_urbanairship()
+        self.urbanairship.register("EC1A770", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
+        self.mocker.throw(urbanairship.AirshipFailure(500, 'Server Error'))
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/devices/1", {'name': 'New Name', 'device_token': 'EC1A770'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        device = models.Device.get_by_id(1)
+        self.assertEqual(device.name, 'New Name')
+        self.assertEqual(device.device_token, 'EC1A770')
 
 
 class DeviceListsTests(Tests):
@@ -852,6 +906,48 @@ class ListPushTests(Tests):
         response = test.post("/api/lists/2/devices/aaa/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
         
         self.assertEqual(response.body, "Device to exclude aaa not found")
+    
+    def test_push_download_error(self):
+        
+        log = models.Log(device=self.device, item=self.item_one, list=self.list, action='added')
+        log.put()
+        
+        # mocker screenplay
+        self.mock_urbanairship()
+        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 1, 'alert': "Added Wine."}}, device_tokens=["ABC123"])
+        self.mocker.throw(DownloadError)
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/unread")
+        
+        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(self.device.listdevice_set[0].unread, 0)
+        self.assertEqual(self.receiver.listdevice_set[0].unread, 1)
+        self.assertEqual(response.body, '{"devices": []}')
+    
+    def test_push_urbanairship_failure(self):
+        
+        log = models.Log(device=self.device, item=self.item_one, list=self.list, action='added')
+        log.put()
+        
+        # mocker screenplay
+        self.mock_urbanairship()
+        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 1, 'alert': "Added Wine."}}, device_tokens=["ABC123"])
+        self.mocker.throw(urbanairship.AirshipFailure(500, 'Server Error'))
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/unread")
+        
+        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(self.device.listdevice_set[0].unread, 0)
+        self.assertEqual(self.receiver.listdevice_set[0].unread, 1)
+        self.assertEqual(response.body, '{"devices": []}')
     
     def test_environment(self):
         
