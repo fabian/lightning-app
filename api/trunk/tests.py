@@ -95,6 +95,9 @@ class DevicesTests(Tests):
         self.urbanairship.register("EC1A77", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
         self.mocker.throw(DownloadError)
         
+        logging = self.mocker.replace('logging')
+        logging.error(mocker.ARGS)
+        
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         response = test.post("/api/devices", {'name': "My iPhone", 'identifier': "123345", 'device_token': "EC1A77"})
@@ -106,6 +109,9 @@ class DevicesTests(Tests):
         self.mock_urbanairship()
         self.urbanairship.register("EC1A77", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
         self.mocker.throw(urbanairship.AirshipFailure(500, 'Server Error'))
+        
+        logging = self.mocker.replace('logging')
+        logging.error(mocker.ARGS)
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
@@ -217,6 +223,9 @@ class DeviceTests(Tests):
         self.urbanairship.register("EC1A770", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
         self.mocker.throw(DownloadError)
         
+        logging = self.mocker.replace('logging')
+        logging.error(mocker.ARGS)
+        
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         response = test.put("/api/devices/1", {'name': 'New Name', 'device_token': 'EC1A770'}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
@@ -230,6 +239,9 @@ class DeviceTests(Tests):
         self.mock_urbanairship()
         self.urbanairship.register("EC1A770", alias="ag1saWdodG5pbmctYXBwcgwLEgZEZXZpY2UYAQw")
         self.mocker.throw(urbanairship.AirshipFailure(500, 'Server Error'))
+        
+        logging = self.mocker.replace('logging')
+        logging.error(mocker.ARGS)
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
@@ -917,6 +929,9 @@ class ListPushTests(Tests):
         self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 1, 'alert': "Added Wine."}}, device_tokens=["ABC123"])
         self.mocker.throw(DownloadError)
         
+        logging = self.mocker.replace('logging')
+        logging.error(mocker.ARGS)
+        
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
@@ -937,6 +952,9 @@ class ListPushTests(Tests):
         self.mock_urbanairship()
         self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 1, 'alert': "Added Wine."}}, device_tokens=["ABC123"])
         self.mocker.throw(urbanairship.AirshipFailure(500, 'Server Error'))
+        
+        logging = self.mocker.replace('logging')
+        logging.error(mocker.ARGS)
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
