@@ -62,7 +62,7 @@ def environment(handler_method):
         if self.environment in ENVIRONMENTS:
             self.settings = __import__('settings_' + self.environment)
         
-        logging.debug("Environment: %s.", self.environment)
+        logging.debug("Environment: %s", self.environment)
         
         return handler_method(self, *args)
     
