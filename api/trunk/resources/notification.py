@@ -136,15 +136,15 @@ class ListPushResource(ListsResource):
                                 # push notification and unread count to Urban Airship
                                 airship.push({'aps': payload}, device_tokens=[x.device.device_token])
                                 
-                                logging.debug("Pushed '%s' (%s) to device %s with device token %s.", message, unread, x.device.key().id(), x.device.device_token)
+                                logging.debug("Pushed '%s' (%s) to device %s with device token '%s'.", message, unread, x.device.key().id(), x.device.device_token)
                                 
                                 devices.append(x.device)
                             
                             except DownloadError, e:
-                                logging.error("Unable to push '%s' (%s) to device %s with device token %s at Urban Airship: %s", message, unread, x.device.key().id(), x.device.device_token, e)
+                                logging.error("Unable to push '%s' (%s) to device %s with device token '%s' at Urban Airship: %s", message, unread, x.device.key().id(), x.device.device_token, e)
                             
                             except urbanairship.AirshipFailure, (status, response):
-                                logging.error("Unable to push '%s' (%s) to device %s with device token %s at Urban Airship: %s (%d)", message, unread, x.device.key().id(), x.device.device_token, response, status)
+                                logging.error("Unable to push '%s' (%s) to device %s with device token '%s' at Urban Airship: %s (%d)", message, unread, x.device.key().id(), x.device.device_token, response, status)
                     
                     list.pushed = datetime.now()
                     

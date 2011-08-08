@@ -27,13 +27,13 @@ class DevicesResource(Resource):
                 airship = urbanairship.Airship(self.settings.URBANAIRSHIP_APPLICATION_KEY, self.settings.URBANAIRSHIP_MASTER_SECRET)
                 airship.register(device.device_token, alias=str(device.key()))
                 
-                logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
+                logging.debug("Registered device %s with device token '%s' at Urban Airship.", device.key().id(), device.device_token)
             
             except DownloadError, e:
-                logging.error("Unable to register device %s with device token %s at Urban Airship: %s", device.key().id(), device.device_token, e)
+                logging.error("Unable to register device %s with device token '%s' at Urban Airship: %s", device.key().id(), device.device_token, e)
             
             except urbanairship.AirshipFailure, (status, response):
-                logging.error("Unable to register device %s with device token %s at Urban Airship: %s (%d)", device.key().id(), device.device_token, response, status)
+                logging.error("Unable to register device %s with device token '%s' at Urban Airship: %s (%d)", device.key().id(), device.device_token, response, status)
         
         protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']
@@ -68,14 +68,21 @@ class DeviceResource(Resource):
                 
                 device_token = params.get('device_token', [])
                 if device_token:
+                    try:
+                        
+                        device.device_token = ''.join(device_token)
+                        
+                        # register with Urban Airship
+                        airship = urbanairship.Airship(self.settings.URBANAIRSHIP_APPLICATION_KEY, self.settings.URBANAIRSHIP_MASTER_SECRET)
+                        airship.register(device.device_token, alias=str(device.key()))
+                        
+                        logging.debug("Registered device %s with device token '%s' at Urban Airship.", device.key().id(), device.device_token)
                     
-                    device.device_token = ''.join(device_token)
+                    except DownloadError, e:
+                        logging.error("Unable to register device %s with device token '%s' at Urban Airship: %s", device.key().id(), device.device_token, e)
                     
-                    # register with Urban Airship
-                    airship = urbanairship.Airship(self.settings.URBANAIRSHIP_APPLICATION_KEY, self.settings.URBANAIRSHIP_MASTER_SECRET)
-                    airship.register(device.device_token, alias=str(device.key()))
-                    
-                    logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
+                    except urbanairship.AirshipFailure, (status, response):
+                        logging.error("Unable to register device %s with device token '%s' at Urban Airship: %s (%d)", device.key().id(), device.device_token, response, status)
                 
                 device.put()    
             
