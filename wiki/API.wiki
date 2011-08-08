@@ -24,6 +24,7 @@
 POST /api/devices HTTP/1.1
 Host: lightning-app.appspot.com
 Content-Type: application/x-www-form-urlencoded
+Environment: production
 
 name=Test&identifier=123456&device_token=ABC123
 }}}
@@ -40,6 +41,7 @@ Content-Type: application/json
 {{{
 GET /api/devices/1 HTTP/1.1
 Device: https://lightning-app.appspot.com/api/devices/1?secret=abc
+Environment: production
 }}}
 
 {{{
