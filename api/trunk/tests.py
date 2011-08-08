@@ -87,7 +87,7 @@ class DevicesTests(Tests):
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/devices/1?secret=abc", "secret": "abc", "id": 1}')
     
-    def test_enviroment(self):
+    def test_environment(self):
         
         self.mock_urbanairship('Adr6zi712Z', 'Jei1co955G')
         self.urbanairship.register(mocker.ANY, alias=mocker.ANY)
