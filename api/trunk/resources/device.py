@@ -2,6 +2,7 @@ import os
 import logging
 import binascii
 import urbanairship
+from google.appengine.api.urlfetch import DownloadError
 from util import Resource, json, device_required, environment
 from models import Device
 
@@ -27,9 +28,12 @@ class DevicesResource(Resource):
                 airship.register(device.device_token, alias=str(device.key()))
                 
                 logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
-                
+            
+            except DownloadError, e:
+                logging.error("Unable to register device %s with device token %s at Urban Airship: %s", device.key().id(), device.device_token, e)
+            
             except urbanairship.AirshipFailure, (status, response):
-                logging.error("Could not register device %s with device token %s at Urban Airship: %s (%d)", device.key().id(), device.device_token, response, status)
+                logging.error("Unable to register device %s with device token %s at Urban Airship: %s (%d)", device.key().id(), device.device_token, response, status)
         
         protocol = self.request._environ['wsgi.url_scheme']
         host = self.request._environ['HTTP_HOST']

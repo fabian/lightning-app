@@ -4,6 +4,7 @@ import binascii
 import urbanairship
 from datetime import datetime
 from google.appengine.api import taskqueue
+from google.appengine.api.urlfetch import DownloadError
 from util import Resource, json, device_required, environment
 from models import Device, List
 from notifications import Notification, Unread
@@ -131,12 +132,19 @@ class ListPushResource(ListsResource):
                                 payload['alert'] = message
                                 payload['lightning_list'] = list.key().id()
                             
-                            # push notification and unread count to Urban Airship
-                            airship.push({'aps': payload}, device_tokens=[x.device.device_token])
+                            try:
+                                # push notification and unread count to Urban Airship
+                                airship.push({'aps': payload}, device_tokens=[x.device.device_token])
+                                
+                                logging.debug("Pushed '%s' (%s) to device %s with device token %s.", message, unread, x.device.key().id(), x.device.device_token)
+                                
+                                devices.append(x.device)
                             
-                            logging.debug("Pushed '%s' (%s) to device %s with device token %s.", message, unread, x.device.key().id(), x.device.device_token)
+                            except DownloadError, e:
+                                logging.error("Unable to push '%s' (%s) to device %s with device token %s at Urban Airship: %s", message, unread, x.device.key().id(), x.device.device_token, e)
                             
-                            devices.append(x.device)
+                            except urbanairship.AirshipFailure, (status, response):
+                                logging.error("Unable to push '%s' (%s) to device %s with device token %s at Urban Airship: %s (%d)", message, unread, x.device.key().id(), x.device.device_token, response, status)
                     
                     list.pushed = datetime.now()
                     
