@@ -28,7 +28,7 @@ class DevicesResource(Resource):
                 
                 logging.debug("Registered device %s with device token %s at Urban Airship.", device.key().id(), device.device_token)
                 
-            except urbanairship.AirshipFailure as (status, response):
+            except urbanairship.AirshipFailure, (status, response):
                 logging.error("Could not register device %s with device token %s at Urban Airship: %s (%d)", device.key().id(), device.device_token, response, status)
         
         protocol = self.request._environ['wsgi.url_scheme']
