@@ -51,5 +51,6 @@
 
 - (void)finishFetchingLists:(NSData *)data;
 - (void)finishAddingList:(NSManagedObjectID *)objectID;
+- (void)finishReadCount;
 
 @end

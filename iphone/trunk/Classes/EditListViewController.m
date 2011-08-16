@@ -97,6 +97,10 @@
 	NSLog(@"delete list");
 }
 
+- (void)mailSharedList:(id) sender {
+	NSLog(@"mail shared list");
+}
+
 #pragma mark -
 #pragma mark Table view data source
 
@@ -131,6 +135,7 @@
     
     // Set up the cell...
 	if(indexPath.section == 0) {
+		cell.accessoryType = UITableViewCellAccessoryNone;
 		if(0 == indexPath.row){
 			if (![list.shared boolValue]) {
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -238,77 +243,107 @@
     //differ between your sections or if you
     //have only on section return a static value
 	
-	int sectionHeight = 0;
-	
 	if([list.shared boolValue]) {
-		sectionHeight = 1;
-	}
+		if (section == 0) {
+			return 58;
+		}
+	} 
 	
-    if (section == sectionHeight) {
-		return 100;
-	}
+	return 116;
 }
 
 // custom view for footer. will be adjusted to default or specified footer height
 // Notice: this will work only for one section within the table view
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+	NSLog(@"section: %i", section);
 	
-    if(footerView == nil) {
-        //allocate the view if it doesn't exist yet
-        footerView  = [[UIView alloc] init];
-		
-        //we would like to show a gloosy red button, so get the image first
-        UIImage *image = [[UIImage imageNamed:@"button_red.png"]
-						  stretchableImageWithLeftCapWidth:8 topCapHeight:8];
-		
-        //create the button
-        UIButton *entriesDeletebutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [entriesDeletebutton setBackgroundImage:image forState:UIControlStateNormal];	
-		
-        //the button should be as big as a table view cell
-        [entriesDeletebutton setFrame:CGRectMake(10, 13, 300, 44)];
-		
-        //set title, font size and font color
-        [entriesDeletebutton setTitle:@"Delete marked entries" forState:UIControlStateNormal];
-        [entriesDeletebutton.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
-        [entriesDeletebutton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-		
-        //set action of the button
-        [entriesDeletebutton addTarget:self action:@selector(deleteMarkedEntries:)
-		 forControlEvents:UIControlEventTouchUpInside];
-		
-		
-		//Create second button
-		
-		//we would like to show a gloosy red button, so get the image first
-        /*UIImage *image = [[UIImage imageNamed:@"button_red.png"]
-						  stretchableImageWithLeftCapWidth:8 topCapHeight:8];*/
-		
-        //create the button
-        UIButton *deleteListButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [deleteListButton setBackgroundImage:image forState:UIControlStateNormal];	
-		
-        //the button should be as big as a table view cell
-        [deleteListButton setFrame:CGRectMake(10, 60, 300, 44)];
-		
-        //set title, font size and font color
-        [deleteListButton setTitle:@"Delete List" forState:UIControlStateNormal];
-        [deleteListButton.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
-        [deleteListButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-		
-        //set action of the button
-        [deleteListButton addTarget:self action:@selector(deleteList:)
-		 forControlEvents:UIControlEventTouchUpInside];
-		
-		//add the button to the view
-        [footerView addSubview:entriesDeletebutton];
-        [footerView addSubview:deleteListButton];
-		
-		
-    }
+    //if((section == 0 && ![list.shared boolValue]) || (section == 1 && [list.shared boolValue])) {
+	if((section == 0 && ![list.shared boolValue]) || (section == 1 && [list.shared boolValue])) {
+		if (footerDeleteView == nil) {
+			//allocate the view if it doesn't exist yet
+			footerDeleteView  = [[UIView alloc] init];
+			
+			//we would like to show a gloosy red button, so get the image first
+			UIImage *image = [[UIImage imageNamed:@"button_red.png"]
+							  stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+			
+			//create the button
+			UIButton *entriesDeletebutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+			[entriesDeletebutton setBackgroundImage:image forState:UIControlStateNormal];	
+			
+			//the button should be as big as a table view cell
+			[entriesDeletebutton setFrame:CGRectMake(10, 13, 300, 44)];
+			
+			//set title, font size and font color
+			[entriesDeletebutton setTitle:@"Delete marked entries" forState:UIControlStateNormal];
+			[entriesDeletebutton.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+			[entriesDeletebutton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+			
+			//set action of the button
+			[entriesDeletebutton addTarget:self action:@selector(deleteMarkedEntries:)
+						  forControlEvents:UIControlEventTouchUpInside];
+			
+			
+			//Create second button
+			
+			//we would like to show a gloosy red button, so get the image first
+			/*UIImage *image = [[UIImage imageNamed:@"button_red.png"]
+			 stretchableImageWithLeftCapWidth:8 topCapHeight:8];*/
+			
+			//create the button
+			UIButton *deleteListButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+			[deleteListButton setBackgroundImage:image forState:UIControlStateNormal];	
+			
+			//the button should be as big as a table view cell
+			[deleteListButton setFrame:CGRectMake(10, 60, 300, 44)];
+			
+			//set title, font size and font color
+			[deleteListButton setTitle:@"Delete List" forState:UIControlStateNormal];
+			[deleteListButton.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+			[deleteListButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+			
+			//set action of the button
+			[deleteListButton addTarget:self action:@selector(deleteList:)
+					   forControlEvents:UIControlEventTouchUpInside];
+			
+			//add the button to the view
+			[footerDeleteView addSubview:entriesDeletebutton];
+			[footerDeleteView addSubview:deleteListButton];
+		}
+		//return the view for the footer
+		return footerDeleteView;
+    } else {
+		if (footerMailView == nil) {
+			//allocate the view if it doesn't exist yet
+			footerMailView  = [[UIView alloc] init];
+			
+			//we would like to show a gloosy red button, so get the image first
+			UIImage *image = [[UIImage imageNamed:@"button_red.png"]
+							  stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+			
+			//create the button
+			UIButton *mailButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+			[mailButton setBackgroundImage:image forState:UIControlStateNormal];	
+			
+			//the button should be as big as a table view cell
+			[mailButton setFrame:CGRectMake(10, 13, 300, 44)];
+			
+			//set title, font size and font color
+			[mailButton setTitle:@"Mail shared list" forState:UIControlStateNormal];
+			[mailButton.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+			[mailButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+			
+			//set action of the button
+			[mailButton addTarget:self action:@selector(mailSharedList:)
+						  forControlEvents:UIControlEventTouchUpInside];
+			
+			[footerMailView addSubview:mailButton];
+		}
+		return footerMailView;
+	}
+
 	
-    //return the view for the footer
-    return footerView;
+    //return nil;
 }
 
 
@@ -316,14 +351,59 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
-    */
+    NSLog(@"what is selected section: %i row: %i", indexPath.section, indexPath.row);
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	
+	switch (indexPath.section) {
+		case 0:
+			NSLog(@"test");
+			list.shared = [NSNumber numberWithBool:TRUE];
+			NSUInteger actualCellNumber = indexPath.row;
+			NSUInteger otherCellNumber = 0;
+			
+			
+			if (actualCellNumber == 0) {
+				otherCellNumber = 1;
+				list.shared = [NSNumber numberWithBool:FALSE];
+			}
+			
+			NSError *error;
+			[context save:&error];
+			
+			/*//actual cell
+			UITableViewCell *actualCell = [tableView cellForRowAtIndexPath:indexPath];
+			//get other cell
+			UITableViewCell *otherCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:otherCellNumber inSection:0]];
+			
+			actualCell.accessoryType = UITableViewCellAccessoryCheckmark;
+			otherCell.accessoryType = UITableViewCellAccessoryNone;
+			*/
+			[tableView reloadData];
+			
+			if ([list.shared boolValue]) {
+				UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"test" delegate:self cancelButtonTitle:@"send email later" destructiveButtonTitle:nil otherButtonTitles:@"send email now", nil];
+				
+				[actionSheet showInView:tableView];
+				
+				[actionSheet release];
+			}
+			
+			break;
+		case 1:
+			//
+			break;
+
+		default:
+			break;
+	}
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	NSLog(@"buttonindex %@", [NSNumber numberWithInteger:buttonIndex]);
+	//[actionSheet dismissWithClickedButtonIndex:buttonIndex animated:YES];
+	if (buttonIndex == 0) {
+		//send email
+	}
 }
 
 

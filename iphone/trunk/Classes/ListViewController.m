@@ -15,6 +15,7 @@
 @implementation ListViewController
 
 @synthesize listEntries, listItems, context, listName, doneTextField, timer;
+@synthesize lightningAPI = _lightningAPI;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
 	NSLog(@"Foo %@", theTextField.text);
@@ -27,12 +28,7 @@
 	}
 	
 	[listEntries.entries addObject:theTextField.text];
-	
-	//Adding Item to List
-	Lightning *lightning = [[[Lightning alloc]init] autorelease];
-	lightning.delegate = self;
-	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
-	
+		
 	if (activeCell.editing) {
 		
 		ListItem *listItem = [self.listItems objectAtIndex:activeCell.indexPath.row];
@@ -41,7 +37,7 @@
 		NSError *error;
 		[context save:&error];
 		
-		[lightning updateItem:listItem];
+        [self.lightningAPI updateItem:listItem];
 		[self.tableView reloadData];
 	} else {
 		
@@ -55,7 +51,7 @@
 		NSError *error;
 		[context save:&error];
 		
-		[lightning addItemToList:listName.listId item:listItem context:self.context];
+		[self.lightningAPI addItemToList:listName.listId item:listItem];
 
 		
 		NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
@@ -81,11 +77,10 @@
 }
 
 -(void)pushAfterTimer {
-	NSLog(@"pushing after timer");
-	Lightning *lightning = [[[Lightning alloc]init] autorelease];
-	lightning.delegate = self;
-	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
-	[lightning pushUpdateForList:[self.listName listId]];
+	if ([[self.listName shared] boolValue]) {
+        NSLog(@"pushing after timer");	
+        [self.lightningAPI pushUpdateForList:[self.listName listId]];
+    }
 }
 
 /*- (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -134,7 +129,7 @@
 - (id)initWithStyle:(UITableViewStyle)style listName:(ListName *)listNameInit{
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:style]) {
-		
+		self.lightningAPI = [LightningAPI sharedManager];
 		self.listName = listNameInit;
     }
     return self;
@@ -217,11 +212,10 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	NSLog(@"pushing because the user is going back to the main view");
-	Lightning *lightning = [[[Lightning alloc]init] autorelease];
-	lightning.delegate = self;
-	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
-	[lightning pushUpdateForList:[self.listName listId]];
+	if ([[self.listName shared] boolValue]) {
+        NSLog(@"pushing because the user is going back to the main view");
+        [self.lightningAPI pushUpdateForList:[self.listName listId]];
+    }
 }
 
 /*
@@ -510,13 +504,18 @@
 }
 
 - (void)resignActive {
-	NSLog(@"pushing because user closes the app");
-	Lightning *lightning = [[[Lightning alloc]init] autorelease];
-	lightning.delegate = self;
-	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
-	[lightning pushUpdateForList:[self.listName listId]];
-	
+	if ([[self.listName shared] boolValue]) {
+        NSLog(@"pushing because user closes the app");
+        [self.lightningAPI pushUpdateForList:[self.listName listId]];
+    }
 }
+
+- (void) finishReadCount {
+    listName.unreadCount = 0;
+    NSError *error;
+    [context save:&error];
+}
+
 
 - (void)dealloc {
 	[listEntries release];

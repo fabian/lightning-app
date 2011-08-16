@@ -11,7 +11,8 @@
 #import	"ListName.h"
 #import <CoreData/CoreData.h>
 #import "Lightning.h"
-#import "ItemTableViewCell.h";
+#import "ItemTableViewCell.h"
+#import "LightningAPI.h"
 
 @interface ListViewController : UITableViewController <UITextFieldDelegate, UITextInputTraits, LightningDelegate> {
 	ListEntries *listEntries;
@@ -36,5 +37,6 @@
 @property (nonatomic, retain) NSString *addListName;
 @property (retain, nonatomic) NSManagedObjectContext *context;
 @property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, retain) LightningAPI *lightningAPI;
 
 @end

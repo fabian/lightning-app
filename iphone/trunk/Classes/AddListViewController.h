@@ -13,10 +13,11 @@
 #import <CoreData/CoreData.h>
 #import "ListName.h"
 #import "LightningAppDelegate.h"
+#import "LightningAPI.h"
 
 @protocol AddListViewControllerDelegate;
 
-@interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, LightningDelegate>{
+@interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, LightningAPIAddListDelegate>{
 	NSObject <AddListViewControllerDelegate> *delegate;
 	UITextField *listNameTextField;
 	int checkmark;
@@ -28,6 +29,7 @@
 @property (nonatomic, retain) UITextField *listNameTextField;
 @property (nonatomic, retain) NSManagedObjectContext *context;
 @property (nonatomic, retain) ListName *sharedList;
+@property (nonatomic, retain) LightningAPI *lightningAPI;
 
 @property (assign) NSObject <AddListViewControllerDelegate> *delegate;
 
@@ -38,7 +40,7 @@
 
 @protocol AddListViewControllerDelegate <NSObject>
 
-- (void)finishAddList:(NSString *)listName;
+- (void)finishAddPrivateList:(NSString *)listName;
 - (void)finishAddSharedList:(NSManagedObjectID *)objectID;
 
 @end

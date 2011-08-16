@@ -53,7 +53,7 @@ NSString const *environment = @"production";
 			[callUrl release];
 			
 			GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-			[GTMHTTPFetcher setLoggingEnabled:YES];
+			//[GTMHTTPFetcher setLoggingEnabled:YES];
 			
 		
 			NSString * tokenAsString = [[[initDeviceToken description] 
@@ -63,13 +63,13 @@ NSString const *environment = @"production";
 			[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-			[myFetcher setDeviceHeader:deviceHeader];
+			//[myFetcher setDeviceHeader:deviceHeader];
 			
 			NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-			[myFetcher setEnvironment:environment_];
+			//[myFetcher setEnvironment:environment_];
 		
-			[myFetcher beginFetchWithDelegate:self
-						didFinishSelector:@selector(myFetcher:finishedWithData:error:)];
+			/*[myFetcher beginFetchWithDelegate:self
+						didFinishSelector:@selector(myFetcher:finishedWithData:error:)];*/
 		} else {
 			//[self createListWithTitle:@"poschte2"];
 			//[self createItemWithValue:@"brot" andList:@"46002"];
@@ -99,16 +99,16 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 	
 	NSString *postString = [NSString stringWithFormat:@"title=%@;owner=%@", listTitle, self.lightningId];
 	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+	//[myFetcher setEnvironment:environment_];
 
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithAddingList:error:)];
@@ -127,16 +127,16 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 				
 	NSString *postString = [NSString stringWithFormat:@"value=%@;list=%@", item.name, listId];
 	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+	//[myFetcher setEnvironment:environment_];
 	
 	[myFetcher setUserData:[item objectID]];
 	
@@ -156,16 +156,16 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 	
 	NSString *postString = [NSString stringWithFormat:@""];
 	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+	//[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithPushToList:error:)];
@@ -182,13 +182,13 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+	//[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithGetLists:error:)];
@@ -207,13 +207,13 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+	//[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithGetLists:error:)];
@@ -232,13 +232,13 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+//	[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithGetItemsFromList:error:)];
@@ -256,16 +256,16 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 	
 	NSString *putString = [NSString stringWithFormat:@"token=%@", token];
-	[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
+	//[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+	//[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedWithShareList:error:)];
@@ -282,16 +282,16 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 	
 	NSString *postString = [NSString stringWithFormat:@""];
-	[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+	//[myFetcher setPostData:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+	//[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedReadList:error:)];
@@ -309,17 +309,17 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 	
 	NSString *putString = [NSString stringWithFormat:@"value=%@;done=%@;modified=%@", listItem.name, listItem.done, listItem.modified];
 	NSLog(@"%@",putString);
-	[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
+	//[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+	//[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedUpdateItem:error:)];
@@ -339,7 +339,7 @@ NSString const *environment = @"production";
 	[callUrl release];
 	
 	GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-	[GTMHTTPFetcher setLoggingEnabled:YES];
+	//[GTMHTTPFetcher setLoggingEnabled:YES];
 	
 	NSString * tokenAsString = [[[updatedDeviceToken description] 
 								 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
@@ -347,13 +347,13 @@ NSString const *environment = @"production";
 	
 	NSString *putString = [NSString stringWithFormat:@"identifier=%@;name=%@;device_token=%@", [UIDevice currentDevice].uniqueIdentifier, updatedName, [tokenAsString uppercaseString]];
 	NSLog(@"%@",putString);
-	[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
+	//[myFetcher setPutData:[putString dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	NSString *deviceHeader = [NSString stringWithFormat:@"%@devices/%@?secret=%@", self.url, self.lightningId, self.lightningSecret];
-	[myFetcher setDeviceHeader:deviceHeader];
+	//[myFetcher setDeviceHeader:deviceHeader];
 	
 	NSString *environment_ = [NSString stringWithFormat:@"%@", environment];
-	[myFetcher setEnvironment:environment_];
+	//[myFetcher setEnvironment:environment_];
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishUpdateDevice:error:)];
@@ -607,7 +607,7 @@ NSString const *environment = @"production";
 						listName.token = [list objectForKey:@"token"];
 						listName.lastModified = [LightningUtil getUTCFormateDate:[NSDate date]];
 						
-						[context save:&error];
+						[self.context save:&error];
 					}
 					
 				} 
@@ -642,7 +642,7 @@ NSString const *environment = @"production";
 						 listName.token = [list objectForKey:@"token"];
 						 listName.lastModified = [LightningUtil getUTCFormateDate:[NSDate date]];
 						 
-						 [context save:&error];
+						 [self.context save:&error];
 					}
 				}
 			}
@@ -787,6 +787,8 @@ NSString const *environment = @"production";
 		
 	} else {
 		NSLog(@"finishedReadList %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
+        [self.delegate finishReadCount];
+        
 	}
 }
 
