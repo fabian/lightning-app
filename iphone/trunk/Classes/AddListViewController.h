@@ -9,30 +9,27 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
-#import "Lightning.h";
+#import "Lightning.h"
 #import <CoreData/CoreData.h>
 #import "ListName.h"
+#import "LightningAppDelegate.h"
 
 @protocol AddListViewControllerDelegate;
 
 @interface AddListViewController : UITableViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, LightningDelegate>{
-	id <AddListViewControllerDelegate> delegate;
-	NSIndexPath *indexPathCell1;
-	NSIndexPath *indexPathCell2;
+	NSObject <AddListViewControllerDelegate> *delegate;
 	UITextField *listNameTextField;
 	int checkmark;
 	NSManagedObjectContext *context;
 	ListName *sharedList;
 }
 
-@property (nonatomic, retain) NSIndexPath *indexPathCell1;
-@property (nonatomic, retain) NSIndexPath *indexPathCell2;
 @property (nonatomic) int checkmark;
 @property (nonatomic, retain) UITextField *listNameTextField;
 @property (nonatomic, retain) NSManagedObjectContext *context;
 @property (nonatomic, retain) ListName *sharedList;
 
-@property (assign) id <AddListViewControllerDelegate> delegate;
+@property (assign) NSObject <AddListViewControllerDelegate> *delegate;
 
 - (void)doneAddList;
 - (void)showLoadingView;

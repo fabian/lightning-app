@@ -11,7 +11,7 @@
 
 @implementation AddListViewController
 
-@synthesize delegate, indexPathCell1, indexPathCell2, checkmark, listNameTextField, context, sharedList;
+@synthesize delegate, checkmark, listNameTextField, context, sharedList;
 
 /*
  - (id)initWithStyle:(UITableViewStyle)style {
@@ -197,35 +197,50 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        // Set up the cell...
+        if(indexPath.section == 0) {
+            listNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(16, 10, cell.frame.size.width-16, cell.frame.size.height-10)];
+            listNameTextField.placeholder = @"Set name of list";
+            
+            listNameTextField.delegate = self;
+            [listNameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingDidEnd];
+            
+            [cell addSubview: listNameTextField];
+            //cell.textLabel.text = @"Set name of list";
+        } else {
+            if(0 == indexPath.row){
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                cell.textLabel.text = @"Private";
+                cell.detailTextLabel.text = @"ja isches";
+                cell.imageView.image = [UIImage imageNamed:@"Icon-Private.png"];
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.textLabel.text	= @"Share with others";
+                cell.detailTextLabel.text = @"denke schon";
+                cell.imageView.image = [UIImage imageNamed:@"Icon-Shared.png"];
+            }
+            
+        }
     }
     
-    // Set up the cell...
-	if(indexPath.section == 0) {
-		listNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(16, 10, cell.frame.size.width-16, cell.frame.size.height-10)];
-		listNameTextField.placeholder = @"Set name of list";
-		listNameTextField.delegate = self;
-		[listNameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-		
-		[cell addSubview: listNameTextField];
-		//cell.textLabel.text = @"Set name of list";
-	} else {
-		
-		
-		if(0 == indexPath.row){
-			cell.accessoryType = UITableViewCellAccessoryCheckmark;
-			cell.textLabel.text = @"Private";
-			cell.detailTextLabel.text = @"ja isches";
-			indexPathCell1 = indexPath;
-			cell.imageView.image = [UIImage imageNamed:@"Icon-Private.png"];
-		} else {
-			cell.textLabel.text	= @"Share with others";
-			cell.detailTextLabel.text = @"denke schon";
-			indexPathCell2 = indexPath;
-			cell.imageView.image = [UIImage imageNamed:@"Icon-Shared.png"];
-		}
-
-	}
-	
+    if(indexPath.section == 1) {
+        if(0 == indexPath.row){
+            if (checkmark == 0) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+        } else {
+            if (checkmark == 1) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+        }
+            
+    }   
+    
     return cell;
 }
 
@@ -236,21 +251,14 @@
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
 		
-	UITableViewCell *cell1 = [self.tableView cellForRowAtIndexPath:indexPathCell1];
-	UITableViewCell *cell2 = [self.tableView cellForRowAtIndexPath:indexPathCell2];
-	
-	if(checkmark != indexPath.row) {
-		if (checkmark == 0) {
-			cell1.accessoryType = UITableViewCellAccessoryNone;
-			cell2.accessoryType = UITableViewCellAccessoryCheckmark;
-			checkmark = 1;
-			
-		} else {
-			cell1.accessoryType = UITableViewCellAccessoryCheckmark;
-			cell2.accessoryType = UITableViewCellAccessoryNone;
-			checkmark = 0;
-		}
-	}
+	    
+    if (checkmark == 0) {
+        checkmark = 1;
+    } else {
+        checkmark = 0;
+    }
+    
+    [self.tableView reloadData];
 }
 
 
