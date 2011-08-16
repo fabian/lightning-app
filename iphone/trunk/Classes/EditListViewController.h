@@ -11,9 +11,10 @@
 #import "ListName.h";
 
 
-@interface EditListViewController : UITableViewController {
+@interface EditListViewController : UITableViewController<UIActionSheetDelegate> {
 
-	UIView *footerView;
+	UIView *footerDeleteView;
+	UIView *footerMailView;
 	NSManagedObjectContext *context;
 	ListName *list;
 }

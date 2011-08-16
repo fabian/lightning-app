@@ -12,15 +12,17 @@
 @implementation AddListViewController
 
 @synthesize delegate, checkmark, listNameTextField, context, sharedList;
+@synthesize lightningAPI = _lightningAPI;
 
-/*
+
  - (id)initWithStyle:(UITableViewStyle)style {
  // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
- if (self = [super initWithStyle:style]) {
+     if (self = [super initWithStyle:style]) {
+         self.lightningAPI = [LightningAPI sharedManager];
+     }
+     
+     return self;
  }
- return self;
- }
- */
 
 
  - (void)viewDidLoad {
@@ -60,12 +62,10 @@
 	if (checkmark == 1) {
 		[self showLoadingView];
 		
-		Lightning *lightning = [[Lightning alloc]init];
-		lightning.delegate = self;
-		lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
-		[lightning addListWithTitle:self.listNameTextField.text context:self.context];	
+        self.lightningAPI.addListDelegate = self;
+        [self.lightningAPI addList:self.listNameTextField.text];
 	} else {
-		[self.delegate finishAddList:listNameTextField.text];
+		[self.delegate finishAddPrivateList:listNameTextField.text];
 	}
 }
 
@@ -94,7 +94,7 @@
 	}
 	
 	[self.navigationController dismissModalViewControllerAnimated:YES];
-	[self.delegate performSelector: @selector(finishAddSharedList:) withObject:[self.sharedList objectID] afterDelay: 0.5f];
+	[self.delegate performSelector: @selector(finishAddSharedList:) withObject:[self.sharedList token] afterDelay: 0.5f];
 }
 
 
@@ -343,61 +343,42 @@
 	[[self.view viewWithTag:13] removeFromSuperview];
 }
 
-- (void)finishAddingList:(NSManagedObjectID *)objectID {
-	
-	
+- (void)finishAddList:(NSString *)token {
 	
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
 	
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"token == %@", token];
+    
 	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
 	[fetch setEntity: entity];
+    [fetch setPredicate:predicate];
 	
 	NSArray * results = [context executeFetchRequest:fetch error:nil];
-	[fetch release];
-	
-	for (ListName *listName in results) {
-		if ([objectID isEqual:[listName objectID]]) {
-			
-			/*ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
-			listViewController.listName = listName;
-			listViewController.context = context;
-			
-			NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
-			NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[listName.listItems allObjects]];
-			[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
-			listViewController.listItems = sorted;
-			
-			[sorted release];
-			
-			[listViewController registerForKeyboardNotifications];
-			
-			[self dismissModalViewControllerAnimated:YES];
-			[self.navigationController pushViewController:listViewController animated:NO];
-			[listViewController release];*/
-			
-			NSError *error;
-			listName.shared = [NSNumber numberWithBool:TRUE];
-			[context save:&error];
-			
-			self.sharedList = listName;
-			
-			MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
-			mailComposer.mailComposeDelegate = self;
-			
-			NSString *subject = [NSString stringWithFormat:@"Lightning invite for list: %@", listName.name];
-			[mailComposer setSubject:subject];
-			
-			// Fill out the email body text
-			NSString *emailBody = [NSString stringWithFormat:@"This is an invite with for the list: <a href=\"lightning://list/%@?token=%@\">%@</a>", listName.listId, listName.token, listName.name];
-			NSLog(@"link: <a href=\"lightning://list/%@?token=%@\">%@</a>", listName.listId, listName.token, listName.name);
-			[mailComposer setMessageBody:emailBody isHTML:YES];
-			
-			[self presentModalViewController:mailComposer animated:YES];
-			[mailComposer release];
-			
-			break;
-		}
-	}
+    
+    if ([results count] == 1) {
+        
+        ListName *listName = [results objectAtIndex:0];
+        NSError *error;
+        listName.shared = [NSNumber numberWithBool:TRUE];
+        [context save:&error];
+        
+        self.sharedList = listName;
+        
+        MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+        mailComposer.mailComposeDelegate = self;
+        
+        NSString *subject = [NSString stringWithFormat:@"Lightning invite for list: %@", listName.name];
+        [mailComposer setSubject:subject];
+        
+        // Fill out the email body text
+        NSString *emailBody = [NSString stringWithFormat:@"This is an invite with for the list: <a href=\"lightning://list/%@?token=%@\">%@</a>", listName.listId, listName.token, listName.name];
+        NSLog(@"link: <a href=\"lightning://list/%@?token=%@\">%@</a>", listName.listId, listName.token, listName.name);
+        [mailComposer setMessageBody:emailBody isHTML:YES];
+        
+        [self presentModalViewController:mailComposer animated:YES];
+        [mailComposer release];
+
+    }
 }
 
 - (void)textFieldDidChange:(id)sender { 

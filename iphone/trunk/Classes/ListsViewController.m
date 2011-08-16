@@ -15,6 +15,7 @@
 @implementation ListsViewController
 
 @synthesize lists, context, listNames;
+@synthesize lightningAPI = _lightningAPI;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -28,9 +29,10 @@
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:style]) {
 		self.context = initContext;
+        
+        self.lightningAPI = [LightningAPI sharedManager];
 		
 		[self setupModel:TRUE];
-		//[self.listNames setArray:nil];
     }
     return self;
 }
@@ -82,10 +84,8 @@
 	[leftButton release];
 	
 	//getting lists
-	Lightning *lightning = [[Lightning alloc]init];
-	lightning.delegate = self;
-	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
-	[lightning getListsWithContext:self.context];
+    self.lightningAPI.delegate = self;
+	[self.lightningAPI getLists];
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -133,50 +133,48 @@
 	
 }
 
-- (void)finishAddList:(NSString *)listName{
+- (void)finishAddPrivateList:(NSString *)listName{
 	NSLog(@"finishAddList");
 	
-	Lightning *lightning = [[Lightning alloc]init];
-	lightning.delegate = self;
-	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
-	[lightning addListWithTitle:listName context:self.context];	
+    self.lightningAPI.addListDelegate = self;
+    [self.lightningAPI addList:listName];
 }
-- (void)finishAddSharedList:(NSManagedObjectID *)objectID {
+- (void)finishAddSharedList:(NSString *)token {
 	NSLog(@"finishAddSharedList");
 	
 	[self setupModel:FALSE];
 	
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
-	
+
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"token == %@", token];
+    
 	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
 	[fetch setEntity: entity];
-	
+    [fetch setPredicate:predicate];
+
 	NSArray * results = [context executeFetchRequest:fetch error:nil];
-	[fetch release];
 	
-	for (ListName *listName in results) {
-		if ([objectID isEqual:[listName objectID]]) {
-			
-			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain listName:listName];
-			listViewController.listName = listName;
-			listViewController.context = context;
-			
-			NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
-			NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[listName.listItems allObjects]];
-			[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
-			listViewController.listItems = sorted;
-			
-			[sorted release];
-			
-			[listViewController registerForKeyboardNotifications];
-			
-			[self dismissModalViewControllerAnimated:YES];
-			[self.navigationController pushViewController:listViewController animated:NO];
-			[listViewController release];
-			
-			break;
-		}
-	}
+    if ([results count] == 1) {
+        
+        ListName *listName = [results objectAtIndex:0];
+        
+        ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain listName:listName];
+        listViewController.listName = listName;
+        listViewController.context = context;
+        
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
+        NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[listName.listItems allObjects]];
+        [sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+        listViewController.listItems = sorted;
+        
+        [sorted release];
+        
+        [listViewController registerForKeyboardNotifications];
+        
+        [self dismissModalViewControllerAnimated:YES];
+        [self.navigationController pushViewController:listViewController animated:NO];
+        [listViewController release];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -419,40 +417,47 @@
 	[self setupModel:FALSE];
 }
 
-- (void)finishAddingList:(NSManagedObjectID *)objectID {
+
+//New Method instead of finishFetchingLists
+- (void)finishGetLists {
+    [self setupModel:FALSE];
+}
+
+- (void)finishAddList:(NSString *)token {
 	[self setupModel:FALSE];
 	
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
 	
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"token == %@", token];
+    
 	NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
 	[fetch setEntity: entity];
+    [fetch setPredicate:predicate];
 	
 	NSArray * results = [context executeFetchRequest:fetch error:nil];
-	[fetch release];
 	
-	for (ListName *listName in results) {
-		if ([objectID isEqual:[listName objectID]]) {
-			
-			ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain listName:listName];
-			listViewController.listName = listName;
-			listViewController.context = context;
-			
-			NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
-			NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[listName.listItems allObjects]];
-			[sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
-			listViewController.listItems = sorted;
-			
-			[sorted release];
-			
-			[listViewController registerForKeyboardNotifications];
-			
-			[self dismissModalViewControllerAnimated:YES];
-			[self.navigationController pushViewController:listViewController animated:NO];
-			[listViewController release];
-			
-			break;
-		}
-	}
+	if ([results count] == 1) {
+        ListName *listName = [results objectAtIndex:0];
+        ListViewController *listViewController = [[ListViewController alloc] initWithStyle:UITableViewStylePlain listName:listName];
+        listViewController.listName = listName;
+        listViewController.context = context;
+        
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"creation" ascending:YES];
+        NSMutableArray *sorted = [[NSMutableArray alloc] initWithArray:[listName.listItems allObjects]];
+        [sorted sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+        listViewController.listItems = sorted;
+        
+        [sorted release];
+        
+        [listViewController registerForKeyboardNotifications];
+        
+        [self dismissModalViewControllerAnimated:YES];
+        [self.navigationController pushViewController:listViewController animated:NO];
+        [listViewController release];
+    }
+		
+    
+    [self.tableView reloadData];
 }
 
 - (void)resignActive {

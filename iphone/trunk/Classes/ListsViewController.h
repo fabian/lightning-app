@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Lists.h";
-#import "AddListViewController.h";
+#import "Lists.h"
+#import "AddListViewController.h"
 #import <CoreData/CoreData.h>
 #import <QuartzCore/QuartzCore.h>
-#import "Lightning.h";
+#import "Lightning.h"
+#import "LightningAPI.h"
 
-@interface ListsViewController : UITableViewController <AddListViewControllerDelegate, LightningDelegate>{
+@interface ListsViewController : UITableViewController <AddListViewControllerDelegate, LightningDelegate, LightningAPIListsDelegate, LightningAPIAddListDelegate>{
 	Lists *lists;
 	NSManagedObjectContext *context;
 	NSMutableArray *listNames;
@@ -26,5 +27,6 @@
 @property (nonatomic, retain) Lists *lists;
 @property (retain, nonatomic) NSManagedObjectContext *context;
 @property (retain, nonatomic) NSMutableArray *listNames;
+@property (retain, nonatomic) LightningAPI *lightningAPI;
 
 @end

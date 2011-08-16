@@ -12,6 +12,7 @@
 #import "ListViewController.h";
 #import "LightningUtil.h";
 #import "Device.h";
+#import "LightningAPI.h"
 
 @interface UINavigationBar (MyCustomNavBar)
 @end
@@ -59,16 +60,19 @@
 	window.backgroundColor = [UIColor blackColor];
 	[window addSubview:[navigationController view]];
 	
-    // Override point for customization after application launch
     [window makeKeyAndVisible];
 	
 	//push notification
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    
 	
 	return TRUE;
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    NSLog(@"handelopenurl");
+    NSLog(@"context %@", self.context);
+    
 	if (![[url scheme] isEqualToString:@"lightning"] && ![[url host] isEqualToString:@"list"]) {
 		return FALSE;
 	}
@@ -110,6 +114,9 @@
 
 - (void)setupLightning {
 	Lightning *lighting = [[Lightning alloc] initWithURL:self.apiUrl andDeviceToken:self.deviceToken username:[self getUsername] context:self.context];
+    
+    LightningAPI* lightningAPI = [LightningAPI sharedManager];
+    [lightningAPI initLightningWithContext:self.context deviceToken:self.deviceToken];
 }
 
 - (NSString *)getUsername {
@@ -122,7 +129,7 @@
 - (void)setupPersistentStore
 {
 	NSString *docDir = [self applicationDocumentsDirectory];
-	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning17.sqlite"];
+	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning19.sqlite"];
 	
 	NSURL *urlForPath = [NSURL fileURLWithPath:pathToDb];
 	NSError *error;
@@ -167,14 +174,19 @@
 		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];
 	} else if ([results count] > 0) {
-		Device *device = [results objectAtIndex:0];
-		
-		[userDefaults setValue:device.lightningId forKey:@"lightningId"];
-		[userDefaults setValue:device.lightningSecret forKey:@"lightningSecret"];
+        //Getting and setting the uuid to the userDefaults
+        CFUUIDRef uuidRef = CFUUIDCreate(NULL);
+        NSString *uniqueIdentifier = (NSString *)CFUUIDCreateString(NULL, uuidRef);
+        
+        Device *device = [results objectAtIndex:0];
 		
 		device.deviceName = [self getUsername];
-		device.deviceIdentifier = [UIDevice currentDevice].uniqueIdentifier;
+		device.deviceIdentifier = uniqueIdentifier;
 		
+        [userDefaults setValue:device.lightningId forKey:@"lightningId"];
+		[userDefaults setValue:device.lightningSecret forKey:@"lightningSecret"];
+        [userDefaults setValue:device.deviceIdentifier forKey:@"uniqueIdentifier"];
+        
 		[context save:&error];
 		
 		Lightning *updateLightning = [[[Lightning alloc]init] autorelease];
@@ -189,11 +201,16 @@
     //[self sendProviderDeviceToken:devTokenBytes]; // custom method
 }
 
+//new and right
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
 	//simulator testing
 	self.deviceToken = @"56388792DCFAA3C4A08CDBAFEE90467607C44C8196A021BEEBC5AE7988164EAA";
+    
+    
 	
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:@"lightningId"];
+    [userDefaults removeObjectForKey:@"lightningSecret"];
 	
 	NSError *error;
 	NSFetchRequest *req = [NSFetchRequest new];
@@ -211,21 +228,23 @@
 		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];
 	} else if ([results count] > 0) {
-		Device *device = [results objectAtIndex:0];
-		
-		[userDefaults setValue:device.lightningId forKey:@"lightningId"];
-		[userDefaults setValue:device.lightningId forKey:@"lightningSecret"];
+		//Getting and setting the uuid to the userDefaults
+        CFUUIDRef uuidRef = CFUUIDCreate(NULL);
+        NSString *uniqueIdentifier = (NSString *)CFUUIDCreateString(NULL, uuidRef);
+        
+        Device *device = [results objectAtIndex:0];
 		
 		device.deviceName = [self getUsername];
-		device.deviceIdentifier = [UIDevice currentDevice].uniqueIdentifier;
+		device.deviceIdentifier = uniqueIdentifier;
 		
+        [userDefaults setValue:device.lightningId forKey:@"lightningId"];
+		[userDefaults setValue:device.lightningSecret forKey:@"lightningSecret"];
+        [userDefaults setValue:device.deviceIdentifier forKey:@"uniqueIdentifier"];		
 		[context save:&error];
 		
-		Lightning *updateLightning = [[[Lightning alloc]init] autorelease];
-		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
-		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];
+        [self setupLightning];
 	} else {
-		self.setupLightning;
+		[self setupLightning];
 	}
 	
     NSLog(@"Error in registration. Error: %@", err);
@@ -308,6 +327,15 @@
 -(void)applicationDidBecomeActive:(UIApplication *)application {
 	NSLog(@"didbecomeactive");
 	
+    //Setup Core Data
+	self.model = [NSManagedObjectModel mergedModelFromBundles:nil];
+	[self setupPersistentStore];
+	context = [NSManagedObjectContext new];
+	[context setPersistentStoreCoordinator:psc];
+	
+	if(context == nil)
+		NSLog(@"appdelegate context is nil");
+    
 	[LightningUtil updateData:self.context navigationController:self.navigationController];
 
 }
