@@ -6,8 +6,9 @@
 //  Copyright 2011 Bahnhofstrasse 24, 5400 Baden. All rights reserved.
 //
 
-#import "LightningUtil.h";
-#import "Lightning.h";
+#import "LightningUtil.h"
+#import "LightningAPI.h"
+#import "Lightning.h"
 
 
 @implementation LightningUtil
@@ -24,10 +25,9 @@
 }
 
 +(void)updateData:(NSManagedObjectContext *)context navigationController:(UINavigationController *)navigationController {
-	Lightning *lightning = [[Lightning alloc] init];
-	lightning.delegate = [[navigationController viewControllers] objectAtIndex:0];
-	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
-	[lightning getListsWithContext:context];
+	LightningAPI *lightningAPI = [LightningAPI sharedManager];
+    lightningAPI.delegate = [[navigationController viewControllers] objectAtIndex:0];
+    [lightningAPI getLists];
 }
 
 @end
