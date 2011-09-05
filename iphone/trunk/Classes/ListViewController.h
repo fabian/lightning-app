@@ -14,7 +14,7 @@
 #import "ItemTableViewCell.h"
 #import "LightningAPI.h"
 
-@interface ListViewController : UITableViewController <UITextFieldDelegate, UITextInputTraits, LightningDelegate> {
+@interface ListViewController : UITableViewController <UITextFieldDelegate, UITextInputTraits, LightningDelegate, LightningAPIReadListDelegate> {
 	ListEntries *listEntries;
 	Boolean keyboardShown;
 	ItemTableViewCell *activeCell;

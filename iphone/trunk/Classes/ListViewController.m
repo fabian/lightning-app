@@ -171,11 +171,6 @@
 	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
-	
-	Lightning *lightning = [[[Lightning alloc] init] autorelease];
-	lightning.delegate = self;
-	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
-	[lightning readList:[self.listName listId]];
 }
 
 - (void)editList {
@@ -197,6 +192,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     // Update the view with current data before it is displayed.
     [super viewWillAppear:animated];
+    
+    //Mark the list as read
+    self.lightningAPI.readListDelegate = self;
+    [self.lightningAPI readList:self.listName.listId];
     
     // Scroll the table view to the top before it appears
     [self.tableView reloadData];
@@ -353,10 +352,6 @@
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSLog(@"DELETESTYLE");
 	
-	Lightning *lightning = [[[Lightning alloc]init] autorelease];
-	lightning.delegate = self;
-	lightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];	
-	
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 	
 	UIView *existingLine = [cell viewWithTag:124];
@@ -380,7 +375,7 @@
 			NSError *error;
 			[context save:&error];
 		
-			[lightning updateItem:listItem];
+            [self.lightningAPI updateItem:listItem];
 			[line release];
 		}
 	} else {
@@ -393,7 +388,7 @@
 		NSError *error;
 		[context save:&error];
 		
-		[lightning updateItem:listItem];
+		[self.lightningAPI updateItem:listItem];
 		
 	}
 	
@@ -510,7 +505,7 @@
     }
 }
 
-- (void) finishReadCount {
+- (void) finishReadList {
     listName.unreadCount = 0;
     NSError *error;
     [context save:&error];
