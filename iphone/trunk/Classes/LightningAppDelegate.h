@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h> 
 #import <CoreData/CoreData.h>
 #import "Lightning.h"
+#import "LightningAPI.h"
 
 @interface LightningAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
@@ -41,6 +42,7 @@
 @property (retain, nonatomic) NSURL *apiUrl;
 @property (retain, nonatomic) NSString *deviceToken;
 @property (retain, nonatomic) Lightning *lightning;
+@property (retain, nonatomic) LightningAPI *lightningAPI;
 
 @end
 

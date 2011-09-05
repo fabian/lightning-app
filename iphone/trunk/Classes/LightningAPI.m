@@ -25,6 +25,7 @@
 @synthesize uniqueIdentifier = _uniqueIdentifier;
 @synthesize delegate = _delegate;
 @synthesize addListDelegate = _addListDelegate;
+@synthesize readListDelegate = _readListDelegate;
 
 NSString * const prod = @"https://lightning-app.appspot.com/api/";
 NSString * const dev = @"http://localhost:8080/api/";
@@ -125,7 +126,7 @@ NSString * const env = @"development";//production
         [GTMHTTPFetcher setLoggingEnabled:YES];
         
         [myFetcher beginFetchWithDelegate:self
-                        didFinishSelector:@selector(myFetcher:finishedWithGetLists:error:)];
+                        didFinishSelector:@selector(myFetcher:finishedGetLists:error:)];
     }
 }
 
@@ -183,9 +184,10 @@ NSString * const env = @"development";//production
 	NSString * tokenAsString = [[[updatedDeviceToken description] 
 								 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
 								stringByReplacingOccurrencesOfString:@" " withString:@""];
-	
+
+    NSLog(@"identifier=%@;name=%@;device_token=%@", self.uniqueIdentifier, updatedName, [tokenAsString uppercaseString]);
 	NSString *putString = [NSString stringWithFormat:@"identifier=%@;name=%@;device_token=%@", self.uniqueIdentifier, updatedName, [tokenAsString uppercaseString]];
-	
+
     [request setHTTPMethod:@"PUT"];
     [request setHTTPBody:[putString dataUsingEncoding:NSUTF8StringEncoding]];
 	
@@ -210,7 +212,6 @@ NSString * const env = @"development";//production
 	
 	[request setHTTPMethod:@"PUT"];
     [request setHTTPBody:[putString dataUsingEncoding:NSUTF8StringEncoding]];
-	//[myFetcher setEnvironment:environment_];
     
     GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
@@ -253,10 +254,10 @@ NSString * const env = @"development";//production
 	
     [self prepareRequest:request device:true];
 		
-	NSString *postString = [NSString stringWithFormat:@""];
+	//NSString *postString = [NSString stringWithFormat:@""];
     
 	[request setHTTPMethod:@"POST"];
-    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+    //[request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
     
     GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
 	[GTMHTTPFetcher setLoggingEnabled:YES];
@@ -264,6 +265,25 @@ NSString * const env = @"development";//production
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishedPushForList:error:)];
+}
+
+- (void)readList:(NSString *)listId {
+	NSURL *callUrl = [[NSURL alloc] initWithString:[[self.apiURL absoluteString] stringByAppendingFormat:@"lists/%@/devices/%@/read", listId, self.lightningId]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:callUrl];
+	
+    [self prepareRequest:request device:true];	
+		
+	[request setHTTPMethod:@"POST"];
+	
+    GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+    
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishedReadList:error:)];
+    
 }
 
 #pragma mark responses
@@ -446,11 +466,9 @@ NSString * const env = @"development";//production
 	} else {
 		NSLog(@"getItemsFromList response %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
 		
-		NSString *data = [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease];
+		NSString *data = [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding];
 		SBJSON *parser = [[SBJSON alloc] init];
 		NSDictionary *object = [parser objectWithString:data error:nil];
-		
-		[parser release];
 		
 		NSString *listId = [object objectForKey:@"id"];
 		//Getting acutal List
@@ -463,7 +481,6 @@ NSString * const env = @"development";//production
 		[fetch setPredicate: predicate];
 		
 		NSArray * results = [self.context executeFetchRequest:fetch error:nil];
-		[fetch release];
 		
 		if([results count] == 0) {
 			NSLog(@"Something went wrong with CoreData");
@@ -471,54 +488,90 @@ NSString * const env = @"development";//production
 			ListName *listName = [results objectAtIndex:0];
 			
 			NSArray *arrayOfItems = [object objectForKey:@"items"];
-			
+            
+            //check if existing
+            //add
+            //update
+            //delete
+          	
 			if ([arrayOfItems count] == 0) {
 				//TODO doe this work?
 				listName.listItems = nil;
 				[self.context save:&error];
 				
 			} else {
-				NSMutableArray *listItems = [[listName listItems] mutableCopy];
-				NSMutableDictionary *listItemsWithKeysCoreData = [NSMutableDictionary dictionaryWithCapacity:[listItems count]];
-				
-				for (ListItem *listItem in listItems) {
-					[listItemsWithKeysCoreData setValue:listItem forKey:[listItem.listItemId stringValue]];
-				}
-				
-				//check if id is existing
-				//update
-				//check if we have to add or delete not existing item
-				for (NSDictionary *listItemGoogle in arrayOfItems) {
-					NSString *listId = [listItemGoogle objectForKey:@"id"];
-					
-					if ([listItemsWithKeysCoreData objectForKey:listId]) {
-						if ([listItems count] > [arrayOfItems count]) {
-							NSLog(@"delete item");
-							ListItem *listItem = [listItemsWithKeysCoreData objectForKey:listId];
-							[self.context deleteObject:listItem];
-						} else {
-							NSLog(@"listitem update");
-							ListItem *listItem = [listItemsWithKeysCoreData objectForKey:listId];
-							listItem.name = [listItemGoogle objectForKey:@"value"];
-							listItem.listItemId = [listItemGoogle objectForKey:@"id"];
-							listItem.done = [NSNumber numberWithBool:[[listItemGoogle objectForKey:@"done"] boolValue]];
-							listItem.modified = [listItemGoogle objectForKey:@"modified"];
-						}
-					} else {
-						NSLog(@"listitem add");
-						ListItem *listItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:self.context];
-						listItem.name = [listItemGoogle objectForKey:@"value"];
-						listItem.listItemId = [listItemGoogle objectForKey:@"id"];
-						listItem.done = [NSNumber numberWithBool:[[listItemGoogle objectForKey:@"done"] boolValue]];
-						listItem.modified = [listItemGoogle objectForKey:@"modified"];
-						listItem.creation = [listItemGoogle objectForKey:@"modified"];
+                NSMutableSet *itemsToUpdate = [[NSMutableSet alloc] init];
+                NSMutableArray *itemsToAdd = [[NSMutableArray alloc] init];
+                
+                
+                for(NSDictionary *item in arrayOfItems) {
+                    NSNumber *itemId = [item objectForKey:@"id"];
+                    Boolean newItem = true;
+                    
+                    //check to update
+                    for(ListItem *listItem in listName.listItems) {
+                        NSLog(@"list: %@ google: %@", listItem.listItemId, itemId);
+                        if([listItem.listItemId isEqualToNumber:itemId]) {
+                            NSLog(@"update item to list");
+                            newItem = false; 
+                            
+                            [itemsToUpdate setValue:item forKey:[itemId stringValue]];
+                        }
+                    }
+                    //check to add
+                    if (newItem) {
+                        NSLog(@"adding item to list");
                         
-						[listName addListItemsObject:listItem];
-					}
-					
-					[self.context save:&error];
-				}
-			}
+                        [itemsToAdd addObject:item];
+                    }
+                }
+                
+                //go through id's
+                for(NSDictionary *item in itemsToUpdate) {
+                    ListItem *listItem = [listName.listItems valueForKey:[item objectForKey:@"id"]];
+                    
+                    listItem.name = [item objectForKey:@"value"];
+                    listItem.listItemId = [item objectForKey:@"id"];
+                    listItem.done = [NSNumber numberWithBool:[[item objectForKey:@"done"] boolValue]];
+                    listItem.modified = [item objectForKey:@"modified"];
+
+                    [self.context save:&error];
+                }
+                
+                for(NSDictionary *item in itemsToAdd) {
+                    ListItem *newItem = [NSEntityDescription insertNewObjectForEntityForName:@"ListItem" inManagedObjectContext:self.context];
+                    newItem.name = [item objectForKey:@"value"];
+                    newItem.listItemId = [item objectForKey:@"id"];
+                    newItem.done = [NSNumber numberWithBool:[[item objectForKey:@"done"] boolValue]];
+                    newItem.modified = [item objectForKey:@"modified"];
+                    newItem.creation = [item objectForKey:@"modified"];
+                    newItem.listName = listName;
+                    
+                    [listName addListItemsObject:newItem];
+                    
+                    [self.context save:&error];    
+
+                }
+                
+                //check to delete
+                for(ListItem *listItem in listName.listItems) {
+                    Boolean deletItem = true;
+                    for(NSDictionary *item in arrayOfItems) {
+                        NSNumber *itemId = [item objectForKey:@"id"];
+                        if([listItem.listItemId isEqualToNumber: itemId]) {
+                            deletItem = false;
+                        }
+                    }
+                    
+                    if(deletItem) {
+                        NSLog(@"delete item from list");
+                        [self.context deleteObject:listItem];
+                    }
+
+                }
+                
+            }
+            [self.delegate finishGetLists];
 		}
 	}
 }
@@ -566,8 +619,6 @@ NSString * const env = @"development";//production
 }
 
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishUpdateDevice:(NSData *)retrievedData error:(NSError *)error {
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	
 	if (error != nil) {
 		// failed; either an NSURLConnection error occurred, or the server returned
 		// a status value of at least 300
@@ -636,6 +687,24 @@ NSString * const env = @"development";//production
 		NSLog(@"error with push to list: %i", status);
 	} else {
 		NSLog(@"pushed update to list response %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedReadList:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with finishedReadList: %i", status);
+		
+	} else {
+		NSLog(@"finishedReadList %@", [[[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding] autorelease]);
+        [self.readListDelegate finishReadList];
+        
 	}
 }
 

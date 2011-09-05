@@ -27,6 +27,7 @@
 
 @synthesize window;
 @synthesize navigationController, model, context, psc, apiUrl, deviceToken;
+@synthesize lightningAPI = _lightningAPI;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	NSLog(@"launch options %@", [launchOptions description]);
@@ -113,10 +114,10 @@
 }
 
 - (void)setupLightning {
-	Lightning *lighting = [[Lightning alloc] initWithURL:self.apiUrl andDeviceToken:self.deviceToken username:[self getUsername] context:self.context];
+	//Lightning *lighting = [[Lightning alloc] initWithURL:self.apiUrl andDeviceToken:self.deviceToken username:[self getUsername] context:self.context];
     
-    LightningAPI* lightningAPI = [LightningAPI sharedManager];
-    [lightningAPI initLightningWithContext:self.context deviceToken:self.deviceToken];
+    self.lightningAPI = [LightningAPI sharedManager];
+    [self.lightningAPI initLightningWithContext:self.context deviceToken:self.deviceToken];
 }
 
 - (NSString *)getUsername {
@@ -129,7 +130,7 @@
 - (void)setupPersistentStore
 {
 	NSString *docDir = [self applicationDocumentsDirectory];
-	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning19.sqlite"];
+	NSString *pathToDb = [docDir stringByAppendingPathComponent:@"Lightning23.sqlite"];
 	
 	NSURL *urlForPath = [NSURL fileURLWithPath:pathToDb];
 	NSError *error;
@@ -173,6 +174,7 @@
 		Lightning *updateLightning = [[[Lightning alloc]init] autorelease];
 		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
 		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];
+        
 	} else if ([results count] > 0) {
         //Getting and setting the uuid to the userDefaults
         CFUUIDRef uuidRef = CFUUIDCreate(NULL);
@@ -206,8 +208,6 @@
 	//simulator testing
 	self.deviceToken = @"56388792DCFAA3C4A08CDBAFEE90467607C44C8196A021BEEBC5AE7988164EAA";
     
-    
-	
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults removeObjectForKey:@"lightningId"];
     [userDefaults removeObjectForKey:@"lightningSecret"];
@@ -224,9 +224,8 @@
 	
 	
 	if ([userDefaults valueForKey:@"lightningId"] != nil && [userDefaults valueForKey:@"lightningSecret"] != nil) {
-		Lightning *updateLightning = [[[Lightning alloc]init] autorelease];
-		updateLightning.url = [NSURL URLWithString:@"https://lightning-app.appspot.com/api/"];
-		[updateLightning updateDevice:self.deviceToken andName:[self getUsername] context:self.context];
+		[self setupLightning];
+        //[self.lightningAPI updateDevice:self.deviceToken Name:[self getUsername]];
 	} else if ([results count] > 0) {
 		//Getting and setting the uuid to the userDefaults
         CFUUIDRef uuidRef = CFUUIDCreate(NULL);
@@ -326,7 +325,7 @@
 
 -(void)applicationDidBecomeActive:(UIApplication *)application {
 	NSLog(@"didbecomeactive");
-	
+    
     //Setup Core Data
 	self.model = [NSManagedObjectModel mergedModelFromBundles:nil];
 	[self setupPersistentStore];
@@ -335,6 +334,9 @@
 	
 	if(context == nil)
 		NSLog(@"appdelegate context is nil");
+    
+    //SetupLightning
+    [self setupLightning];
     
 	[LightningUtil updateData:self.context navigationController:self.navigationController];
 
