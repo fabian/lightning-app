@@ -2,17 +2,16 @@
 //  ListName.h
 //  Lightning
 //
-//  Created by Cyril Gabathuler on 16.02.11.
-//  Copyright 2011 Bahnhofstrasse 24, 5400 Baden. All rights reserved.
+//  Created by Cyril Gabathuler on 02.09.11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
 @class ListItem;
 
-@interface ListName :  NSManagedObject  
-{
-}
+@interface ListName : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * listId;
 @property (nonatomic, retain) NSNumber * shared;
@@ -20,16 +19,14 @@
 @property (nonatomic, retain) NSString * token;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * lastModified;
-@property (nonatomic, retain) NSSet* listItems;
-
+@property (nonatomic, retain) NSSet *listItems;
 @end
-
 
 @interface ListName (CoreDataGeneratedAccessors)
+
 - (void)addListItemsObject:(ListItem *)value;
 - (void)removeListItemsObject:(ListItem *)value;
-- (void)addListItems:(NSSet *)value;
-- (void)removeListItems:(NSSet *)value;
+- (void)addListItems:(NSSet *)values;
+- (void)removeListItems:(NSSet *)values;
 
 @end
-
