@@ -92,22 +92,44 @@
 }
 
 -(void) setupModel:(BOOL)init {
-	NSError *error;
-	NSFetchRequest *req = [NSFetchRequest new];
-	if(context == nil)
+    NSError *error;
+	NSFetchRequest *req = [[NSFetchRequest alloc] init];
+    
+    [self.context reset];
+    
+    if(context == nil)
 	   NSLog(@"context is nil");
-	NSEntityDescription *descr = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:context];
+
+	NSEntityDescription *descr = [NSEntityDescription entityForName:@"ListName" inManagedObjectContext:self.context];
 	[req setEntity:descr];
 	
 	NSSortDescriptor *sort = [[NSSortDescriptor alloc]initWithKey:@"lastModified" ascending:NO];
 	
 	[req setSortDescriptors:[NSArray arrayWithObject:sort]];
-	[sort release];
 	
-	NSArray * results = [context executeFetchRequest:req error:nil];
-	[req release];
-	
+	NSArray * results = [self.context executeFetchRequest:req error:&error];
+
 	self.listNames = [results mutableCopy];
+    if ([results count] > 0) {
+        ListName *test = [results objectAtIndex:0];
+        [self.context refreshObject:test mergeChanges:YES];
+        [test.listItems count];
+        NSLog(@"item count on list %i", [test.listItems count]);
+        //wrong result
+        
+        NSFetchRequest *newReq = [[NSFetchRequest alloc] init];
+        NSEntityDescription *descr = [NSEntityDescription entityForName:@"ListItem" inManagedObjectContext:self.context];
+        [newReq setEntity:descr];
+        
+        NSArray * results2 = [self.context executeFetchRequest:newReq error:&error];
+        NSLog(@"item count on items %i", [results2 count]);
+        for(ListItem *testItem in results2) {
+            NSLog(@"listname: %@", testItem.listName.name);
+        }
+        //right result
+        
+    }
+    
 	
 	if (!init) {
 		[self.tableView reloadData];
@@ -330,8 +352,8 @@
 				[roundedLabel removeFromSuperview];
 			}
 		}
-	}
-
+	
+    }
 	
 		
     return cell;
