@@ -31,7 +31,7 @@ class ListsTests(Tests):
         
         response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "1"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/3", "token": "foobar", "id": 3, "title": "Groceries"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/3", "shared": false, "token": "foobar", "id": 3, "title": "Groceries"}')
     
     def test_create_wrong_owner(self):
         
@@ -76,7 +76,7 @@ class ListTests(Tests):
         test = webtest.TestApp(api.application)
         response = test.get("/api/lists/2", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/4", "done": false, "id": 4, "value": "Wine", "modified": "2010-06-29 12:00:00"}, {"url": "http://localhost:80/api/items/5", "done": false, "id": 5, "value": "Bread", "modified": "2010-06-29 12:00:00"}], "id": 2, "title": "A random list"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": false, "items": [{"url": "http://localhost:80/api/items/4", "done": false, "id": 4, "value": "Wine", "modified": "2010-06-29 12:00:00"}, {"url": "http://localhost:80/api/items/5", "done": false, "id": 5, "value": "Bread", "modified": "2010-06-29 12:00:00"}], "id": 2, "title": "A random list"}')
     
     def test_get_wrong_id(self):
         
@@ -97,7 +97,7 @@ class ListTests(Tests):
         test = webtest.TestApp(api.application)
         response = test.put("/api/lists/2", {'title': "New Title"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "id": "2", "title": "New Title"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": false, "id": "2", "title": "New Title"}')
         
         list = models.List.get_by_id(2)
         self.assertEqual(list.title, "New Title")

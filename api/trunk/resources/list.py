@@ -58,7 +58,7 @@ class ListsResource(Resource):
                 id = list.key().id()
                 url = "%s://%s/api/lists/%s" % (protocol, host, id)
                 
-                return {'id': id, 'url': url, 'title': list.title, 'token': token}
+                return {'id': id, 'url': url, 'title': list.title, 'shared': list.shared, 'token': token}
             
             else:
                 # owner does not match autenticated device
@@ -93,7 +93,7 @@ class ListResource(ListsResource):
                 list.title = params['title'][0]
                 list.put()
                 
-                return {'id': id, 'url': self.url(list), 'title': list.title}
+                return {'id': id, 'url': self.url(list), 'title': list.title, 'shared': list.shared}
         
         else:
             # list not found
@@ -134,7 +134,7 @@ class ListResource(ListsResource):
                 url = self.url(list)
                 title = list.title
                 
-                return {'id': id, 'url': url, 'title': title, 'items': items}
+                return {'id': id, 'url': url, 'title': title, 'shared': list.shared, 'items': items}
             
         else:
             # list not found
