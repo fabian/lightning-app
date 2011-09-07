@@ -44,8 +44,9 @@ class ListsResource(Resource):
                 
                 # generate random token
                 token = binascii.hexlify(os.urandom(8))
+                shared = (self.request.get('shared') == "1")
                 
-                list = List(title=self.request.get('title'), token=token)
+                list = List(title=self.request.get('title'), token=token, shared=shared)
                 list.put()
                 
                 listdevice = ListDevice(list=list, device=owner, permission='owner')
@@ -91,6 +92,12 @@ class ListResource(ListsResource):
                 params = cgi.parse_qs(self.request.body)
                 
                 list.title = params['title'][0]
+                
+                try:
+                	list.shared = (params['shared'][0] == "1")
+                except KeyError:
+                	pass # don't update shared then
+                
                 list.put()
                 
                 return {'id': id, 'url': self.url(list), 'title': list.title, 'shared': list.shared}

@@ -29,7 +29,7 @@ class ListsTests(Tests):
         self.mocker.replay()
         self.test = webtest.TestApp(api.application)
         
-        response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "1"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "1", 'shared': "0"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/3", "shared": false, "token": "foobar", "id": 3, "title": "Groceries"}')
     
@@ -37,7 +37,7 @@ class ListsTests(Tests):
         
         self.test = webtest.TestApp(api.application)
         
-        response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "aaa"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
+        response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "aaa", 'shared': "0"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, "Can't get device for owner aaa")
     
@@ -45,7 +45,7 @@ class ListsTests(Tests):
         
         self.test = webtest.TestApp(api.application)
         
-        response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "1"}, headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
+        response = self.test.post("/api/lists", {'title': "Groceries", 'owner': "1", 'shared': "0"}, headers={'Device': 'http://localhost:80/api/devices/2?secret=xyz'}, status=403)
         
         self.assertEqual(response.body, "Owner 1 doesn't match authenticated device 2")
 
@@ -95,9 +95,9 @@ class ListTests(Tests):
     def test_update_list(self):
         
         test = webtest.TestApp(api.application)
-        response = test.put("/api/lists/2", {'title': "New Title"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = test.put("/api/lists/2", {'title': "New Title", 'shared': "1"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": false, "id": "2", "title": "New Title"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": true, "id": "2", "title": "New Title"}')
         
         list = models.List.get_by_id(2)
         self.assertEqual(list.title, "New Title")
