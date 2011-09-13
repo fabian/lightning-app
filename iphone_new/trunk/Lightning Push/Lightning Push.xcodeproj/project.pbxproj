@@ -1,0 +1,512 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		025717AE1417FBF800AB72FE /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 025717AD1417FBF800AB72FE /* Line.m */; };
+		025717B01417FCED00AB72FE /* middleWithLine.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 025717AF1417FCED00AB72FE /* middleWithLine.jpg */; };
+		025717B3141806F700AB72FE /* accessory.png in Resources */ = {isa = PBXBuildFile; fileRef = 025717B2141806F700AB72FE /* accessory.png */; };
+		025717B81418070300AB72FE /* Icon-Private.png in Resources */ = {isa = PBXBuildFile; fileRef = 025717B41418070200AB72FE /* Icon-Private.png */; };
+		025717B91418070300AB72FE /* Icon-Private@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 025717B51418070200AB72FE /* Icon-Private@2x.png */; };
+		025717BA1418070300AB72FE /* Icon-Shared.png in Resources */ = {isa = PBXBuildFile; fileRef = 025717B61418070200AB72FE /* Icon-Shared.png */; };
+		025717BB1418070300AB72FE /* Icon-Shared@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 025717B71418070300AB72FE /* Icon-Shared@2x.png */; };
+		025717BD1418077500AB72FE /* top.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 025717BC1418077500AB72FE /* top.jpg */; };
+		025717BF1418077C00AB72FE /* bottom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 025717BE1418077C00AB72FE /* bottom.jpg */; };
+		025717C21418100A00AB72FE /* tabbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 025717C01418100A00AB72FE /* tabbar.png */; };
+		025717C31418100A00AB72FE /* tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 025717C11418100A00AB72FE /* tabbar@2x.png */; };
+		02C81FF9141EA53E00AD33EA /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 02C81FF8141EA53E00AD33EA /* Icon.png */; };
+		02C81FFB141EA54D00AD33EA /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 02C81FFA141EA54D00AD33EA /* Icon@2x.png */; };
+		02DAB546141FEBB100FA5B24 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 02DAB545141FEBB100FA5B24 /* MTStatusBarOverlay.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		02EC81D41416A116006A6419 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EC81D31416A116006A6419 /* UIKit.framework */; };
+		02EC81D61416A116006A6419 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EC81D51416A116006A6419 /* Foundation.framework */; };
+		02EC81D81416A116006A6419 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EC81D71416A116006A6419 /* CoreGraphics.framework */; };
+		02EC81DA1416A116006A6419 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EC81D91416A116006A6419 /* CoreData.framework */; };
+		02EC81E01416A116006A6419 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 02EC81DE1416A116006A6419 /* InfoPlist.strings */; };
+		02EC81E21416A116006A6419 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC81E11416A116006A6419 /* main.m */; };
+		02EC81E61416A116006A6419 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC81E51416A116006A6419 /* AppDelegate.m */; };
+		02EC81E91416A116006A6419 /* Lightning_Push.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 02EC81E71416A116006A6419 /* Lightning_Push.xcdatamodeld */; };
+		02EC81EC1416A116006A6419 /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC81EB1416A116006A6419 /* ListsViewController.m */; };
+		02EC81FD1416A275006A6419 /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC81FC1416A275006A6419 /* ItemsViewController.m */; };
+		02EC82001416B87C006A6419 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC81FF1416B87B006A6419 /* ListItem.m */; };
+		02EC82031416B890006A6419 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82021416B890006A6419 /* Device.m */; };
+		02EC82061416B891006A6419 /* ListName.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82051416B891006A6419 /* ListName.m */; };
+		02EC82091416BA00006A6419 /* AddListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82081416BA00006A6419 /* AddListViewController.m */; };
+		02EC820C1416BA38006A6419 /* LightningAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC820B1416BA38006A6419 /* LightningAPI.m */; };
+		02EC82251416C304006A6419 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82221416C303006A6419 /* GTMHTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		02EC82261416C304006A6419 /* GTMHTTPFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82241416C304006A6419 /* GTMHTTPFetcherLogging.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		02EC825A1416C417006A6419 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC824F1416C417006A6419 /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		02EC825B1416C417006A6419 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82511416C417006A6419 /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		02EC825C1416C417006A6419 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82531416C417006A6419 /* SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		02EC825D1416C417006A6419 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82551416C417006A6419 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		02EC825E1416C417006A6419 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82571416C417006A6419 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		02EC825F1416C417006A6419 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82591416C417006A6419 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		02EC82621416C492006A6419 /* LightningUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EC82601416C492006A6419 /* LightningUtil.m */; };
+		02EC82641416C69A006A6419 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EC82631416C69A006A6419 /* MessageUI.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		025717AC1417FBF700AB72FE /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line.h; sourceTree = "<group>"; };
+		025717AD1417FBF800AB72FE /* Line.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Line.m; sourceTree = "<group>"; };
+		025717AF1417FCED00AB72FE /* middleWithLine.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = middleWithLine.jpg; sourceTree = "<group>"; };
+		025717B2141806F700AB72FE /* accessory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accessory.png; sourceTree = "<group>"; };
+		025717B41418070200AB72FE /* Icon-Private.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Private.png"; sourceTree = "<group>"; };
+		025717B51418070200AB72FE /* Icon-Private@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Private@2x.png"; sourceTree = "<group>"; };
+		025717B61418070200AB72FE /* Icon-Shared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Shared.png"; sourceTree = "<group>"; };
+		025717B71418070300AB72FE /* Icon-Shared@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Shared@2x.png"; sourceTree = "<group>"; };
+		025717BC1418077500AB72FE /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = top.jpg; sourceTree = "<group>"; };
+		025717BE1418077C00AB72FE /* bottom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bottom.jpg; sourceTree = "<group>"; };
+		025717C01418100A00AB72FE /* tabbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar.png; sourceTree = "<group>"; };
+		025717C11418100A00AB72FE /* tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar@2x.png"; sourceTree = "<group>"; };
+		02C81FF8141EA53E00AD33EA /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
+		02C81FFA141EA54D00AD33EA /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "../Icon@2x.png"; sourceTree = "<group>"; };
+		02DAB544141FEBB100FA5B24 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
+		02DAB545141FEBB100FA5B24 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
+		02EC81CF1416A116006A6419 /* Lightning Push.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lightning Push.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		02EC81D31416A116006A6419 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		02EC81D51416A116006A6419 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		02EC81D71416A116006A6419 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		02EC81D91416A116006A6419 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		02EC81DD1416A116006A6419 /* Lightning Push-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Lightning Push-Info.plist"; sourceTree = "<group>"; };
+		02EC81DF1416A116006A6419 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		02EC81E11416A116006A6419 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		02EC81E31416A116006A6419 /* Lightning Push-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lightning Push-Prefix.pch"; sourceTree = "<group>"; };
+		02EC81E41416A116006A6419 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		02EC81E51416A116006A6419 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		02EC81E81416A116006A6419 /* Lightning_Push.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Lightning_Push.xcdatamodel; sourceTree = "<group>"; };
+		02EC81EA1416A116006A6419 /* ListsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListsViewController.h; sourceTree = "<group>"; };
+		02EC81EB1416A116006A6419 /* ListsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListsViewController.m; sourceTree = "<group>"; };
+		02EC81FB1416A275006A6419 /* ItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsViewController.h; sourceTree = "<group>"; };
+		02EC81FC1416A275006A6419 /* ItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemsViewController.m; sourceTree = "<group>"; };
+		02EC81FE1416B87B006A6419 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
+		02EC81FF1416B87B006A6419 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
+		02EC82011416B890006A6419 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
+		02EC82021416B890006A6419 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Device.m; sourceTree = "<group>"; };
+		02EC82041416B891006A6419 /* ListName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListName.h; sourceTree = "<group>"; };
+		02EC82051416B891006A6419 /* ListName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListName.m; sourceTree = "<group>"; };
+		02EC82071416B9FF006A6419 /* AddListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddListViewController.h; sourceTree = "<group>"; };
+		02EC82081416BA00006A6419 /* AddListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddListViewController.m; sourceTree = "<group>"; };
+		02EC820A1416BA38006A6419 /* LightningAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightningAPI.h; sourceTree = "<group>"; };
+		02EC820B1416BA38006A6419 /* LightningAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightningAPI.m; sourceTree = "<group>"; };
+		02EC82211416C303006A6419 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcher.h; sourceTree = "<group>"; };
+		02EC82221416C303006A6419 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcher.m; sourceTree = "<group>"; };
+		02EC82231416C303006A6419 /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogging.h; sourceTree = "<group>"; };
+		02EC82241416C304006A6419 /* GTMHTTPFetcherLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogging.m; sourceTree = "<group>"; };
+		02EC824D1416C417006A6419 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		02EC824E1416C417006A6419 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		02EC824F1416C417006A6419 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		02EC82501416C417006A6419 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		02EC82511416C417006A6419 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		02EC82521416C417006A6419 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		02EC82531416C417006A6419 /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
+		02EC82541416C417006A6419 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		02EC82551416C417006A6419 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		02EC82561416C417006A6419 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		02EC82571416C417006A6419 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		02EC82581416C417006A6419 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		02EC82591416C417006A6419 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		02EC82601416C492006A6419 /* LightningUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightningUtil.m; sourceTree = "<group>"; };
+		02EC82611416C492006A6419 /* LightningUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightningUtil.h; sourceTree = "<group>"; };
+		02EC82631416C69A006A6419 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		02EC81CC1416A116006A6419 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02EC82641416C69A006A6419 /* MessageUI.framework in Frameworks */,
+				02EC81D41416A116006A6419 /* UIKit.framework in Frameworks */,
+				02EC81D61416A116006A6419 /* Foundation.framework in Frameworks */,
+				02EC81D81416A116006A6419 /* CoreGraphics.framework in Frameworks */,
+				02EC81DA1416A116006A6419 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		025717A81417D25500AB72FE /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				02EC820A1416BA38006A6419 /* LightningAPI.h */,
+				02EC820B1416BA38006A6419 /* LightningAPI.m */,
+				02EC82211416C303006A6419 /* GTMHTTPFetcher.h */,
+				02EC82221416C303006A6419 /* GTMHTTPFetcher.m */,
+				02EC82231416C303006A6419 /* GTMHTTPFetcherLogging.h */,
+				02EC82241416C304006A6419 /* GTMHTTPFetcherLogging.m */,
+			);
+			name = Connection;
+			sourceTree = "<group>";
+		};
+		025717A91417D27900AB72FE /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				02EC82611416C492006A6419 /* LightningUtil.h */,
+				02EC82601416C492006A6419 /* LightningUtil.m */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
+		025717AA1417D28B00AB72FE /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				02EC81E71416A116006A6419 /* Lightning_Push.xcdatamodeld */,
+				02EC82041416B891006A6419 /* ListName.h */,
+				02EC82051416B891006A6419 /* ListName.m */,
+				02EC82011416B890006A6419 /* Device.h */,
+				02EC82021416B890006A6419 /* Device.m */,
+				02EC81FE1416B87B006A6419 /* ListItem.h */,
+				02EC81FF1416B87B006A6419 /* ListItem.m */,
+			);
+			name = "Core Data";
+			sourceTree = "<group>";
+		};
+		025717AB1417D2A100AB72FE /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				02EC82071416B9FF006A6419 /* AddListViewController.h */,
+				02EC82081416BA00006A6419 /* AddListViewController.m */,
+				02EC81EA1416A116006A6419 /* ListsViewController.h */,
+				02EC81EB1416A116006A6419 /* ListsViewController.m */,
+				02EC81FB1416A275006A6419 /* ItemsViewController.h */,
+				02EC81FC1416A275006A6419 /* ItemsViewController.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		025717B11417FCF400AB72FE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				02C81FFA141EA54D00AD33EA /* Icon@2x.png */,
+				02C81FF8141EA53E00AD33EA /* Icon.png */,
+				025717C01418100A00AB72FE /* tabbar.png */,
+				025717C11418100A00AB72FE /* tabbar@2x.png */,
+				025717BE1418077C00AB72FE /* bottom.jpg */,
+				025717BC1418077500AB72FE /* top.jpg */,
+				025717B41418070200AB72FE /* Icon-Private.png */,
+				025717B51418070200AB72FE /* Icon-Private@2x.png */,
+				025717B61418070200AB72FE /* Icon-Shared.png */,
+				025717B71418070300AB72FE /* Icon-Shared@2x.png */,
+				025717B2141806F700AB72FE /* accessory.png */,
+				025717AF1417FCED00AB72FE /* middleWithLine.jpg */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		02DAB547141FEBC000FA5B24 /* MTStatusBarOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				02DAB544141FEBB100FA5B24 /* MTStatusBarOverlay.h */,
+				02DAB545141FEBB100FA5B24 /* MTStatusBarOverlay.m */,
+			);
+			name = MTStatusBarOverlay;
+			sourceTree = "<group>";
+		};
+		02EC81C41416A116006A6419 = {
+			isa = PBXGroup;
+			children = (
+				02EC81DB1416A116006A6419 /* Lightning Push */,
+				02EC81D21416A116006A6419 /* Frameworks */,
+				02EC81D01416A116006A6419 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		02EC81D01416A116006A6419 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				02EC81CF1416A116006A6419 /* Lightning Push.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		02EC81D21416A116006A6419 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02EC82631416C69A006A6419 /* MessageUI.framework */,
+				02EC81D31416A116006A6419 /* UIKit.framework */,
+				02EC81D51416A116006A6419 /* Foundation.framework */,
+				02EC81D71416A116006A6419 /* CoreGraphics.framework */,
+				02EC81D91416A116006A6419 /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		02EC81DB1416A116006A6419 /* Lightning Push */ = {
+			isa = PBXGroup;
+			children = (
+				02DAB547141FEBC000FA5B24 /* MTStatusBarOverlay */,
+				025717B11417FCF400AB72FE /* Resources */,
+				025717AC1417FBF700AB72FE /* Line.h */,
+				025717AD1417FBF800AB72FE /* Line.m */,
+				025717AA1417D28B00AB72FE /* Core Data */,
+				025717A91417D27900AB72FE /* Util */,
+				025717A81417D25500AB72FE /* Connection */,
+				02EC820D1416C2AC006A6419 /* JSON */,
+				025717AB1417D2A100AB72FE /* ViewController */,
+				02EC81E41416A116006A6419 /* AppDelegate.h */,
+				02EC81E51416A116006A6419 /* AppDelegate.m */,
+				02EC81DC1416A116006A6419 /* Supporting Files */,
+			);
+			path = "Lightning Push";
+			sourceTree = "<group>";
+		};
+		02EC81DC1416A116006A6419 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				02EC81DD1416A116006A6419 /* Lightning Push-Info.plist */,
+				02EC81DE1416A116006A6419 /* InfoPlist.strings */,
+				02EC81E11416A116006A6419 /* main.m */,
+				02EC81E31416A116006A6419 /* Lightning Push-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		02EC820D1416C2AC006A6419 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				02EC824D1416C417006A6419 /* JSON.h */,
+				02EC824E1416C417006A6419 /* NSObject+SBJSON.h */,
+				02EC824F1416C417006A6419 /* NSObject+SBJSON.m */,
+				02EC82501416C417006A6419 /* NSString+SBJSON.h */,
+				02EC82511416C417006A6419 /* NSString+SBJSON.m */,
+				02EC82521416C417006A6419 /* SBJSON.h */,
+				02EC82531416C417006A6419 /* SBJSON.m */,
+				02EC82541416C417006A6419 /* SBJsonBase.h */,
+				02EC82551416C417006A6419 /* SBJsonBase.m */,
+				02EC82561416C417006A6419 /* SBJsonParser.h */,
+				02EC82571416C417006A6419 /* SBJsonParser.m */,
+				02EC82581416C417006A6419 /* SBJsonWriter.h */,
+				02EC82591416C417006A6419 /* SBJsonWriter.m */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		02EC81CE1416A116006A6419 /* Lightning Push */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 02EC81F81416A116006A6419 /* Build configuration list for PBXNativeTarget "Lightning Push" */;
+			buildPhases = (
+				02EC81CB1416A116006A6419 /* Sources */,
+				02EC81CC1416A116006A6419 /* Frameworks */,
+				02EC81CD1416A116006A6419 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Lightning Push";
+			productName = "Lightning Push";
+			productReference = 02EC81CF1416A116006A6419 /* Lightning Push.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		02EC81C61416A116006A6419 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 02EC81C91416A116006A6419 /* Build configuration list for PBXProject "Lightning Push" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 02EC81C41416A116006A6419;
+			productRefGroup = 02EC81D01416A116006A6419 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				02EC81CE1416A116006A6419 /* Lightning Push */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		02EC81CD1416A116006A6419 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02EC81E01416A116006A6419 /* InfoPlist.strings in Resources */,
+				025717B01417FCED00AB72FE /* middleWithLine.jpg in Resources */,
+				025717B3141806F700AB72FE /* accessory.png in Resources */,
+				025717B81418070300AB72FE /* Icon-Private.png in Resources */,
+				025717B91418070300AB72FE /* Icon-Private@2x.png in Resources */,
+				025717BA1418070300AB72FE /* Icon-Shared.png in Resources */,
+				025717BB1418070300AB72FE /* Icon-Shared@2x.png in Resources */,
+				025717BD1418077500AB72FE /* top.jpg in Resources */,
+				025717BF1418077C00AB72FE /* bottom.jpg in Resources */,
+				025717C21418100A00AB72FE /* tabbar.png in Resources */,
+				025717C31418100A00AB72FE /* tabbar@2x.png in Resources */,
+				02C81FF9141EA53E00AD33EA /* Icon.png in Resources */,
+				02C81FFB141EA54D00AD33EA /* Icon@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		02EC81CB1416A116006A6419 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02EC81E21416A116006A6419 /* main.m in Sources */,
+				02EC81E61416A116006A6419 /* AppDelegate.m in Sources */,
+				02EC81E91416A116006A6419 /* Lightning_Push.xcdatamodeld in Sources */,
+				02EC81EC1416A116006A6419 /* ListsViewController.m in Sources */,
+				02EC81FD1416A275006A6419 /* ItemsViewController.m in Sources */,
+				02EC82001416B87C006A6419 /* ListItem.m in Sources */,
+				02EC82031416B890006A6419 /* Device.m in Sources */,
+				02EC82061416B891006A6419 /* ListName.m in Sources */,
+				02EC82091416BA00006A6419 /* AddListViewController.m in Sources */,
+				02EC820C1416BA38006A6419 /* LightningAPI.m in Sources */,
+				02EC82251416C304006A6419 /* GTMHTTPFetcher.m in Sources */,
+				02EC82261416C304006A6419 /* GTMHTTPFetcherLogging.m in Sources */,
+				02EC825A1416C417006A6419 /* NSObject+SBJSON.m in Sources */,
+				02EC825B1416C417006A6419 /* NSString+SBJSON.m in Sources */,
+				02EC825C1416C417006A6419 /* SBJSON.m in Sources */,
+				02EC825D1416C417006A6419 /* SBJsonBase.m in Sources */,
+				02EC825E1416C417006A6419 /* SBJsonParser.m in Sources */,
+				02EC825F1416C417006A6419 /* SBJsonWriter.m in Sources */,
+				02EC82621416C492006A6419 /* LightningUtil.m in Sources */,
+				025717AE1417FBF800AB72FE /* Line.m in Sources */,
+				02DAB546141FEBB100FA5B24 /* MTStatusBarOverlay.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		02EC81DE1416A116006A6419 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				02EC81DF1416A116006A6419 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		02EC81F61416A116006A6419 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cyril Gabathuler (CL5HS4T5E6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PROVISIONING_PROFILE = "F6E85D64-4381-47FF-AB3A-3D784FB4F99F";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		02EC81F71416A116006A6419 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		02EC81F91416A116006A6419 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cyril Gabathuler (CL5HS4T5E6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cyril Gabathuler (CL5HS4T5E6)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Lightning Push/Lightning Push-Prefix.pch";
+				INFOPLIST_FILE = "Lightning Push/Lightning Push-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "F6E85D64-4381-47FF-AB3A-3D784FB4F99F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F6E85D64-4381-47FF-AB3A-3D784FB4F99F";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		02EC81FA1416A116006A6419 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cyril Gabathuler (CL5HS4T5E6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Lightning Push/Lightning Push-Prefix.pch";
+				INFOPLIST_FILE = "Lightning Push/Lightning Push-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "F6E85D64-4381-47FF-AB3A-3D784FB4F99F";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		02EC81C91416A116006A6419 /* Build configuration list for PBXProject "Lightning Push" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02EC81F61416A116006A6419 /* Debug */,
+				02EC81F71416A116006A6419 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		02EC81F81416A116006A6419 /* Build configuration list for PBXNativeTarget "Lightning Push" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02EC81F91416A116006A6419 /* Debug */,
+				02EC81FA1416A116006A6419 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		02EC81E71416A116006A6419 /* Lightning_Push.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				02EC81E81416A116006A6419 /* Lightning_Push.xcdatamodel */,
+			);
+			currentVersion = 02EC81E81416A116006A6419 /* Lightning_Push.xcdatamodel */;
+			path = Lightning_Push.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 02EC81C61416A116006A6419 /* Project object */;
+}
