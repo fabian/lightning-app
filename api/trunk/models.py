@@ -52,7 +52,6 @@ class ListDevice(db.Model):
     device = db.ReferenceProperty(Device, required=True)
     permission = db.StringProperty(default='guest', required=True, choices=set(['owner', 'guest']))
     deleted = db.BooleanProperty(default=False, required=True)
-    unread = db.IntegerProperty(default=0, required=True)
     read = db.DateTimeProperty(required=True, auto_now_add=True) # last time the list was marked as read
     created = db.DateTimeProperty(required=True, auto_now_add=True)
     modified = db.DateTimeProperty(required=True, auto_now=True)

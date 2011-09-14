@@ -70,7 +70,7 @@ class ListPushTests(Tests):
         
         # mocker screenplay
         self.mock_urbanairship()
-        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 4, 'alert': "Added Butter, Wine and Bread. Changed Milk to Cheese. Deleted Honey."}}, device_tokens=["ABC123"])
+        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 1, 'alert': "Added Butter, Wine and Bread. Changed Milk to Cheese. Deleted Honey."}}, device_tokens=["ABC123"])
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
@@ -79,8 +79,6 @@ class ListPushTests(Tests):
         
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(self.device.listdevice_set[0].unread, 0)
-        self.assertEqual(self.receiver.listdevice_set[0].unread, 4)
         self.assertEqual(response.body, '{"devices": [4]}')
     
     def test_push_no_device_token(self):
@@ -99,7 +97,7 @@ class ListPushTests(Tests):
         
         # mocker screenplay
         self.mock_urbanairship()
-        self.urbanairship.push({'aps': {'badge': 0}}, device_tokens=["ABC123"])
+        self.urbanairship.push({'aps': {'badge': 1}}, device_tokens=["ABC123"])
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
@@ -175,8 +173,6 @@ class ListPushTests(Tests):
         
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(self.device.listdevice_set[0].unread, 0)
-        self.assertEqual(self.receiver.listdevice_set[0].unread, 1)
         self.assertEqual(response.body, '{"devices": []}')
     
     def test_push_urbanairship_failure(self):
@@ -199,8 +195,6 @@ class ListPushTests(Tests):
         
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(self.device.listdevice_set[0].unread, 0)
-        self.assertEqual(self.receiver.listdevice_set[0].unread, 1)
         self.assertEqual(response.body, '{"devices": []}')
     
     def test_environment(self):

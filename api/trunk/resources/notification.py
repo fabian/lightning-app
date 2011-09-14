@@ -65,22 +65,14 @@ class ListUnreadResource(ListsResource):
         
         if list:
             
-            # get all logs needed for calculation of unread count
-            eldest = min(x.read for x in list.listdevice_set)
-            log = list.get_log(eldest)
-            
             for x in list.listdevice_set:
-                
-                unread = Unread(log, x.device, x.read)
-                
-                x.unread = unread.get_count()
-                x.put()
                 
                 # update device unread
                 device = x.device
                 count = 0
                 for y in device.listdevice_set.filter('deleted != ', True):
-                    count += y.unread
+                    if y.list.modified > y.read:
+                        count += 1
                 device.unread = count
                 device.put()
         

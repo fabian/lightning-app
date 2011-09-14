@@ -151,7 +151,7 @@ class DeviceListsTests(Tests):
         test = webtest.TestApp(api.application)
         response = test.get("/api/devices/1/lists", headers={'Device': 'http://some.domain:8080/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"lists": [{"url": "http://localhost:80/api/lists/3", "token": "xzy", "unread": 0, "id": 3, "title": "List A"}, {"url": "http://localhost:80/api/lists/5", "token": "xzy", "unread": 0, "id": 5, "title": "List B"}]}')
+        self.assertEqual(response.body, '{"lists": [{"url": "http://localhost:80/api/lists/3", "count": 0, "token": "xzy", "id": 3, "title": "List A"}, {"url": "http://localhost:80/api/lists/5", "count": 0, "token": "xzy", "id": 5, "title": "List B"}]}')
     
     def test_get_lists_only_own(self):
         
