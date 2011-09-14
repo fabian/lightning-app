@@ -169,12 +169,13 @@ class DeviceListsResource(ListsResource):
                 for x in device.listdevice_set:
                     
                     list = x.list
+                    count = Item.all().filter('list =', list.key()).count()
                     lists.append({
                         'id': list.key().id(), 
                         'url': self.url(list), 
                         'title': list.title, 
                         'token': list.token, 
-                        'unread': x.unread, 
+                        'count': count, 
                     })
                 
                 return {'lists': lists}

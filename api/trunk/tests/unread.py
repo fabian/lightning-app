@@ -31,7 +31,6 @@ class ListReadTests(Tests):
         
         listdevice = models.ListDevice.get_by_id(3)
         self.assertNotEqual(listdevice.read, datetime(2010, 01, 01, 12, 00, 00))
-        self.assertEqual(listdevice.unread, 0)
         
         tasks = self.taskqueue_stub.GetTasks('default')
         self.assertEquals(len(tasks), 1)
