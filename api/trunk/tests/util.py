@@ -20,8 +20,3 @@ class Tests(mocker.MockerTestCase):
         self.mocker.count(1, None)
         self.urbanairship = self.mocker.mock()
         self.mocker.result(self.urbanairship)
-
-    def mock_datetime(self, time=datetime(2010, 06, 29, 13, 00, 00)):
-        datetime = self.mocker.replace('datetime.datetime')
-        datetime.now()
-        self.mocker.result(time)
