@@ -43,13 +43,14 @@ class ItemsResource(Resource):
         
         if list:
             
-            modified = datetime.now()
-            item = Item(value=self.request.get('value'), list=list, modified=modified)
+            item = Item(value=self.request.get('value'), list=list, modified=datetime.now())
             
             # authenticated device must have access to item
             if self.has_access(item):
                 
                 # access granted, save item
+                item.list.modified = item.modified
+                item.list.put()
                 item.put()
                 
                 # log action for notification
@@ -116,6 +117,8 @@ class ItemResource(ItemsResource):
                     item.value = params['value'][0]
                     item.done = (params['done'][0] == "1")
                     item.modified = modified
+                    item.list.modified = datetime.now()
+                    item.list.put()
                     item.put()
                     
                     # log action for notification
@@ -148,6 +151,8 @@ class ItemResource(ItemsResource):
             if self.has_access(item):
             
                 item.deleted = True
+                item.list.modified = datetime.now()
+                item.list.put()
                 item.put()
                 
                 # log action for notification

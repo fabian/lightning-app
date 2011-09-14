@@ -58,7 +58,7 @@ class ListTests(Tests):
         self.device = models.Device(identifier="foobar", device_token="ABC123", name="Some Device", secret="abc")
         self.device.put()
         
-        self.list = models.List(title="A random list", owner=self.device, token="xzy")
+        self.list = models.List(title="A random list", owner=self.device, token="xzy", modified=datetime(2010, 06, 29, 12, 00, 00))
         self.list.put()
         models.ListDevice(device=self.device, list=self.list).put()
         
@@ -102,6 +102,16 @@ class ListTests(Tests):
         list = models.List.get_by_id(2)
         self.assertEqual(list.title, "New Title")
     
+    def test_update_list_without_shared(self):
+        
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/lists/2", {'title': "New Title"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": false, "id": "2", "title": "New Title"}')
+        
+        list = models.List.get_by_id(2)
+        self.assertEqual(list.title, "New Title")
+    
     def test_update_wrong_id(self):
         
         test = webtest.TestApp(api.application)
@@ -130,11 +140,11 @@ class DeviceListsTests(Tests):
     
     def test_get_lists(self):
         
-        list_a = models.List(title="List A", owner=self.device_one, token="xzy")
+        list_a = models.List(title="List A", owner=self.device_one, token="xzy", modified=datetime(2010, 06, 29, 12, 00, 00))
         list_a.put()
         models.ListDevice(device=self.device_one, list=list_a).put()
         
-        list_b = models.List(title="List B", owner=self.device_one, token="xzy")
+        list_b = models.List(title="List B", owner=self.device_one, token="xzy", modified=datetime(2010, 06, 29, 12, 00, 00))
         list_b.put()
         models.ListDevice(device=self.device_one, list=list_b).put()
         
@@ -145,7 +155,7 @@ class DeviceListsTests(Tests):
     
     def test_get_lists_only_own(self):
         
-        list_c = models.List(title="List C", owner=self.device_two, token="xzy")
+        list_c = models.List(title="List C", owner=self.device_two, token="xzy", modified=datetime(2010, 06, 29, 12, 00, 00))
         list_c.put()
         
         test = webtest.TestApp(api.application)
@@ -179,7 +189,7 @@ class DeviceListTests(Tests):
         self.device_two = models.Device(identifier="raboof", device_token="ABC123", name="Another Device", secret="xyz")
         self.device_two.put()
         
-        list = models.List(title="Some List", token="QWERT")
+        list = models.List(title="Some List", token="QWERT", modified=datetime(2010, 06, 29, 12, 00, 00))
         list.put()
         
         self.test = webtest.TestApp(api.application)
