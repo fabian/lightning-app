@@ -39,9 +39,6 @@ class ListReadResource(ListsResource):
                         x.unread = 0
                         x.put()
                     
-                    # recollect unread count
-                    taskqueue.add(url='/api/lists/%s/unread' % list.key().id(), headers={'Environment': self.environment})
-                    
                     return {'list': list.key().id(), 'device': device.key().id()}
                     
                 else:
@@ -53,33 +50,6 @@ class ListReadResource(ListsResource):
             # list not found
             self.error(404)
             self.response.out.write("Can't get list with id %s" % list_id)
-
-class ListUnreadResource(ListsResource):
-    
-    def post(self, id):
-        
-        try:
-            list = List.get_by_id(int(id))
-        except ValueError:
-            list = False
-        
-        if list:
-            
-            for x in list.listdevice_set:
-                
-                # update device unread
-                device = x.device
-                count = 0
-                for y in device.listdevice_set.filter('deleted != ', True):
-                    if y.list.modified > y.read:
-                        count += 1
-                device.unread = count
-                device.put()
-        
-        else:
-            # list not found
-            self.error(404)
-            self.response.out.write("Can't get list with id %s" % id)
 
 
 class ListPushResource(ListsResource):
@@ -117,9 +87,14 @@ class ListPushResource(ListsResource):
                     for x in list.listdevice_set.filter('device != ', exclude):
                         if x.device.device_token:
                             
-                            unread = x.device.unread
+                            # unread count
+                            device = x.device
+                            count = 0
+                            for y in device.listdevice_set.filter('deleted != ', True):
+                                if y.list.modified > y.read:
+                                    count += 1
                             
-                            payload = {'badge': unread}
+                            payload = {'badge': count}
                             if message:
                                 payload['alert'] = message
                                 payload['lightning_list'] = list.key().id()
@@ -128,15 +103,15 @@ class ListPushResource(ListsResource):
                                 # push notification and unread count to Urban Airship
                                 airship.push({'aps': payload}, device_tokens=[x.device.device_token])
                                 
-                                logging.debug("Pushed '%s' (%s) to device %s with device token '%s'.", message, unread, x.device.key().id(), x.device.device_token)
+                                logging.debug("Pushed '%s' (%s) to device %s with device token '%s'.", message, count, x.device.key().id(), x.device.device_token)
                                 
                                 devices.append(x.device)
                             
                             except DownloadError, e:
-                                logging.error("Unable to push '%s' (%s) to device %s with device token '%s' at Urban Airship: %s", message, unread, x.device.key().id(), x.device.device_token, e)
+                                logging.error("Unable to push '%s' (%s) to device %s with device token '%s' at Urban Airship: %s", message, count, x.device.key().id(), x.device.device_token, e)
                             
                             except urbanairship.AirshipFailure, (status, response):
-                                logging.error("Unable to push '%s' (%s) to device %s with device token '%s' at Urban Airship: %s (%d)", message, unread, x.device.key().id(), x.device.device_token, response, status)
+                                logging.error("Unable to push '%s' (%s) to device %s with device token '%s' at Urban Airship: %s (%d)", message, count, x.device.key().id(), x.device.device_token, response, status)
                     
                     list.pushed = datetime.now()
                     
