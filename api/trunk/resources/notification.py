@@ -7,7 +7,7 @@ from google.appengine.api import taskqueue
 from google.appengine.api.urlfetch import DownloadError
 from util import Resource, json, device_required, environment
 from models import Device, List
-from notifications import Notification, Unread
+from notifications import Notification
 from resources.list import ListsResource
 
 class ListReadResource(ListsResource):
