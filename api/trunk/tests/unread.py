@@ -31,12 +31,6 @@ class ListReadTests(Tests):
         
         listdevice = models.ListDevice.get_by_id(3)
         self.assertNotEqual(listdevice.read, datetime(2010, 01, 01, 12, 00, 00))
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 1)
-        for task in tasks:
-            self.assertEqual(task['url'], '/api/lists/2/unread')
-            self.assertEqual(task['headers'][0], ('Environment', ''))
     
     def test_read_wrong_id(self):
         
@@ -89,33 +83,4 @@ class ListReadTests(Tests):
         test = webtest.TestApp(api.application)
         
         response = test.post("/api/lists/2/devices/1/read", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc', 'Environment': 'test'})
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 1)
-        for task in tasks:
-            self.assertEqual(task['url'], '/api/lists/2/unread')
-            self.assertEqual(task['headers'][0], ('Environment', 'test'))
 
-
-class UnreadTests(Tests):
-
-    def setUp(self):
-        self.stub_datastore()
-    
-    def test_unread_wrong_id(self):
-        
-        self.mocker.replay()
-        test = webtest.TestApp(api.application)
-        
-        response = test.post("/api/lists/99/unread", status=404)
-        
-        self.assertEqual(response.body, "Can't get list with id 99")
-    
-    def test_unread_invalid_id(self):
-        
-        self.mocker.replay()
-        test = webtest.TestApp(api.application)
-        
-        response = test.post("/api/lists/aaa/unread", status=404)
-        
-        self.assertEqual(response.body, "Can't get list with id aaa")

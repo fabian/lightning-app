@@ -75,8 +75,6 @@ class ListPushTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/2/unread")
-        
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"devices": [4]}')
@@ -101,8 +99,6 @@ class ListPushTests(Tests):
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
-        
-        response = test.post("/api/lists/2/unread")
         
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
@@ -169,8 +165,6 @@ class ListPushTests(Tests):
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/2/unread")
-        
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"devices": []}')
@@ -190,8 +184,6 @@ class ListPushTests(Tests):
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
-        
-        response = test.post("/api/lists/2/unread")
         
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         

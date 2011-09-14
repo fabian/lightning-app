@@ -56,7 +56,6 @@ class ItemsResource(Resource):
                 # log action for notification
                 log = Log(device=self.get_auth(), item=item, list=list, action='added')
                 log.put()
-                taskqueue.add(url='/api/lists/%s/unread' % list.key().id(), headers={'Environment': self.environment})
                 
                 protocol = self.request._environ['wsgi.url_scheme']
                 host = self.request._environ['HTTP_HOST']
@@ -124,7 +123,6 @@ class ItemResource(ItemsResource):
                     # log action for notification
                     log = Log(device=self.get_auth(), item=item, list=item.list, action='modified', old=old)
                     log.put()
-                    taskqueue.add(url='/api/lists/%s/unread' % item.list.key().id(), headers={'Environment': self.environment})
                     
                     return {'id': id, 'url': self.url(item), 'value': item.value, 'done': item.done, 'modified': item.modified.strftime(self.DATE_FORMAT)}
                     
@@ -158,7 +156,6 @@ class ItemResource(ItemsResource):
                 # log action for notification
                 log = Log(device=self.get_auth(), item=item, list=item.list, action='deleted', old=item.value)
                 log.put()
-                taskqueue.add(url='/api/lists/%s/unread' % item.list.key().id(), headers={'Environment': self.environment})
                 
                 return {}
             

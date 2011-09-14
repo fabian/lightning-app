@@ -31,12 +31,6 @@ class ItemsTests(Tests):
         # make sure list modified has been changed
         list = models.List.get_by_id(3)
         self.assertGreater(list.modified, datetime(2010, 06, 29, 13, 00, 00))
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 1)
-        for task in tasks:
-            self.assertEqual(task['url'], '/api/lists/3/unread')
-            self.assertEqual(task['headers'][0], ('Environment', ''))
     
     def test_wrong_list(self):
         
@@ -59,12 +53,6 @@ class ItemsTests(Tests):
     def test_environment(self):
         
         response = self.test.post("/api/items", {'list': "3", 'value': "Milk"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc', 'Environment': 'test'})
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 1)
-        for task in tasks:
-            self.assertEqual(task['url'], '/api/lists/3/unread')
-            self.assertEqual(task['headers'][0], ('Environment', 'test'))
     
 
 class ItemTests(Tests):
@@ -128,58 +116,34 @@ class ItemTests(Tests):
         # make sure list modified has been changed
         list = models.List.get_by_id(4)
         self.assertGreater(list.modified, datetime(2010, 06, 29, 13, 00, 00))
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 1)
-        for task in tasks:
-            self.assertEqual(task['url'], '/api/lists/4/unread')
-            self.assertEqual(task['headers'][0], ('Environment', ''))
     
     def test_update_conflict_item(self):
         
         response = self.test.put("/api/items/7", {'value': "Old Value", 'modified': "2010-06-29 12:00:00"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=409)
         
         self.assertEqual(response.body, "Conflict, has later modification")
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 0)
     
     def test_update_wrong_id(self):
         
         response = self.test.put("/api/items/99", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, 'Item 99 not found')
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 0)
     
     def test_update_invalid_id(self):
         
         response = self.test.put("/api/items/aaa", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, 'Item aaa not found')
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 0)
     
     def test_update_no_access(self):
         
         response = self.test.put("/api/items/7", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/3?secret=qwert'}, status=403)
         
         self.assertEqual(response.body, 'Authenticated device 3 has no access to list of item')
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 0)
     
     def test_update_environment(self):
         
         response = self.test.put("/api/items/7", {'value': "New Value", 'done': "1",  'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc', 'Environment': 'test'})
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 1)
-        for task in tasks:
-            self.assertEqual(task['url'], '/api/lists/4/unread')
-            self.assertEqual(task['headers'][0], ('Environment', 'test'))
     
     def test_delete_item(self):
         
@@ -193,37 +157,20 @@ class ItemTests(Tests):
         # make sure list modified has been changed
         list = models.List.get_by_id(4)
         self.assertGreater(list.modified, datetime(2010, 06, 29, 13, 00, 00))
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 1)
-        for task in tasks:
-            self.assertEqual(task['url'], '/api/lists/4/unread')
-            self.assertEqual(task['headers'][0], ('Environment', ''))
     
     def test_delete_wrong_id(self):
         
         response = self.test.delete("/api/items/aaa", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
         self.assertEqual(response.body, 'Item aaa not found')
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 0)
     
     def test_delete_no_access(self):
         
         response = self.test.delete("/api/items/7", headers={'Device': 'http://localhost:80/api/devices/3?secret=qwert'}, status=403)
         
         self.assertEqual(response.body, 'Authenticated device 3 has no access to list of item')
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 0)
     
     def test_delete_environment(self):
         
         response = self.test.delete("/api/items/7", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc', 'Environment': 'test'})
-        
-        tasks = self.taskqueue_stub.GetTasks('default')
-        self.assertEquals(len(tasks), 1)
-        for task in tasks:
-            self.assertEqual(task['url'], '/api/lists/4/unread')
-            self.assertEqual(task['headers'][0], ('Environment', 'test'))
+    
