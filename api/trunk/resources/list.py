@@ -1,6 +1,7 @@
 import os
 import logging
 import binascii
+from datetime import datetime
 import urbanairship
 from util import Resource, json, device_required
 from models import ListDevice, Device, List, Item
@@ -46,7 +47,7 @@ class ListsResource(Resource):
                 token = binascii.hexlify(os.urandom(8))
                 shared = (self.request.get('shared') == "1")
                 
-                list = List(title=self.request.get('title'), token=token, shared=shared)
+                list = List(title=self.request.get('title'), token=token, shared=shared, modified=datetime.now())
                 list.put()
                 
                 listdevice = ListDevice(list=list, device=owner, permission='owner')

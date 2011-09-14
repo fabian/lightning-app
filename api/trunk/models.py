@@ -18,7 +18,7 @@ class List(db.Model):
     deleted = db.BooleanProperty()
     pushed = db.DateTimeProperty(required=True, auto_now_add=True) # last time the list was pushed
     created = db.DateTimeProperty(required=True, auto_now_add=True)
-    modified = db.DateTimeProperty(required=True, auto_now=True)
+    modified = db.DateTimeProperty(required=True)
     
     def has_access(self, device):
         # device must be in device list
