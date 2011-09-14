@@ -82,17 +82,3 @@ class Notification:
     def get_message(self):
         return self.message
 
-
-class Unread:
-
-    def __init__(self, logs, device, since):
-        
-        # filter out old entries and entries of the device itself
-        # this is done in Python because there's no nice way to clone a query
-        logs = [log for log in logs if (log.happened > since) and (log.device.key() != device.key())]
-        
-        history = History(logs)
-        self.count = len(history.get_added()) + len(history.get_modified())
-    
-    def get_count(self):
-        return self.count
