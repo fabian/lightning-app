@@ -169,7 +169,6 @@ class DeviceListsResource(ListsResource):
                 for x in device.listdevice_set:
                     
                     list = x.list
-                    count = Item.all().filter('list =', list.key()).count()
                     unread = x.list.modified > x.read
                     
                     lists.append({
@@ -178,7 +177,6 @@ class DeviceListsResource(ListsResource):
                         'title': list.title, 
                         'token': list.token, 
                         'unread': unread,
-                        'count': count, 
                     })
                 
                 return {'lists': lists}
