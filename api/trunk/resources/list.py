@@ -170,11 +170,14 @@ class DeviceListsResource(ListsResource):
                     
                     list = x.list
                     count = Item.all().filter('list =', list.key()).count()
+                    unread = x.list.modified > x.read
+                    
                     lists.append({
                         'id': list.key().id(), 
                         'url': self.url(list), 
                         'title': list.title, 
                         'token': list.token, 
+                        'unread': unread,
                         'count': count, 
                     })
                 
