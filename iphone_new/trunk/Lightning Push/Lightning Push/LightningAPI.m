@@ -32,7 +32,7 @@
 BOOL updateDeviceToken = FALSE;
 
 NSString * const prod = @"https://lightning-app.appspot.com/api/";
-NSString * const dev = @"http://192.168.37.20:8080/api/";//http://localhost:8080/api/
+NSString * const dev = @"http://localhost:8080/api/";//http://192.168.37.20:8080/api/
 NSString * const env = @"development";//production
 
 + (LightningAPI*) sharedManager {

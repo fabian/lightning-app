@@ -124,7 +124,7 @@ MAX([UIApplication sharedApplication].statusBarFrame.size.width, [UIApplication 
 ///////////////////////////////////////////////////////
 
 // Text that is displayed in the finished-Label when the finish was successful
-#define kFinishedText		@"✔"
+#define kFinishedText		@""
 #define kFinishedFontSize	22.f
 
 // Text that is displayed when an error occured
