@@ -12,7 +12,7 @@ from tests.list import *
 from tests.notification import *
 from tests.ping import *
 from tests.push import *
-from tests.unread import *
+from tests.read import *
 from tests.util import *
 
 if __name__ == "__main__":
