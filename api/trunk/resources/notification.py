@@ -36,7 +36,6 @@ class ListReadResource(ListsResource):
                     
                     for x in list.listdevice_set.filter('device = ', device):
                         x.read = datetime.now()
-                        x.unread = 0
                         x.put()
                     
                     return {'list': list.key().id(), 'device': device.key().id()}
