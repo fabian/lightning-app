@@ -7,7 +7,6 @@ class Device(db.Model):
     identifier = db.StringProperty(required=True) # UDID for iPhone
     device_token = db.StringProperty()
     secret = db.StringProperty(required=True) # random, needed to verify udid
-    unread = db.IntegerProperty(default=0, required=True) # unread items
     registered = db.DateTimeProperty(required=True, auto_now_add=True)
     modified = db.DateTimeProperty(required=True, auto_now=True)
 
