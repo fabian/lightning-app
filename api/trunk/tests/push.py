@@ -13,7 +13,7 @@ class ListPushTests(Tests):
     def setUp(self):
         self.stub_datastore()
         
-        self.device = models.Device(identifier="foobar", device_token="ABC123", name="Peter", secret="abc")
+        self.device = models.Device(identifier="foobar", device_token="123ABC", name="Peter", secret="abc")
         self.device.put()
         
         self.list = models.List(title="Groceries", owner=self.device, token="xzy", modified=datetime(2010, 06, 29, 12, 00, 00))
@@ -42,9 +42,9 @@ class ListPushTests(Tests):
         self.item_six = models.Item(value="Margarine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_six.put()
         
-        self.device_second = models.Device(identifier="raboof", device_token="ABC123", name="Uninvolved Device", secret="xyz")
+        self.device_second = models.Device(identifier="raboof", device_token="XYZ123", name="Uninvolved Device", secret="xyz")
         self.device_second.put()
-    
+        
     def test_push_list(self):
         
         log = models.Log(device=self.device, item=self.item_one, list=self.list, action='added')
@@ -59,6 +59,10 @@ class ListPushTests(Tests):
         log = models.Log(device=self.device, item=self.item_three, list=self.list, action='modified', old="Marmalade")
         log.put()
         
+        # Honey added by receiver
+        log = models.Log(device=self.receiver, item=self.item_four, list=self.list, action='added')
+        log.put()
+        
         log = models.Log(device=self.device, item=self.item_four, list=self.list, action='deleted', old="Honey")
         log.put()
         
@@ -68,16 +72,29 @@ class ListPushTests(Tests):
         log = models.Log(device=self.device, item=self.item_six, list=self.list, action='deleted', old="Margarine", happened=datetime(2010, 04, 01, 00, 00, 00))
         log.put()
         
-        # mocker screenplay
         self.mock_urbanairship()
+        
+        # first push
         self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 1, 'alert': "Added Butter, Wine and Bread. Changed Milk to Cheese. Deleted Honey."}}, device_tokens=["ABC123"])
         
+        # second push
+        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 1, 'alert': "Deleted Cheese."}}, device_tokens=["ABC123"])
+        
+        # mocker screenplay
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
         self.assertEqual(response.body, '{"devices": [4]}')
+        
+        log = models.Log(device=self.device, item=self.item_five, list=self.list, action='deleted', old="Cheese")
+        log.put()
+        
+        response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"devices": [4]}')
+    
     
     def test_push_no_device_token(self):
         
@@ -131,23 +148,32 @@ class ListPushTests(Tests):
         
         self.assertEqual(response.body, "Authenticated device 12 has no access to list")
     
-    def test_push_wrong_exclude(self):
+    def test_push_wrong_device(self):
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/2/devices/99/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
+        response = test.post("/api/lists/2/devices/99/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
-        self.assertEqual(response.body, "Device to exclude 99 not found")
+        self.assertEqual(response.body, "Device to push 99 not found")
     
-    def test_push_invalid_exclude(self):
+    def test_push_invalid_device(self):
         
         self.mocker.replay()
         test = webtest.TestApp(api.application)
         
-        response = test.post("/api/lists/2/devices/aaa/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=400)
+        response = test.post("/api/lists/2/devices/aaa/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=404)
         
-        self.assertEqual(response.body, "Device to exclude aaa not found")
+        self.assertEqual(response.body, "Device to push aaa not found")
+    
+    def test_push_wrong_auth(self):
+        
+        self.mocker.replay()
+        test = webtest.TestApp(api.application)
+        
+        response = test.post("/api/lists/2/devices/12/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'}, status=403)
+        
+        self.assertEqual(response.body, "Device 12 doesn't match authenticated device 1")
     
     def test_push_download_error(self):
         

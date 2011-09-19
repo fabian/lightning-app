@@ -5,6 +5,7 @@ branch = True
 
 omit = 
     /Applications/*
+    /Library/*
     django/*
     api.py
     mocker.py
