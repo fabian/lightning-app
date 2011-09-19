@@ -23,4 +23,10 @@ indexes:
 - kind: Log
   properties:
   - name: list
+  - name: device
+  - name: happened
+
+- kind: Log
+  properties:
+  - name: list
   - name: happened
