@@ -15,6 +15,7 @@
         <relationship name="listName" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ListName" inverseName="listItems" inverseEntity="ListName" syncable="YES"/>
     </entity>
     <entity name="ListName" representedClassName="ListName">
+        <attribute name="hasUnread" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="lastModified" optional="YES" attributeType="String"/>
         <attribute name="listId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -26,6 +27,6 @@
     <elements>
         <element name="Device" positionX="-405" positionY="63" width="128" height="105"/>
         <element name="ListItem" positionX="-2" positionY="90" width="128" height="135"/>
-        <element name="ListName" positionX="-254" positionY="84" width="128" height="150"/>
+        <element name="ListName" positionX="-254" positionY="84" width="128" height="165"/>
     </elements>
 </model>
