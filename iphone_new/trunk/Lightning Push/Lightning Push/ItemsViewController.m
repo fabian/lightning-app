@@ -215,6 +215,7 @@
 			listItem.done = [NSNumber numberWithBool:TRUE];
             
 			NSError *error;
+            [self.listName willChangeValueForKey:@"listItems"];
 			[self.managedObjectContext save:&error];
             
             [self.lightningAPI updateItem:listItem];
@@ -227,6 +228,7 @@
 		listItem.done = [NSNumber numberWithBool:FALSE];
 		
 		NSError *error;
+        [self.listName willChangeValueForKey:@"listItems"];
 		[self.managedObjectContext save:&error];
 		
 		[self.lightningAPI updateItem:listItem];
@@ -397,6 +399,7 @@
 		listItem.creation = [LightningUtil getUTCFormateDate:[NSDate date]];
 		listItem.modified = [LightningUtil getUTCFormateDate:[NSDate date]];
 		listItem.listName = self.listName;
+        listItem.done = FALSE;
 		
 		NSError *error;
 		[self.managedObjectContext save:&error];
