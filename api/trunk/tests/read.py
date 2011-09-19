@@ -15,7 +15,7 @@ class ListReadTests(Tests):
         
         self.list = models.List(title="Groceries", owner=self.device, token="xzy", modified=datetime(2010, 06, 29, 12, 00, 00))
         self.list.put()
-        models.ListDevice(device=self.device, list=self.list, read=datetime(2010, 01, 01, 12, 00, 00), unread=72).put()
+        models.ListDevice(device=self.device, list=self.list, read=datetime(2010, 01, 01, 12, 00, 00)).put()
         
         self.device_second = models.Device(identifier="raboof", device_token="ABC123", name="Uninvolved Device", secret="xyz")
         self.device_second.put()
