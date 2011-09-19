@@ -176,6 +176,7 @@ class DeviceListsResource(ListsResource):
                         'url': self.url(list), 
                         'title': list.title, 
                         'token': list.token, 
+                        'shared': list.shared, 
                         'unread': unread,
                     })
                 
