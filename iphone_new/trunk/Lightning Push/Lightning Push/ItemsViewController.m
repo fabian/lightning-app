@@ -7,6 +7,7 @@
 //
 
 #import "ItemsViewController.h"
+#import "EditListViewController.h"
 
 @interface ItemsViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -62,6 +63,9 @@
 	self.tableView.tableFooterView = bottom;
     
     self.title = self.listName.name;
+    
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editList)];
+	self.navigationItem.rightBarButtonItem = button;
     
     [self.lightningAPI readList:self.listName.listId];
 }
@@ -440,7 +444,21 @@
 	return YES;
 }
 
-#pragma - push methods
+#pragma mark - edit list
+
+- (void)editList {
+	
+	EditListViewController *editListViewController = [[EditListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    editListViewController.managedObjectContext = self.managedObjectContext;
+    editListViewController.listName = self.listName;
+    
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:editListViewController];
+	navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	
+    [self presentModalViewController:navigationController animated:YES];
+}
+
+#pragma mark - push methods
 
 -(void)pushAfterTimer {
     NSLog(@"pushing after timer");	
