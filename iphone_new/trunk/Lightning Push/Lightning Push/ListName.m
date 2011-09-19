@@ -2,7 +2,7 @@
 //  ListName.m
 //  Lightning Push
 //
-//  Created by Cyril Gabathuler on 06.09.11.
+//  Created by Cyril Gabathuler on 19.09.11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
@@ -18,6 +18,7 @@
 @dynamic shared;
 @dynamic token;
 @dynamic unreadCount;
+@dynamic hasUnread;
 @dynamic listItems;
 
 @end
