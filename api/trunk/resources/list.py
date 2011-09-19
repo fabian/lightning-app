@@ -123,7 +123,7 @@ class ListResource(ListsResource):
             if self.has_access(list):
                 items = []
                 
-                for item in Item.all().filter('list =', list.key()):
+                for item in Item.all().filter('list =', list.key()).filter('deleted =', False):
                     
                     protocol = self.request._environ['wsgi.url_scheme']
                     host = self.request._environ['HTTP_HOST']
