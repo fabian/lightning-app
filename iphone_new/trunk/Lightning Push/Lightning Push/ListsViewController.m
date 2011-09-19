@@ -145,9 +145,9 @@
         [cell.contentView addSubview:label];
         
         UILabel *roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
-        roundedLabel.textColor = [UIColor whiteColor];
+        roundedLabel.textColor = [UIColor grayColor];
         roundedLabel.textAlignment = UITextAlignmentCenter;
-        roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
+        roundedLabel.backgroundColor = [UIColor clearColor];
         CALayer *layer = [roundedLabel layer];
         layer.cornerRadius = 10.0f;
         
@@ -202,7 +202,7 @@
     ItemsViewController *itemsViewController = [[ItemsViewController alloc] initWithStyle:UITableViewStylePlain];
     
     itemsViewController.managedObjectContext = self.managedObjectContext;
-    itemsViewController.listName = listName;    
+    itemsViewController.listName = listName;
     [self.navigationController pushViewController:itemsViewController animated:YES];
 }
 
@@ -341,30 +341,46 @@
     UILabel *textLabel = (UILabel *)[cell.contentView viewWithTag:10];
     [textLabel setText:listName.name];
     
-    UILabel *roundedLabel = (UILabel*)[cell.contentView viewWithTag:124];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"done != 1"];
+    NSArray *filteredArray = [[listName.listItems allObjects] filteredArrayUsingPredicate:predicate];
+    int unreadItems = 0;
+    if ([filteredArray count] > 0) {
+        unreadItems = [filteredArray count];
+    }
     
-    if([listName.unreadCount intValue] > 0) {
+    UILabel *roundedLabel = (UILabel*)[cell.contentView viewWithTag:124];
+    //[listName.unreadCount intValue] > 0
+    
         if (roundedLabel != nil) {
-            roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
+            roundedLabel.text = [[NSString alloc ]initWithFormat:@"%i", unreadItems];
+            if ([listName.unreadCount boolValue]) {
+                roundedLabel.textColor = [UIColor whiteColor];
+                roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
+            } else {
+                roundedLabel.textColor = [UIColor grayColor];
+                roundedLabel.backgroundColor = [UIColor clearColor];
+            }
         } else {
             roundedLabel = [[UILabel alloc]initWithFrame:CGRectMake(230, 14, 30, 20)];	
             roundedLabel.textColor = [UIColor whiteColor];
             roundedLabel.textAlignment = UITextAlignmentCenter;
-            roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
-            CALayer *layer = [roundedLabel layer];
-            layer.cornerRadius = 10.0f;
             
-            roundedLabel.text = [[NSString alloc ]initWithFormat:@"%@", listName.unreadCount];
+            if ([listName.unreadCount boolValue]) {
+                 roundedLabel.textColor = [UIColor whiteColor];
+                roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
+            } else {
+                roundedLabel.textColor = [UIColor grayColor];
+                roundedLabel.backgroundColor = [UIColor clearColor];
+            }
             
+                        
+            roundedLabel.text = [[NSString alloc ]initWithFormat:@"%i", unreadItems];
             roundedLabel.tag = 124;
+            
             [cell.contentView addSubview:roundedLabel];
         }
         
-    } else {
-        if (roundedLabel != nil) {
-            [roundedLabel removeFromSuperview];
-        }
-    }
+    
     
 }
 
@@ -413,6 +429,5 @@
     
     //[self insertNewObject];
 }
-
 
 @end
