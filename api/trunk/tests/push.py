@@ -78,7 +78,7 @@ class ListPushTests(Tests):
         self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 1, 'alert': "Added Butter, Wine and Bread. Changed Milk to Cheese. Deleted Honey."}}, device_tokens=["ABC123"])
         
         # second push
-        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 1, 'alert': "Deleted Cheese."}}, device_tokens=["ABC123"])
+        self.urbanairship.push({'aps': {'lightning_list': 2, 'badge': 0, 'alert': "Deleted Cheese."}}, device_tokens=["ABC123"])
         
         # mocker screenplay
         self.mocker.replay()
@@ -90,6 +90,9 @@ class ListPushTests(Tests):
         
         log = models.Log(device=self.device, item=self.item_five, list=self.list, action='deleted', old="Cheese")
         log.put()
+        
+        # read list
+        response = test.post("/api/lists/2/devices/4/read", headers={'Device': 'http://localhost:80/api/devices/4?secret=123'})
         
         response = test.post("/api/lists/2/devices/1/push", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
