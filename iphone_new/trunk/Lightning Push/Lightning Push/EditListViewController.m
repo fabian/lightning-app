@@ -355,7 +355,7 @@
             if (indexPath.row == 0 && [self.listName.shared boolValue]) {
                 self.listName.shared = [NSNumber numberWithBool:FALSE];
                 
-                self.lightningAPI 
+                //self.lightningAPI 
 
                 NSError *error;
                 [self.managedObjectContext save:&error];
