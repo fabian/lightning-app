@@ -2,7 +2,7 @@
 //  ListName.h
 //  Lightning Push
 //
-//  Created by Cyril Gabathuler on 06.09.11.
+//  Created by Cyril Gabathuler on 19.09.11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSNumber * shared;
 @property (nonatomic, retain) NSString * token;
 @property (nonatomic, retain) NSNumber * unreadCount;
+@property (nonatomic, retain) NSNumber * hasUnread;
 @property (nonatomic, retain) NSSet *listItems;
 @end
 
