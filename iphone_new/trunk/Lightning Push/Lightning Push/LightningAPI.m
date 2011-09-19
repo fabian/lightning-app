@@ -422,9 +422,10 @@ NSString * const env = @"development";//production
 						
 						updatedList.name = [list objectForKey:@"title"];
 						updatedList.listId = [list objectForKey:@"id"];
-						updatedList.unreadCount = [list objectForKey:@"unread"];
 						updatedList.token = [list objectForKey:@"token"];
                         updatedList.shared = [NSNumber numberWithBool:[(NSString *)[list objectForKey:@"shared"] boolValue]];
+						//updatedList.unreadCount = [list objectForKey:@"unread"];
+                        updatedList.hasUnread = [NSNumber numberWithBool:[(NSString *)[list objectForKey:@"unread"] boolValue]];
 						
 						[self.context save:&error];
                         //TODO
@@ -450,6 +451,8 @@ NSString * const env = @"development";//production
 						listName.token = [list objectForKey:@"token"];
 						listName.lastModified = [LightningUtil getUTCFormateDate:[NSDate date]];
                         listName.shared = [NSNumber numberWithBool:[(NSString *)[list objectForKey:@"shared"] boolValue]];
+						listName.unreadCount = 0;
+                        listName.hasUnread = [NSNumber numberWithBool:[(NSString *)[list objectForKey:@"unread"] boolValue]];
 						
 						[self.context save:&error];
 					}
@@ -485,6 +488,8 @@ NSString * const env = @"development";//production
                         listName.token = [list objectForKey:@"token"];
                         listName.lastModified = [LightningUtil getUTCFormateDate:[NSDate date]];
                         listName.shared = [NSNumber numberWithBool:[(NSString *)[list objectForKey:@"shared"] boolValue]];
+						listName.unreadCount = 0;
+                        listName.hasUnread = [NSNumber numberWithBool:[(NSString *)[list objectForKey:@"unread"] boolValue]];
                         
                         [self.context save:&error];
 					}
@@ -767,7 +772,7 @@ NSString * const env = @"development";//production
 		
 		if([results count] > 0) {
 			ListName *listName = [results objectAtIndex:0];
-            listName.unreadCount = 0;
+            listName.hasUnread = 0;
 		}        
 	}
 }
