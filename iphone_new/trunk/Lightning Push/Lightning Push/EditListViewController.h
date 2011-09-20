@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
 #import "ListName.h"
 #import "LightningAPI.h"
 
 
-@interface EditListViewController : UITableViewController<UIActionSheetDelegate> 
+@interface EditListViewController : UITableViewController<UIActionSheetDelegate, LightningAPIAddListDelegate, MFMailComposeViewControllerDelegate> 
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) ListName *listName;
