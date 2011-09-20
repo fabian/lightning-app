@@ -327,6 +327,30 @@ NSString * const env = @"development";//production
 					didFinishSelector:@selector(myFetcher:finishShareList:error:)];
 }
 
+- (void)updateList:(ListName *)listName {
+    self.listName = listName;
+    
+    NSURL *callUrl = [[NSURL alloc] initWithString:[[self.apiURL absoluteString] stringByAppendingFormat:@"lists/%@", self.listName.listId]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:callUrl];
+    
+    [self prepareRequest:request device:true];	
+	
+    NSString *putString = [NSString stringWithFormat:@"title=%@&shared=%@", listName.name, ([self.listName.shared boolValue] ? @"true" : @"false")];
+    NSLog(@"put string %@", putString);
+	
+	[request setHTTPMethod:@"PUT"];
+    [request setHTTPBody:[putString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+    GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishUpdateList:error:)];
+}
+
 #pragma mark responses
 - (void)myFetcher:(GTMHTTPFetcher *)fetcher finishedSetupDevice:(NSData *)retrievedData error:(NSError *)error {
     if (error != nil) {
@@ -792,6 +816,33 @@ NSString * const env = @"development";//production
 		NSLog(@"finishWithShareList %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
 		
 		[self getLists];
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishUpdateList:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with finishUpdateList: %i", status);
+		
+	} else {
+		NSLog(@"finishUpdateList %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+        
+        if([self.listName.shared boolValue]) {
+            NSString *data = [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding];
+            SBJSON *parser = [[SBJSON alloc] init];
+            NSDictionary *object = [parser objectWithString:data error:nil];
+            
+            self.listName.token = [object valueForKey:@"token"];
+
+            [self.context save:&error];
+            [self.addListDelegate finishAddList:self.listName.token];
+        }
 	}
 }
 
