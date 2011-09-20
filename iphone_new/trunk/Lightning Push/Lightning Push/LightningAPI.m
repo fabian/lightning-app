@@ -338,7 +338,7 @@ NSString * const env = @"development";//production
     
     [self prepareRequest:request device:true];	
 	
-    NSString *putString = [NSString stringWithFormat:@"title=%@&shared=%@", listName.name, ([self.listName.shared boolValue] ? @"true" : @"false")];
+    NSString *putString = [NSString stringWithFormat:@"title=%@&shared=%@", listName.name, [self.listName.shared stringValue]];
     NSLog(@"put string %@", putString);
 	
 	[request setHTTPMethod:@"PUT"];
@@ -349,6 +349,24 @@ NSString * const env = @"development";//production
 	
 	[myFetcher beginFetchWithDelegate:self
 					didFinishSelector:@selector(myFetcher:finishUpdateList:error:)];
+}
+
+- (void)deleteItem:(NSString *)itemId {
+    NSURL *callUrl = [[NSURL alloc] initWithString:[[self.apiURL absoluteString] stringByAppendingFormat:@"items/%@", itemId]];
+	
+	NSLog(@"calling Url: %@", [callUrl description]);
+	
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:callUrl];
+    
+    [self prepareRequest:request device:true];	
+	
+	[request setHTTPMethod:@"DELETE"];
+	
+    GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+	[GTMHTTPFetcher setLoggingEnabled:YES];
+	
+	[myFetcher beginFetchWithDelegate:self
+					didFinishSelector:@selector(myFetcher:finishDeleteItem:error:)];
 }
 
 #pragma mark responses
@@ -843,6 +861,23 @@ NSString * const env = @"development";//production
             [self.context save:&error];
             [self.addListDelegate finishAddList:self.listName.token];
         }
+	}
+}
+
+- (void)myFetcher:(GTMHTTPFetcher *)fetcher finishDeleteItem:(NSData *)retrievedData error:(NSError *)error {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+	if (error != nil) {
+		// failed; either an NSURLConnection error occurred, or the server returned
+		// a status value of at least 300
+		//
+		// the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
+		int status = [error code];
+		NSLog(@"error with finishDeleteItem: %i", status);
+		
+	} else {
+		NSLog(@"finishDeleteItem %@", [[NSString alloc] initWithData:retrievedData encoding:NSUTF8StringEncoding]);
+        
 	}
 }
 
