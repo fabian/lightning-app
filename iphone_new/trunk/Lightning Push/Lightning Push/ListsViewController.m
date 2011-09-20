@@ -353,7 +353,7 @@
     
         if (roundedLabel != nil) {
             roundedLabel.text = [[NSString alloc ]initWithFormat:@"%i", unreadItems];
-            if ([listName.unreadCount boolValue]) {
+            if ([listName.hasUnread boolValue]) {
                 roundedLabel.textColor = [UIColor whiteColor];
                 roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
             } else {
@@ -365,7 +365,7 @@
             roundedLabel.textColor = [UIColor whiteColor];
             roundedLabel.textAlignment = UITextAlignmentCenter;
             
-            if ([listName.unreadCount boolValue]) {
+            if ([listName.hasUnread boolValue]) {
                  roundedLabel.textColor = [UIColor whiteColor];
                 roundedLabel.backgroundColor = [UIColor colorWithHue:0.0 saturation:0.0 brightness: 0.0 alpha:0.45];
             } else {
