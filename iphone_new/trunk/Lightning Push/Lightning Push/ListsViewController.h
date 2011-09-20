@@ -11,7 +11,9 @@
 @class ItemsViewController;
 
 #import <CoreData/CoreData.h>
+
 #import "AddListViewController.h"
+#import "SettingsViewController.h"
 
 @interface ListsViewController : UITableViewController <NSFetchedResultsControllerDelegate, AddListViewControllerDelegate>
 
