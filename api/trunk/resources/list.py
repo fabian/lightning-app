@@ -13,10 +13,29 @@ class ListsResource(Resource):
         device = self.get_auth()
         
         # authenticated device must have access to list
-        if not list.has_access(device):
+        devicelist = list.has_access(device)
+        if not devicelist:
             
             self.error(403)
             self.response.out.write("Authenticated device %s has no access to list" % device.key().id())
+            
+            return False
+        
+        else:
+            return devicelist
+    
+    def is_owner(self, list):
+        
+        # authenticated device must have owner access to list
+        devicelist = self.has_access(list)
+        if not devicelist:
+            
+            return False
+        
+        elif devicelist.permission != 'owner':
+            
+            self.error(403)
+            self.response.out.write("Authenticated device %s is not owner of list" % devicelist.device.key().id())
             
             return False
         
@@ -85,8 +104,8 @@ class ListResource(ListsResource):
         
         if list:
             
-            # device must match authenticated device
-            if self.has_access(list):
+            # list owner must match authenticated device
+            if self.is_owner(list):
                 
                 # see http://code.google.com/p/googleappengine/issues/detail?id=719
                 import cgi
