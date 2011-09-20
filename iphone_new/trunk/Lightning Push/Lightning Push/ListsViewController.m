@@ -56,9 +56,9 @@
 	
 	UIImageView *bottom = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom.jpg"]];
 	self.tableView.tableFooterView = bottom;
-
     
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"settingsIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettings)];
+	self.navigationItem.leftBarButtonItem = leftButton;
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addList)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -159,14 +159,14 @@
     return cell;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return NO;
 }
-*/
+
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -408,6 +408,19 @@
     }
 }
 
+#pragma mark - Settings view
+
+- (void)showSettings {
+	NSLog(@"showSettings");
+	
+	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+	
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+    navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+
+    [self presentModalViewController:navigationController animated:YES];
+}
+
 #pragma mark - Add List
 
 - (void)addList {
@@ -418,8 +431,7 @@
     addListViewController.context = [self.fetchedResultsController managedObjectContext];
 	
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addListViewController];
-	navigationController.navigationBar.barStyle = UIBarStyleBlack;
-	navigationController.navigationBar.translucent = YES;
+    
     [self presentModalViewController:navigationController animated:YES];
 }
 
