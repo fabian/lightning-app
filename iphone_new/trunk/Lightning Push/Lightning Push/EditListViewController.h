@@ -12,6 +12,7 @@
 #import <MessageUI/MFMailComposeViewController.h>
 
 #import "ListName.h"
+#import "ListItem.h"
 #import "LightningAPI.h"
 
 
