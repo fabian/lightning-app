@@ -125,6 +125,15 @@ class ListTests(Tests):
         response = test.put("/api/lists/2", {'title': "New Title"}, headers={'Device': 'http://localhost:80/api/devices/6?secret=xyz'}, status=403)
         
         self.assertEqual(response.body, 'Authenticated device 6 has no access to list')
+    
+    def test_update_not_owner(self):
+        
+        models.ListDevice(device=self.device_second, list=self.list, permission='guest').put()
+        
+        test = webtest.TestApp(api.application)
+        response = test.put("/api/lists/2", {'title': "New Title"}, headers={'Device': 'http://localhost:80/api/devices/6?secret=xyz'}, status=403)
+        
+        self.assertEqual(response.body, 'Authenticated device 6 is not owner of list')
 
 
 class DeviceListsTests(Tests):
