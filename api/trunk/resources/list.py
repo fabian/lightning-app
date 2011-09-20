@@ -120,7 +120,7 @@ class ListResource(ListsResource):
                 
                 list.put()
                 
-                return {'id': id, 'url': self.url(list), 'title': list.title, 'shared': list.shared}
+                return {'id': id, 'url': self.url(list), 'title': list.title, 'shared': list.shared, 'token': list.token}
         
         else:
             # list not found
@@ -161,7 +161,7 @@ class ListResource(ListsResource):
                 url = self.url(list)
                 title = list.title
                 
-                return {'id': id, 'url': url, 'title': title, 'shared': list.shared, 'items': items}
+                return {'id': id, 'url': url, 'title': title, 'shared': list.shared, 'token': list.token, 'items': items}
             
         else:
             # list not found
