@@ -60,7 +60,7 @@ class ListTests(Tests):
         
         self.list = models.List(title="A random list", owner=self.device, token="xzy", modified=datetime(2010, 06, 29, 12, 00, 00))
         self.list.put()
-        models.ListDevice(device=self.device, list=self.list).put()
+        models.ListDevice(device=self.device, list=self.list, permission='owner').put()
         
         self.item_one = models.Item(value="Wine", list=self.list, modified=datetime(2010, 06, 29, 12, 00, 00))
         self.item_one.put()
