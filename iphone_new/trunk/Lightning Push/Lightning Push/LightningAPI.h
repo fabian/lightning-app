@@ -46,6 +46,7 @@
 - (void)pushUpdateForList:(NSNumber *)listId;
 - (void)readList:(NSNumber *)listId;
 - (void)shareList:(NSString *)listId token:(NSString *)token;
+- (void)updateList:(ListName *)listName;
     
 @end
 
