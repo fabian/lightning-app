@@ -76,7 +76,7 @@ class ListTests(Tests):
         test = webtest.TestApp(api.application)
         response = test.get("/api/lists/2", headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": false, "items": [{"url": "http://localhost:80/api/items/4", "done": false, "id": 4, "value": "Wine", "modified": "2010-06-29 12:00:00"}, {"url": "http://localhost:80/api/items/5", "done": false, "id": 5, "value": "Bread", "modified": "2010-06-29 12:00:00"}], "id": 2, "title": "A random list"}')
+        self.assertEqual(response.body, '{"title": "A random list", "url": "http://localhost:80/api/lists/2", "items": [{"url": "http://localhost:80/api/items/4", "done": false, "id": 4, "value": "Wine", "modified": "2010-06-29 12:00:00"}, {"url": "http://localhost:80/api/items/5", "done": false, "id": 5, "value": "Bread", "modified": "2010-06-29 12:00:00"}], "token": "xzy", "shared": false, "id": 2}')
     
     def test_get_wrong_id(self):
         
@@ -97,7 +97,7 @@ class ListTests(Tests):
         test = webtest.TestApp(api.application)
         response = test.put("/api/lists/2", {'title': "New Title", 'shared': "1"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": true, "id": "2", "title": "New Title"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": true, "token": "xzy", "id": "2", "title": "New Title"}')
         
         list = models.List.get_by_id(2)
         self.assertEqual(list.title, "New Title")
@@ -107,7 +107,7 @@ class ListTests(Tests):
         test = webtest.TestApp(api.application)
         response = test.put("/api/lists/2", {'title': "New Title"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": false, "id": "2", "title": "New Title"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/lists/2", "shared": false, "token": "xzy", "id": "2", "title": "New Title"}')
         
         list = models.List.get_by_id(2)
         self.assertEqual(list.title, "New Title")
