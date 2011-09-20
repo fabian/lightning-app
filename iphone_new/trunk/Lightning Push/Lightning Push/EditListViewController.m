@@ -98,6 +98,20 @@
 
 - (void)mailSharedList:(id) sender {
 	NSLog(@"mail shared list");
+    
+    MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+    mailComposer.mailComposeDelegate = self;
+    
+    NSString *subject = [NSString stringWithFormat:@"Lightning invite for list: %@", self.listName.name];
+    [mailComposer setSubject:subject];
+    
+    // Fill out the email body text
+    NSString *emailBody = [NSString stringWithFormat:@"This is an invite with for the list: <a href=\"lightning://list/%@?token=%@\">%@</a>", self.listName.listId, self.listName.token, self.listName.name];
+    NSLog(@"link: <a href=\"lightning://list/%@?token=%@\">%@</a>", self.listName.listId, self.listName.token, self.listName.name);
+    [mailComposer setMessageBody:emailBody isHTML:YES];
+    
+    [self presentModalViewController:mailComposer animated:YES];
+    
 }
 
 #pragma mark -
@@ -354,20 +368,21 @@
 			//new
             if (indexPath.row == 0 && [self.listName.shared boolValue]) {
                 self.listName.shared = [NSNumber numberWithBool:FALSE];
-                
-                //self.lightningAPI 
 
                 NSError *error;
                 [self.managedObjectContext save:&error];
+                
+                [self.lightningAPI updateList:self.listName];
+                
             } else if(indexPath.row == 1 && ![self.listName.shared boolValue]) {
                 self.listName.shared = [NSNumber numberWithBool:TRUE];
                 
                 NSError *error;
                 [self.managedObjectContext save:&error];
                 
-                UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Share Email" delegate:self cancelButtonTitle:@"send email later" destructiveButtonTitle:nil otherButtonTitles:@"Send email now", nil];
+                self.lightningAPI.addListDelegate = self;
+                [self.lightningAPI updateList:self.listName];
                 
-                [actionSheet showInView:self.tableView];
             }
             
             [tableView reloadData];
@@ -384,6 +399,14 @@
 
 #pragma mark - uiactionview
 
+- (void)finishAddList:(NSString *)token {
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Share Email" delegate:self cancelButtonTitle:@"send email later" destructiveButtonTitle:nil otherButtonTitles:@"Send email now", nil];
+    
+    [actionSheet showInView:self.tableView];
+
+}
+
 - (void) deleteEntries:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Delete entries" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"delete all", @"delete marked", nil];
     
@@ -397,6 +420,21 @@
         NSLog(@"email");
         if(buttonIndex == 0) {
             NSLog(@"send email now");
+            
+            
+            MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+            mailComposer.mailComposeDelegate = self;
+            
+            NSString *subject = [NSString stringWithFormat:@"Lightning invite for list: %@", self.listName.name];
+            [mailComposer setSubject:subject];
+            
+            // Fill out the email body text
+            NSString *emailBody = [NSString stringWithFormat:@"This is an invite with for the list: <a href=\"lightning://list/%@?token=%@\">%@</a>", self.listName.listId, self.listName.token, self.listName.name];
+            NSLog(@"link: <a href=\"lightning://list/%@?token=%@\">%@</a>", self.listName.listId, self.listName.token, self.listName.name);
+            [mailComposer setMessageBody:emailBody isHTML:YES];
+            
+            [self presentModalViewController:mailComposer animated:YES];
+
         }
     } else {
         NSLog(@"delete");    
@@ -404,6 +442,35 @@
     
     
 }
+
+#pragma mark - mail
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+{	
+	NSLog(@"error mail: %@", error);
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			NSLog(@"Result: canceled");
+			break;
+		case MFMailComposeResultSaved:
+			NSLog(@"Result: saved");
+			break;
+		case MFMailComposeResultSent:
+			NSLog(@"Result: sent");
+			break;
+		case MFMailComposeResultFailed:
+			NSLog(@"Result: failed");
+			break;
+		default:
+			NSLog(@"Result: not sent");
+			break;
+	}
+	
+	[self.navigationController dismissModalViewControllerAnimated:YES];
+}
+
 
 
 #pragma mark -
