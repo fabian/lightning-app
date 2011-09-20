@@ -437,7 +437,33 @@
 
         }
     } else {
-        NSLog(@"delete");    
+        
+        if(buttonIndex == 0) {
+            NSLog(@"delete all");
+            for (ListItem *listItem in [self.listName.listItems allObjects]) {
+                [self.lightningAPI deleteItem:[listItem.listItemId stringValue]];
+
+                [self.managedObjectContext deleteObject:listItem];
+            }
+            NSError *error;
+            [self.managedObjectContext save:&error];
+            
+        } else if(buttonIndex == 1) {
+            NSLog(@"delete marked");
+            
+            for (ListItem *listItem in [self.listName.listItems allObjects]) {
+                if (listItem.done) {
+                    [self.lightningAPI deleteItem:[listItem.listItemId stringValue]];
+                    
+                    [self.managedObjectContext deleteObject:listItem];
+                }
+                
+            }
+            NSError *error;
+            [self.managedObjectContext save:&error];
+
+        }
+                        
     }
     
     
