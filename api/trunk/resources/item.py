@@ -113,16 +113,30 @@ class ItemResource(ItemsResource):
                 modified = datetime.strptime(params['modified'][0], self.DATE_FORMAT)
                 if (item.modified < modified):
                     
-                    item.value = params['value'][0]
-                    item.done = (params['done'][0] == "1")
+                    try:
+                        item.value = params['value'][0]
+                        
+                        # log action for notification
+                        log = Log(device=self.get_auth(), item=item, list=item.list, action='modified', old=old)
+                        log.put()
+                        
+                    except KeyError:
+                        pass # don't update done then
+                    
+                    try:
+                        item.done = (params['done'][0] == "1")
+                        
+                        # log action for notification
+                        log = Log(device=self.get_auth(), item=item, list=item.list, action='completed')
+                        log.put()
+                        
+                    except KeyError:
+                        pass # don't update done then
+                    
                     item.modified = modified
                     item.list.modified = datetime.now()
                     item.list.put()
                     item.put()
-                    
-                    # log action for notification
-                    log = Log(device=self.get_auth(), item=item, list=item.list, action='modified', old=old)
-                    log.put()
                     
                     return {'id': id, 'url': self.url(item), 'value': item.value, 'done': item.done, 'modified': item.modified.strftime(self.DATE_FORMAT)}
                     

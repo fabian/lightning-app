@@ -41,7 +41,7 @@ class Log(db.Model):
     device = db.ReferenceProperty(Device, required=True)
     item = db.ReferenceProperty(Item, required=True)
     list = db.ReferenceProperty(List, required=True)
-    action = db.StringProperty(choices=('added', 'modified', 'deleted'), required=True)
+    action = db.StringProperty(choices=('added', 'modified', 'completed', 'deleted'), required=True)
     happened = db.DateTimeProperty(required=True, auto_now_add=True)
     old = db.StringProperty()
 
