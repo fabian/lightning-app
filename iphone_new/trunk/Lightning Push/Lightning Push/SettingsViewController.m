@@ -104,6 +104,30 @@
     return cell;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+				//create the button
+			UIButton *feedbackButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+			
+            //the button should be as big as a table view cell
+			[feedbackButton setFrame:CGRectMake(10, 13, 300, 44)];
+			
+			//set title, font size and font color
+			[feedbackButton setTitle:@"Give Feedback(TestFlight)" forState:UIControlStateNormal];
+    
+    [feedbackButton addTarget:self action:@selector(launchFeedback:)
+                  forControlEvents:UIControlEventTouchUpInside];
+            
+    UIView *footerView = [[UIView alloc] init];
+    [footerView addSubview:feedbackButton];
+    
+    return footerView;
+}
+
+// specify the height of your footer section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+	return 58;
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -160,6 +184,12 @@
 
 - (void) doneWithSettingsView {
     [self.navigationController dismissModalViewControllerAnimated:true];
+}
+
+#pragma mark - TestFlight
+
+-(void)launchFeedback:(id)sender {
+    [TestFlight openFeedbackView];
 }
 
 @end

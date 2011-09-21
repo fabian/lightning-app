@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "TestFlight.h"
+
 @interface SettingsViewController : UITableViewController
 
 @end

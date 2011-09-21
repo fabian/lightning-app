@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "LightningAPI.h"
+#import "TestFlight.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
