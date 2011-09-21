@@ -32,14 +32,18 @@ class History:
         
         self.added = []
         self.modified = []
+        self.completed = []
         self.deleted = []
         for value in items.values():
             
             if value.has_key('added') and not value.has_key('deleted'):
                 self.added.append(value['added'].item.value)
             
-            if value.has_key('modified') and not value.has_key('added') and not value.has_key('deleted'):
+            if value.has_key('modified') and not value.has_key('added') and not value.has_key('completed') and not value.has_key('deleted'):
                 self.modified.append("%s to %s" % (value['modified'].old, value['modified'].item.value))
+            
+            if value.has_key('completed') and not value.has_key('added') and not value.has_key('deleted'):
+                self.completed.append(value['completed'].item.value)
                 
             if value.has_key('deleted') and not value.has_key('added'):
                 self.deleted.append(value['deleted'].old)
@@ -49,6 +53,9 @@ class History:
     
     def get_modified(self):
         return self.modified
+    
+    def get_completed(self):
+        return self.completed
     
     def get_deleted(self):
         return self.deleted
@@ -68,6 +75,10 @@ class Notification:
         added = history.get_added()
         if added:
             messages.append("Added %s." % list_to_text(added))
+        
+        completed = history.get_completed()
+        if completed:
+            messages.append("Completed %s." % list_to_text(completed))
         
         modified = history.get_modified()
         if modified:

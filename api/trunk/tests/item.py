@@ -105,12 +105,24 @@ class ItemTests(Tests):
     
     def test_update_item(self):
         
-        response = self.test.put("/api/items/7", {'value': "New Value", 'done': "1",  'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        response = self.test.put("/api/items/7", {'value': "New Value", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
         
-        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/7", "done": true, "id": "7", "value": "New Value", "modified": "2010-06-29 12:00:01"}')
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/7", "done": false, "id": "7", "value": "New Value", "modified": "2010-06-29 12:00:01"}')
         
         item = models.Item.get_by_id(7)
         self.assertEqual(item.value, "New Value")
+        
+        # make sure list modified has been changed
+        list = models.List.get_by_id(4)
+        self.assertGreater(list.modified, datetime(2010, 06, 29, 13, 00, 00))
+    
+    def test_complete_item(self):
+        
+        response = self.test.put("/api/items/7", {'done': "1", 'modified': "2010-06-29 12:00:01"}, headers={'Device': 'http://localhost:80/api/devices/1?secret=abc'})
+        
+        self.assertEqual(response.body, '{"url": "http://localhost:80/api/items/7", "done": true, "id": "7", "value": "Some Item", "modified": "2010-06-29 12:00:01"}')
+        
+        item = models.Item.get_by_id(7)
         self.assertTrue(item.done)
         
         # make sure list modified has been changed
