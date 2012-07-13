@@ -24,7 +24,7 @@ class History:
         items = {}
         for log in logs:
             
-            id = log.item.key().id()
+            id = Log.item.get_value_for_datastore(log).id()
             if not items.has_key(id):
                 items[id] = {}
             
