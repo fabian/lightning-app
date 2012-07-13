@@ -1,7 +1,6 @@
 import os
 import logging
 import webapp2
-from google.appengine.dist import use_library
 
 from google.appengine.ext.webapp.util import run_wsgi_app
 from resources.ping import PingResource
