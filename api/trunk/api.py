@@ -48,6 +48,7 @@ def profile_main():
     # stats.print_callers()
     logging.info("Profile data:\n%s", stream.getvalue())
     lib.profiler.appengine.datastore.show_summary()
+    lib.profiler.appengine.datastore.dump_requests()
 
 main = profile_main
 
