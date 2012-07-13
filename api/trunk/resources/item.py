@@ -150,6 +150,7 @@ class ItemResource(ItemsResource):
     
     @environment
     @device_required
+    @json
     def delete(self, id):
         
         try:
