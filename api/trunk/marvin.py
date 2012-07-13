@@ -3,6 +3,7 @@
 import urllib
 import urllib2
 import httplib
+import datetime
 import json
 
 url = 'http://localhost:8080'
@@ -50,10 +51,39 @@ print 'Added Zem to list'
 
 
 # add item to list
-req = urllib2.Request(url + '/api/items', 'value=Milk&list=%d' % list_id, {'Device': marvin_url, 'Environment': 'development'})
+req = urllib2.Request(url + '/api/items', 'value=Juice&list=%d' % list_id, {'Device': marvin_url, 'Environment': 'development'})
+result = urllib2.urlopen(req)
+item = json.loads(result.read())
+
+item_id = item['id']
+
+print 'Added Juice to list'
+
+
+# rename item in list
+req = urllib2.Request(url + '/api/items/%d' % item_id, 'value=Bread&modified=%s' % datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), {'Device': marvin_url, 'Environment': 'development'})
+req.get_method = lambda: 'PUT'
 urllib2.urlopen(req)
 
-print 'Added Milk to list'
+print 'Renamed Juice to Milk in list'
+
+
+# add item to list
+req = urllib2.Request(url + '/api/items', 'value=Bread&list=%d' % list_id, {'Device': marvin_url, 'Environment': 'development'})
+result = urllib2.urlopen(req)
+item = json.loads(result.read())
+
+item_id = item['id']
+
+print 'Added Bread to list'
+
+
+# remove item to list
+req = urllib2.Request(url + '/api/items/%d' % item_id, '', {'Device': marvin_url, 'Environment': 'development'})
+req.get_method = lambda: 'DELETE'
+urllib2.urlopen(req)
+
+print 'Removed Bread from list'
 
 
 # push
