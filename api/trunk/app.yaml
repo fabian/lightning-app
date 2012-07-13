@@ -10,3 +10,4 @@ handlers:
 
 builtins:
 - datastore_admin: on
+- appstats: on
