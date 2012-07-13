@@ -6,8 +6,8 @@ import httplib
 import datetime
 import json
 
-url = 'http://localhost:8080'
-#url = 'https://lightning-app.appspot.com'
+#url = 'http://localhost:8080'
+url = 'https://lightning-api.appspot.com'
 
 # create device Marvin and read id
 req = urllib2.Request(url + '/api/devices', 'name=Marvin&identifier=101010&device_token=FE66489F304DC75B8D6E8200DFF8A456E8DAEACEC428B427E9518741C92C6660', {'Environment': 'development'})
