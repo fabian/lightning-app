@@ -1,3 +1,4 @@
+from models import Log
 
 def list_to_text(list):
     """
