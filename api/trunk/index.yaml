@@ -22,8 +22,8 @@ indexes:
 
 - kind: Log
   properties:
-  - name: list
   - name: device
+  - name: list
   - name: happened
 
 - kind: Log
