@@ -1,9 +1,9 @@
 import re
 import logging
+import json
 from cgi import parse_qs
 from urlparse import urlparse
 from google.appengine.ext import webapp
-from django.utils import simplejson
 from models import Device
 
 def json(handler_method):
@@ -12,7 +12,7 @@ def json(handler_method):
         result = handler_method(self, *args)
         if result:
             self.response.headers['Content-Type'] = 'application/json'
-            self.response.out.write(simplejson.dumps(result))
+            self.response.out.write(json.dumps(result))
         
     return convert
 
