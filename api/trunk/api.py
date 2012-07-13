@@ -1,8 +1,8 @@
 import os
 import logging
+import webapp2
 from google.appengine.dist import use_library
 
-from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from resources.ping import PingResource
 from resources.device import DevicesResource, DeviceResource
@@ -10,7 +10,7 @@ from resources.list import DeviceListsResource, DeviceListResource, ListsResourc
 from resources.notification import ListReadResource, ListPushResource
 from resources.item import ItemsResource, ItemResource
 
-application = webapp.WSGIApplication([
+app = webapp2.WSGIApplication([
     (r'/api/ping', PingResource),
     (r'/api/devices', DevicesResource),
     (r'/api/devices/(.*)/lists', DeviceListsResource),
@@ -23,27 +23,3 @@ application = webapp.WSGIApplication([
     (r'/api/items', ItemsResource),
     (r'/api/items/(.*)', ItemResource),
 ], debug=True)
-
-def real_main():
-	
-	run_wsgi_app(application)
-
-def profile_main():
-    # This is the main function for profiling
-    # We've renamed our original main() above to real_main()
-    import cProfile, pstats, StringIO
-    prof = cProfile.Profile()
-    prof = prof.runctx("real_main()", globals(), locals())
-    stream = StringIO.StringIO()
-    stats = pstats.Stats(prof, stream=stream)
-    stats.sort_stats("time")  # Or cumulative
-    stats.print_stats(80)  # 80 = how many to print
-    # The rest is optional.
-    # stats.print_callees()
-    # stats.print_callers()
-    logging.info("Profile data:\n%s", stream.getvalue())
-
-main = profile_main
-
-if __name__ == "__main__":
-	main()
