@@ -1,6 +1,6 @@
 import re
 import logging
-import json
+import json as simplejson
 from cgi import parse_qs
 from urlparse import urlparse
 from google.appengine.ext import webapp
@@ -12,7 +12,7 @@ def json(handler_method):
         result = handler_method(self, *args)
         if result:
             self.response.headers['Content-Type'] = 'application/json'
-            self.response.out.write(json.dumps(result))
+            self.response.out.write(simplejson.dumps(result))
         
     return convert
 

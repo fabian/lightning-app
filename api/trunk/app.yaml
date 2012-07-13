@@ -1,13 +1,13 @@
 application: lightning-app
 version: 1
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: true
 
 handlers:
 - url: /api/.*
-  script: api.py
+  script: api.app
   secure: always
 
 builtins:
-- datastore_admin: on
 - appstats: on

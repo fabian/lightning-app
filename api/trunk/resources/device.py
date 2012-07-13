@@ -35,10 +35,9 @@ class DevicesResource(Resource):
             except urbanairship.AirshipFailure, (status, response):
                 logging.error("Unable to register device %s with device token '%s' at Urban Airship: %s (%d)", device.key().id(), device.device_token, response, status)
         
-        protocol = self.request._environ['wsgi.url_scheme']
-        host = self.request._environ['HTTP_HOST']
+        host_url = self.request.host_url
         id = device.key().id()
-        url = "%s://%s/api/devices/%s?secret=%s" % (protocol, host, id, secret)
+        url = "%s/api/devices/%s?secret=%s" % (host_url, id, secret)
         
         return {'id': id, 'url': url, 'secret': secret}
 
@@ -110,11 +109,10 @@ class DeviceResource(Resource):
             # device must match authenticated device
             if device.key() == self.get_auth().key():
                 
-                protocol = self.request._environ['wsgi.url_scheme']
-                host = self.request._environ['HTTP_HOST']
+                host_url = self.request.host_url
                 id = device.key().id()
                 secret = device.secret
-                url = u"%s://%s/api/devices/%s?secret=%s" % (protocol, host, id, secret)
+                url = u"%s/api/devices/%s?secret=%s" % (host_url, id, secret)
                 
                 return {'id': id, 'url': url, 'secret': secret}
                 

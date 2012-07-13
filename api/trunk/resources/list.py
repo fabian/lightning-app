@@ -43,10 +43,9 @@ class ListsResource(Resource):
             return True
     
     def url(self, list):
-        protocol = self.request._environ['wsgi.url_scheme']
-        host = self.request._environ['HTTP_HOST']
+        host_url = self.request.host_url
         id = list.key().id()
-        url = u"%s://%s/api/lists/%s" % (protocol, host, id)
+        url = u"%s/api/lists/%s" % (host_url, id)
         return url
     
     @device_required
@@ -74,10 +73,9 @@ class ListsResource(Resource):
                 
                 logging.debug("Device %s created list with id %s and title %s. Device list id is %s.", owner.key().id(), list.key().id(), list.title, listdevice.key().id())
                 
-                protocol = self.request._environ['wsgi.url_scheme']
-                host = self.request._environ['HTTP_HOST']
+                host_url = self.request.host_url
                 id = list.key().id()
-                url = "%s://%s/api/lists/%s" % (protocol, host, id)
+                url = "%s/api/lists/%s" % (host_url, id)
                 
                 return {'id': id, 'url': url, 'title': list.title, 'shared': list.shared, 'token': token}
             
@@ -144,10 +142,9 @@ class ListResource(ListsResource):
                 
                 for item in Item.all().filter('list =', list.key()).filter('deleted =', False):
                     
-                    protocol = self.request._environ['wsgi.url_scheme']
-                    host = self.request._environ['HTTP_HOST']
+                    host_url = self.request.host_url
                     id = item.key().id()
-                    url = "%s://%s/api/items/%s" % (protocol, host, id)
+                    url = "%s/api/items/%s" % (host_url, id)
                     
                     items.append({
                         'id': item.key().id(), 
@@ -247,9 +244,8 @@ class DeviceListResource(ListsResource):
                         
                         logging.debug("Device %s added to list with id %s for list %s.", device.key().id(), listdevice.key().id(), list.key().id())
                         
-                        protocol = self.request._environ['wsgi.url_scheme']
-                        host = self.request._environ['HTTP_HOST']
-                        url = "%s://%s/api/devices/%s/lists/%s" % (protocol, host, device.key().id(), list.key().id())
+                        host_url = self.request.host_url
+                        url = "%s/api/devices/%s/lists/%s" % (host_url, device.key().id(), list.key().id())
                         
                         return {'url': url, 'list': listdevice.list.key().id(), 'device': listdevice.device.key().id()}
                     

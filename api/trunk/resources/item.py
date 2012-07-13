@@ -25,10 +25,9 @@ class ItemsResource(Resource):
             return True
     
     def url(self, item):
-        protocol = self.request._environ['wsgi.url_scheme']
-        host = self.request._environ['HTTP_HOST']
+        host_url = self.request.host_url
         id = item.key().id()
-        url = u"%s://%s/api/items/%s" % (protocol, host, id)
+        url = u"%s/api/items/%s" % (host_url, id)
         return url
     
     @environment
@@ -57,10 +56,9 @@ class ItemsResource(Resource):
                 log = Log(device=self.get_auth(), item=item, list=list, action='added')
                 log.put()
                 
-                protocol = self.request._environ['wsgi.url_scheme']
-                host = self.request._environ['HTTP_HOST']
+                host_url = self.request.host_url
                 id = item.key().id()
-                url = "%s://%s/api/items/%s" % (protocol, host, id)
+                url = "%s/api/items/%s" % (host_url, id)
                 
                 return {'id': id, 'url': url, 'value': item.value, 'list': list.key().id()}
             
