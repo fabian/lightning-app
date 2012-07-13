@@ -35,6 +35,8 @@ def profile_main():
     # This is the main function for profiling
     # We've renamed our original main() above to real_main()
     import cProfile, pstats, StringIO
+    import lib.profiler.appengine.datastore
+    lib.profiler.appengine.datastore.activate()
     prof = cProfile.Profile()
     prof = prof.runctx("real_main()", globals(), locals())
     stream = StringIO.StringIO()
@@ -45,6 +47,7 @@ def profile_main():
     # stats.print_callees()
     # stats.print_callers()
     logging.info("Profile data:\n%s", stream.getvalue())
+    lib.profiler.appengine.datastore.show_summary()
 
 main = profile_main
 
