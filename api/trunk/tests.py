@@ -4,7 +4,7 @@ import unittest
 import sys
 import os
 
-sys.path = sys.path + ['/usr/local/google_appengine', '/usr/local/google_appengine/lib/django', '/usr/local/google_appengine/lib/webob', '/usr/local/google_appengine/lib/yaml/lib', '/usr/local/google_appengine/google/appengine']
+sys.path = sys.path + ['/usr/local/google_appengine', '/usr/local/google_appengine/lib/webob_1_1_1', '/usr/local/google_appengine/lib/yaml/lib', '/usr/local/google_appengine/google/appengine']
 
 from tests.device import *
 from tests.item import *
